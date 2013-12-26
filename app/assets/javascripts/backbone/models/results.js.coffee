@@ -2,7 +2,7 @@ class Youngagrarians.Collections.ResultsCollection extends Backbone.Collection
   model: Youngagrarians.Models.Location
   
   initialize: (options)=>
-    @locations = options.locations   
+    @locations = options.locations
     @currentProvice = null
     @currentBioregion = null
     @currentTerms = null
@@ -42,7 +42,7 @@ class Youngagrarians.Collections.ResultsCollection extends Backbone.Collection
   
   search: (options)=>
     promise = $.ajax 
-      url: 'http://localhost:3000/search?callback?'
+      url: '/search'
       type: 'POST'
       data: 
         term: options.term

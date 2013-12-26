@@ -9,8 +9,6 @@
 
 @YA = new Backbone.Marionette.Application()
 
-YA.host = "<%= Rails.configuration.api_host %>"
-
 YA.addRegions
   map: "#map"
   sidebar: "#sidebar"
@@ -25,7 +23,7 @@ YA.addInitializer (options) ->
   for key, collection of data  
     collection.fetch
       reset: true
-      dataType: 'jsonp'
+
   results = new Youngagrarians.Collections.ResultsCollection
     locations: data.locations
     

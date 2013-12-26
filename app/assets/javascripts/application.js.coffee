@@ -1,6 +1,8 @@
+#= require jquery
 #= require jquery_ujs
 #= require jquery.gomap
 #= require jquery.nicescroll
+#= require foundation
 #= require underscore
 #= require backbone
 #= require backbone.marionette
@@ -9,7 +11,7 @@
 #= require backbone/youngagrarians
 #= require admin_class
 
-make = (tagName, attributes, content) ->
+make = (tagName, attributes, content ) ->
   $el = Backbone.$ "<" + tagName + "/>"
   if attributes
     $el.attr attributes
@@ -26,5 +28,4 @@ Backbone.Marionette.Renderer.render = (template, data) ->
   JST[template](data)
 
 $(document).ready =>
-  _.defer ->
-    YA.start()
+  $(document).foundation()

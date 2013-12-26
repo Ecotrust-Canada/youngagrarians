@@ -14,7 +14,7 @@ class Youngagrarians.Views.LegendItem extends Backbone.Marionette.Layout
 
   serializeData: =>
     data = @model.toJSON()
-    data.img = "#{YA.host}#{@model.getMapIcon()}"
+    data.img = @model.getIcon()
     data
 
   toggleSubcategories: =>

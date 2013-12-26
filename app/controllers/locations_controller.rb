@@ -18,17 +18,44 @@ class LocationsController < ApplicationController
   # GET /locations.json
   def index
     @categories = Category.all
-    if authenticated?
-      @locations = Location.all
-    else
-      @locations = Location.where( "is_approved = 1 AND ( show_until is null OR show_until > ? )", Date.today )
+    respond_to do |format|
+      format.html {
+        if not authenticated?
+          redirect_to :root
+        end
+
+        @filtered = !params[:filtered].nil?
+        @locations = []
+
+        if @filtered
+          @locations = Location.where( :is_approved => 0 ).order(:name).all
+        else
+          @locations = Location.order(:name).all
+        end        
+      }
+      format.json {
+        @locations = Location.where( "is_approved = 1 AND ( show_until is null OR show_until > ? )", Date.today ).all
+
+        @locations.each do |l|
+          l.category = @categories.select { |cat| cat.id == l.category_id }[0]
+        end
+
+        render :json =>  @locations
+      }
+      format.csv { 
+        send_data Location.to_csv
+      }
     end
-  end  
+  end
 
   # GET /locations/1
   # GET /locations/1.json
   def show
     @location = Location.find(params[:id])    
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render :json =>  @location }
+    end
   end
 
   # GET /locations/new

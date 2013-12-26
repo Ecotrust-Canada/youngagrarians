@@ -1,5 +1,6 @@
 class Youngagrarians.Models.Location extends Backbone.RelationalModel
-  url: "#{YA.host}/locations.json?callback=?"
+  paramRoot: 'location'
+  url: '/locations'
 
   relations: [
     {
@@ -27,7 +28,7 @@ Youngagrarians.Models.Location.setup()
 
 class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
   model: Youngagrarians.Models.Location
-  url: "#{YA.host}/locations.json?callback=?"
+  url: '/locations'
 
   getSubdivision: (country_code, province_code)=>
     return null unless country_code and province_code

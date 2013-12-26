@@ -19,8 +19,8 @@ Youngagrarians::Application.routes.draw do
   post '/login'                => 'accounts#login_post',         :as => :login_post
   post '/login.json'           => 'accounts#login_post',         :as => :login_post_json, :format => 'json'
   get  '/logout'               => 'accounts#logout',             :as => :logout
-  get  '/create_account'       => 'accounts#new',                :as => :signup
-  post '/create_account'       => 'accounts#create',             :as => :create_account
+  get  '/create_account'               => 'accounts#new',                :as => :signup
+  post '/create_account'               => 'accounts#create',             :as => :create_account
   get  '/forgot_password'      => 'accounts#forgot_password',    :as => :forgot_password
   post '/forgot_password'      => 'accounts#retrieve_password',  :as => :retrieve_password
   get  '/password_sent'        => 'accounts#password_sent',      :as => :password_sent
