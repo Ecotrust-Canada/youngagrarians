@@ -18,7 +18,7 @@ module Youngagrarians
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
     config.autoload_paths += %W(#{config.root}/lib)
-    # config.assets.paths << File.join(Rails.root, '~youngagr', 'assets')
+    config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
     # config.assets.manifest = "~youngagr/assets"
     # config.assets.prefix = "/assets"
 
