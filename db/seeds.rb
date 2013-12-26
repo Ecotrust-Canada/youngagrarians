@@ -40,4 +40,5 @@ end
 
 # Link us for testing goodness!
 time_block { seed_users }
-#time_block { seed_locations }
+time_block { seed_categories }
+time_block { seed_locations }

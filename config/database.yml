@@ -15,7 +15,7 @@ development:
   database: youngagr_mapper_development
   pool: 5
   username: root
-  password: tem22pe
+  password:
   #socket: /var/lib/mysql/mysql.sock
 
 # Warning: The database defined as "test" will be erased and
@@ -28,5 +28,5 @@ test:
   database: youngagr_mapper_test
   pool: 5
   username: root
-  password: tem22pe
+  password:
   #socket: /var/lib/mysql/mysql.sock

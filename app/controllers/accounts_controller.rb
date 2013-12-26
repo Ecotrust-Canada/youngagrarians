@@ -18,6 +18,7 @@ class AccountsController < ApplicationController
       respond_with @user, :layout => 'application'
     else
       @user = User.new
+      # TOOD: CAN PROBABLY BE REFACTORED TO USE user.to_json function properly or some better work around
       # SILLY Dynamic stuff...
       [:first_name, :last_name].each do |k|
         # so these dynamic keys will exist for the rails form.
