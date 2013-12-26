@@ -397,4 +397,9 @@ div.map-bubble-background {
     }    
 }
 
+// TOOD: a bit of a hack, check how to fix this properly with foundation
+body {
+  overflow-x: hidden;
+}
+
 @import "footer";

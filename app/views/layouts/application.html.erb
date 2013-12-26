@@ -44,6 +44,22 @@
     <%= favicon_link_tag %>
   </head>
   <body class="ya">
+    <% if authenticated? %>
+      <div class="navbar navbar-inverse user-nav" id="ya-nav">
+        <div class="navbar-inner">
+          <div class="nav-collapse collapse">
+            <p class="nav navbar-text pull-right">
+              Welcome <%= current_user.username %>
+              &bull;
+              <%= link_to 'Locations', { :controller => "locations", :action => "index" }, :class => "navbar-link" %>
+              &bull;
+              <%= link_to 'Logout', { :controller => "accounts", :action => "logout"}, :class => "navbar-link" %>
+
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
     <div id="fb-root"></div>
     <script>
       ( function(d, s, id) {
@@ -177,23 +193,6 @@
         </nav><!-- #site-navigation -->
       </div><!-- #navbar -->
     </header>
-    <% if authenticated? %>
-    <div class="row">
-      <div class="navbar navbar-inverse" id="ya-nav">
-        <div class="navbar-inner">
-          <div class="nav-collapse collapse">
-            <p class="nav navbar-text pull-right">
-
-              Welcome <%= current_user.username %> &nbsp;&nbsp;&nbsp;
-              <%= link_to 'Locations', { :controller => "locations", :action => "index" }, :class => "navbar-link" %>
-              <%= link_to 'Logout', { :controller => "accounts", :action => "logout"}, :class => "navbar-link" %>
-
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <% end %>
 
     <% if @hide_map.nil? %>
 
