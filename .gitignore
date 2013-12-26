@@ -19,3 +19,4 @@ pickle-email-*.html
 *.swp
 /config/database.yml
 /.ruby-version
+/doc/*

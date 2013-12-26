@@ -14,7 +14,7 @@ group :assets do
   gem 'compass-rails' # you need this or you get an err
   gem 'zurb-foundation', '~> 4.0.0'
   gem 'font-awesome-rails'
-	gem 'eco'	
+	gem 'eco'
 	gem 'marionette-rails'
 	gem 'haml'
 	gem 'sass'
@@ -34,16 +34,22 @@ group :development, :test do
 	gem 'quiet_assets'
 
 	gem 'randexp',              '~> 0.1.7'
+	gem 'rspec'
 	gem 'rspec-rails',          '~> 2.11.0'
+	gem 'capybara'
+  gem 'capybara-webkit'
 	gem 'email_spec',           '~> 1.2.1'
 	gem 'database_cleaner',     '~> 0.8.0'
-	# gem 'factory_girl_rails',   '~> 3.5.0'
-	gem 'mail_safe',            '~> 0.3.1'
+	gem 'factory_girl_rails',   '~> 3.5.0'
+	gem 'cucumber-rails', :require => false
+	gem "mocha", :require => false
+	gem 'launchy'
+  gem 'selenium-webdriver'
 	gem 'awesome_print',        '~> 1.0.2'
-	gem 'pry',                  '~> 0.9.10'
-	gem 'fakeweb',              '~>1.3.0'
-	gem 'forgery',              '~>0.5.0'
 	gem 'table_print',          '~> 1.0.0'
+	gem 'pry'
+	gem 'webmock'
+	gem 'timecop'
 
 	# Guard, guard!
 	gem 'guard',                '~> 1.3.2'
