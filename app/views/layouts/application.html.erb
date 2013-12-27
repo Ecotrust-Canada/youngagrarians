@@ -250,9 +250,18 @@
 
     <%= javascript_include_tag "application" %>
     <script type="text/javascript">
+      // Bootstrap categories and subcategories instead of wasting 2 http requests and avoiding
+      // complication in the UI logic
+      Youngagrarians.categories = <%=raw Category.all.to_json %>;
+      Youngagrarians.subcategories = <%=raw Subcategory.all.to_json %>;
 
-      _.defer(function(){<% if current_page?( root_url ) %>YA.start();<% else %>Admin.init();<% end %>
-  });
+      _.defer(function(){
+        <% if current_page?( root_url ) %>
+          YA.start();
+        <% else %>
+          Admin.init();
+        <% end %>
+      });
     </script>
     <!-- Twitter Share JS -->
     <script>

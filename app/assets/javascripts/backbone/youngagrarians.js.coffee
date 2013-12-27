@@ -17,12 +17,11 @@ YA.addRegions
 YA.addInitializer (options) ->
   data = 
     locations: new Youngagrarians.Collections.LocationsCollection()
-    categories: new Youngagrarians.Collections.CategoriesCollection()
-    subcategories: new Youngagrarians.Collections.SubcategoryCollection()
-  
-  for key, collection of data  
-    collection.fetch
-      reset: true
+    categories: new Youngagrarians.Collections.CategoriesCollection().reset(Youngagrarians.categories)
+    subcategories: new Youngagrarians.Collections.SubcategoryCollection().reset(Youngagrarians.subcategories)
+
+  data.locations.fetch
+    reset: true
 
   results = new Youngagrarians.Collections.ResultsCollection
     locations: data.locations

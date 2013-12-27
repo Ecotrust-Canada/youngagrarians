@@ -39,6 +39,8 @@ group :development, :test do
 	gem 'rb-readline',					'~> 0.4.2'
 	gem 'quiet_assets'
 
+	gem 'better_errors'
+
 	gem 'randexp',              '~> 0.1.7'
 	gem 'rspec'
 	gem 'rspec-rails',          '~> 2.11.0'

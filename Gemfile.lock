@@ -32,6 +32,9 @@ GEM
     arel (3.0.2)
     awesome_print (1.0.2)
     bcrypt-ruby (3.0.1)
+    better_errors (1.1.0)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
     builder (3.0.4)
     capybara (2.2.0)
       mime-types (>= 1.16)
@@ -296,6 +299,7 @@ PLATFORMS
 DEPENDENCIES
   awesome_print (~> 1.0.2)
   bcrypt-ruby (~> 3.0.0)
+  better_errors
   capybara
   capybara-webkit
   chef (~> 11.4.0)
