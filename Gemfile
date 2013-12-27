@@ -40,24 +40,12 @@ group :development, :test do
 	gem 'quiet_assets'
 
 	gem 'better_errors'
+	gem 'binding_of_caller'
 
 	gem 'randexp',              '~> 0.1.7'
-	gem 'rspec'
-	gem 'rspec-rails',          '~> 2.11.0'
-	gem 'capybara'
-  gem 'capybara-webkit'
-	gem 'email_spec',           '~> 1.2.1'
-	gem 'database_cleaner',     '~> 0.8.0'
-	gem 'factory_girl_rails',   '~> 3.5.0'
-	gem 'cucumber-rails', :require => false
-	gem "mocha", :require => false
-	gem 'launchy'
-  gem 'selenium-webdriver'
 	gem 'awesome_print',        '~> 1.0.2'
 	gem 'table_print',          '~> 1.0.0'
 	gem 'pry'
-	gem 'webmock'
-	gem 'timecop'
 
 	# Guard, guard!
 	gem 'guard',                '~> 1.3.2'
@@ -73,4 +61,21 @@ group :development, :test do
 	gem 'chef', '~> 11.4.0'
 	gem 'yard', '~> 0.8.5.2'
 
+end
+
+group :test do
+	gem 'rspec'
+	gem 'rspec-rails',          '~> 2.11.0'
+	gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'selenium-webdriver'
+	gem 'email_spec',           '~> 1.2.1'
+	gem 'database_cleaner',     '~> 0.8.0'
+	gem 'factory_girl_rails'
+	gem 'cucumber-rails', :require => false
+	gem "mocha", :require => false
+
+	gem 'launchy'
+	gem 'webmock'
+	gem 'timecop'
 end

@@ -5,6 +5,7 @@ Install
 2. Make sure database.yml is configured properly for you
 3. `rake db:create`
 4. `rake db:reset`
+5. `RAILS_ENV=test rake db:schema:load` - setups up the test database
 
 Run
 ====

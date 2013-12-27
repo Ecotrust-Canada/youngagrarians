@@ -76,7 +76,7 @@ class AccountsController < ApplicationController
     @user = User.new
 
     if authenticated?
-      redirect_to(params[:return_url] || :locations_path)
+      redirect_to(params[:return_url] || :locations)
     end
 
     render :forgot_password, :layout => 'application'
@@ -113,7 +113,7 @@ class AccountsController < ApplicationController
         # log them in!
         self.current_user = @user
 
-        redirect_to :locations_path, :notice => t('passwords.updated')
+        redirect_to :locations, :notice => t('passwords.updated')
       else
         flash[:notice] = t('passwords.reset_failed')
         render :password_reset, :layout => 'application'
@@ -125,7 +125,7 @@ class AccountsController < ApplicationController
 
   def login
     if authenticated?
-      redirect_to :locations_path
+      redirect_to :locations
     else
       render :login, :layout => get_layout
     end

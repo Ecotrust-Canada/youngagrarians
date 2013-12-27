@@ -12,6 +12,7 @@ require 'mocha/setup'
 require 'pry'
 
 require 'factory_girl_rails'
+require File.dirname(__FILE__) + '/seeds'
 require File.dirname(__FILE__) + '/mailer_macros'
 
 include MailerMacros
@@ -64,7 +65,7 @@ end
 # Possible values are :truncation and :transaction
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
-Cucumber::Rails::Database.javascript_strategy = :truncation, {:except => %w[] }
+Cucumber::Rails::Database.javascript_strategy = :truncation, {:except => %w[categories subcategories] }
 
 After do |scenario|
   Timecop.return

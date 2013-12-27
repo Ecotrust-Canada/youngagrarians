@@ -40,6 +40,11 @@ class Location < ActiveRecord::Base
     end
     return results.uniq
   end
+
+  def approve
+    self.is_approved = true
+    save
+  end
   
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|      
