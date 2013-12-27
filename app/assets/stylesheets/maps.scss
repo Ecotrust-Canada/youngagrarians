@@ -58,23 +58,9 @@ font-family: 'Young Agrarians legible';
 
 }
 
-select {
-  max-width: 100%;
-  background-color: rgb(227,227,227) !important;
-  color: #FFF;
-  font: 400 normal 14px 'Averia Serif Libre' !important;
-  border: 1px solid #999;
-  height: 30px;
-  margin-bottom: 5px;
-  margin-right: 10px;
-}
-
 a:active, a:hover, .widget a:hover {
-
-        color:rgb(197,63,63);
-
-        text-decoration:none;
-
+  color:rgb(197,63,63);
+  text-decoration:none;
 }
 
 @import "header";
