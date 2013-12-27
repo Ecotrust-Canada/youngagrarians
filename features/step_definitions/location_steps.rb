@@ -9,13 +9,12 @@ Given /^I can connect to google maps$/ do
 end
 
 When(/^I select the first location$/) do
-  pending # express the regexp above with the code you wish you had
-end
-
-When(/^I press the "(.*?)" button$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+  within "tbody td:first-child" do
+    check ""
+  end
 end
 
 Then(/^the location owner should get an email about the location getting approved$/) do
-  pending # express the regexp above with the code you wish you had
+  last_email.to.first.should eq("farmer01@youngagrarians.org")
+  last_email.subject.should eq("Listing Approved")
 end

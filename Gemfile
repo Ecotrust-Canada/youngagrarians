@@ -61,6 +61,7 @@ group :development, :test do
 	gem 'chef', '~> 11.4.0'
 	gem 'yard', '~> 0.8.5.2'
 
+	gem 'letter_opener'
 end
 
 group :test do

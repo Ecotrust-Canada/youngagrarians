@@ -44,6 +44,7 @@ class Location < ActiveRecord::Base
   def approve
     self.is_approved = true
     save
+    UserMailer.listing_approved(self).deliver
   end
   
   def self.to_csv(options = {})

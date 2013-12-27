@@ -1,0 +1,23 @@
+send_mail_to: 'admin@youngagrarians.org'
+send_from: 'no-reply@youngagrarians.org'
+smtp_host: 'localhost'
+smtp_port: 587
+smtp_username: 'admin'
+smtp_password: ''
+
+development:
+  mailer_host: 'localhost:3000'
+  send_mail_to: 'michael@yagudaev.com'
+
+test:
+  mailer_host: 'localhost:3000'
+
+staging:
+  mailer_host: 'staging.maps.youngagrarians.org'
+
+production:
+  mailer_host: 'maps.youngagrarians.org'
+  send_from: 'no-reply@youngagrarians.org'
+  smtp_host: <%= ENV["SMTP_HOST"] %>
+  smtp_username: <%= ENV["SMTP_PORT"] %>
+  smtp_password: <%= ENV["SMTP_PASSWORD"] %>

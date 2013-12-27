@@ -19,15 +19,9 @@ When(/^I click on my name within "(.*?)"$/) do |selector|
   end
 end
 
-When(/^I click the "(.*?)" button(?: within "([^"]*)")?$/) do |button, selector|
+When /^(?:|I )click "([^"]*)"(?: within "([^"]*)")?$/ do |link_text, selector|
   with_scope(selector) do
-    click_button(button)
-  end
-end
-
-When /^(?:|I )click "([^"]*)"(?: within "([^"]*)")?$/ do |link, selector|
-  with_scope(selector) do
-    click_link(link)
+    click_on(link_text)
   end
 end
 
