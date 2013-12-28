@@ -32,7 +32,7 @@
 					<li class="control-group">
 						<label for="zip" class="control-label">Postal/Zip</label>
 						<div class="controls">
-							<input id="postal" type="text" id="place" required />
+							<input id="postal" type="text" id="zip" required />
 						</div>
 					</li>
 					
@@ -58,7 +58,7 @@
           </li>
 
 					<li class="control-group">
-						<label for="category" class="control-label">Listing Category</label>
+						<label for="category-select" class="control-label">Listing Category</label>
 						<div class="controls">
 							<select id="category-select"></select>
 						</div>
@@ -70,7 +70,6 @@
 						</div>
 						<div>
 						  <a id='add-subcategory' href='javascript: void(0);'>Add Sub-Category</a>
-						  <div style="clear:both;"
 						</div> 
 					</li>          
 
@@ -117,7 +116,7 @@
 					</li>
 
 					<li class="control-group">
-						<label for="email" class="control-label">Show Until</label>
+						<label for="show_until" class="control-label">Show Until</label>
 						<div class="controls show-until-control">
 							<input type="date" id="show_until" placeholder="Enter a date here, ie '2013-01-01'" />
 							<small>
@@ -126,12 +125,12 @@
 						</div>
 					</li>
 
-					<li class="control-group agree">						
+					<li class="control-group agree">
 					  <input type="checkbox" id="agree" />
-					  <span class='agree-info'>
+					  <label for="agree" class='agree-info'>
 							I agree that the information I am providing is true and correct. I consent to have my information listed on the Young 
 							Agrarians map.
-						</span>
+						</label>
 					</li>
 
 				</ul>
