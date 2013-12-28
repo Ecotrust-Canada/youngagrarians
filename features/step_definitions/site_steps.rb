@@ -47,8 +47,8 @@ Given(/^I select "(.*?)" as "(.*?)"$/) do |from, value|
   select value, :from => from
 end
 
-Given(/^I choose "(.*?)" as "(.*?)"$/) do |from, value|
-  within from do
+Given(/^I choose "(.*?)"(?: within "([^"]*)")?$/) do |value, selector|
+  with_scope selector do
     choose value
   end
 end

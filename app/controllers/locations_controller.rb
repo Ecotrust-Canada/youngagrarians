@@ -247,7 +247,7 @@ class LocationsController < ApplicationController
   def approve
     @locations = Location.find params[:ids].split(",")
     @locations.each do |l|
-      l.approve
+      l.is_approved = true
     end
 
     respond_to do |format|

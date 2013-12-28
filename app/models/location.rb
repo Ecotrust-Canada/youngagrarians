@@ -41,10 +41,11 @@ class Location < ActiveRecord::Base
     return results.uniq
   end
 
-  def approve
-    self.is_approved = true
-    save
-    UserMailer.listing_approved(self).deliver
+  def is_approved=(value)
+    write_attribute(:is_approved, value)
+    if value
+      UserMailer.listing_approved(self).deliver
+    end
   end
   
   def self.to_csv(options = {})
