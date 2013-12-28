@@ -18,6 +18,6 @@ staging:
 production:
   mailer_host: 'maps.youngagrarians.org'
   send_from: 'no-reply@youngagrarians.org'
-  smtp_host: <%= ENV["SMTP_HOST"] %>
-  smtp_username: <%= ENV["SMTP_PORT"] %>
-  smtp_password: <%= ENV["SMTP_PASSWORD"] %>
+  smtp_host: 'smtp.sendgrid.net'
+  smtp_username: <%= ENV["SENDGRID_USERNAME"] %>
+  smtp_password: <%= ENV["SENDGRID_PASSWORD"] %>
