@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: "admin@youngagrarians.org"
+  default from: CONFIG[:send_from]
 
   def listing_approved(location)
     @location = location
