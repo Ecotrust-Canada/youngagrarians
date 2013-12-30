@@ -10,7 +10,7 @@ class Youngagrarians.Views.About extends Backbone.Marionette.View
 
   render: =>
     @$el.html JST[ @template ] {}
-    $("#app-modal").html @el
+    $("#app-modal").html(@el).foundation('reveal', 'open')
 
   close: (e) =>
     @$('a.close-reveal-modal').trigger('click')
