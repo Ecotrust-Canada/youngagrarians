@@ -1,15 +1,16 @@
 <div class='map-marker' id="map-popup-<%= id %>">
 	<% if ( _(url).isEmpty() ){ %>
-	<h3><img src="<%= category_icon %>" /><%= name %></h3>
+	<h2><img src="<%= category_icon %>" /><%= name %></h2>
 	<% } else { %>
-	<h3><img src="<%= category_icon %>" /><a href="<%= url %>" target="_blank"><%= name %></a></h3>
+	<h2><img src="<%= category_icon %>" /><a href="<%= url %>" target="_blank"><%= name %></a></h2>
 	<% } %>
-	<ul class="unstyled inline category">
-		<li><%= category_name %></li>
+	<span class="category">
+		<%= category_name %>
 		<% if ( !_.isEmpty( subcategories ) ) { %>
-		<li>(<%= subcategories %>)</li>
+			(<%= subcategories %>)
 		<% } %>
-	</ul>
+	</span>
+
 	<p><%= description %></p>
 
 	<div class="contact-info">
@@ -35,9 +36,11 @@
 	<div class="share">
 		<p>Share this location with your friends!</p>
 		<ul class="unstyled inline social">
-			<li class="twitter"></li>
-			<li class="facebook">
-				<a href="http://www.facebook.com/sharer/sharer.php?u=<%= link %>" target="_blank">Share On Facebook</a>
+			<li>
+				<a class="twitter" href="#" target="_blank" title="Twitter"></a>
+			</li>
+			<li>
+				<a class="facebook" href="#" target="_blank" title="Facebook"></a>
 			</li>
 		</ul>
 	</div>
