@@ -1,5 +1,5 @@
 send_mail_to: 'admin@youngagrarians.org'
-send_from: 'no-reply@youngagrarians.org'
+send_from: '"Young Agrarians" <no-reply@youngagrarians.org>'
 smtp_host: 'localhost'
 smtp_port: 587
 smtp_username: 'admin'
