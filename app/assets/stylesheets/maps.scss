@@ -73,7 +73,7 @@ a:active, a:hover, .widget a:hover {
 
 #sidebar {
   margin-top: 10px;
-  padding: 0 5px;
+  padding: 0;
   font-family: 'sofia_pro_lightregular';
 }
 
@@ -90,14 +90,26 @@ a:active, a:hover, .widget a:hover {
 }
 
 #sidebar {
+  // TODO: this is a hack should use foundation grid system properly instead
+  & > div {
+    padding: 10px;
+  }
+
   ul {
     list-style-type: none;
+    margin-left: 0;
     
     li {
       .legend-item-icon {
         max-height: 16px;
         max-width: 16px;
-        margin-left: 8px;
+        margin-left: 2px;
+        vertical-align: middle;
+      }
+
+      ul {
+        margin-left: 20px;
+        font-size: 14px;
       }
     }
   }
@@ -117,29 +129,25 @@ a:active, a:hover, .widget a:hover {
     div.search-field-container {
       width: 185px;
       min-width: 185px;
+      position: relative;
+      margin-left: 0px;
     }
     
     a#map-search-clear {
-      position: absolute;
-      top: 41px;
-      left: 170px;
       cursor: pointer;
+      height: 16px;
+      width: 16px;
+      position: absolute;
+      left: 65%;
+      top: 5px;
     }
     
     #search-button-container {
-      
       vertical-align: top;
-      
-      #search-button {
-        i {
-          margin: 0 -15px;
-        }
-      }
     }
   }
   
   #map-selected-categories {
-    
     padding-top: 5px;
     
     ul {
@@ -151,6 +159,13 @@ a:active, a:hover, .widget a:hover {
       }
     }
   }
+
+#search-button {
+  margin-left: 10px;
+  i {
+    margin: 0 -15px;
+  }
+}
   
   #map-selected-subcategories {
     

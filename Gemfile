@@ -18,13 +18,15 @@ group :assets do
 	gem 'coffee-rails', '~> 3.2.1'
   # Add Foundation Here
   gem 'compass-rails' # you need this or you get an err
-  gem 'zurb-foundation', '~> 4.0.0'
+  gem 'foundation-rails'
   gem 'font-awesome-rails'
 	gem 'eco'
 	gem 'marionette-rails'
 	gem 'haml'
 	gem 'sass'
 	gem 'uglifier', '>= 1.0.3'
+
+	gem 'modernizr-rails'
 end
 
 gem 'gmaps4rails'

@@ -83,7 +83,7 @@ class Youngagrarians.Views.AddLocation extends Backbone.Marionette.View
         @$('#subcategory-selects').append subcategoryView.render().el
   
   cancelAdd: =>
-    @$('a.close-reveal-modal').trigger('click')
+    $("#app-modal").foundation('reveal', 'close')
 
   submitForm: (e) =>
     e.preventDefault()
@@ -145,4 +145,4 @@ class Youngagrarians.Views.AddLocation extends Backbone.Marionette.View
     $("#app-modal").html @el
     @renderCategories()
     @renderCountries()
-    @$el.foundation('reveal', 'open')
+    $("#app-modal").foundation('reveal', 'open')
