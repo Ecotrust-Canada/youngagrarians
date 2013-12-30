@@ -3,6 +3,6 @@ class UserMailer < ActionMailer::Base
 
   def listing_approved(location)
     @location = location
-    mail(:to => @location.email, :subject => "Listing Approved")
+    mail(:to => @location.email, :subject => "Young Agrarians Resource Map – your listing is live!")
   end
 end
