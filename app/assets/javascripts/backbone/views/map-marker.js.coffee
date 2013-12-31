@@ -71,7 +71,7 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
     $("#map-popup-#{@model.id} .share .twitter").on 'click', (e) =>
       e.preventDefault()
 
-      text = "Check out this great resource! #{@model.get('name')} at #{@model.locUrl()}"
+      text = "Check out this great resource! #{@model.get('name')}"
       win_options = 'width=550,height=420,scrollbars=yes,resizable=yes,toolbar=no,location=yes'
       twitter_options =
         url: @model.locUrl()
