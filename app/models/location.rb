@@ -42,6 +42,7 @@ class Location < ActiveRecord::Base
   end
 
   def is_approved=(value)
+    value = ActiveRecord::ConnectionAdapters::Column.value_to_boolean(value)
     write_attribute(:is_approved, value)
     if value
       UserMailer.listing_approved(self).deliver

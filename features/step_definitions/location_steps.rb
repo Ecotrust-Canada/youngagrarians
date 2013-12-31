@@ -14,7 +14,8 @@ When(/^I select the first location$/) do
   end
 end
 
-Then(/^the location owner should get an email about the location getting approved$/) do
-  last_email.to.first.should eq("farmer01@youngagrarians.org")
-  last_email.subject.should eq("Listing Approved")
+Then(/^the location owner should( not)? get an email about the location getting approved$/) do |negate|
+  (last_email.should be_nil; next) if negate
+  last_email.to.first.should(eq("farmer01@youngagrarians.org"))
+  last_email.subject.should(eq("Young Agrarians Resource Map - your listing is live!"))
 end

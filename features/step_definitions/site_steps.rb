@@ -113,3 +113,7 @@ end
 Then /^pry now/ do
   binding.pry
 end
+
+When /^I clear my emails$/ do
+  reset_email
+end
