@@ -3,16 +3,18 @@ class Youngagrarians.Routers.LocationsRouter extends Backbone.Router
   routes:
     "locations/:id" : "show"
 
+  index: =>
+
   show: (id) =>
-    location = new Backbone.ModelRef window.Locations, id
+    locations = Youngagrarians.Collections.locations
+    location = new Backbone.ModelRef locations, id
     location.bindLoadingStates
       loaded: (l) =>
-        _.delay @centerMap, 500, l
+        _.delay @_centerMap, 500, l
 
       unloaded: (l) ->
         console.log 'unloaded'
 
-  centerMap: (loc) =>
-    window.Locations.mapUpdate
-      type: 'show'
-      data: loc
+  _centerMap: (loc) =>
+    Youngagrarians.Collections.results.searchById(loc.get('id'))
+    _.delay (=> YA.map.currentView.openBubble(loc)), 1000

@@ -4,7 +4,7 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
   initialize: ->
     @marker = null
 
-  createMarker: =>   
+  createMarker: =>
     data = @model.toJSON()
     data.link = encodeURIComponent @model.locUrl()
 
@@ -31,69 +31,67 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
 
       @model.marker = @marker
 
-      content = JST['backbone/templates/map-marker-bubble'](data)
+      @content = JST['backbone/templates/map-marker-bubble'](data)
 
-      _model = @model
-      _this = @
-      
-      
       $.goMap.createListener(
         { type: 'marker', marker: @marker.id },
         'click',
-        () ->
-          
-          window.infoBubble.close() if not _.isUndefined(window.infoBubble) and not _.isNull(window.infoBubble)
-          map = $.goMap.getMap()
-          _infoBub = new InfoBubble
-            disableAnimation: true
-            maxWidth: YA.newMapWidth * 0.8
-            maxHeight: 300
-            arrowStyle: 2
-            content: content
-            backgroundClassName: 'map-bubble-background'
-            borderRadius: 0
-          _infoBub.open map, @
-          
-          google.maps.event.addListener _infoBub,'closeclick', =>
-            map.setOptions
-              zoomControl: true
-              panControl: true
-              mapTypeControl: true
-          
-          map.setOptions
-            zoomControl:false
-            panControl:false
-            mapTypeControl: false
-          window.infoBubble = _infoBub            
-          
-          func = () =>
-            if !_.isUndefined window.twttr
-              text = _model.get('name')
-              twttr.widgets.createShareButton(
-                _model.locUrl(),
-                $("#map-popup-"+_model.id+" .share .twitter")[0],
-                (el) =>
-                { text: text, via: 'youngagrarians' }
-              )
-
-            facebookLink = $("#map-popup-"+_model.id+" .share .facebook a")
-
-            facebookLink.on 'click', (e) ->
-              e.preventDefault()
-              img = $("#fb_img").data('img')
-              data = {
-                method: 'feed',
-                link: _model.locUrl(),
-                picture: img,
-                name: "YoungAgrarians Map: " + _model.get('name'),
-                caption: 'A location on the YoungAgrarians Resource Map'
-                description: _model.get("description")
-              }
-
-              FB.ui data, (response) ->
-                console.log 'response: ', response          
-      )
+        @openBubble
+        )
     @marker
+
+  openBubble: =>
+    window.infoBubble.close() if not _.isUndefined(window.infoBubble) and not _.isNull(window.infoBubble)
+    map = $.goMap.getMap()
+    _infoBub = new InfoBubble
+      disableAnimation: true
+      maxWidth: YA.newMapWidth * 0.8
+      maxHeight: 300
+      arrowStyle: 2
+      content: @content
+      backgroundClassName: 'map-bubble-background'
+      borderRadius: 0
+    _infoBub.open map, @marker
+
+    google.maps.event.addListener _infoBub,'closeclick', =>
+      map.setOptions
+        zoomControl: true
+        panControl: true
+        mapTypeControl: true
+
+    map.setOptions
+      zoomControl:false
+      panControl:false
+      mapTypeControl: false
+    window.infoBubble = _infoBub
+
+    _.delay @bindShareButtons, 200
+
+  bindShareButtons: =>
+    $("#map-popup-#{@model.id} .share .twitter").on 'click', (e) =>
+      e.preventDefault()
+
+      text = "Check out this great resource! #{@model.get('name')} at #{@model.locUrl()}"
+      win_options = 'width=550,height=420,scrollbars=yes,resizable=yes,toolbar=no,location=yes'
+      twitter_options =
+        url: @model.locUrl()
+        via: 'youngagrarians'
+        text: text
+      window.open("https://twitter.com/intent/tweet?#{$.param(twitter_options)}", 'Tweet', win_options)
+
+    $("#map-popup-#{@model.id} .share .facebook").on 'click', (e) =>
+      e.preventDefault()
+      img = $("#fb_img").data('img')
+      data =
+        method: 'feed'
+        name: "YoungAgrarians Map: " + @model.get('name')
+        link: @model.locUrl()
+        picture: img
+        caption: 'A location on the YoungAgrarians Resource Map'
+        description: @model.get("description")
+
+      FB.ui data, (response) ->
+        console.log 'response: ', response
 
   getLocation: =>
     { lat: @model.get('latitude'), long: @model.get('longitude') }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:fb="https://www.facebook.com/2008/fbml">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -8,7 +8,7 @@
     <title><%= content_for?(:title) ? yield(:title) : "Young Agrarians" %></title>
     <%= csrf_meta_tags %>
 
-    <meta property="fb:app_id" content="542090742493894" />
+    <meta property="fb:app_id" content="236752999835803" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="YoungAgrarians Resource Map" />
     <meta property="og:image" content="<%= request.protocol %><%= request.host %><%= root_path %>/assets/ya.jpg" />
@@ -43,6 +43,39 @@
     <%= favicon_link_tag %>
   </head>
   <body class="ya">
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        // init the FB JS SDK
+        FB.init({
+          appId      : '236752999835803',                        // App ID from the app dashboard
+          status     : false,                                 // Check Facebook Login status
+          xfbml      : false                                  // Look for social plugins on the page
+        });
+
+        // Additional initialization code such as adding Event Listeners goes here
+      };
+
+      // Load the SDK asynchronously
+      (function(){
+         // If we've already installed the SDK, we're done
+         if (document.getElementById('facebook-jssdk')) {return;}
+
+         // Get the first script element, which we'll use to find the parent node
+         var firstScriptElement = document.getElementsByTagName('script')[0];
+
+         // Create a new script element and set its id
+         var facebookJS = document.createElement('script'); 
+         facebookJS.id = 'facebook-jssdk';
+
+         // Set the new script's source to the source of the Facebook JS SDK
+         facebookJS.src = '//connect.facebook.net/en_US/all.js';
+
+         // Insert the Facebook JS SDK into the DOM
+         firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
+       }());
+    </script>
+
     <% if authenticated? %>
       <div class="navbar navbar-inverse user-nav" id="ya-nav">
         <div class="navbar-inner">
@@ -59,18 +92,6 @@
         </div>
       </div>
     <% end %>
-    <div id="fb-root"></div>
-    <script>
-      ( function(d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id))
-            return;
-          js = d.createElement(s);
-          js.id = id;
-          js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=542090742493894";
-          fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
     <header id="masthead" class="site-header" role="banner">
       <div class="banner">
 
@@ -222,32 +243,6 @@
       document.write(script);
     </script>
 
-    <script>
-      window.fbAsyncInit = function() {
-        // init the FB JS SDK
-        FB.init({
-          appId : '542090742493894', // App ID from the app dashboard
-          channelUrl : '//199.167.16.67/channel.html', // Channel file for x-domain comms
-          status : true, // Check Facebook Login status
-          xfbml : true // Look for social plugins on the page
-        });
-
-        // Additional initialization code such as adding Event Listeners goes here
-      };
-
-      // Load the SDK asynchronously
-      ( function(d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) {
-            return;
-          }
-          js = d.createElement(s);
-          js.id = id;
-          js.src = "//connect.facebook.net/en_US/all.js";
-          fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
-
     <%= javascript_include_tag "application" %>
     <script type="text/javascript">
       // Bootstrap categories and subcategories instead of wasting 2 http requests and avoiding
@@ -263,22 +258,7 @@
         <% end %>
       });
     </script>
-    <!-- Twitter Share JS -->
-    <script>
-      ! function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (!d.getElementById(id)) {
-          js = d.createElement(s);
-          js.id = id;
-          js.src = "https://platform.twitter.com/widgets.js";
-          fjs.parentNode.insertBefore(js, fjs);
-        }
-      }(document, "script", "twitter-wjs");
-    </script>
-    <div id="root_url" data-url="<%= request.protocol %><%= request.host %><%= root_path %>" class="hide">
-      What what
-    </div>
-    <div id="fb_img" data-img="<%= request.protocol %><%= request.host %><%= root_path %>/assets/ya.jpg"></div>
+    <div id="fb_img" data-img="<%= request.protocol %><%= request.host %>/assets/ya.jpg"></div>
     <div id="app-modal" class="reveal-modal" data-reveal></div>
     <div class="reveal-modal-bg" style="display: none"></div>
     <%= google_analytics_code %>

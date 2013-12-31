@@ -8,8 +8,8 @@
 @font-face {
 font-family: 'Young Agrarians legible';
   src: url(font-path('YOUNG_AGRARIANS.eot'));
-  src: url(font-path('YOUNG_AGRARIANS.woff')) format('woff'), 
-           url(font-path('YOUNG_AGRARIANS.ttf')) format('truetype'), 
+  src: url(font-path('YOUNG_AGRARIANS.woff')) format('woff'),
+           url(font-path('YOUNG_AGRARIANS.ttf')) format('truetype'),
            url(font-path('YOUNG_AGRARIANS.svg')) format('svg');
 
 }
@@ -67,7 +67,7 @@ a:active, a:hover, .widget a:hover {
 
 #map-app-container {
   .row {
-    min-width:100% !important; 
+    min-width:100% !important;
   }
 }
 
@@ -82,11 +82,11 @@ a:active, a:hover, .widget a:hover {
    min-height: 400px;
    min-width: 300px;
    /* Bootstrap Css Map Fix*/
-  img { 
+  img {
     max-width: none;
-  }label { 
-    width: auto; display:inline; 
-  } 
+  }label {
+    width: auto; display:inline;
+  }
 }
 
 #sidebar {
@@ -98,7 +98,7 @@ a:active, a:hover, .widget a:hover {
   ul {
     list-style-type: none;
     margin-left: 0;
-    
+
     li {
       .legend-item-icon {
         max-height: 16px;
@@ -113,26 +113,26 @@ a:active, a:hover, .widget a:hover {
       }
     }
   }
-  
+
   #search-form-container {
     min-width: 220px;
     white-space:nowrap;
   }
-  
+
   #map-search {
     height: 24px;
-    
+
     div {
       display: inline-block;
     }
-    
+
     div.search-field-container {
       width: 185px;
       min-width: 185px;
       position: relative;
       margin-left: 0px;
     }
-    
+
     a#map-search-clear {
       cursor: pointer;
       height: 16px;
@@ -141,20 +141,20 @@ a:active, a:hover, .widget a:hover {
       left: 65%;
       top: 5px;
     }
-    
+
     #search-button-container {
       vertical-align: top;
     }
   }
-  
+
   #map-selected-categories {
     padding-top: 5px;
     margin-top: 7px;
-    
+
     ul {
-      
+
       margin-bottom: 0;
-      
+
       li {
         background-color: blue;
       }
@@ -167,23 +167,23 @@ a:active, a:hover, .widget a:hover {
     margin: 0 -15px;
   }
 }
-  
+
   #map-selected-subcategories {
-    
+
     ul {
-      
+
       li {
         background-color: green;
       }
     }
   }
-  
+
   .selected-categories-container {
-       
+
     ul {
       font-size: 11px;
       color: white;
-      
+
       li {
         display: inline-block;
         margin: 2px;
@@ -191,8 +191,8 @@ a:active, a:hover, .widget a:hover {
       }
     }
   }
-  
-  #map-legend-container 
+
+  #map-legend-container
   {
     li {
      height: auto;
@@ -204,7 +204,7 @@ a:active, a:hover, .widget a:hover {
   ul.results-list {
     margin: 10px 20px 0;
     list-style-type: none;
-    
+
     li {
       margin-bottom: 10px;
       img {
@@ -227,12 +227,12 @@ a:active, a:hover, .widget a:hover {
         list-style-type: none;
       }
    form#add-to-map-form {
-        
+
       label {
         display: inline-block;
         width: 160px;
         vertical-align: top;
-      }    
+      }
       .controls {
          display: inline-block;
 
@@ -243,44 +243,44 @@ a:active, a:hover, .widget a:hover {
          select {
             width: 330px;
          }
-         
+
          input#location {
            margin-bottom: 2px;
          }
-         
+
          input#show_until {
            margin-bottom: 2px;
          }
-         
-         
+
+
       }
-      
+
       #subcategory-selects {
-         
-         width: 300px;          
-          
+
+         width: 300px;
+
          .subcategory-select {
            width: 270px;
          }
-         
+
          a.remove-subcategory {
            vertical-align: text-top;
          }
        }
-      
+
       a#add-subcategory {
         font-size: 12px;
-        float:right; 
-      } 
-      
+        float:right;
+      }
+
       a#add-subcategory:hover {
-        color: #2ba6cb; 
-      } 
-      
-      #subcategories-control-group, #subdivision-control-group, #bioregion-control-group { 
+        color: #2ba6cb;
+      }
+
+      #subcategories-control-group, #subdivision-control-group, #bioregion-control-group {
         display:none;
-      }            
-       
+      }
+
       .show-until-control {
         width: 340px;
         line-height: 12px;
@@ -388,14 +388,14 @@ div.map-bubble-background {
     margin: 0px 0px 0px -280px;
     width: 600px;
     font-size: 16px;
-    
+
     .modal-body {
-      
+
       fieldset {
         border: none;
       }
-      
-    }    
+
+    }
 }
 
 .map-marker {
