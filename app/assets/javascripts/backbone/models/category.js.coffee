@@ -15,11 +15,12 @@ class Youngagrarians.Models.Category extends Backbone.RelationalModel
       includeInJSON: '_id'
   ]
 
+  #TODO: can probably use compass to optimize these into a spritemap (avoid 16 http requests)
   getIcon: =>
-    return '/assets/map-icons/' + @get('name').toLowerCase().replace(' ', '-') + ".png"
+    return '/assets/map-icons/tiny/' + @get('name').toLowerCase().replace(' ', '-') + ".png"
   
   getMapIcon: =>
-    return '/assets/map-icons/' + @get('name').toLowerCase().replace(' ', '-') + "-map.png"
+    return '/assets/map-icons/small/' + @get('name').toLowerCase().replace(' ', '-') + ".png"
 
   removeEvent: "category:remove"
 
