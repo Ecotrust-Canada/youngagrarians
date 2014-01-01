@@ -5,7 +5,7 @@ class Location < ActiveRecord::Base
   belongs_to :category
   has_and_belongs_to_many :subcategories
 
-  attr_accessible :latitude, :longitude, :gmaps, :address, :name, :content, :bioregion, :phone, :url, :fb_url, 
+  attr_accessible :latitude, :longitude, :gmaps, :address, :name, :content, :bioregion, :phone, :url, :fb_url,
                   :twitter_url, :description, :is_approved, :category_id, :resource_type, :email, :postal, :show_until,
                   :street_address, :city, :country_code, :country_name, :province_code, :province_name
 
@@ -13,7 +13,7 @@ class Location < ActiveRecord::Base
     "#{address}"
   end
 
-  def process    
+  def process
     true
   end
 
@@ -28,15 +28,15 @@ class Location < ActiveRecord::Base
       category = Category.where('LOWER(name) = ?', term).first
       subcategory = Category.where('LOWER(name) = ?', term).first
       if category
-        results += Location.where(:is_approved => true).where('category_id', category.id).all        
+        results += Location.where(:is_approved => true).where('category_id', category.id).all
       end
       if subcategory
         results += Location.joins(:subcategories).where(:is_approved => true).where('subcategories.id = ?', subcategory.id).all
       end
       term = "%#{term}%"
       results += Location.where(:is_approved => true)
-        .where("LOWER(name) LIKE ? OR LOWER(address) LIKE ? OR LOWER(postal) LIKE ? OR LOWER(bioregion) LIKE ? OR phone LIKE ? OR LOWER(description) LIKE ?", 
-               term, term, term, term, term, term).all 
+        .where("LOWER(name) LIKE ? OR LOWER(address) LIKE ? OR LOWER(postal) LIKE ? OR LOWER(bioregion) LIKE ? OR phone LIKE ? OR LOWER(description) LIKE ?",
+               term, term, term, term, term, term).all
     end
     return results.uniq
   end
@@ -48,16 +48,23 @@ class Location < ActiveRecord::Base
       UserMailer.listing_approved(self).deliver
     end
   end
-  
+
   def self.to_csv(options = {})
-    CSV.generate(options) do |csv|      
-      csv << column_names
+    columns = ['id', 'resource_type', 'category', 'subcategories', 
+      'name', 'bioregion', 'address', 'postal', 'phone', 
+      'url', 'fb_url', 'twitter_url', 'description', 'email', 
+      'province', 'country_name'] | column_names.reject {|c| c == 'category_id'}
+
+    CSV.generate(options) do |csv|
+      csv << columns
       all.each do |location|
-        csv << location.attributes.values_at(*column_names)
+        values = location.attributes.dup
+        values['category'] = location.category.name
+        values['subcategories'] = location.subcategories.map(&:name).join(';')
+        csv << values.values_at(*columns)
       end
     end
   end
-  
+
 end
 
- 

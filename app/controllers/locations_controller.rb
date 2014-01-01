@@ -2,12 +2,12 @@ class LocationsController < ApplicationController
   require 'spreadsheet'
   require 'fileutils'
   require 'iconv'
-  
+
   before_filter :hide_map
-  
+
   @tmp = {}
 
-  def search    
+  def search
     @locations = Location.search params[:term]
     respond_to do |format|
       format.json { render :json => @locations.map(&:id) }
@@ -31,7 +31,7 @@ class LocationsController < ApplicationController
           @locations = Location.where( :is_approved => 0 ).order(:name).all
         else
           @locations = Location.order(:name).all
-        end        
+        end
       }
       format.json {
         @locations = Location.where( "is_approved = 1 AND ( show_until is null OR show_until > ? )", Date.today ).all
@@ -42,7 +42,7 @@ class LocationsController < ApplicationController
 
         render :json =>  @locations
       }
-      format.csv { 
+      format.csv {
         send_data Location.to_csv
       }
     end
@@ -51,7 +51,7 @@ class LocationsController < ApplicationController
   # GET /locations/1
   # GET /locations/1.json
   def show
-    @location = Location.find(params[:id])    
+    @location = Location.find(params[:id])
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json =>  @location }
@@ -61,7 +61,7 @@ class LocationsController < ApplicationController
   # GET /locations/new
   # GET /locations/new.json
   def new
-    @location = Location.new    
+    @location = Location.new
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json =>  @location }
@@ -72,22 +72,22 @@ class LocationsController < ApplicationController
   def excel_import
     if params.has_key? :dump and params[:dump].has_key? :excel_file
       @tmp = params[:dump][:excel_file].tempfile
-      
+
       @failed_rows = []
-      
+
       Spreadsheet.client_encoding = 'UTF-8'
       book = Spreadsheet.open @tmp.path
       sheet1 = book.worksheet 0
       sheet1.each_with_index do |row, i|
-        
+
         # skip the first row
         next if i == 0
         if ( row[3].nil? or row[3].empty? ) and ( row[5].nil? or row[5].empty? ) and
             ( row[4].nil? or row[4].empty? ) and ( row[1].nil? or row[1].empty? )
           break
         end
-        
-        # strip whitespace from all fields        
+
+        # strip whitespace from all fields
         new_row = []
         row.each_with_index { |value, index| new_row[index] = value.strip if value }
         row = new_row
@@ -111,8 +111,8 @@ class LocationsController < ApplicationController
         end
 
         address = row[5] || ''
-        
-        
+
+
         l = Location.new(:resource_type => row[0] ||= '',
                          :name => row[3] ||= '',
                          :bioregion => row[4] ||= '',
@@ -136,12 +136,12 @@ class LocationsController < ApplicationController
         end
 
         if l.save
-          
+
         else
           @failed_rows << "Failed to write location: #{l.name} - #{l.errors.messages}"
         end
       end
-      @message = "Imported locations"      
+      @message = "Imported locations"
     end
   end
 
@@ -164,10 +164,10 @@ class LocationsController < ApplicationController
   # POST /locations.json
   def create
     @location = Location.new(params[:location])
-    @location.save    
+    @location.save
     @hide_map = true
-    if params[:subcategories] 
-      params[:subcategories].uniq.each do |subcategory|        
+    if params[:subcategories]
+      params[:subcategories].uniq.each do |subcategory|
         s = Subcategory.where(id: subcategory[:id]).first
         @location.subcategories << s if s
       end
@@ -256,12 +256,12 @@ class LocationsController < ApplicationController
     end
   end
 
-  private 
-  
+  private
+
   def hide_map
     @hide_map = true
   end
-  
+
 end
 
 # WAT
