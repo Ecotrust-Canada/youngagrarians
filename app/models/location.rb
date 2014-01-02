@@ -5,12 +5,12 @@ class Location < ActiveRecord::Base
   belongs_to :category
   has_and_belongs_to_many :subcategories
 
-  attr_accessible :latitude, :longitude, :gmaps, :address, :name, :content, :bioregion, :phone, :url, :fb_url,
+  attr_accessible :latitude, :longitude, :gmaps, :name, :content, :bioregion, :phone, :url, :fb_url,
                   :twitter_url, :description, :is_approved, :category_id, :resource_type, :email, :postal, :show_until,
-                  :street_address, :city, :country_code, :country_name, :province_code, :province_name
+                  :street_address, :city, :country, :province
 
   def gmaps4rails_address
-    "#{address}"
+    "#{street_address}, #{city}, #{province}, #{country}"
   end
 
   def process
@@ -51,9 +51,8 @@ class Location < ActiveRecord::Base
 
   def self.to_csv(options = {})
     columns = ['id', 'resource_type', 'category', 'subcategories', 
-      'name', 'bioregion', 'address', 'postal', 'phone', 
-      'url', 'fb_url', 'twitter_url', 'description', 'email', 
-      'province', 'country_name'] | column_names.reject {|c| c == 'category_id'}
+      'name', 'bioregion', 'street_address', 'city', 'province', 'country', 'postal', 'phone', 
+      'url', 'fb_url', 'twitter_url', 'description', 'email'] | column_names.reject {|c| c == 'category_id'}
 
     CSV.generate(options) do |csv|
       csv << columns

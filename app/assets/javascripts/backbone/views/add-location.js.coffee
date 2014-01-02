@@ -9,23 +9,23 @@ class Youngagrarians.Views.AddLocation extends Backbone.Marionette.View
     'change select#country'         : 'updateSubdivision'
     'change select#subdivision'     : 'updateBioregion'
 
-  initialize: (options) =>    
+  initialize: (options) =>
     _.bindAll @, 'render', 'cancelAdd', 'submitForm'
     @categories = options.categories
-    @locations = options.locations    
-    
-  renderCategories: =>    
+    @locations = options.locations
+
+  renderCategories: =>
     $categoryEl = @$('select#category-select')
     $categoryEl.append "<option value='-1'>Select a Category</option>"
     @categories.each (category)=>
       $categoryEl.append "<option value='#{category.id}'>#{category.get('name')}</option>"
-    
-  renderCountries: =>  
+
+  renderCountries: =>
     $countryEl = @$('select#country')
     $countryEl.append "<option value='-1'>Select a Country</option>"
     _(Youngagrarians.Constants.COUNTRIES).each (country)=>
       $countryEl.append "<option value='#{country.code}'>#{country.name}</option>"
-    
+
   updateSubdivision: =>
     country = @getCountry()
     if country and country.subdivisions.length > 0
@@ -37,8 +37,8 @@ class Youngagrarians.Views.AddLocation extends Backbone.Marionette.View
       @$('#subdivision-label').text country.subdivision_name
     else
       @$('#subdivision-control-group').hide()
-      
-  updateBioregion: =>    
+
+  updateBioregion: =>
     country = @getCountry()
     code = @$('select#subdivision option:selected').val()
     subdivision = _(country.subdivisions).findWhere
@@ -48,30 +48,30 @@ class Youngagrarians.Views.AddLocation extends Backbone.Marionette.View
       $bioregionEl = @$('select#bioregion')
       $bioregionEl.html "<option value='-1'>Select a Bioregion</option>"
       _(subdivision.bioregions).each (bioregion)=>
-        $bioregionEl.append "<option value='#{bioregion.name}'>#{bioregion.name}</option>"      
+        $bioregionEl.append "<option value='#{bioregion.name}'>#{bioregion.name}</option>"
     else
       @$('#bioregion-control-group').hide()
-  
+
   getCountry: =>
     countryCode = @$('select#country option:selected').val()
-    _(Youngagrarians.Constants.COUNTRIES).findWhere 
+    _(Youngagrarians.Constants.COUNTRIES).findWhere
       code: countryCode
-    
-        
+
+
   updateSubcategories: =>
-    categoryId = parseInt(@$('select#category-select option:selected').val())        
+    categoryId = parseInt(@$('select#category-select option:selected').val())
     if categoryId != -1
-      @$('#subcategories-control-group').show()    
+      @$('#subcategories-control-group').show()
       category = @categories.get categoryId
       subcategoryView = new Youngagrarians.Views.SubcategorySelect
         model: new Backbone.Model
           subcategories: category.get('subcategories')
-          removable: false           
+          removable: false
       @$('#subcategory-selects').html subcategoryView.render().el
     else
       @$('#subcategory-selects').empty()
-      @$('#subcategories-control-group').hide()      
-  
+      @$('#subcategories-control-group').hide()
+
   addSubcategory: =>
     categoryId = parseInt(@$('select#category-select option:selected').val())
     if categoryId != -1
@@ -79,9 +79,9 @@ class Youngagrarians.Views.AddLocation extends Backbone.Marionette.View
       subcategoryView = new Youngagrarians.Views.SubcategorySelect
           model: new Backbone.Model
             subcategories: category.get('subcategories')
-            removable: true           
+            removable: true
         @$('#subcategory-selects').append subcategoryView.render().el
-  
+
   cancelAdd: =>
     $("#app-modal").foundation('reveal', 'close')
 
@@ -91,40 +91,37 @@ class Youngagrarians.Views.AddLocation extends Backbone.Marionette.View
 
     agree = @$el.find("input#agree")
     if agree.is(":checked")
-      location = $("input#location").val()      
-      @model.set 'address', location
-      
-      #@model.set 'latitude', $.goMap.getMap().center.lat
-      #@model.set 'longitude', $.goMap.getMap().center.lng
+      location = $("input#location").val()
+      @model.set 'street_address', location
 
-      categoryId = parseInt $("select#category-select").val()      
-      if not _.isNaN(categoryId) and categoryId != -1 
+      categoryId = parseInt $("select#category-select").val()
+      if not _.isNaN(categoryId) and categoryId != -1
         category = @categories.get categoryId
-        @model.set 
+        @model.set
           category_id: categoryId
           category: category
       else
         alert 'You must add a category'
-        return     
-      
+        return
+
       subcategories = new Youngagrarians.Collections.SubcategoryCollection
       _(@$("select.subcategory-select")).each (subcategoryEl)=>
         $subcategoryEl = $(subcategoryEl)
-        subcategoryId = parseInt $subcategoryEl.val() 
+        subcategoryId = parseInt $subcategoryEl.val()
         if not _.isNaN(subcategoryId) and subcategoryId != -1
           subcategories.add category.get('subcategories').get subcategoryId
       @model.set 'subcategories', subcategories
-      
+
       if parseInt(@$('#country').val()) != -1
-        @model.set 'country_code', @$('#country').val()
+        @model.set 'country', @$('#country').val()
       else
         alert 'Please enter a country'
         return
-      
-      @model.set 'province_code', @$('#subdivision').val() unless parseInt(@$('#subdivision').val()) == -1      
-       
-      @model.set 
-        postal: @$el.find('input#postal').val()        
+
+      @model.set 'province', @$('#subdivision').val() unless parseInt(@$('#subdivision').val()) == -1
+
+      @model.set
+        postal: @$el.find('input#postal').val()
         bioregion: @$('#bioregion').val()
         name: @$("input#name").val()
         description: @$('textarea#description').val()
@@ -134,13 +131,13 @@ class Youngagrarians.Views.AddLocation extends Backbone.Marionette.View
         phone: @$('input#phone').val()
         email: @$("input#email").val()
         show_until: @$("input#show_until").val()
-        
+
       @locations.create @model, wait: true
       @cancelAdd(e)
     else
       alert "You have to agree to the terms!"
-  
-  render: =>    
+
+  render: =>
     @$el.html JST[ @template ](@model.toJSON())
     $("#app-modal").html @el
     @renderCategories()

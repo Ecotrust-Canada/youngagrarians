@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130915213759) do
+ActiveRecord::Schema.define(:version => 20140102222620) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(:version => 20130915213759) do
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
-    t.string   "address"
+    t.string   "street_address"
     t.string   "name"
     t.text     "content"
     t.string   "bioregion"
@@ -40,12 +40,9 @@ ActiveRecord::Schema.define(:version => 20130915213759) do
     t.string   "email"
     t.string   "postal"
     t.date     "show_until"
-    t.string   "street_address"
     t.string   "city"
-    t.string   "country_code"
-    t.string   "country_name"
-    t.string   "province_code"
-    t.string   "province_name"
+    t.string   "country"
+    t.string   "province"
   end
 
   add_index "locations", ["is_approved"], :name => "index_locations_on_is_approved"

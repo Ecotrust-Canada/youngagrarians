@@ -79,7 +79,7 @@ class Youngagrarians.Collections.ResultsCollection extends Backbone.Collection
 
     if @currentSubdivision
       locations = _.filter locations, (location)=>
-        location.get('province_code') == @currentSubdivision.code
+        location.get('province') == @currentSubdivision.code
 
     if @currentBioregion
       locations = _.filter locations, (location)=>

@@ -51,10 +51,10 @@
 		<tr>
 			<td class="span1"><%= check_box_tag '', location.id, false, :class => 'id'  %></td>
 			<td class="span2"><%= link_to location.name, location %></td>
-			<td class="span2"><%= location.address %></td>
+			<td class="span2"><%= location.street_address %></td>
 			<td class="span2"><%= location.bioregion %></td>
-			<td class="span2"><%= location.province_code %></td>
-			<td class="span2"><%= location.country_code %></td>
+			<td class="span2"><%= location.province %></td>
+			<td class="span2"><%= location.country %></td>
 			<td class="span2"><%= location.resource_type %></td>
 			
 			<% if location.category %><td class="span2"><%= location.category.name %></td><% end %>

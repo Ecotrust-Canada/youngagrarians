@@ -27,16 +27,16 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
   model: Youngagrarians.Models.Location
   url: '/locations'
 
-  getSubdivision: (country_code, province_code)=>
-    return null unless country_code and province_code
+  getSubdivision: (country, province)=>
+    return null unless country and province
     country = _.find Youngagrarians.Constants.COUNTRIES, (c)->
-      c.code == country_code
+      c.code == country
     _.find country.subdivisions, (subdivision)->
-      subdivision.code == province_code
+      subdivision.code == province
 
-  getBioregion: (country_code, province_code, bioregion)=>
-    return null unless country_code and province_code and bioregion
-    subdivision = @getSubdivision(country_code, province_code)
+  getBioregion: (country, province, bioregion)=>
+    return null unless country and province and bioregion
+    subdivision = @getSubdivision(country, province)
     _.find subdivision.bioregions, (region)->
       region.name == bioregion
 
@@ -69,10 +69,8 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
   #           loc.url = "/locations/#{loc.id}"
   #           if province
   #             loc.set
-  #               province_name: province.long_name
-  #               province_code: province.short_name
+  #               province: province.short_name
   #           loc.save
   #             city: city.long_name
-  #             country_name: country.long_name
-  #             country_code: country.short_name
+  #             country: country.short_name
 
