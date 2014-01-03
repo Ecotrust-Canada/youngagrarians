@@ -1,6 +1,6 @@
 class Location < ActiveRecord::Base
   include Gmaps4rails::ActsAsGmappable
-  acts_as_gmappable :process_geocoding => :process, :validation => false
+  acts_as_gmappable :validation => false
 
   belongs_to :category
   has_and_belongs_to_many :subcategories
@@ -20,10 +20,6 @@ class Location < ActiveRecord::Base
 
   def gmaps4rails_address
     "#{street_address}, #{city}, #{province}, #{country}"
-  end
-
-  def process
-    true
   end
 
   def as_json(options = nil)
@@ -89,7 +85,7 @@ class Location < ActiveRecord::Base
           location.subcategories = []
           location.subcategories << Subcategory.find_by_name(s.strip)
         end
-        location.save
+        location.save!
       end
     end
   end
