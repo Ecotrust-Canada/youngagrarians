@@ -72,6 +72,7 @@ class Location < ActiveRecord::Base
   end
 
   def self.import(file)
+    line_num = 1
     CSV.foreach(file.path, headers: true) do |row|
       location = find_by_id(row["id"]) || new
       location.skip_approval_email = true
@@ -80,12 +81,23 @@ class Location < ActiveRecord::Base
       else
         location.attributes = row.to_hash.slice(*accessible_attributes)
         location.is_approved = true unless row['is_approved'].present?
-        location.category = Category.find_by_name(row['category'])
+        if category = Category.find_by_name(row['category'])
+          location.category = category
+        else
+          raise "Category \"#{row['category']}\" not found. Line #{line_num} Record: #{location.inspect}"
+        end
+
         row['subcategories'].present? && row['subcategories'].split(';').each do |s|
           location.subcategories = []
-          location.subcategories << Subcategory.find_by_name(s.strip)
+          if subcategory = Subcategory.find_by_name(s.strip)
+            location.subcategories << subcategory
+          else
+            raise "Subcategory \"#{s.strip}\" not found. Line #{line_num} Record: #{location.inspect}"
+          end
         end
         location.save!
+
+        line_num += 1
       end
     end
   end
