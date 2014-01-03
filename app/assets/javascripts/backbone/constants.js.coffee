@@ -25,19 +25,19 @@ class Youngagrarians.Constants
           longitude: -123.442383
         zoom: 6
       },{
-        name: "Skeena-North Coast"
+        name: "Skeena-Bulkley"
         center: 
           latitude: 56.096556        
           longitude: -130.517578
         zoom: 6
       },{
-        name: "Vancouver Island-Coast"
+        name: "Vancouver Island-South Coast"
         center: 
           latitude: 49.75288    
           longitude: -126.079102
         zoom: 7
       },{
-        name: "Cariboo-Prince George"
+        name: "Cariboo-Upper Fraser"
         center: 
           latitude: 52.816043        
           longitude: -121.179199
