@@ -308,83 +308,48 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 div.map-bubble-background {
-   max-width: 830px;
-   div.map-marker {
-
-      h3 {
-         margin: 0;
-         padding: 0;
-         img {
-            width: 21px;
-            height: 21px;
-            margin-top: -7px;
-            margin-right: 5px;
-         }
-
-         a {
-            text-decoration: none;
-              font-family: 'SofiaProSemiBold', Georgia, 'Times New Roman', Times, serif;
-         }
+   max-width: 400px;
+   .map-marker {
+     font-family: sofia_pro_lightregular;
+      p { font-family: sofia_pro_lightregular; }
+      h2, h2 a {
+        font-size: $h2-font-size;
+        line-height: 32px;
+        vertical-align: middle;
+        font-weight: 600;
+        font-family: "YoungAgrariansBoldBold";
+      }
+      h2 > img {
+        position: relative;
+        top: 7px;
       }
 
-      ul.category {
-         margin-bottom: 5px;
-         padding: 0;
-         li {
-            font-style: italic;
-            margin: 0;
-            padding: 0;
-         }
+      .description { margin-top: 10px; }
+
+      .category {
+        margin-bottom: 5px;
+        margin-top: -14px;
+        margin-left: 43px;
+        padding: 0;
+        display: block;
       }
 
       .contact-info {
-         margin: 0;
-         padding: 0;
-         li {
-            margin: 0;
-            font-family: 'SofiaProSemiBold', Georgia, 'Times New Roman', Times, serif;
-         }
+        margin: 0;
+        padding: 0;
+        li {
+          margin: 0;
+        }
 
-         li.address {
-            font-style: italics;
-         }
-
-         li.phone {
-            font-style: bold;
-         }
-
-         li.twitter {
-            a {
-
-            }
-         }
-
-         li.facebook {
-            a {
-
-            }
-         }
-      }
-
-      .share {
-         p {
-              font-family: 'SofiaProSemiBold', Georgia, 'Times New Roman', Times, serif;
-         }
-
-         li.facebook {
-            background-repeat: no-repeat;
-            background-image: url("/images/facebook.gif");
-            a {
-               margin-left: 17px;
-            }
-         }
-
+        li.phone, li.address {
+          font-weight: 500;
+        }
       }
    }
 }
 
 .gm-style div {
-  font-family: 'SofiaProLight', Georgia, "Times New Roman", Times, serif;
+  font-family: 'sofia_pro_lightregular', Georgia, "Times New Roman", Times, serif;
   font-size: 14px;
   height: auto;
   ul {
@@ -413,15 +378,6 @@ div.map-bubble-background {
     }
 }
 
-.map-marker {
-  h2, h2 a { font-size: $h2-font-size; }
-  .category {
-    margin-top: -12px;
-    display: block;
-    margin-left: 40px;
-  }
-}
-
 // TOOD: a bit of a hack, check how to fix this properly with foundation
 body {
   overflow-x: hidden;
@@ -438,6 +394,14 @@ div:empty {
     margin-bottom: 0px;
     line-height: 35px;
   }
+  .result-header {
+    margin-bottom: -10px;
+  }
+}
+
+
+body {
+  font-family: "sofia_pro_lightregular", Georgia, "Times New Roman", Times, serif;
 }
 
 @import "footer";

@@ -1,5 +1,5 @@
 // Required global settings and mixins for Foundation
-$include-html-global-classes: false;
+$include-html-global-classes: true;
 @import "foundation/components/global";
 
 // 
@@ -41,7 +41,7 @@ $column-gutter: rem-calc(30);
 // We use these to control various global styles
 // $body-bg: #fff;
 // $body-font-color: #222;
-$body-font-family: 'SofiaProLight', Georgia, "Times New Roman", Times, serif;
+$body-font-family: "sofia_pro_lightregular", Georgia, "Times New Roman", Times, serif;
 // $body-font-weight: normal;
 // $body-font-style: normal;
 
@@ -1064,5 +1064,4 @@ button + button, .button + .button {
   }
 }
 
-@import 'normalize';
 @import 'foundation';

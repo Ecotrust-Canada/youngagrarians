@@ -1,22 +1,25 @@
 <div class='map-marker' id="map-popup-<%= id %>">
-	<% if ( _(url).isEmpty() ){ %>
-	<h2><img src="<%= category_icon %>" /><%= name %></h2>
-	<% } else { %>
-	<h2><img src="<%= category_icon %>" /><a href="<%= url %>" target="_blank"><%= name %></a></h2>
-	<% } %>
-	<span class="category">
-		<%= category_name %>
-		<% if ( !_.isEmpty( subcategories ) ) { %>
-			(<%= subcategories %>)
+	<div class="row">
+		<% if ( _(url).isEmpty() ){ %>
+		<h2><img src="<%= category_icon %>" /><%= name %></h2>
+		<% } else { %>
+		<h2><img src="<%= category_icon %>" /><a href="<%= url %>" target="_blank"><%= name %></a></h2>
 		<% } %>
-	</span>
-
-	<p><%= description %></p>
+		<span class="category">
+			<%= category_name %>
+			<% if ( !_.isEmpty( subcategories ) ) { %>
+				(<%= subcategories %>)
+			<% } %>
+		</span>
+	</div>
+	<p class="description"><%= description %></p>
 
 	<div class="contact-info">
 		<ul class="unstyled info">
 			<% if ( !_(street_address).isEmpty() ){ %>
-			<li class="address"><%= street_address %>, <%= city %>, <%= province %> <%= postal %></li>
+			<li class="address">
+				<address><%= street_address %>, <%= city %>, <%= province %> <%= postal %></address>
+			</li>
 			<% } %>
 
 			<% if ( !_(phone).isEmpty() ){ %>
