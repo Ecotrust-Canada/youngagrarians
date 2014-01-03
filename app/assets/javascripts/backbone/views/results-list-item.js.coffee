@@ -5,7 +5,7 @@ class Youngagrarians.Views.ResultItem extends Backbone.Marionette.ItemView
 
   serializeData: =>
     data = @model.toJSON()
-    data.img = @model.get('category').getIcon()
+    data.img = @model.get('category').getMapIcon()
     data.locUrl = @model.locUrl()
     data
 

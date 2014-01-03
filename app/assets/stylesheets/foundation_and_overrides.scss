@@ -45,11 +45,11 @@ $body-font-family: 'SofiaProLight', Georgia, "Times New Roman", Times, serif;
 // $body-font-weight: normal;
 // $body-font-style: normal;
 
-$h1-font-size: rem-calc(30px);
-$h2-font-size: rem-calc(24px);
-$h3-font-size: rem-calc(18px);
-$h4-font-size: rem-calc(14px);
-$h5-font-size: rem-calc(13px);
+$h1-font-size: rem-calc(40px);
+$h2-font-size: rem-calc(30px);
+$h3-font-size: rem-calc(24px);
+$h4-font-size: rem-calc(18px);
+$h5-font-size: rem-calc(15px);
 
 // We use this to control font-smoothing
 // $font-smoothing: antialiased;
@@ -61,7 +61,7 @@ $h5-font-size: rem-calc(13px);
 
 // We use these as default colors throughout
 // $primary-color: #008CBA;
-// $secondary-color: #e7e7e7;
+$secondary-color: #C2C2C2;
 // $alert-color: #f04124;
 // $success-color: #43AC6A;
 // $warning-color: #f08a24;
@@ -207,6 +207,52 @@ $h5-font-size: rem-calc(13px);
 // We use these to control the slash between breadcrumbs
 // $crumb-slash-color: #aaa;
 // $crumb-slash: "/";
+
+// Buttons
+$include-html-button-classes: $include-html-classes;
+
+// We use these to build padding for buttons.
+$button-med: rem-calc(12);
+$button-tny: rem-calc(7);
+$button-sml: rem-calc(9);
+$button-lrg: rem-calc(16);
+
+// We use this to control the display property.
+$button-display: inline-block;
+$button-margin-bottom: rem-calc(15);
+
+// We use these to control button text styles.
+$button-font-family: sofia_pro_lightregular;
+$button-font-color: #fff;
+$button-font-color-alt: #333;
+$button-font-med: rem-calc(16);
+$button-font-tny: rem-calc(11);
+$button-font-sml: rem-calc(12);
+$button-font-lrg: rem-calc(20);
+$button-font-weight: 700;
+$button-font-align: center;
+
+// We use these to control various hover effects.
+$button-function-factor: 10%;
+
+// We use these to control button border styles.
+$button-border-width: 1px;
+$button-border-style: solid;
+
+// We use this to set the default radius used throughout the core.
+$button-radius: $global-radius;
+$button-round: $global-rounded;
+
+// We use this to set default opacity for disabled buttons.
+$button-disabled-opacity: 0.6;
+
+button, .button {
+  text-transform: uppercase;
+}
+
+button + button, .button + .button {
+  margin-left: 4px;
+}
 
 // Button Groups
 

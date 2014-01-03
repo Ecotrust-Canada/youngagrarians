@@ -65,6 +65,10 @@ a:active, a:hover, .widget a:hover {
 
 @import "header";
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'YoungAgrariansBoldBold'
+}
+
 #map-app-container {
   .row {
     min-width:100% !important;
@@ -202,16 +206,27 @@ a:active, a:hover, .widget a:hover {
 
 #results {
   ul.results-list {
-    margin: 10px 20px 0;
+    margin: 0 20px 0;
     list-style-type: none;
+
+    h2 {
+      line-height: 32px;
+      vertical-align: middle;
+      font-weight: 600;
+      a {
+        display: inline-block;
+        margin-top: 7px;
+      }
+    }
 
     li {
       margin-bottom: 10px;
       img {
         display: inline-block;
-        margin-right: 5px;
-        max-width: 64px;
-        max-height: 64px;
+        margin-right: 2px;
+        max-width: 32px;
+        max-height: 32px;
+        vertical-align: middle;
       }
       p.location-description {
         margin: 0;
@@ -410,6 +425,19 @@ div.map-bubble-background {
 // TOOD: a bit of a hack, check how to fix this properly with foundation
 body {
   overflow-x: hidden;
+}
+
+div:empty {
+   display: none;
+}
+
+.results-container {
+  h1 {
+    margin-left: 15px;
+    margin-top: 8px;
+    margin-bottom: 0px;
+    line-height: 35px;
+  }
 }
 
 @import "footer";

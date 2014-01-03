@@ -21,12 +21,12 @@ class Youngagrarians.Views.Sidebar extends Backbone.Marionette.Layout
     @data = options.data
     @provincesView = new Youngagrarians.Views.Provinces
       app: @app
-    @legendView = new Youngagrarians.Views.Legend 
+    @legendView = new Youngagrarians.Views.Legend
       collection: @data.categories
       app: @app
-    @searchView = new Youngagrarians.Views.Search 
+    @searchView = new Youngagrarians.Views.Search
       app: @app
-    @extrasView = new Youngagrarians.Views.Extras 
+    @extrasView = new Youngagrarians.Views.Extras
       app: @app
       categories: @data.categories
       locations: @data.locations
@@ -37,15 +37,15 @@ class Youngagrarians.Views.Sidebar extends Backbone.Marionette.Layout
       app: @app
       collection: options.results.selectedSubcategories
     @app.vent.on 'province:change', @provinceChanged
-  
+
   onRender: =>
     @extras.show @extrasView
-    @search.show @searchView    
+    @search.show @searchView
     @provinces.show @provincesView
     @legend.show @legendView
     @selectedCategories.show @selectedCategoriesView
     @selectedSubcategories.show @selectedSubcategoriesView
-  
+
   provinceChanged: (options)=>
     if options.country and options.subdivision
       country = _.findWhere Youngagrarians.Constants.COUNTRIES, {code: options.country}
@@ -53,7 +53,7 @@ class Youngagrarians.Views.Sidebar extends Backbone.Marionette.Layout
       if subdivision.bioregions.length > 0
         unless @bioregionView
           @bioregionView = new Youngagrarians.Views.Bioregions
-            app: @app      
+            app: @app
         @bioregions.show @bioregionView
         @bioregionView.updateBioregions(options)
         @bioregionView.$el.show()
@@ -61,4 +61,3 @@ class Youngagrarians.Views.Sidebar extends Backbone.Marionette.Layout
         @bioregionView.$el.hide() if @bioregionView
     else
       @bioregionView.$el.hide() if @bioregionView
-      
