@@ -90,7 +90,7 @@ a.donate{
   font-size:13px;
   margin-top:-10px;
   font-family: 'YoungAgrariansBoldDarkBoldDark', cursive;
-
+  font-weight:100;
 }
 
 ul.social {
@@ -333,13 +333,13 @@ ul.nav-menu{
   text-align:center;
 }
 .nav-menu li a, .toggled-on .nav-menu li a {
-color: #FFF;
-padding:0 63px 0 0;
-line-height:35px;
-text-transform:uppercase;
-font-family:'Young Agrarians legible';
-font-size:24px;
-font-weight:bold;
+  color: #FFF;
+  padding: 0 63px 0 0;
+  line-height: 40px;
+  text-transform: uppercase;
+  font-family: YoungAgrariansBoldBold;
+  font-size: 26px;
+  font-weight: bold;
 }
 
 .nav-menu li:last-child  a{
@@ -458,4 +458,310 @@ text-align:left;
   height: 25px !important;
   color: white !important;
   padding-right: 10px;
+}
+
+header {
+  ul li ul,
+  ul li ol {
+    margin-left: 0;
+  }
+}
+
+/* Media Queries */
+@media (min-width: 1599px) {
+  .slider#normal{
+    display:none;
+  }
+  .slider#small-or-large{
+    display:block;
+  }
+}
+
+@media (max-width: 1069px) {
+
+  .site-footer{
+  
+    background-color:#000;
+  }
+  .sidebar .site-footer .widget {
+    width:33%;
+  }
+
+}
+
+@media (max-width: 999px) {
+  .slider#normal{
+    display:none;
+  }
+  .slider#small-or-large{
+    display:block;
+  }
+  .banner{
+    width:100%;
+  }
+  .top-buttons {
+    padding-left:25%;
+    padding-top:40px;
+  }
+  .top-buttons a p {
+    padding-top:70px;
+  }
+  .top-buttons a p span.sub {
+    display:none;
+  }
+  .u-map, .sign-up, .donate {
+    margin-left:20px;
+  }
+    a.u-map{
+      background:url('img/u-map.jpg') 10px 0 no-repeat;
+      background-size:85px;
+      height:70px;
+      width:100px;
+    }
+    a.sign-up{
+      background:url('img/sign-up.jpg') 0px 0 no-repeat;
+      background-size:85px;
+      height:70px;
+      width:100px;
+    }
+    a.donate{
+      background:url('img/donate.jpg') 10px 0 no-repeat;
+      background-size:65px;
+      height:70px;
+      width:80px;
+    }
+    .top-buttons a:hover.u-map{
+      background-position: 10px -71px;
+    }
+    .top-buttons a:hover.sign-up{
+      background-position: 0px -71px; 
+    }
+    .top-buttons a:hover.donate{
+      background-position: 10px -75px;
+    }
+    
+  .nav-menu li a{
+    font-size:22px;
+  }
+  .content-area {
+    width:100%;
+  } 
+  .site-content {
+    width:60%;
+    float:left;
+    margin-left:0px;
+  }
+  
+  .site-footer{
+    float:left;
+    width:100%;
+    background-color:#000;
+  }
+  .site-footer .widget-area aside{
+    margin-left:0px;
+    margin-right:0px;
+  }
+  #nav_menu-2.widget_nav_menu {
+    border:none;
+    padding-left:0px;
+    padding-right:0px;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+    
+    
+  }
+    ul#menu-footer {
+      font-size:18px;
+  
+    }
+    ul#menu-footer li {
+    
+      float:none;
+      text-align:center;
+    }
+    .sidebar .site-footer .widget {
+    width:30%;
+  }
+}
+
+/* Collapse oversized image and pulled images after iPad breakpoint. */
+@media (max-width: 767px) {
+
+  ul#menu-footer {
+    width:33%;
+  }
+
+  
+  .top-buttons {
+    padding-left:5%;
+    padding-top:40px;
+    width:100%;
+  }
+  .top-buttons a p {
+    padding-top:70px;
+  }
+  .top-buttons a p span.sub {
+    display:none;
+  }
+  .u-map, .sign-up, .donate {
+    margin-left:0px;
+  }
+  .sign-up {
+    margin-left:5px;
+  }
+  a.u-map{
+    background:url('img/u-map.jpg') 10px 0 no-repeat;
+    background-size:85px;
+    height:65px;
+    width:85px;
+  }
+  a.sign-up{
+    background:url('img/sign-up.jpg') 0px 0 no-repeat;
+    background-size:85px;
+    height:65px;
+    width:85px;
+  }
+  a.donate{
+    background:url('img/donate.jpg') 10px 0 no-repeat;
+    background-size:65px;
+    height:65px;
+    width:75px;
+  }
+  .top-buttons a:hover.u-map{
+    background-position: 10px -71px;
+  }
+  .top-buttons a:hover.sign-up{
+    background-position: 0px -71px; 
+  }
+  .top-buttons a:hover.donate{
+    background-position: 10px -75px;
+  }
+  .site-main .sidebar-container {
+  max-width:200px;
+  }
+  .site-main .sidebar-inner {
+    max-width:200px;
+    margin:0px;
+    margin-left:0px;
+  }
+  .site-main .widget-area {
+    width:200px;
+  }
+  .widget {
+    padding:0px;
+  }
+    .dcwss .stream li{
+    width:47% !important;
+  }
+}
+
+@media (max-width: 643px) {
+    .banner{
+    height:280px;
+
+    }
+    .logo {
+      float:none;
+      margin-left:auto;
+      margin-right:auto;
+
+    }
+    .search-bar{
+    
+      display:none;
+    }
+    .icons{
+      margin-top:40px;
+    }
+    .site-content {
+    width: 100%;
+    float: left;
+    margin-left: 0px;
+    }
+    .site-main{
+      width:100%;
+      min-height:900px;
+    }
+    .site-main .sidebar-container {
+      display:none;
+    }
+  .sidebar .site-footer .widget, .sidebar .site-footer .widget:first-child, .sidebar .site-footer .widget:last-child{
+    width:100%;
+text-align:center;  
+  margin-left:25%;
+  }
+.sidebar .site-footer .widget:first-child{
+      margin-left:20px;
+    
+    }
+.menu-toggle {
+  font-family: 'Young Agrarians legible';
+  text-transform:uppercase;
+  font-size:24px;
+  font-weight:bold;
+}
+
+.toggled-on .nav-menu{
+  margin-left:10px;
+  border-top:1px solid rgba(0,0,0, 0.2);
+  width:95%;
+}
+.toggled-on .nav-menu li a {
+  padding:0px;
+  margin:0px;
+  margin-left:10px;
+  text-align:left;
+
+}   
+.toggled-on .nav-menu li > ul {
+  margin-left:10px;
+}   
+
+
+}
+
+/* Mobile devices */
+@media (max-width: 359px) {
+  .banner{
+    height:150px;
+
+    }
+  .top-buttons, .icons{
+    display:none;
+  }
+  .sidebar .site-footer .widget:first-child {
+    margin-left:0px;
+  }
+  ul#menu-footer, #nav_menu-2.widget_nav_menu {
+    width:100%;
+    padding-left: 0px;
+  }
+  ul#menu-footer li {
+    float:none;
+    width:100%;
+  }
+  #content .entry-content{
+    padding:0px;
+  }
+
+  .dcwss .stream li{
+    width:99% !important;
+  }
+  .dcwss.dc-wall .stream li{
+    margin-right:0px;
+    margin-left:0px;
+  }
+  .entry-content h1, .entry-content div{
+    margin-left:10px;
+    margin-right:10px;
+  }
+  body .site-content h2{
+    margin-left:10px;
+    margin-right:10px;  
+  }
+  body .site-content p{
+    margin-left:10px;
+    margin-right:10px;
+  }
 }
