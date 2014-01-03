@@ -25,6 +25,8 @@ YA.addInitializer (options) ->
   results = new Youngagrarians.Collections.ResultsCollection
     locations: data.locations
 
+  Youngagrarians.Collections.categories = data.categories
+  Youngagrarians.Collections.subcategories = data.subcategories
   Youngagrarians.Collections.locations = data.locations
   Youngagrarians.Collections.results = results
 

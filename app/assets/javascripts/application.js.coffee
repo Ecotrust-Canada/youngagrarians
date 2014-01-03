@@ -9,6 +9,7 @@
 #= require backbone-relational
 #= require backbone-modelref
 #= require backbone/youngagrarians
+#= require markerclusterer
 #= require admin_class
 
 make = (tagName, attributes, content ) ->

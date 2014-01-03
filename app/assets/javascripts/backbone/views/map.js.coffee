@@ -35,7 +35,31 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
         @map.fitBounds(Youngagrarians.Constants.DEFAULT_BOUNDS())
     _.defer =>
       @children.each (child) =>
-        marker = child.createMarker()
+        @markers.push(child.createMarker())
+
+      @clusterMarkersByCategories()
+
+  clusterMarkersByCategories: =>
+    markers_per_category = {}
+    _.each Youngagrarians.Collections.categories.pluck('name'), (category_name) =>
+      category_markers = []
+
+      _.each @children.toArray(), (child) =>
+        category_markers.push(child.marker) if child.model.get('category').get('name') == category_name
+
+      @clusterMarkersByCategory category_markers, Youngagrarians.Collections.categories.findWhere(name: category_name)
+
+  clusterMarkersByCategory: (markers, category) =>
+    options =
+      styles: [{
+        height: 40,
+        url: category.getMapIcon(),
+        width: 40
+        textColor: 'black'
+        textSize: 18
+        }
+      ]
+    marker_cluster = new MarkerClusterer(@map, markers, options)
 
   onShow: () =>
     @show = []
