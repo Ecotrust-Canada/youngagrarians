@@ -29,18 +29,21 @@ Backbone.Marionette.Renderer.render = (template, data) ->
   JST[template](data)
 
 Youngagrarians.trackOutboundLinks = ->
-  $('a[href^="http://"]:not([href*="youngagrarians.org"])').click (ev) ->
-    $target = $(ev.target)
-    link = $target[0]
+  $('a[href^="http://"]')
+    .add('a[href^="http://"]:not([href*="youngagrarians.org"])')
+    .not('[href*="youngagrarians.org"]')
+    .click (ev) ->
+      $target = $(ev.target)
+      link = $target[0]
 
-    try
-      ga('send', 'event', 'Outbound Links', $target.attr('href'))
-    catch err
-      console.log('Error tracking click', err)
+      try
+        ga('send', 'event', 'Outbound Links', $target.attr('href'))
+      catch err
+        console.log('Error tracking click', err)
 
-    if $target.attr('target') != '_blank'
-      $(ev).preventDefault()
-      setTimeout (-> document.location.href = link.href), 100
+      if $target.attr('target') != '_blank'
+        $(ev).preventDefault()
+        setTimeout (-> document.location.href = link.href), 100
 
 $(document).ready =>
   $(document).foundation()
