@@ -6,138 +6,133 @@
 			<h2>U-Map Your Location</h2>
 		</div>
 		<div class="modal-body">
+			<ul>
 
-			<fieldset>
-				<ul>
+				<li class="control-group">
+					<label for="name" class="control-label">Name of Listing</label>
+					<div class="controls">
+						<input type="text" id="name" required/>
+					</div>
+				</li>
 
-					<li class="control-group">
-						<label for="name" class="control-label">Name of Listing</label>
-						<div class="controls">
-							<input type="text" id="name" required/>
-						</div>
-					</li>
+				<li class="control-group">
+					<label for="place" class="control-label">Street Address</label>
+					<div class="controls">
+						<input id="street_address" type="text" required
+									 placeholder="example: 150 West Hastings" />
+					</div>
+						<!-- <small>
+							<div>Please make sure the address is searchable on Google Maps first!</div>
+						</small> -->
+				</li>
+				<li class="control-group">
+					<label for="city" class="control-label">City</label>
+					<div class="controls">
+						<input id="city" type="text" required placeholder="e.g: Vancouver" />
+					</div>
+				</li>
+        <li class="control-group">
+          <label for="country" class="control-label">Country</label>
+          <div class="controls">
+            <select id="country"></select>
+          </div>
+        </li>
+				<li id="subdivision-control-group" class="control-group">
+          <label id="subdivision-label" for="subdivision" class="control-label">Province</label>
+          <div class="controls">
+            <select id="subdivision"></select>
+          </div>
+        </li>
+				<li class="control-group">
+					<label for="zip" class="control-label">Postal/Zip</label>
+					<div class="controls">
+						<input id="postal" type="text" id="zip" required />
+					</div>
+				</li>
 
-					<li class="control-group">
-						<label for="place" class="control-label">Street Address</label>
-						<div class="controls">
-							<input id="street_address" type="text" required
-										 placeholder="example: 150 West Hastings" />
-						</div>
-							<!-- <small>
-								<div>Please make sure the address is searchable on Google Maps first!</div>
-							</small> -->
-					</li>
-					<li class="control-group">
-						<label for="city" class="control-label">City</label>
-						<div class="controls">
-							<input id="city" type="text" required placeholder="e.g: Vancouver" />
-						</div>
-					</li>
-          <li class="control-group">
-            <label for="country" class="control-label">Country</label>
-            <div class="controls">
-              <select id="country"></select>
-            </div>
-          </li>
-					<li id="subdivision-control-group" class="control-group">
-            <label id="subdivision-label" for="subdivision" class="control-label">Province</label>
-            <div class="controls">
-              <select id="subdivision"></select>
-            </div>
-          </li>
-					<li class="control-group">
-						<label for="zip" class="control-label">Postal/Zip</label>
-						<div class="controls">
-							<input id="postal" type="text" id="zip" required />
-						</div>
-					</li>
+        <li id="bioregion-control-group" class="control-group">
+          <label for="bioregion" class="control-label">Bioregion</label>
+          <div class="controls">
+            <select id="bioregion" ></select>
+          </div>
+        </li>
 
-          <li id="bioregion-control-group" class="control-group">
-            <label for="bioregion" class="control-label">Bioregion</label>
-            <div class="controls">
-              <select id="bioregion" ></select>
-            </div>
-          </li>
+				<li class="control-group">
+					<label for="category-select" class="control-label">Listing Category</label>
+					<div class="controls">
+						<select id="category-select"></select>
+					</div>
+				</li>
 
-					<li class="control-group">
-						<label for="category-select" class="control-label">Listing Category</label>
-						<div class="controls">
-							<select id="category-select"></select>
-						</div>
-					</li>
+				<li id="subcategories-control-group" class="control-group">
+					<label for="subcategories" class="control-label">Sub-Categories <span class="optional">(optional)</span></label>
+					<div class="controls">
+						<div id="subcategory-selects" class="row"></div>
+					  <a id='add-subcategory' href='javascript: void(0);'>Add Sub-Category</a>
+					</div>
+				</li>
 
-					<li id="subcategories-control-group" class="control-group">
-						<label for="subcategories" class="control-label">Sub-Categories</label>
-						<div id="subcategory-selects" class="controls">
-						</div>
-						<div>
-						  <a id='add-subcategory' href='javascript: void(0);'>Add Sub-Category</a>
-						</div>
-					</li>
+				<li class="control-group">
+					<label for="description" class="control-label">Description</label>
+					<div class="controls">
+						<textarea id="description" required placeholder="What you do and why a young agrarian would want to find you!"></textarea>
+					</div>
+				</li>
 
-					<li class="control-group">
-						<label for="description" class="control-label">Description</label>
-						<div class="controls">
-							<textarea id="description" required placeholder="What you do and why a young agrarian would want to find you!"></textarea>
-						</div>
-					</li>
+				<li class="control-group">
+					<label for="url" class="control-label">Website URL</label>
+					<div class="controls">
+						<input type="url" id="url" placeholder="Enter the URL here" />
+					</div>
+				</li>
 
-					<li class="control-group">
-						<label for="url" class="control-label">Website URL</label>
-						<div class="controls">
-							<input type="url" id="url" placeholder="Enter the URL here" />
-						</div>
-					</li>
+				<li class="control-group">
+					<label for="facebook" class="control-label">Facebook Page URL</label>
+					<div class="controls">
+						<input type="url" id="facebook" placeholder="Enter the URL here"/>
+					</div>
+				</li>
 
-					<li class="control-group">
-						<label for="facebook" class="control-label">Facebook Page URL</label>
-						<div class="controls">
-							<input type="url" id="facebook" placeholder="Enter the URL here"/>
-						</div>
-					</li>
+				<li class="control-group">
+					<label for="twitter" class="control-label">Twitter URL</label>
+					<div class="controls">
+						<input type="url" id="twitter" placeholder="Enter the URL here"/>
+					</div>
+				</li>
 
-					<li class="control-group">
-						<label for="twitter" class="control-label">Twitter URL</label>
-						<div class="controls">
-							<input type="url" id="twitter" placeholder="Enter the URL here"/>
-						</div>
-					</li>
+				<li class="control-group">
+					<label for="phone" class="control-label">Phone Number</label>
+					<div class="controls">
+						<input type="text" id="phone" placeholder="Enter the phone number here" />
+					</div>
+				</li>
 
-					<li class="control-group">
-						<label for="phone" class="control-label">Phone Number</label>
-						<div class="controls">
-							<input type="text" id="phone" placeholder="Enter the phone number here" />
-						</div>
-					</li>
+				<li class="control-group">
+					<label for="email" class="control-label">Email Address</label>
+					<div class="controls">
+						<input type="email" id="email" placeholder="Enter the email address here" />
+					</div>
+				</li>
 
-					<li class="control-group">
-						<label for="email" class="control-label">Email Address</label>
-						<div class="controls">
-							<input type="email" id="email" placeholder="Enter the email address here" />
-						</div>
-					</li>
+				<li class="control-group">
+					<label for="show_until" class="control-label">Show Until <span class="optional">(optional)</span></label>
+					<div class="controls show-until-control">
+						<input type="date" id="show_until" placeholder="Enter a date here, ie '2013-01-01'" />
+						<small>
+							After this date, the location will no longer show up in the listings. Please enter it in the format 'DD/MM/YYYY'.
+						</small>
+					</div>
+				</li>
 
-					<li class="control-group">
-						<label for="show_until" class="control-label">Show Until (optional)</label>
-						<div class="controls show-until-control">
-							<input type="date" id="show_until" placeholder="Enter a date here, ie '2013-01-01'" />
-							<small>
-								After this date, the location will no longer show up in the listings. Please enter it in the format 'DD/MM/YYYY'.
-							</small>
-						</div>
-					</li>
+				<li class="control-group agree" id="control-group-agree">
+				  <input type="checkbox" id="location_agree" class="control-label" />
+				  <label for="location_agree" class='agree-info controls'>
+						I agree that the information I am providing is true and correct. I consent to have my information listed on the Young
+						Agrarians map.
+					</label>
+				</li>
 
-					<li class="control-group agree">
-					  <input type="checkbox" id="agree" />
-					  <label for="agree" class='agree-info'>
-							I agree that the information I am providing is true and correct. I consent to have my information listed on the Young
-							Agrarians map.
-						</label>
-					</li>
-
-				</ul>
-			</fieldset>
-
+			</ul>
 		</div>
 		<div class="modal-footer">
 			<button type="button radius" class="button secondary cancel">Cancel</button>

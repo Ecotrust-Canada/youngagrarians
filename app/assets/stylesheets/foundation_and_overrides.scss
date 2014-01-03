@@ -1,5 +1,5 @@
 // Required global settings and mixins for Foundation
-$include-html-global-classes: true;
+$include-html-global-classes: false;
 @import "foundation/components/global";
 
 // 
@@ -775,7 +775,7 @@ button + button, .button + .button {
 // $reveal-modal-bg: #fff;
 // $reveal-position-top: 50px;
 // $reveal-default-width: 80%;
-// $reveal-modal-padding: rem-calc(20);
+$reveal-modal-padding: rem-calc(10);
 // $reveal-box-shadow: 0 0 10px rgba(#000,.4);
 
 // We use these to style the reveal close button
@@ -1064,4 +1064,5 @@ button + button, .button + .button {
   }
 }
 
+@import 'normalize';
 @import 'foundation';

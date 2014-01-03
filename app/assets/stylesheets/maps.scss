@@ -238,9 +238,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #app-modal {
+  label .optional {
+    font-style:italic
+  }
+
    ul {
         list-style-type: none;
       }
+
+    .modal-body {
+      margin: 1rem;
+    }
    form#add-to-map-form {
 
       label {
@@ -248,15 +256,14 @@ h1, h2, h3, h4, h5, h6 {
         width: 160px;
         vertical-align: top;
       }
+
+      #subcategories-control-group #subcategory-selects div:last-child select { margin-bottom: 3px; }
+
       .controls {
          display: inline-block;
 
-         input, textarea {
+         input, textarea, select {
             width: 340px;
-         }
-
-         select {
-            width: 330px;
          }
 
          input#location {
@@ -271,21 +278,16 @@ h1, h2, h3, h4, h5, h6 {
       }
 
       #subcategory-selects {
-
-         width: 300px;
-
-         .subcategory-select {
-           width: 270px;
-         }
-
-         a.remove-subcategory {
-           vertical-align: text-top;
-         }
-       }
+        a.remove-subcategory {
+          vertical-align: text-top;
+        }
+      }
 
       a#add-subcategory {
         font-size: 12px;
         float:right;
+        margin-top: 3px;
+        margin-bottom: 7px;
       }
 
       a#add-subcategory:hover {
@@ -301,8 +303,11 @@ h1, h2, h3, h4, h5, h6 {
         line-height: 12px;
       }
 
-      .control-group.agree {
-         margin-left: 20px;
+      #control-group-agree {
+        input { float: left; }
+        label {
+          width: 500px;
+        }
       }
    }
 }
@@ -365,12 +370,14 @@ div.map-bubble-background {
     color: rgb(102, 102, 102);
     font: normal normal normal 12px/20px SofiaProLight, Georgia, 'Times New Roman', Times, serif;
     line-height: 20px;
-    margin: 0px 0px 0px -280px;
+    margin: 0px 0px 10px -280px;
     width: 600px;
     font-size: 16px;
 
-    .modal-body {
+    padding-top: 5px;
+    padding-bottom: 5px;
 
+    .modal-body {
       fieldset {
         border: none;
       }

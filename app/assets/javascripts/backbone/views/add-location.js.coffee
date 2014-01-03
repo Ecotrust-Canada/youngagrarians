@@ -90,7 +90,7 @@ class Youngagrarians.Views.AddLocation extends Backbone.Marionette.View
     e.stopPropagation()
 
     # TODO: not DRY, can be improved by using https://github.com/marioizquierdo/jquery.serializeJSON
-    agree = @$el.find("input#agree")
+    agree = @$el.find("input#location_agree")
     if agree.is(":checked")
       @model.set 'street_address', $("#street_address").val()
       @model.set 'city', $("#city").val()
