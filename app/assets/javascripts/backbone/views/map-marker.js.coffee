@@ -65,7 +65,9 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
       mapTypeControl: false
     window.infoBubble = _infoBub
 
+    # TODO: feel like cheating waiting 200ms and then binding events
     _.delay @bindShareButtons, 200
+    _.delay Youngagrarians.trackOutboundLinks, 200
 
   bindShareButtons: =>
     $("#map-popup-#{@model.id} .share .twitter").on 'click', (e) =>
