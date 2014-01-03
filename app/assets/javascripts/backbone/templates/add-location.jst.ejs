@@ -18,39 +18,40 @@
 					</li>
 
 					<li class="control-group">
-						<label for="place" class="control-label">Address</label>
+						<label for="place" class="control-label">Street Address</label>
 						<div class="controls">
-							<input id="location" type="text" id="place" required
-										 placeholder="example: 150 West Hastings, Vancouver, BC" />							
-							<small>
-							  <div>Street number, street name and town/city.</div>
+							<input id="street_address" type="text" required
+										 placeholder="example: 150 West Hastings" />
+						</div>
+							<!-- <small>
 								<div>Please make sure the address is searchable on Google Maps first!</div>
-						</small>
-
-						</div>
+							</small> -->
 					</li>
-
 					<li class="control-group">
-						<label for="zip" class="control-label">Postal/Zip</label>
+						<label for="city" class="control-label">City</label>
 						<div class="controls">
-							<input id="postal" type="text" id="zip" required />
+							<input id="city" type="text" required placeholder="e.g: Vancouver" />
 						</div>
 					</li>
-					
           <li class="control-group">
             <label for="country" class="control-label">Country</label>
             <div class="controls">
               <select id="country"></select>
             </div>
           </li>
-          
-          <li id="subdivision-control-group" class="control-group">
+					<li id="subdivision-control-group" class="control-group">
             <label id="subdivision-label" for="subdivision" class="control-label">Province</label>
             <div class="controls">
               <select id="subdivision"></select>
             </div>
           </li>
-          
+					<li class="control-group">
+						<label for="zip" class="control-label">Postal/Zip</label>
+						<div class="controls">
+							<input id="postal" type="text" id="zip" required />
+						</div>
+					</li>
+
           <li id="bioregion-control-group" class="control-group">
             <label for="bioregion" class="control-label">Bioregion</label>
             <div class="controls">
@@ -71,8 +72,8 @@
 						</div>
 						<div>
 						  <a id='add-subcategory' href='javascript: void(0);'>Add Sub-Category</a>
-						</div> 
-					</li>          
+						</div>
+					</li>
 
 					<li class="control-group">
 						<label for="description" class="control-label">Description</label>
@@ -117,7 +118,7 @@
 					</li>
 
 					<li class="control-group">
-						<label for="show_until" class="control-label">Show Until</label>
+						<label for="show_until" class="control-label">Show Until (optional)</label>
 						<div class="controls show-until-control">
 							<input type="date" id="show_until" placeholder="Enter a date here, ie '2013-01-01'" />
 							<small>
@@ -129,7 +130,7 @@
 					<li class="control-group agree">
 					  <input type="checkbox" id="agree" />
 					  <label for="agree" class='agree-info'>
-							I agree that the information I am providing is true and correct. I consent to have my information listed on the Young 
+							I agree that the information I am providing is true and correct. I consent to have my information listed on the Young
 							Agrarians map.
 						</label>
 					</li>

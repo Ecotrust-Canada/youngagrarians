@@ -15,8 +15,8 @@
 
 	<div class="contact-info">
 		<ul class="unstyled info">
-			<% if ( !_(address).isEmpty() ){ %>
-			<li class="address"><%= address %></li>
+			<% if ( !_(street_address).isEmpty() ){ %>
+			<li class="address"><%= street_address %>, <%= city %>, <%= province %> <%= postal %></li>
 			<% } %>
 
 			<% if ( !_(phone).isEmpty() ){ %>
