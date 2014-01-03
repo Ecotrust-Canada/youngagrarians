@@ -5,9 +5,18 @@ class Location < ActiveRecord::Base
   belongs_to :category
   has_and_belongs_to_many :subcategories
 
+  # TODO: security issue, need to not allow is_approved to be sset by just anybody.
   attr_accessible :latitude, :longitude, :gmaps, :name, :content, :bioregion, :phone, :url, :fb_url,
                   :twitter_url, :description, :is_approved, :category_id, :resource_type, :email, :postal, :show_until,
                   :street_address, :city, :country, :province
+
+  attr_accessor :skip_approval_email
+
+  validates_presence_of :category
+
+  def skip_approval_email
+    @skip_approval_email ||= false
+  end
 
   def gmaps4rails_address
     "#{street_address}, #{city}, #{province}, #{country}"
@@ -44,7 +53,7 @@ class Location < ActiveRecord::Base
   def is_approved=(value)
     value = ActiveRecord::ConnectionAdapters::Column.value_to_boolean(value)
     write_attribute(:is_approved, value)
-    if value
+    if value && !@skip_approval_email
       UserMailer.listing_approved(self).deliver
     end
   end
@@ -52,7 +61,7 @@ class Location < ActiveRecord::Base
   def self.to_csv(options = {})
     columns = ['id', 'resource_type', 'category', 'subcategories', 
       'name', 'bioregion', 'street_address', 'city', 'province', 'country', 'postal', 'phone', 
-      'url', 'fb_url', 'twitter_url', 'description', 'email'] | column_names.reject {|c| c == 'category_id'}
+      'url', 'fb_url', 'twitter_url', 'description', 'email'] | column_names.reject {|c| c == 'category_id'} | ['to_delete']
 
     CSV.generate(options) do |csv|
       csv << columns
@@ -60,7 +69,27 @@ class Location < ActiveRecord::Base
         values = location.attributes.dup
         values['category'] = location.category.name
         values['subcategories'] = location.subcategories.map(&:name).join(';')
+        values['to_delete'] = false
         csv << values.values_at(*columns)
+      end
+    end
+  end
+
+  def self.import(file)
+    CSV.foreach(file.path, headers: true) do |row|
+      location = find_by_id(row["id"]) || new
+      location.skip_approval_email = true
+      if location && row["to_delete"].present? && row["to_delete"].downcase == "true"
+        location.destroy
+      else
+        location.attributes = row.to_hash.slice(*accessible_attributes)
+        location.is_approved = true unless row['is_approved'].present?
+        location.category = Category.find_by_name(row['category'])
+        row['subcategories'].present? && row['subcategories'].split(';').each do |s|
+          location.subcategories = []
+          location.subcategories << Subcategory.find_by_name(s.strip)
+        end
+        location.save
       end
     end
   end

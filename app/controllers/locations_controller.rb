@@ -68,6 +68,18 @@ class LocationsController < ApplicationController
     end
   end
 
+  def csv_import
+    if params.has_key? :dump and params[:dump].has_key? :csv_file
+      begin
+        Location.import(params[:dump][:csv_file].tempfile)
+        redirect_to locations_url, notice: "Successfuly imported all locations! :)"
+      rescue => e
+        flash.now[:error] = "There appears to be a problem with the import. Details: #{e}"
+        render :csv_import
+      end
+    end
+  end
+
   # custom!
   # def excel_import
   #   if params.has_key? :dump and params[:dump].has_key? :excel_file

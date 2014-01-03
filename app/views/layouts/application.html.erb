@@ -214,6 +214,12 @@
       </div><!-- #navbar -->
     </header>
 
+    <% flash.each do |name, msg| -%>
+      <div data-alert class="alert-box <%= name %>">
+        <%= msg %>
+        <a href="#" class="close">&times;</a>
+      </div>
+    <% end -%>
     <% if @hide_map.nil? %>
 
     <div id='map-app-container'>

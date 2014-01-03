@@ -1,11 +1,7 @@
-  <% if @message %>
-    <%= @message %>
-  <% end %>
-  
-  <%= form_for :dump, :url=>{:controller=>"locations", :action=>"excel_import"}, :html => { :multipart => true } do |f| %>
+<%= form_for :dump, :url=>{:controller=>"locations", :action=>"csv_import"}, :html => { :multipart => true } do |f| %>
   <div>
-    Select an Excel File :
-      <%= f.file_field :excel_file %>
+    Select a CSV File :
+      <%= f.file_field :csv_file %>
       <%= submit_tag 'Submit' %>
     <% end %>
   </div>
