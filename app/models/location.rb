@@ -46,6 +46,10 @@ class Location < ActiveRecord::Base
     return results.uniq
   end
 
+  def gmaps
+    !(street_address_changed? or city_changed? or country_changed?)
+  end
+
   def is_approved=(value)
     value = ActiveRecord::ConnectionAdapters::Column.value_to_boolean(value)
     write_attribute(:is_approved, value)
@@ -102,5 +106,15 @@ class Location < ActiveRecord::Base
     end
   end
 
+  rails_admin do
+    list do
+      field :name
+      field :street_address
+      field :city
+      field :province
+      field :country
+      field :created_at
+    end
+  end
 end
 
