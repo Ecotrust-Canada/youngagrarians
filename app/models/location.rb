@@ -113,11 +113,12 @@ class Location < ActiveRecord::Base
       field :name
       field :street_address
       field :city
+      field :bioregion
       field :province
       field :country
       field :category
       field :subcategories
-      field :created_at
+      field :is_approved
     end
   end
 end

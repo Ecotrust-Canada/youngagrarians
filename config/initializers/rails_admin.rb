@@ -53,7 +53,7 @@ RailsAdmin.config do |config|
     show
     edit
     delete
-    history_show
+    # history_show
     show_in_app
       # Set the custom action here
   end
