@@ -45,7 +45,7 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
     map = $.goMap.getMap()
     _infoBub = new InfoBubble
       disableAnimation: true
-      maxWidth: YA.newMapWidth * 0.8
+      maxWidth: 500
       maxHeight: 300
       arrowStyle: 2
       content: @content
