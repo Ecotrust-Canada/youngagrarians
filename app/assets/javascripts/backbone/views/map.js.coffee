@@ -59,6 +59,8 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
 
   clusterMarkersByCategory: (markers, category) =>
     options =
+      averageCenter: true
+      gridSize: 120
       styles: [{
         height: 40,
         url: category.getMapIcon(),
