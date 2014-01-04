@@ -181,18 +181,6 @@ class LocationsController < ApplicationController
     end
   end
 
-  def approve
-    @locations = Location.find params[:ids].split(",")
-    @locations.each do |l|
-      l.is_approved = true
-    end
-
-    respond_to do |format|
-      format.html { redirect_to locations_url }
-      format.json { head :no_content }
-    end
-  end
-
   private
 
   def hide_map

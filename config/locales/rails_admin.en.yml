@@ -1,0 +1,7 @@
+en:
+  admin:
+    actions:
+      approve_resource:
+        bulk_link: 'Approve'
+      unapprove_resource:
+        bulk_link: 'Unapprove'

@@ -8,13 +8,8 @@ Youngagrarians::Application.routes.draw do
   resources :categories
   resources :subcategories, :only => [:index]
 
-  # match "/admin/locations/import" => "admin#locations_import" , :as => "import", :via => [:get, :post]
   match 'locations/filtered/:filtered' => 'locations#index', :as => :locations_filtered
   resources :locations
-  match 'locations/:ids/multi-edit' => 'locations#edit', :as => :multi_edit
-  match 'locations/:ids/multi-update' => 'locations#update', :as => :multi_update
-  match 'locations/:ids/multi-delete' => 'locations#destroy', :as => :multi_delete
-  match 'locations/:ids/approve' => 'locations#approve', :as => :approve
 
   get "home/index"
   root :to => "home#index"

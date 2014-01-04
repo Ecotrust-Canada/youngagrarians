@@ -1,6 +1,9 @@
 # RailsAdmin config file. Generated on January 03, 2014 17:13
 # See github.com/sferik/rails_admin for more informations
 
+require Rails.root.join('lib/rails_admin_approve_resource')
+require Rails.root.join('lib/rails_admin_unapprove_resource')
+
 RailsAdmin.config do |config|
 
 
@@ -41,6 +44,16 @@ RailsAdmin.config do |config|
     # collection actions 
     index                         # mandatory
     new
+    approve_resource do
+      visible do
+        bindings[:abstract_model].model.to_s == "Location"
+      end
+    end
+    unapprove_resource do
+      visible do
+        bindings[:abstract_model].model.to_s == "Location"
+      end
+    end
     export
     import do
       visible do

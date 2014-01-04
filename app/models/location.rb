@@ -115,10 +115,10 @@ class Location < ActiveRecord::Base
       field :city
       field :bioregion
       field :province
+      field :is_approved
       field :country
       field :category
       field :subcategories
-      field :is_approved
     end
   end
 end
