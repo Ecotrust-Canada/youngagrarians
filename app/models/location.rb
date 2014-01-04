@@ -72,7 +72,7 @@ class Location < ActiveRecord::Base
   end
 
   def self.import(file)
-    line_num = 1
+    line_num = 2
     CSV.foreach(file.path, headers: true) do |row|
       location = find_by_id(row["id"]) || new
       location.skip_approval_email = true
