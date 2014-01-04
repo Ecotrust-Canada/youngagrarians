@@ -37,6 +37,7 @@ gem 'spreadsheet', '~> 0.8.3'
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'warden',                 '~> 1.2.1'
 gem 'rails_admin'
+gem "rails_admin_import", :git => "git://github.com/yagudaev/rails_admin_import.git"
 
 group :development, :test do
 	gem 'rb-readline',					'~> 0.4.2'

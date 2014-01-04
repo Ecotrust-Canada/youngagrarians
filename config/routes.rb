@@ -3,11 +3,12 @@ Youngagrarians::Application.routes.draw do
   devise_for :users
 
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
+  mount RailsAdminImport::Engine => '/rails_admin_import', :as => 'rails_admin_import'
 
   resources :categories
   resources :subcategories, :only => [:index]
 
-  match 'locations/csv_import' => 'locations#csv_import', :as => :csv_import
+  # match "/admin/locations/import" => "admin#locations_import" , :as => "import", :via => [:get, :post]
   match 'locations/filtered/:filtered' => 'locations#index', :as => :locations_filtered
   resources :locations
   match 'locations/:ids/multi-edit' => 'locations#edit', :as => :multi_edit

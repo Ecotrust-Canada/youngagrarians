@@ -6,7 +6,7 @@ class Location < ActiveRecord::Base
   has_and_belongs_to_many :subcategories
 
   # TODO: security issue, need to not allow is_approved to be sset by just anybody.
-  attr_accessible :latitude, :longitude, :gmaps, :name, :content, :bioregion, :phone, :url, :fb_url,
+  attr_accessible :latitude, :longitude, :name, :content, :bioregion, :phone, :url, :fb_url,
                   :twitter_url, :description, :is_approved, :category_id, :resource_type, :email, :postal, :show_until,
                   :street_address, :city, :country, :province
 
@@ -115,6 +115,8 @@ class Location < ActiveRecord::Base
       field :city
       field :province
       field :country
+      field :category
+      field :subcategories
       field :created_at
     end
   end

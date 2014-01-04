@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/yagudaev/rails_admin_import.git
+  revision: fde1a72217f9e4026423ff7d8d9a8339aee8e390
+  specs:
+    rails_admin_import (0.1.8)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -379,6 +385,7 @@ DEPENDENCIES
   quiet_assets
   rails (= 3.2.12)
   rails_admin
+  rails_admin_import!
   rake (~> 10.0.4)
   randexp (~> 0.1.7)
   rb-fsevent (~> 0.9.1)
