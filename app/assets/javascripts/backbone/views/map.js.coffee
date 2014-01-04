@@ -9,10 +9,11 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
   initialize: (options) =>
     @app = options.app
     @markers = []
+    @marker_clusterers = []
 
   updateMap: =>
     window.infoBubble.close() if window.infoBubble
-    $.goMap.clearMarkers()
+    @clearMarkers()
 
     if @collection.currentBioregion
       @map.setCenter new google.maps.LatLng(@collection.currentBioregion.center.latitude, @collection.currentBioregion.center.longitude)
@@ -39,6 +40,12 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
 
       @clusterMarkersByCategories()
 
+  clearMarkers: =>
+    cluster.clearMarkers() for cluster in @marker_clusterers
+    @marker_clusterers = []
+    $.goMap.clearMarkers()
+    @markers = []
+
   clusterMarkersByCategories: =>
     markers_per_category = {}
     _.each Youngagrarians.Collections.categories.pluck('name'), (category_name) =>
@@ -47,7 +54,8 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
       _.each @children.toArray(), (child) =>
         category_markers.push(child.marker) if child.model.get('category').get('name') == category_name
 
-      @clusterMarkersByCategory category_markers, Youngagrarians.Collections.categories.findWhere(name: category_name)
+      categories = Youngagrarians.Collections.categories.findWhere(name: category_name)
+      @marker_clusterers.push @clusterMarkersByCategory(category_markers, categories)
 
   clusterMarkersByCategory: (markers, category) =>
     options =
@@ -59,9 +67,9 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
         textSize: 18
         }
       ]
-    marker_cluster = new MarkerClusterer(@map, markers, options)
+    return marker_cluster = new MarkerClusterer(@map, markers, options)
 
-  onShow: () =>
+  onShow: =>
     @show = []
     @$("#map").goMap
       latitude: 54.826008

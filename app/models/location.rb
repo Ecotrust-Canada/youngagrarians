@@ -30,18 +30,19 @@ class Location < ActiveRecord::Base
     results = []
     if not term.nil? and not term.empty?
       term = term.downcase
-      category = Category.where('LOWER(name) = ?', term).first
-      subcategory = Category.where('LOWER(name) = ?', term).first
-      if category
-        results += Location.where(:is_approved => true).where('category_id', category.id).all
+      starts_with = "#{term}%"
+      categories = Category.where('LOWER(name) LIKE ?', starts_with).pluck(:id)
+      subcategories = Subcategory.where('LOWER(name) LIKE ?', starts_with).pluck(:id)
+      if categories
+        results += Location.where(:is_approved => true).where('category_id IN (?)', categories).all
       end
-      if subcategory
-        results += Location.joins(:subcategories).where(:is_approved => true).where('subcategories.id = ?', subcategory.id).all
+      if subcategories
+        results += Location.joins(:subcategories).where(:is_approved => true).where('subcategories.id IN (?)', subcategories).all
       end
       term = "%#{term}%"
       results += Location.where(:is_approved => true)
-        .where("LOWER(name) LIKE ? OR LOWER(address) LIKE ? OR LOWER(postal) LIKE ? OR LOWER(bioregion) LIKE ? OR phone LIKE ? OR LOWER(description) LIKE ?",
-               term, term, term, term, term, term).all
+        .where("LOWER(name) LIKE ? OR LOWER(street_address) LIKE ? OR LOWER(city) LIKE ? OR LOWER(province) LIKE ? or LOWER(country) LIKE ? OR LOWER(postal) LIKE ? OR LOWER(bioregion) LIKE ? OR phone LIKE ? OR LOWER(description) LIKE ?",
+               term, term, term, term, term, term, term, term, term).all
     end
     return results.uniq
   end

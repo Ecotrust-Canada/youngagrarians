@@ -10,7 +10,7 @@ class LocationsController < ApplicationController
   def search
     @locations = Location.search params[:term]
     respond_to do |format|
-      format.json { render :json => @locations.map(&:id) }
+      format.json { render :json => @locations }
     end
   end
 
@@ -42,9 +42,6 @@ class LocationsController < ApplicationController
 
         render :json =>  @locations
       }
-      format.csv {
-        send_data Location.to_csv
-      }
     end
   end
 
@@ -65,20 +62,6 @@ class LocationsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json =>  @location }
-    end
-  end
-
-  def csv_import
-    if params.has_key? :dump and params[:dump].has_key? :csv_file
-      begin
-        Location.import(params[:dump][:csv_file].tempfile)
-        redirect_to locations_url, notice: "Successfuly imported all locations! :)"
-      rescue => e
-        msg = "There appears to be a problem with the import. Details: #{e}"
-        puts "Error: #{msg}"
-        flash.now[:error] = msg
-        render :csv_import
-      end
     end
   end
 

@@ -6,6 +6,7 @@ class Youngagrarians.Collections.ResultsCollection extends Backbone.Collection
     @currentProvice = null
     @currentBioregion = null
     @currentTerms = null
+    @searchResults = null
     @selectedCategories = new Backbone.Collection()
     @selectedSubcategories = new Backbone.Collection()
 
@@ -50,47 +51,41 @@ class Youngagrarians.Collections.ResultsCollection extends Backbone.Collection
         term: options.term
       dataType: 'json'
     promise.done (data)=>
-      # TODO: refactor to return JSON array not just the ids!
-      @searchLocations = data
+      @searchResults = new Youngagrarians.Collections.LocationsCollection(data)
       @update()
       options.complete() if options.complete
 
   clearSearch: =>
-    if @searchLocations
-      @searchLocations = null
+    if @searchResults
+      @searchResults = null
       @update()
 
   update: =>
-    locations = []
+    results = @locations.models
 
     # apply filters
+    if @searchResults
+      results = @searchResults.models
 
     @selectedCategories.each (category)=>
-      locations = _.union locations, @locations.filter (location)=>
+      results = _.filter results, (location)=>
         location.get('category').id == category.id
 
     @selectedSubcategories.each (subcategory)=>
-      locations = _.union locations, @locations.filter (location)=>
+      results = _.filter results, (location)=>
         _.find location.get('subcategories'), (s)->
           subcategory.id == s.id
 
-    if @selectedSubcategories and @selectedCategories and @searchLocations
-      locations = @locations.models
-
     if @currentSubdivision
-      locations = _.filter locations, (location)=>
+      results = _.filter results, (location)=>
         location.get('province') == @currentSubdivision.code
 
     if @currentBioregion
-      locations = _.filter locations, (location)=>
+      results = _.filter results, (location)=>
         location.get('bioregion') == @currentBioregion.name
 
-    if @searchLocations
-      locations = _.filter locations, (location)=>
-        _.contains @searchLocations, location.id
-
-    locations = _.sortBy locations, (location)->
+    results = _.sortBy results, (location)->
       location.get('name').toLowerCase() if location.get('name')
 
-    @.reset _.uniq(locations)
+    @.reset _.uniq(results)
 
