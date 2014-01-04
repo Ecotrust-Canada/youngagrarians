@@ -56,7 +56,7 @@ class Location < ActiveRecord::Base
   def is_approved=(value)
     value = ActiveRecord::ConnectionAdapters::Column.value_to_boolean(value)
     write_attribute(:is_approved, value)
-    if value && !@skip_approval_email
+    if value && email.present? && !@skip_approval_email
       UserMailer.listing_approved(self).deliver
     end
   end
@@ -120,6 +120,7 @@ class Location < ActiveRecord::Base
       field :country
       field :category
       field :subcategories
+      field :email
     end
   end
 end

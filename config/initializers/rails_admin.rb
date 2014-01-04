@@ -3,6 +3,7 @@
 
 require Rails.root.join('lib/rails_admin_approve_resource')
 require Rails.root.join('lib/rails_admin_unapprove_resource')
+require Rails.root.join('lib/rails_admin_show_in_app')
 
 RailsAdmin.config do |config|
 
@@ -67,7 +68,12 @@ RailsAdmin.config do |config|
     edit
     delete
     # history_show
-    show_in_app
+    show_in_app do
+      visible do
+        bindings[:abstract_model].model.to_s == "Location"
+      end
+    end
+
       # Set the custom action here
   end
 
