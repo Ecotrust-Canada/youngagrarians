@@ -30,6 +30,7 @@ GEM
       multi_json (~> 1.0)
     addressable (2.3.5)
     arel (3.0.2)
+    atomic (1.1.14)
     awesome_print (1.0.2)
     bcrypt-ruby (3.0.1)
     better_errors (1.1.0)
@@ -37,6 +38,8 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-sass (2.3.2.2)
+      sass (~> 3.2)
     builder (3.0.4)
     capybara (2.2.0)
       mime-types (>= 1.16)
@@ -94,6 +97,12 @@ GEM
     daemons (1.1.9)
     database_cleaner (0.8.0)
     debug_inspector (0.0.2)
+    devise (3.2.2)
+      bcrypt-ruby (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
     diff-lcs (1.1.3)
     eco (1.0.0)
       coffee-script
@@ -150,7 +159,13 @@ GEM
     jquery-rails (3.0.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
+    jquery-ui-rails (3.0.1)
+      jquery-rails
+      railties (>= 3.1.0)
     json (1.7.7)
+    kaminari (0.15.0)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     launchy (2.4.2)
       addressable (~> 2.3)
     letter_opener (1.2.0)
@@ -181,6 +196,7 @@ GEM
     multi_json (1.8.2)
     multi_test (0.0.2)
     mysql2 (0.3.13)
+    nested_form (0.3.2)
     net-ssh (2.7.0)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
@@ -197,6 +213,7 @@ GEM
       mixlib-shellout
       systemu
       yajl-ruby
+    orm_adapter (0.5.0)
     polyglot (0.3.3)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
@@ -207,6 +224,9 @@ GEM
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
+    rack-pjax (0.7.0)
+      nokogiri (~> 1.5)
+      rack (~> 1.3)
     rack-ssl (1.3.3)
       rack
     rack-test (0.6.2)
@@ -219,6 +239,21 @@ GEM
       activesupport (= 3.2.12)
       bundler (~> 1.0)
       railties (= 3.2.12)
+    rails_admin (0.4.9)
+      bootstrap-sass (~> 2.2)
+      builder (~> 3.0)
+      coffee-rails (>= 3.1, < 5)
+      font-awesome-rails (~> 3.0)
+      haml (~> 4.0)
+      jquery-rails (>= 2.1, < 4)
+      jquery-ui-rails (~> 3.0)
+      kaminari (~> 0.14)
+      nested_form (~> 0.3)
+      rack-pjax (~> 0.6)
+      rails (~> 3.1)
+      remotipart (~> 1.0)
+      safe_yaml (~> 0.6)
+      sass-rails (~> 3.1)
     railties (3.2.12)
       actionpack (= 3.2.12)
       activesupport (= 3.2.12)
@@ -236,6 +271,7 @@ GEM
     rb-readline (0.4.2)
     rdoc (3.12.2)
       json (~> 1.4)
+    remotipart (1.2.1)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rspec (2.11.0)
@@ -280,6 +316,8 @@ GEM
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
     thor (0.18.1)
+    thread_safe (0.1.3)
+      atomic
     tilt (1.4.1)
     timecop (0.7.0)
     treetop (1.4.15)
@@ -315,6 +353,7 @@ DEPENDENCIES
   compass-rails
   cucumber-rails
   database_cleaner (~> 0.8.0)
+  devise
   eco
   ejs
   email_spec (~> 1.2.1)
@@ -339,6 +378,7 @@ DEPENDENCIES
   pry
   quiet_assets
   rails (= 3.2.12)
+  rails_admin
   rake (~> 10.0.4)
   randexp (~> 0.1.7)
   rb-fsevent (~> 0.9.1)

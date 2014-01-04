@@ -36,6 +36,7 @@ gem 'jquery-rails'
 gem 'spreadsheet', '~> 0.8.3'
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'warden',                 '~> 1.2.1'
+gem 'rails_admin'
 
 group :development, :test do
 	gem 'rb-readline',					'~> 0.4.2'
@@ -82,3 +83,6 @@ group :test do
 	gem 'webmock'
 	gem 'timecop'
 end
+
+
+gem "devise"

@@ -83,9 +83,9 @@
             <p class="nav navbar-text pull-right">
               Welcome <%= current_user.username %>
               &bull;
-              <%= link_to 'Locations', { :controller => "locations", :action => "index" }, :class => "navbar-link" %>
+              <%= link_to 'Locations', locations_path, :class => "navbar-link" %>
               &bull;
-              <%= link_to 'Logout', { :controller => "accounts", :action => "logout"}, :class => "navbar-link" %>
+              <%= link_to 'Logout', logout_path, :class => "navbar-link" %>
 
             </p>
           </div>
@@ -100,25 +100,14 @@
         <a href="#" class="close">&times;</a>
       </div>
     <% end -%>
-    <% if @hide_map.nil? %>
 
-    <div id='map-app-container'>
-      <div class="row collapse">
-        <div class="large-10 columns">
-          <div id="map"></div>
-          <div class='row' id="results"></div>
-        </div>
-        <div id="sidebar" class="large-2 columns"></div>
-      </div>
-    </div>
-    <% else %>
-
-    <div class='row'>
+    <% if controller_name == 'home' %>
       <%= yield %>
-    </div>
-
+    <% else %>
+      <div class="row">
+        <%= yield %>
+      </div>
     <% end %>
-
     <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?libraries=places&sensor=false&key=AIzaSyBHgtGfgc3ozIAf7I0ZoL-AYD7oW3NvqKE" %>
     <script type="text/javascript">
       var script = '<script type="text/javascript" src="http://google-maps-' + 'utility-library-v3.googlecode.com/svn/trunk/infobubble/src/infobubble';
