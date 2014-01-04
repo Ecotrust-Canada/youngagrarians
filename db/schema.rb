@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140104031116) do
+ActiveRecord::Schema.define(:version => 20140104011339) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(:version => 20140104031116) do
     t.string   "city"
     t.string   "country"
     t.string   "province"
+    t.boolean  "gmaps"
   end
 
   add_index "locations", ["is_approved"], :name => "index_locations_on_is_approved"
