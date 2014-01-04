@@ -76,21 +76,6 @@
        }());
     </script>
 
-    <% if authenticated? %>
-      <div class="navbar navbar-inverse user-nav" id="ya-nav">
-        <div class="navbar-inner">
-          <div class="nav-collapse collapse">
-            <p class="nav navbar-text pull-right">
-              Welcome <%= current_user.username %>
-              &bull;
-              <%= link_to 'Admin', admin_path, :class => "navbar-link" %>
-              &bull;
-              <%= link_to 'Logout', logout_path, :class => "navbar-link" %>
-            </p>
-          </div>
-        </div>
-      </div>
-    <% end %>
     <%= render 'layouts/header' %>
 
     <% flash.each do |name, msg| -%>

@@ -159,38 +159,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def beta_tracking
-    if authenticated?
-      tracking = Tracking.new(:user_id => current_user.id)
-      tracking.write_attribute(:controller, controller_name)
-      tracking.write_attribute(:action, action_name)
-      tracking.write_attribute(:params, santize_params_hash_for_storage(params)) # TMI!
-      tracking.write_attribute(:browser, request.env['HTTP_USER_AGENT'])
-      tracking.write_attribute(:ip, request.remote_ip)
-      tracking.write_attribute(:path, request.fullpath)
-      tracking.write_attribute(:host, request.host)
-      tracking.save
-    end
-  end
-
-  def supported_browser
-    @unsupported_browser = true
-
-    browserStruct = Struct.new(:browser, :version)
-    supportedBrowsers = [
-      browserStruct.new("Safari", "5.0.0"),
-      browserStruct.new("Chrome", "7.0.0"),
-      browserStruct.new("Firefox", "4.0.0"),
-      browserStruct.new("Internet Explorer", "8.0"),
-      browserStruct.new("Opera", "11.0")
-    ]
-
-    user_agent = UserAgent.parse(request.user_agent)
-    if supportedBrowsers.detect { |browser| user_agent >= browser }
-      @unsupported_browser = false
-    end
-  end
-
   def santize_params_hash_for_storage(dirty_params)
     if dirty_params[controller_name.singularize]
       # if the params are for a resource, just store them.
