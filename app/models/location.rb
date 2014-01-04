@@ -46,7 +46,9 @@ class Location < ActiveRecord::Base
     return results.uniq
   end
 
+  # Tells gmaps4rails if it already got the geocoordinates for that or not
   def gmaps
+    return true if resource_type == 'Web'
     !(street_address_changed? or city_changed? or country_changed?)
   end
 
