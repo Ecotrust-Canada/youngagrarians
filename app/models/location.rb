@@ -47,7 +47,7 @@ class Location < ActiveRecord::Base
       if subcategories
         results += Location.joins(:subcategories).where(:is_approved => true).where('subcategories.id IN (?)', subcategories).all
       end
-      term = "%#{term}%"
+      term = "%#{term.gsub(' ', '%')}%"
       results += Location.where(:is_approved => true)
         .where("LOWER(name) LIKE ? OR LOWER(street_address) LIKE ? OR LOWER(city) LIKE ? OR LOWER(province) LIKE ? or LOWER(country) LIKE ? OR LOWER(postal) LIKE ? OR LOWER(bioregion) LIKE ? OR phone LIKE ? OR LOWER(description) LIKE ?",
                term, term, term, term, term, term, term, term, term).all
