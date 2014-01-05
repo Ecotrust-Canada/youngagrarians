@@ -62,6 +62,9 @@ class Youngagrarians.Collections.ResultsCollection extends Backbone.Collection
 
   update: =>
     results = @locations.models
+    # show nothing if user didn't search for anything
+    if !@searchResults && !@selectedCategories.length && !@selectedSubcategories.length
+      results = []
 
     # apply filters
     if @searchResults
