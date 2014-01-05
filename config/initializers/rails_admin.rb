@@ -175,6 +175,8 @@ RailsAdmin.config do |config|
     configure :country, :string 
     configure :province, :string 
 
+    attr_accessible :gmaps
+
     # Cross-section configuration:
 
       # object_label_method :name     # Name of the method called for pretty printing an *instance* of ModelName

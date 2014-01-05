@@ -8,7 +8,7 @@ class Location < ActiveRecord::Base
   # TODO: security issue, need to not allow is_approved to be sset by just anybody.
   attr_accessible :latitude, :longitude, :name, :content, :bioregion, :phone, :url, :fb_url,
                   :twitter_url, :description, :is_approved, :category_id, :resource_type, :email, :postal, :show_until,
-                  :street_address, :city, :country, :province
+                  :street_address, :city, :country, :province, :gmaps, :subcategory_ids
 
   attr_accessor :skip_approval_email
 
@@ -19,7 +19,11 @@ class Location < ActiveRecord::Base
   end
 
   def gmaps4rails_address
-    "#{street_address}, #{city}, #{province}, #{country}"
+    if !street_address.present? && postal.present?
+      "#{postal}"
+    else
+      "#{street_address}, #{city}, #{province}, #{country}"
+    end
   end
 
   def as_json(options = nil)
@@ -50,7 +54,8 @@ class Location < ActiveRecord::Base
   # Tells gmaps4rails if it already got the geocoordinates for that or not
   def gmaps
     return true if resource_type == 'Web'
-    !(street_address_changed? or city_changed? or country_changed?)
+    return false if read_attribute(:gmaps) == false # lets us flag entries for re-processing manually
+    !(street_address_changed? or city_changed? or country_changed? or postal_changed?)
   end
 
   def is_approved=(value)
@@ -118,9 +123,12 @@ class Location < ActiveRecord::Base
       field :province
       field :is_approved
       field :country
+      field :postal
       field :category
       field :subcategories
       field :email
+      field :resource_type
+      field :gmaps
     end
   end
 end
