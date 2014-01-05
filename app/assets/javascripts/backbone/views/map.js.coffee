@@ -25,11 +25,12 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
       @map.fitBounds(bounds)
     else
       bounds = new google.maps.LatLngBounds()
-      @collection.each (location)=>
+      locations = @collection.where({resource_type: "Location"})
+      _(locations).each (location)=>
         if location.lat() and location.lng()
           coords = new google.maps.LatLng(location.lat(), location.lng())
           bounds.extend coords
-      if @collection.length > 0
+      if locations.length > 0
         @map.fitBounds(bounds)
         @map.setZoom 10 if @map.getZoom() > 10
       else
