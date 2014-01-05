@@ -3,6 +3,7 @@
 
 require Rails.root.join('lib/rails_admin_approve_resource')
 require Rails.root.join('lib/rails_admin_unapprove_resource')
+require Rails.root.join('lib/rails_admin_export')
 require Rails.root.join('lib/rails_admin_show_in_app')
 
 RailsAdmin.config do |config|
@@ -55,7 +56,11 @@ RailsAdmin.config do |config|
         bindings[:abstract_model].model.to_s == "Location"
       end
     end
-    export
+    export do
+      visible do
+        bindings[:abstract_model].model.to_s == "Location"
+      end
+    end
     import do
       visible do
         bindings[:abstract_model].model.to_s == "Location"
@@ -196,7 +201,21 @@ RailsAdmin.config do |config|
       end
       show do; end
       edit do; end
-      export do; end
+      export do
+        field :subcategories do
+          bindings[:object].subcategories.map(&:name).join(';')
+        end
+
+        field :category do
+          bindings[:object].category.name
+        end
+
+        field :to_delete do
+          export_value do
+            false
+          end
+        end
+      end
       import
       # also see the create, update, modal and nested sections, which override edit in specific cases (resp. when creating, updating, modifying from another model in a popup modal or modifying from another model nested form)
       # you can override a cross-section field configuration in any section with the same syntax `configure :field_name do ... end`

@@ -10,6 +10,10 @@ class Location < ActiveRecord::Base
                   :twitter_url, :description, :is_approved, :category_id, :resource_type, :email, :postal, :show_until,
                   :street_address, :city, :country, :province, :gmaps, :subcategory_ids
 
+  REQUIRED_COLUMNS = ['id', 'resource_type', 'category', 'subcategories',
+      'name', 'bioregion', 'street_address', 'city', 'province', 'country', 'postal', 'phone', 
+      'url', 'fb_url', 'twitter_url', 'description', 'email']
+
   attr_accessor :skip_approval_email
 
   validates_presence_of :category
@@ -67,9 +71,7 @@ class Location < ActiveRecord::Base
   end
 
   def self.to_csv(options = {})
-    columns = ['id', 'resource_type', 'category', 'subcategories', 
-      'name', 'bioregion', 'street_address', 'city', 'province', 'country', 'postal', 'phone', 
-      'url', 'fb_url', 'twitter_url', 'description', 'email'] | column_names.reject {|c| c == 'category_id'} | ['to_delete']
+    columns = REQUIRED_COLUMNS | column_names.reject {|c| c == 'category_id'} | ['to_delete']
 
     CSV.generate(options) do |csv|
       csv << columns

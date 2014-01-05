@@ -1,0 +1,33 @@
+- if @response
+  - if @response.has_key?(:error)
+    .alert-error.alert
+      = @response[:error]
+  - if @response.has_key?(:notice)
+    .alert-success.alert
+      = @response[:notice]
+
+-   required_columns = ['id', 'resource_type', 'category', 'subcategories','name', 'bioregion', 'street_address', 'city', 'province', 'country', 'postal', 'phone', 'url', 'fb_url', 'twitter_url', 'description', 'email']
+
+%h1
+  Import #{@abstract_model.to_param.titleize}
+
+%ol
+  %li Use the export funcation before importing! Make sure all the columns are present
+  %li
+    All the following columns are required to be filled in:
+    %ul
+      - required_columns.each do |column|
+        %li= column
+  %li Subcategories must be seperated by a ';' (semi-colon). e.g. <i>University;College</i>
+  %li Category and Subcategory names MUST be exact. Look up categories as you make your modifications
+  %li If dataset gets too large it may fail to import it. In that case try spliting the data into several sheets or uploading only the modified rows. Basically if processing takes more than 30 seconds on the server you will see an error.
+  %li The order of columns doesn't matter but the headings must be there with the exact names
+
+= form_tag rails_admin.import_url(@abstract_model.to_param), :method => :post, :multipart => true do
+  %div
+    Select a CSV File :
+    \#{file_field_tag :file}#{submit_tag 'Submit', :disable_with => "Uploading..."}
+  - if @failed_rows && @failed_rows.count > 0
+    %ul
+      - @failed_rows.each do |row|
+        %li= row
