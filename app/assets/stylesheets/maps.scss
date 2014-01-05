@@ -91,6 +91,11 @@ h1, h2, h3, h4, h5, h6 {
   }label {
     width: auto; display:inline;
   }
+
+  @media (max-device-width: 767px) {
+    height: 250px;
+    min-height: 250px;
+  }
 }
 
 #sidebar {
@@ -265,6 +270,9 @@ h1, h2, h3, h4, h5, h6 {
 
          input, textarea, select {
             width: 340px;
+            @media (max-device-width: 767px) {
+              width: 15em;
+            }
          }
 
          input#location {
@@ -274,8 +282,6 @@ h1, h2, h3, h4, h5, h6 {
          input#show_until {
            margin-bottom: 2px;
          }
-
-
       }
 
       #subcategory-selects {
@@ -302,12 +308,18 @@ h1, h2, h3, h4, h5, h6 {
       .show-until-control {
         width: 340px;
         line-height: 12px;
+        @media (max-device-width: 767px) {
+            width: 60%;
+        }
       }
 
       #control-group-agree {
         input { float: left; }
         label {
           width: 500px;
+          @media (max-device-width: 767px) {
+            width: 60%;
+          }
         }
       }
    }
@@ -384,6 +396,11 @@ div.map-bubble-background {
       }
 
     }
+
+    @media (max-device-width: 767px) {
+      width: 80%;
+      margin-left: -44%;
+    }
 }
 
 // TOOD: a bit of a hack, check how to fix this properly with foundation
@@ -413,3 +430,16 @@ body {
 }
 
 @import "footer";
+
+@media (max-device-width: 767px) {
+  .banner {
+    display: none;
+  }
+  .site-header {
+    margin-top: 0px;
+  }
+
+  #reveal-modal-bg {
+    display: block !important;
+  }
+}

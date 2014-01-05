@@ -118,8 +118,8 @@
       });
     </script>
     <div id="fb_img" data-img="<%= request.protocol %><%= request.host %>/assets/ya.jpg"></div>
-    <div id="app-modal" class="reveal-modal" data-reveal></div>
-    <div class="reveal-modal-bg" style="display: none"></div>
+    <div id="app-modal" class="reveal-modal" data-reveal data-options="close_on_background_click: false;"></div>
+    <!-- <div class="reveal-modal-bg" style="display: none"></div> -->
     <%= google_analytics_code %>
   </body>
 </html>
