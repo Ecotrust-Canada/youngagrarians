@@ -16,11 +16,17 @@
 
 	<div class="contact-info">
 		<ul class="unstyled info">
-			<% if ( !_(street_address).isEmpty() ){ %>
 			<li class="address">
-				<address><%= street_address %>, <%= city %>, <%= province %> <%= postal %></address>
+				<% if ( !_(street_address).isEmpty() ){ %>
+					<address><%= street_address %>, <%= city %>, <%= province %> <%= postal %></address>
+				<% } else if (!_(city).isEmpty() && !_(province).isEmpty() && !_(postal).isEmpty() ) { %>
+					<address><%= city %>, <%= province %> <%= postal %></address>
+				<% } else if (!_(province).isEmpty() && !_(postal).isEmpty() ) { %>
+					<address><%= province %> <%= postal %></address>
+				<% } else { %>
+					<address><%= postal %></address>
+				<% } %>
 			</li>
-			<% } %>
 
 			<% if ( !_(phone).isEmpty() ){ %>
 			<li class="phone"><%= phone %></li>
