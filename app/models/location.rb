@@ -129,6 +129,8 @@ class Location < ActiveRecord::Base
       field :email
       field :resource_type
       field :gmaps
+      field :created_at
+      field :updated_at
     end
   end
 end

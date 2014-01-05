@@ -55,8 +55,9 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
       _.each @children.toArray(), (child) =>
         category_markers.push(child.marker) if child.model.get('category').get('name') == category_name
 
-      categories = Youngagrarians.Collections.categories.findWhere(name: category_name)
-      @marker_clusterers.push @clusterMarkersByCategory(category_markers, categories)
+      if category_markers.length > 0
+        category = Youngagrarians.Collections.categories.findWhere(name: category_name)
+        @marker_clusterers.push @clusterMarkersByCategory(category_markers, category)
 
   clusterMarkersByCategory: (markers, category) =>
     options =
