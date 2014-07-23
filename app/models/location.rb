@@ -23,10 +23,12 @@ class Location < ActiveRecord::Base
   end
 
   def gmaps4rails_address
-    if !street_address.present? && postal.present?
-      "#{postal}"
-    else
+    if street_address.present? && postal.present?
+      "#{street_address}, #{city}, #{province}, #{country}, #{postal}"
+    elsif !postal.present?
       "#{street_address}, #{city}, #{province}, #{country}"
+    else
+      "#{postal}"
     end
   end
 

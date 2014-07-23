@@ -23,6 +23,15 @@ make = (tagName, attributes, content ) ->
 Backbone.View.make = make
 Backbone.Marionette.View.make = make
 
+window.flash = (msg, type = 'notice') ->
+  html = "<div data-alert class='alert-box #{type}'>
+            #{msg}
+            <a href='#' class='close'>&times;</a>
+          </div>"
+  $('div[data-alert]').remove()
+  $('body').prepend(html).foundation()
+
+
 Backbone.Marionette.Renderer.render = (template, data) ->
   if !JST[template]
     throw "Template '" + template + "' not found!"

@@ -133,7 +133,15 @@ class Youngagrarians.Views.AddLocation extends Backbone.Marionette.View
         email: @$("input#email").val()
         show_until: @$("input#show_until").val()
 
-      @locations.create @model, wait: true
+      @locations.create @model,
+        wait: true
+        success: ->
+          flash('Location has been successfully added.
+            It is now pending approval and should be available shortly.', 'success')
+        error: ->
+          flash('Whoops! There was an error creating the event.
+            Please try again, if the problem continues contact us at support@youngagrarians.com.', 'error')
+
       @cancelAdd(e)
     else
       alert "You have to agree to the terms!"
