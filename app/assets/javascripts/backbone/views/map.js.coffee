@@ -76,9 +76,9 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
   onShow: =>
     @show = []
     @$("#map").goMap
-      latitude: 54.826008
-      longitude: -125.200195
-      zoom: 5
+      latitude: 55.8997541
+      longitude: -97.1374937
+      zoom: 4
       maptype: 'ROADMAP'
       scrollwheel: false
 
