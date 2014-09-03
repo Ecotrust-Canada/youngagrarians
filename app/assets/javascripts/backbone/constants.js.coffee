@@ -2,8 +2,8 @@ class Youngagrarians.Constants
    
   @DEFAULT_BOUNDS = ->
     bounds = new google.maps.LatLngBounds()
-    bounds.extend new google.maps.LatLng(49.000000, -114.072418)
-    bounds.extend new google.maps.LatLng(60.001615, -139.062195)
+    bounds.extend new google.maps.LatLng(40.346269459332845, -45.10624369999999)
+    bounds.extend new google.maps.LatLng(67.01586862962293, -149.1687437)
     bounds
   
   @COUNTRIES:[{
