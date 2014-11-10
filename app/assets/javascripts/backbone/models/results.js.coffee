@@ -41,7 +41,7 @@ class Youngagrarians.Collections.ResultsCollection extends Backbone.Collection
     @currentBioregion = @locations.getBioregion options.country, options.subdivision, options.bioregion
     @update() if stateChanged
 
-  searchById: (id) => @.reset @locations.where(id: id)
+  searchById: (id) => @reset @locations.where(id: id)
 
   search: (options)=>
     promise = $.ajax
