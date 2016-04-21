@@ -20,3 +20,4 @@ pickle-email-*.html
 /config/database.yml
 /.ruby-version
 /doc/*
+config/database.yml
