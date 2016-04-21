@@ -1,4 +1,4 @@
-require "digest/sha1"
+require 'digest/sha1'
 
 module Passwordable
   extend ActiveSupport::Concern
@@ -7,26 +7,26 @@ module Passwordable
     attr_accessor :password
     attr_accessible :password, :encrypted_password, :password_reset_key
 
-    validates_presence_of :password, :on => :create
+    validates_presence_of :password, on: :create
 
     before_save :encrypt_password
   end
 
   class PasswordHelper
     def self.pepper
-      "b43c89c296285a8c7368eebbe57866a0ebfbb4408fc40a7d9003c4971941202dc158224924925c6057903a43ce95e46b8e3c95caa95444bcdff661c1778b1748"
+      'b43c89c296285a8c7368eebbe57866a0ebfbb4408fc40a7d9003c4971941202dc158224924925c6057903a43ce95e46b8e3c95caa95444bcdff661c1778b1748'
     end
 
     def self.digest(password, stretches, salt, pepper)
       digest = pepper
-      stretches.times {digest = secure_digest(salt, digest, password, pepper)}
+      stretches.times { digest = secure_digest(salt, digest, password, pepper) }
       digest
     end
 
     private
 
     def self.secure_digest(*tokens)
-      ::Digest::SHA1.hexdigest('--' << tokens.flatten.join( '--' ) << '--')
+      ::Digest::SHA1.hexdigest('--' << tokens.flatten.join('--') << '--')
     end
   end
 

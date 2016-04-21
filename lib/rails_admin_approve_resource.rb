@@ -1,9 +1,9 @@
 require 'rails_admin/config/actions'
 require 'rails_admin/config/actions/base'
- 
+
 module RailsAdminApproveResource
 end
- 
+
 module RailsAdmin
   module Config
     module Actions
@@ -23,7 +23,7 @@ module RailsAdmin
         end
 
         register_instance_option :controller do
-          Proc.new do
+          proc do
             @locations = Location.find params[:bulk_ids]
             @locations.each do |l|
               l.is_approved = true

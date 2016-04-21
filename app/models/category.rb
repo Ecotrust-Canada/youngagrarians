@@ -3,7 +3,7 @@ class Category < ActiveRecord::Base
   has_many :subcategories
   attr_accessible :name
 
-  def as_json(options)
-    super :include => :subcategories
+  def as_json(_options)
+    super include: :subcategories
   end
 end

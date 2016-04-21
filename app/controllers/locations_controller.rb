@@ -3,14 +3,14 @@ class LocationsController < ApplicationController
   require 'fileutils'
   require 'iconv'
 
-  before_filter :hide_map
+  before_action :hide_map
 
   @tmp = {}
 
   def search
     @locations = Location.search params[:term]
     respond_to do |format|
-      format.json { render :json => @locations }
+      format.json { render json: @locations }
     end
   end
 
@@ -19,29 +19,27 @@ class LocationsController < ApplicationController
   def index
     @categories = Category.all
     respond_to do |format|
-      format.html {
-        if not authenticated?
-          redirect_to :root
-        end
+      format.html do
+        redirect_to :root unless authenticated?
 
         @filtered = !params[:filtered].nil?
         @locations = []
 
         if @filtered
-          @locations = Location.where( :is_approved => 0 ).order(:name).all
+          @locations = Location.where(is_approved: 0).order(:name).all
         else
           @locations = Location.order(:name).all
         end
-      }
-      format.json {
-        @locations = Location.where( "is_approved = 1 AND ( show_until is null OR show_until > ? )", Date.today ).all
+      end
+      format.json do
+        @locations = Location.where('is_approved = 1 AND ( show_until is null OR show_until > ? )', Date.today).all
 
         @locations.each do |l|
           l.category = @categories.select { |cat| cat.id == l.category_id }[0]
         end
 
-        render :json =>  @locations
-      }
+        render json: @locations
+      end
     end
   end
 
@@ -51,7 +49,7 @@ class LocationsController < ApplicationController
     @location = Location.find(params[:id])
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json =>  @location }
+      format.json { render json: @location }
     end
   end
 
@@ -61,7 +59,7 @@ class LocationsController < ApplicationController
     @location = Location.new
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json =>  @location }
+      format.json { render json: @location }
     end
   end
 
@@ -70,11 +68,11 @@ class LocationsController < ApplicationController
     @categories = Category.all
     @locations = nil
     @hide_map = true
-    if params.has_key? :id
+    if params.key? :id
       location = Location.find(params[:id])
-      @locations = [ location ]
-      @ids = [ location.id ]
-    elsif params.has_key? :ids
+      @locations = [location]
+      @ids = [location.id]
+    elsif params.key? :ids
       @ids = params[:ids].split ','
       @locations = Location.find @ids
     end
@@ -94,11 +92,11 @@ class LocationsController < ApplicationController
     end
     respond_to do |format|
       if @location.valid?
-        format.html { redirect_to @location, :notice => 'Location was successfully created.' }
-        format.json { render :json =>  @location, :status => :created, :location => @location }
+        format.html { redirect_to @location, notice: 'Location was successfully created.' }
+        format.json { render json: @location, status: :created, location: @location }
       else
-        format.html { render :action => "new" }
-        format.json { render :json =>  @location.errors, :status => :unprocessable_entity }
+        format.html { render action: 'new' }
+        format.json { render json: @location.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -109,19 +107,19 @@ class LocationsController < ApplicationController
     @locations = []
     @errors = []
     @hide_map = true
-    if params.has_key? :id
+    if params.key? :id
       location = Location.find(params[:id])
-      @locations = [ location ]
+      @locations = [location]
       location_params = params.clone
       [:created_at, :id, :updated_at, :category, :subcategories, :markerVisible, :action, :controller, :location].each do |param|
         location_params.delete param
       end
       location.update_attributes location_params
       @errors = location.errors
-    elsif params.has_key? :locations
+    elsif params.key? :locations
       params[:locations][:location].each do |data|
         l = Location.find data[0]
-        if not l.update_attributes data[1]
+        unless l.update_attributes data[1]
           pp l.errors
           @errors.push l.errors
         end
@@ -131,11 +129,11 @@ class LocationsController < ApplicationController
 
     respond_to do |format|
       if @errors.empty?
-        format.html { redirect_to :locations, :notice => 'Locations successfully updated.'}
+        format.html { redirect_to :locations, notice: 'Locations successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render :action =>"edit" }
-        format.json { render :json =>  @errors, :status => :unprocessable_entity }
+        format.html { render action: 'edit' }
+        format.json { render json: @errors, status: :unprocessable_entity }
       end
     end
   end
@@ -145,18 +143,14 @@ class LocationsController < ApplicationController
   def destroy
     @locations = nil
 
-    if params.has_key? :id
+    if params.key? :id
       location = Location.find params[:id]
-      @locations = [ location ]
-    elsif params.has_key? :ids
-      @locations = Location.find params[:ids].split(",")
+      @locations = [location]
+    elsif params.key? :ids
+      @locations = Location.find params[:ids].split(',')
     end
 
-    if not @locations.empty?
-      @locations.each do |l|
-        l.destroy
-      end
-    end
+    @locations.each(&:destroy) unless @locations.empty?
 
     respond_to do |format|
       format.html { redirect_to locations_url }
@@ -169,7 +163,6 @@ class LocationsController < ApplicationController
   def hide_map
     @hide_map = true
   end
-
 end
 
 # WAT

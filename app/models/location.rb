@@ -1,6 +1,6 @@
 class Location < ActiveRecord::Base
   include Gmaps4rails::ActsAsGmappable
-  acts_as_gmappable :validation => false
+  acts_as_gmappable validation: false
 
   belongs_to :category
   has_and_belongs_to_many :subcategories
@@ -10,9 +10,9 @@ class Location < ActiveRecord::Base
                   :twitter_url, :description, :is_approved, :category_id, :resource_type, :email, :postal, :show_until,
                   :street_address, :city, :country, :province, :gmaps, :subcategory_ids
 
-  REQUIRED_COLUMNS = ['id', 'resource_type', 'category', 'subcategories',
-      'name', 'bioregion', 'street_address', 'city', 'province', 'country', 'postal', 'phone', 
-      'url', 'fb_url', 'twitter_url', 'description', 'email']
+  REQUIRED_COLUMNS = %w(id resource_type category subcategories
+                        name bioregion street_address city province country postal phone
+                        url fb_url twitter_url description email).freeze
 
   attr_accessor :skip_approval_email
 
@@ -28,56 +28,56 @@ class Location < ActiveRecord::Base
     elsif !postal.present?
       "#{street_address}, #{city}, #{province}, #{country}"
     else
-      "#{postal}"
+      postal.to_s
     end
   end
 
-  def as_json(options = nil)
-    super :include => [ :category, :subcategories ], :except => [ :category_id, :is_approved ]
+  def as_json(_options = nil)
+    super include: [:category, :subcategories], except: [:category_id, :is_approved]
   end
 
-  def self.search(term, province = nil)
+  def self.search(term, _province = nil)
     results = []
-    if not term.nil? and not term.empty?
+    if !term.nil? && !term.empty?
       term = term.downcase
       starts_with = "#{term}%"
       categories = Category.where('LOWER(name) LIKE ?', starts_with).pluck(:id)
       subcategories = Subcategory.where('LOWER(name) LIKE ?', starts_with).pluck(:id)
       if categories
-        results += Location.where(:is_approved => true).where('category_id IN (?)', categories).all
+        results += Location.where(is_approved: true).where('category_id IN (?)', categories).all
       end
       if subcategories
-        results += Location.joins(:subcategories).where(:is_approved => true).where('subcategories.id IN (?)', subcategories).all
+        results += Location.joins(:subcategories).where(is_approved: true).where('subcategories.id IN (?)', subcategories).all
       end
-      term = "%#{term.gsub(' ', '%')}%"
-      results += Location.where(:is_approved => true)
-        .where("LOWER(name) LIKE ? OR LOWER(street_address) LIKE ? OR LOWER(city) LIKE ? OR LOWER(province) LIKE ? or LOWER(country) LIKE ? OR LOWER(postal) LIKE ? OR LOWER(bioregion) LIKE ? OR phone LIKE ? OR LOWER(description) LIKE ?",
-               term, term, term, term, term, term, term, term, term).all
+      term = "%#{term.tr(' ', '%')}%"
+      results += Location.where(is_approved: true)
+                         .where('LOWER(name) LIKE ? OR LOWER(street_address) LIKE ? OR LOWER(city) LIKE ? OR LOWER(province) LIKE ? or LOWER(country) LIKE ? OR LOWER(postal) LIKE ? OR LOWER(bioregion) LIKE ? OR phone LIKE ? OR LOWER(description) LIKE ?',
+                                term, term, term, term, term, term, term, term, term).all
     end
-    return results.uniq
+    results.uniq
   end
 
   # Tells gmaps4rails if it already got the geocoordinates for that or not
   def gmaps
     return true if resource_type == 'Web'
-    return false if read_attribute(:gmaps) == false # lets us flag entries for re-processing manually
-    !(street_address_changed? or city_changed? or country_changed? or postal_changed?)
+    return false if self[:gmaps] == false # lets us flag entries for re-processing manually
+    !(street_address_changed? || city_changed? || country_changed? || postal_changed?)
   end
 
   def is_approved=(value)
     value = ActiveRecord::ConnectionAdapters::Column.value_to_boolean(value)
-    write_attribute(:is_approved, value)
+    self[:is_approved] = value
     if value && email.present? && !@skip_approval_email
       UserMailer.listing_approved(self).deliver
     end
   end
 
   def self.to_csv(options = {})
-    columns = REQUIRED_COLUMNS | column_names.reject {|c| c == 'category_id'} | ['to_delete']
+    columns = REQUIRED_COLUMNS | column_names.reject { |c| c == 'category_id' } | ['to_delete']
 
     CSV.generate(options) do |csv|
       csv << columns
-      all.each do |location|
+      all.find_each do |location|
         values = location.attributes.dup
         values['category'] = location.category.name
         values['subcategories'] = location.subcategories.map(&:name).join(';')
@@ -90,9 +90,9 @@ class Location < ActiveRecord::Base
   def self.import(file)
     line_num = 2
     CSV.foreach(file.path, headers: true) do |row|
-      location = find_by_id(row["id"]) || new
+      location = find_by_id(row['id']) || new
       location.skip_approval_email = true
-      if location && row["to_delete"].present? && row["to_delete"].downcase == "true"
+      if location && row['to_delete'].present? && row['to_delete'].casecmp('true').zero?
         location.destroy
       else
         location.attributes = row.to_hash.slice(*accessible_attributes)
@@ -138,4 +138,3 @@ class Location < ActiveRecord::Base
     end
   end
 end
-

@@ -1,6 +1,6 @@
 class AccountsController < ApplicationController
-  before_filter :authenticate!, :except => [ :login, :login_post, :logout, :forgot_password, :retrieve_password, :password_reset, :reset_password ]
-  before_filter :hide_map
+  before_action :authenticate!, except: [:login, :login_post, :logout, :forgot_password, :retrieve_password, :password_reset, :reset_password]
+  before_action :hide_map
   respond_to :html
 
   def hide_map
@@ -12,10 +12,10 @@ class AccountsController < ApplicationController
   end
 
   def new
-    if params[:code] && (listee = validate_beta_code(params[:code])) # TODO check if they are approved
+    if params[:code] && (listee = validate_beta_code(params[:code])) # TODO: check if they are approved
       @code = params[:code]
-      @user = User.new(:first_name => listee.first_name, :last_name => listee.last_name, :email => listee.email)
-      respond_with @user, :layout => 'application'
+      @user = User.new(first_name: listee.first_name, last_name: listee.last_name, email: listee.email)
+      respond_with @user, layout: 'application'
     else
       @user = User.new
       # TOOD: CAN PROBABLY BE REFACTORED TO USE user.to_json function properly or some better work around
@@ -24,7 +24,7 @@ class AccountsController < ApplicationController
         # so these dynamic keys will exist for the rails form.
         @user[k] = ''
       end
-      render 'accounts/new', :layout => 'application'
+      render 'accounts/new', layout: 'application'
     end
   end
 
@@ -32,27 +32,27 @@ class AccountsController < ApplicationController
     @code = params[:code]
     if @user = User.create(params[:user])
       if @user.valid?
-        #self.current_user = @user
-        #Notifications.account_created(@user).deliver #TODO: Notifications!
+        # self.current_user = @user
+        # Notifications.account_created(@user).deliver #TODO: Notifications!
       end
     end
 
     if @user.valid?
-      respond_with @user, :location => :locations
+      respond_with @user, location: :locations
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
-# ACCOUNT UPDATING NOT AVAILABLE. SEE UPDATE_PASSWORD BELOW.
-#  def update
-#    @user = current_user
-#
-#    @user.update_attributes(params[:user])
-#
-#    flash[:notice] = I18n.t('accounts.update_successful')
-#    respond_with @user, :location => :account
-#  end
+  # ACCOUNT UPDATING NOT AVAILABLE. SEE UPDATE_PASSWORD BELOW.
+  #  def update
+  #    @user = current_user
+  #
+  #    @user.update_attributes(params[:user])
+  #
+  #    flash[:notice] = I18n.t('accounts.update_successful')
+  #    respond_with @user, :location => :account
+  #  end
 
   def update_password
     @user = current_user
@@ -60,66 +60,63 @@ class AccountsController < ApplicationController
     old_password = params[:old_password]
     new_password = params[:new_password]
 
-    if old_password == '' or new_password == ''
+    if old_password == '' || new_password == ''
       flash[:notice] = I18n.t('accounts.password_blank')
     elsif @user.valid_password?(old_password)
       flash[:notice] = I18n.t('accounts.password_wrong')
     else
-      @user.update_attributes(:password => new_password)
+      @user.update_attributes(password: new_password)
       flash[:notice] = I18n.t('accounts.password_update_successful')
     end
 
-    respond_with @user, :location => :account
+    respond_with @user, location: :account
   end
 
   def forgot_password
     @user = User.new
 
-    if authenticated?
-      redirect_to(params[:return_url] || :locations)
-    end
+    redirect_to(params[:return_url] || :locations) if authenticated?
 
-    render :forgot_password, :layout => 'application'
+    render :forgot_password, layout: 'application'
   end
 
   def retrieve_password
-    @user = User.where(:email => params[:email]).first
+    @user = User.where(email: params[:email]).first
 
     if @user
       Notifications.reset_password(@user).deliver
-      render :password_sent, :layout => 'application'
+      render :password_sent, layout: 'application'
     else
       flash.now[:notice] = t('emails.reset_password.retrieval_failed')
-      render :forgot_password, :layout => 'application'
+      render :forgot_password, layout: 'application'
     end
   end
 
   def password_reset
-    @user = User.where(:password_reset_key => params[:code]).first
+    @user = User.where(password_reset_key: params[:code]).first
 
     if @user
-      render :password_reset, :layout => 'application'
+      render :password_reset, layout: 'application'
     else
-      redirect_to :login, :notice => t('passwords.reset_failed')
+      redirect_to :login, notice: t('passwords.reset_failed')
     end
-
   end
 
   def reset_password
-    @user = User.where(:password_reset_key => params[:code]).first
+    @user = User.where(password_reset_key: params[:code]).first
 
     if @user
       if @user.reset_password!(params[:user][:password])
         # log them in!
         self.current_user = @user
 
-        redirect_to :locations, :notice => t('passwords.updated')
+        redirect_to :locations, notice: t('passwords.updated')
       else
         flash[:notice] = t('passwords.reset_failed')
-        render :password_reset, :layout => 'application'
+        render :password_reset, layout: 'application'
       end
     else
-      redirect_to :login, :notice => t('passwords.reset_failed')
+      redirect_to :login, notice: t('passwords.reset_failed')
     end
   end
 
@@ -127,7 +124,7 @@ class AccountsController < ApplicationController
     if authenticated?
       redirect_to :locations
     else
-      render :login, :layout => get_layout
+      render :login, layout: get_layout
     end
   end
 
@@ -137,10 +134,10 @@ class AccountsController < ApplicationController
     if authenticated?
       respond_to do |format|
         format.html do
-          redirect_to(params[:return_url] || :locations) #, :notice => t('auth.signed_in')
+          redirect_to(params[:return_url] || :locations) # , :notice => t('auth.signed_in')
         end
         format.json do
-          render :json => { :success => 1, :user => current_user }
+          render json: { success: 1, user: current_user }
         end
       end
     else
@@ -148,10 +145,10 @@ class AccountsController < ApplicationController
         format.html do
           puts 'invalid auth!'
           flash[:notice] = t('auth.invalid')
-          render :login, :status => 401, :layout => 'application'
+          render :login, status: 401, layout: 'application'
         end
         format.json do
-          render :json => { :success => 0, :user => nil, :error => I18n.t('accounts.unauthenticated'), :warden => warden.message }
+          render json: { success: 0, user: nil, error: I18n.t('accounts.unauthenticated'), warden: warden.message }
         end
       end
     end
@@ -159,7 +156,7 @@ class AccountsController < ApplicationController
 
   def logout
     logout!
-    redirect_to :locations, :notice => 'You have been logged out successfully'
+    redirect_to :locations, notice: 'You have been logged out successfully'
   end
 
   def verify_credentials
@@ -167,17 +164,17 @@ class AccountsController < ApplicationController
 
     raise UnauthenticatedError unless current_user
 
-    render :json => current_user
+    render json: current_user
   end
 
   def validate_beta_code(code)
     if code == 'acqurate_secret_account_creation_access'
-      return MailingList.new(:first_name => '', :last_name => '')
+      return MailingList.new(first_name: '', last_name: '')
     else
       user_id = code[0, 24]
       encoded_email = code[24, 32]
 
-      if listee = MailingList.where(:id => user_id).first
+      if listee = MailingList.where(id: user_id).first
         if encoded_email == Digest::MD5.hexdigest(listee.email)
           return listee unless listee.deleted
           return false
@@ -186,5 +183,4 @@ class AccountsController < ApplicationController
       return false
     end
   end
-
 end

@@ -13,18 +13,16 @@ module RailsAdmin
         end
 
         register_instance_option :controller do
-          Proc.new do
-
+          proc do
             if format = params[:csv] && :csv
               request.format = format
               # @schema = params[:schema].symbolize if params[:schema] # to_json and to_xml expect symbols for keys AND values.
               @objects = list_entries(@model_config, :export)
-              send_data @objects.to_csv, filename: "#{@abstract_model.to_s.pluralize}.csv", type: "text/csv"
+              send_data @objects.to_csv, filename: "#{@abstract_model.to_s.pluralize}.csv", type: 'text/csv'
               # index
             else
               render @action.template_name
             end
-
           end
         end
 

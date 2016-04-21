@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
-  #include Mongoid::Document
+  # include Mongoid::Document
   include Passwordable
 
   attr_accessible :first_name, :last_name, :username, :email
@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   validates_presence_of :username
   validates_presence_of :email
   validates_uniqueness_of :email
-  validates_format_of :email, :with => /\A([-a-z0-9!\#$%&'*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&'*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
+  validates_format_of :email, with: /\A([-a-z0-9!\#$%&'*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&'*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 
   before_validation :sanitize_data
 

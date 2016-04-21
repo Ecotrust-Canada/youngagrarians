@@ -25,9 +25,7 @@ module AppWarden
     end # Helper Methods
 
     module HelperAppEventMethods
-      def authenticated?
-        warden.authenticated?
-      end
+      delegate :authenticated?, to: :warden
 
       def current_user
         warden.user
@@ -38,7 +36,7 @@ module AppWarden
       # Logout the current user
       # :api: public
       def logout!(*args)
-        warden.raw_session.inspect  # Without this inspect here.  The session does not clear :|
+        warden.raw_session.inspect # Without this inspect here.  The session does not clear :|
         warden.logout(*args)
       end
 

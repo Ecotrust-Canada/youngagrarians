@@ -16,15 +16,15 @@ module Strategies
 
       Rails.logger.info "+ Authenticating user (basic) #{email}"
 
-      user = ::User.where(:email => email.downcase).first
+      user = ::User.where(email: email.downcase).first
 
       if user && user.valid_password?(password)
         success!(user)
       else
-        fail!("Could not authenticate you.")
+        fail!('Could not authenticate you.')
       end
 
-      Rails.logger.info "+ Authenticating done"
+      Rails.logger.info '+ Authenticating done'
     end
   end
 end

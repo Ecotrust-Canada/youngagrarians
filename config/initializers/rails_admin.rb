@@ -7,12 +7,10 @@ require Rails.root.join('lib/rails_admin_export')
 require Rails.root.join('lib/rails_admin_show_in_app')
 
 RailsAdmin.config do |config|
-
-
   ################  Global configuration  ################
 
   # Set the admin name here (optional second array element will appear in red). For example:
-  config.main_app_name = ['Youngagrarians', 'Admin']
+  config.main_app_name = %w(Youngagrarians Admin)
   # or for a more dynamic name:
   # config.main_app_name = Proc.new { |controller| [Rails.application.engine_name.titleize, controller.params['action'].titleize] }
 
@@ -42,28 +40,28 @@ RailsAdmin.config do |config|
 
   config.actions do
     # root actions
-    dashboard                     # mandatory
-    # collection actions 
-    index                         # mandatory
+    dashboard # mandatory
+    # collection actions
+    index # mandatory
     new
     approve_resource do
       visible do
-        bindings[:abstract_model].model.to_s == "Location"
+        bindings[:abstract_model].model.to_s == 'Location'
       end
     end
     unapprove_resource do
       visible do
-        bindings[:abstract_model].model.to_s == "Location"
+        bindings[:abstract_model].model.to_s == 'Location'
       end
     end
     export do
       visible do
-        bindings[:abstract_model].model.to_s == "Location"
+        bindings[:abstract_model].model.to_s == 'Location'
       end
     end
     import do
       visible do
-        bindings[:abstract_model].model.to_s == "Location"
+        bindings[:abstract_model].model.to_s == 'Location'
       end
     end
     history_index
@@ -75,11 +73,11 @@ RailsAdmin.config do |config|
     # history_show
     show_in_app do
       visible do
-        bindings[:abstract_model].model.to_s == "Location"
+        bindings[:abstract_model].model.to_s == 'Location'
       end
     end
 
-      # Set the custom action here
+    # Set the custom action here
   end
 
   ################  Model configuration  ################
@@ -92,11 +90,8 @@ RailsAdmin.config do |config|
   #   - This initializer is loaded once at startup (modifications will show up when restarting the application) but all RailsAdmin configuration would stay in one place.
   #   - Models are reloaded at each request in development mode (when modified), which may smooth your RailsAdmin development workflow.
 
-
   # Now you probably need to tour the wiki a bit: https://github.com/sferik/rails_admin/wiki
   # Anyway, here is how RailsAdmin saw your application's models when you ran the initializer:
-
-
 
   ###  Category  ###
 
@@ -106,15 +101,15 @@ RailsAdmin.config do |config|
 
   #   # Found associations:
 
-  #     configure :locations, :has_many_association 
-  #     configure :subcategories, :has_many_association 
+  #     configure :locations, :has_many_association
+  #     configure :subcategories, :has_many_association
 
   #   # Found columns:
 
-  #     configure :id, :integer 
-  #     configure :name, :string 
-  #     configure :created_at, :datetime 
-  #     configure :updated_at, :datetime 
+  #     configure :id, :integer
+  #     configure :name, :string
+  #     configure :created_at, :datetime
+  #     configure :updated_at, :datetime
 
   #   # Cross-section configuration:
 
@@ -141,87 +136,84 @@ RailsAdmin.config do |config|
   #     # using `field` instead of `configure` will exclude all other fields and force the ordering
   # end
 
-
   ###  Location  ###
 
   config.model 'Location' do
-
     # You can copy this to a 'rails_admin do ... end' block inside your location.rb model definition
 
     # Found associations:
 
-    configure :category, :belongs_to_association 
-    configure :subcategories, :has_and_belongs_to_many_association 
+    configure :category, :belongs_to_association
+    configure :subcategories, :has_and_belongs_to_many_association
 
     # Found columns:
 
-    configure :id, :integer 
-    configure :latitude, :float 
-    configure :longitude, :float 
-    configure :gmaps, :boolean 
-    configure :street_address, :string 
-    configure :name, :string 
-    configure :content, :text 
-    configure :bioregion, :string 
-    configure :phone, :string 
-    configure :url, :string 
-    configure :fb_url, :string 
-    configure :twitter_url, :string 
-    configure :description, :text 
-    configure :is_approved, :boolean 
-    configure :created_at, :datetime 
-    configure :updated_at, :datetime 
-    configure :category_id, :integer         # Hidden 
-    configure :resource_type, :string 
-    configure :email, :string 
-    configure :postal, :string 
-    configure :show_until, :date 
-    configure :city, :string 
-    configure :country, :string 
-    configure :province, :string 
+    configure :id, :integer
+    configure :latitude, :float
+    configure :longitude, :float
+    configure :gmaps, :boolean
+    configure :street_address, :string
+    configure :name, :string
+    configure :content, :text
+    configure :bioregion, :string
+    configure :phone, :string
+    configure :url, :string
+    configure :fb_url, :string
+    configure :twitter_url, :string
+    configure :description, :text
+    configure :is_approved, :boolean
+    configure :created_at, :datetime
+    configure :updated_at, :datetime
+    configure :category_id, :integer # Hidden
+    configure :resource_type, :string
+    configure :email, :string
+    configure :postal, :string
+    configure :show_until, :date
+    configure :city, :string
+    configure :country, :string
+    configure :province, :string
 
     attr_accessible :gmaps
 
     # Cross-section configuration:
 
-      # object_label_method :name     # Name of the method called for pretty printing an *instance* of ModelName
-      # label 'My model'              # Name of ModelName (smartly defaults to ActiveRecord's I18n API)
-      # label_plural 'My models'      # Same, plural
-      # weight 0                      # Navigation priority. Bigger is higher.
-      # parent OtherModel             # Set parent model for navigation. MyModel will be nested below. OtherModel will be on first position of the dropdown
-      # navigation_label              # Sets dropdown entry's name in navigation. Only for parents!
+    # object_label_method :name     # Name of the method called for pretty printing an *instance* of ModelName
+    # label 'My model'              # Name of ModelName (smartly defaults to ActiveRecord's I18n API)
+    # label_plural 'My models'      # Same, plural
+    # weight 0                      # Navigation priority. Bigger is higher.
+    # parent OtherModel             # Set parent model for navigation. MyModel will be nested below. OtherModel will be on first position of the dropdown
+    # navigation_label              # Sets dropdown entry's name in navigation. Only for parents!
 
     # Section specific configuration:
 
-      list do
-        # filters [:id, :name]  # Array of field names which filters should be shown by default in the table header
-        # items_per_page 100    # Override default_items_per_page
-        # sort_by :id           # Sort column (default is primary key)
-        # sort_reverse true     # Sort direction (default is true for primary key, last created first)
+    list do
+      # filters [:id, :name]  # Array of field names which filters should be shown by default in the table header
+      # items_per_page 100    # Override default_items_per_page
+      # sort_by :id           # Sort column (default is primary key)
+      # sort_reverse true     # Sort direction (default is true for primary key, last created first)
+    end
+    show { ; }
+    edit { ; }
+    export do
+      field :subcategories do
+        bindings[:object].subcategories.map(&:name).join(';')
       end
-      show do; end
-      edit do; end
-      export do
-        field :subcategories do
-          bindings[:object].subcategories.map(&:name).join(';')
-        end
 
-        field :category do
-          bindings[:object].category.name
-        end
+      field :category do
+        bindings[:object].category.name
+      end
 
-        field :to_delete do
-          export_value do
-            false
-          end
+      field :to_delete do
+        export_value do
+          false
         end
       end
-      import
-      # also see the create, update, modal and nested sections, which override edit in specific cases (resp. when creating, updating, modifying from another model in a popup modal or modifying from another model nested form)
-      # you can override a cross-section field configuration in any section with the same syntax `configure :field_name do ... end`
-      # using `field` instead of `configure` will exclude all other fields and force the ordering
+    end
+    import
+    # also see the create, update, modal and nested sections, which override edit in specific cases (resp. when creating, updating, modifying from another model in a popup modal or modifying from another model nested form)
+    # you can override a cross-section field configuration in any section with the same syntax `configure :field_name do ... end`
+    # using `field` instead of `configure` will exclude all other fields and force the ordering
   end
-
 
   ###  Subcategory  ###
 
@@ -231,16 +223,16 @@ RailsAdmin.config do |config|
 
   #   # Found associations:
 
-  #     configure :category, :belongs_to_association 
-  #     configure :locations, :has_and_belongs_to_many_association 
+  #     configure :category, :belongs_to_association
+  #     configure :locations, :has_and_belongs_to_many_association
 
   #   # Found columns:
 
-  #     configure :id, :integer 
-  #     configure :category_id, :integer         # Hidden 
-  #     configure :name, :string 
-  #     configure :created_at, :datetime 
-  #     configure :updated_at, :datetime 
+  #     configure :id, :integer
+  #     configure :category_id, :integer         # Hidden
+  #     configure :name, :string
+  #     configure :created_at, :datetime
+  #     configure :updated_at, :datetime
 
   #   # Cross-section configuration:
 
@@ -266,10 +258,9 @@ RailsAdmin.config do |config|
   #     # you can override a cross-section field configuration in any section with the same syntax `configure :field_name do ... end`
   #     # using `field` instead of `configure` will exclude all other fields and force the ordering
   # end
-
 end
 
-RailsAdminImport.config do |config| 
+RailsAdminImport.config do |config|
   config.logging = true
   config.model Location do
     excluded_fields do

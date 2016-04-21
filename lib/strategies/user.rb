@@ -5,17 +5,17 @@ module Strategies
     end
 
     def authenticate!
-      user = ::User.where(:email => params['email'].downcase).first
+      user = ::User.where(email: params['email'].downcase).first
 
       Rails.logger.info "+ Authenticating user #{params['email']}"
 
-      if user and user.valid_password?(params['password'])
+      if user && user.valid_password?(params['password'])
         success!(user)
       else
-        fail!("Could not authenticate you.")
+        fail!('Could not authenticate you.')
       end
 
-      Rails.logger.info "+ Authenticating done"
+      Rails.logger.info '+ Authenticating done'
     end
   end
 end

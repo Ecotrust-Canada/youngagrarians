@@ -11,11 +11,15 @@ module RailsAdmin
         end
 
         register_instance_option :visible? do
-          authorized? && (bindings[:controller].main_app.url_for(bindings[:object]) rescue false)
+          authorized? && (begin
+                            bindings[:controller].main_app.url_for(bindings[:object])
+                          rescue
+                            false
+                          end)
         end
 
         register_instance_option :controller do
-          Proc.new do
+          proc do
             resource_name = @object.class.name.downcase.pluralize
             redirect_to main_app.url_for(@object).sub("/#{resource_name}", "/\#/#{resource_name}")
           end

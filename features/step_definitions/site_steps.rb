@@ -10,7 +10,7 @@ When /^(?:|I )go to (.+)$/ do |page_name|
 end
 
 When /^I fill in "([^""]*)" with "([^""]*)"$/ do |field, value|
-  fill_in(field, :with => value, match: :prefer_exact)
+  fill_in(field, with: value, match: :prefer_exact)
 end
 
 When(/^I click on my name within "(.*?)"$/) do |selector|
@@ -38,13 +38,13 @@ end
 When /^(?:|I )fill in the following(?: within "([^"]*)")?:$/ do |selector, fields|
   with_scope(selector) do
     fields.rows_hash.each do |name, value|
-      step %{I fill in "#{name}" with "#{value}"}
+      step %(I fill in "#{name}" with "#{value}")
     end
   end
 end
 
 Given(/^I select "(.*?)" as "(.*?)"$/) do |from, value|
-  select value, :from => from
+  select value, from: from
 end
 
 Given(/^I choose "(.*?)"(?: within "([^"]*)")?$/) do |value, selector|
@@ -107,11 +107,9 @@ When /^I wait (\d+) seconds?$/ do |seconds|
 end
 
 When /^show me the page$/ do
-  save_and_open_page
 end
 
 Then /^pry now/ do
-  binding.pry
 end
 
 When /^I clear my emails$/ do

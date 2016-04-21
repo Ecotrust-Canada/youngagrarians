@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  #layout :get_layout
+  # layout :get_layout
 
-  before_filter :is_xhr
+  before_action :is_xhr
 
   include ApplicationHelper
   include AppWarden::Mixins::HelperMethods
@@ -17,14 +17,14 @@ class ApplicationController < ActionController::Base
   class UserNotFoundError         < ClientError; end
   class SessionNotFoundError      < ClientError; end
 
-  rescue_from BadRequestError,                   :with => :bad_request       # 400 Bad Request
-  rescue_from UnauthenticatedError,              :with => :unauthenticated   # 401 Unauthorized
-  rescue_from UnauthorizedError,                 :with => :unauthorized      # 403 Forbidden
-  rescue_from ActionView::MissingTemplate,       :with => :not_found         # 404 Not Found
-  rescue_from NotFoundError,                     :with => :not_found         # 404 Not Found
-  rescue_from UserNotFoundError,                 :with => :user_not_found    # 404 Not Found
-  rescue_from SessionNotFoundError,              :with => :session_not_found # 404 Not Found
-  #rescue_from Mongoid::Errors::DocumentNotFound, :with => :not_found         # 404 Not Found
+  rescue_from BadRequestError,                   with: :bad_request       # 400 Bad Request
+  rescue_from UnauthenticatedError,              with: :unauthenticated   # 401 Unauthorized
+  rescue_from UnauthorizedError,                 with: :unauthorized      # 403 Forbidden
+  rescue_from ActionView::MissingTemplate,       with: :not_found         # 404 Not Found
+  rescue_from NotFoundError,                     with: :not_found         # 404 Not Found
+  rescue_from UserNotFoundError,                 with: :user_not_found    # 404 Not Found
+  rescue_from SessionNotFoundError,              with: :session_not_found # 404 Not Found
+  # rescue_from Mongoid::Errors::DocumentNotFound, :with => :not_found         # 404 Not Found
 
   # Display error when the request is bad
   #
@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   #
   # @api semipublic
   def bad_request
-    render_error :bad_request, 400, "Requested URI contains invalid characters."
+    render_error :bad_request, 400, 'Requested URI contains invalid characters.'
   end
 
   # Display error when user is unauthenticated to access resource
@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
   # @api semipublic
   def unauthenticated
     flash[:notice] = I18n.t('accounts.unauthenticated')
-    render_error :unauthenticated, 401, warden.message || "Could not authenticate you."
+    render_error :unauthenticated, 401, warden.message || 'Could not authenticate you.'
   end
 
   # Display error when user is unauthorized to access resource
@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
   # @api semipublic
   def unauthorized
     flash[:notice] = I18n.t('accounts.unauthorized')
-    render_error :unauthorized, 403, "You do not have the correct permissions to access this section."
+    render_error :unauthorized, 403, 'You do not have the correct permissions to access this section.'
   end
 
   # Display error when resource not found
@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
   def not_found(ex)
     @exception = ex.message
     if Rails.env == 'production'
-      render_error :not_found, 404, "Resource could not be found."
+      render_error :not_found, 404, 'Resource could not be found.'
     else
       render_error :not_found, 404, "Resource could not be found: #{@exception}"
     end
@@ -80,7 +80,7 @@ class ApplicationController < ActionController::Base
   #
   # @api semipublic
   def user_not_found
-    render_error :user_not_found, 404, "User not found."
+    render_error :user_not_found, 404, 'User not found.'
   end
 
   # Display error when resource not found
@@ -90,7 +90,7 @@ class ApplicationController < ActionController::Base
   #
   # @api semipublic
   def session_not_found
-    render_error :session_not_found, 404, "Session not found."
+    render_error :session_not_found, 404, 'Session not found.'
   end
 
   # -- Private Methods --------------------------------------------------
@@ -143,17 +143,17 @@ class ApplicationController < ActionController::Base
   def render_error(name, status, message, fields = nil)
     Rails.logger.info "+ Rescued from exception: #{name} #{status}"
 
-    #warden.custom_failure! if status == 401
+    # warden.custom_failure! if status == 401
 
     respond_to do |format|
-      format.html { render :template => "errors/#{name}", :status => status }
+      format.html { render template: "errors/#{name}", status: status }
       format.json do
         if fields
           # Fields is just a JSON string attached to the exception.
           # It lists all the field error messages.
-          render :json => {:error => message, :errors => ActiveSupport::JSON.decode(fields)}, :status => status
+          render json: { error: message, errors: ActiveSupport::JSON.decode(fields) }, status: status
         else
-          render :json => {:error => message}, :status => status
+          render json: { error: message }, status: status
         end
       end
     end
@@ -165,14 +165,12 @@ class ApplicationController < ActionController::Base
       # Backbone send two sets of params, all in the params and all in the resource key
       return santize_params_hash_for_storage(dirty_params[controller_name.singularize])
     else
-      clean_these_keys = [ :controller, :action, :password, :credit_card_number, :credit_card_month, :credit_card_year, :credit_card_cvv ]
+      clean_these_keys = [:controller, :action, :password, :credit_card_number, :credit_card_month, :credit_card_year, :credit_card_cvv]
 
       clean_params = dirty_params
 
-      clean_params.each do |k,v|
-        if clean_these_keys.include?(k.to_sym)
-          clean_params.delete(k)
-        end
+      clean_params.each do |k, v|
+        clean_params.delete(k) if clean_these_keys.include?(k.to_sym)
 
         if v.is_a?(Hash)
           clean_params[k] = santize_params_hash_for_storage(clean_params[k])
@@ -182,5 +180,4 @@ class ApplicationController < ActionController::Base
       clean_params
     end
   end
-
 end
