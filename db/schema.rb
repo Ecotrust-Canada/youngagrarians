@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20140104011339) do
   create_table "locations", :force => true do |t|
     t.float    "latitude"
     t.float    "longitude"
+    t.boolean  "gmaps"
     t.string   "street_address"
     t.string   "name"
     t.text     "content"
@@ -42,7 +43,6 @@ ActiveRecord::Schema.define(:version => 20140104011339) do
     t.string   "city"
     t.string   "country"
     t.string   "province"
-    t.boolean  "gmaps"
   end
 
   add_index "locations", ["is_approved"], :name => "index_locations_on_is_approved"
