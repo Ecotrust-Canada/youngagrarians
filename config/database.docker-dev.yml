@@ -1,0 +1,10 @@
+development:
+  database: ya_dev
+  adapter: mysql2
+  encoding: utf8mb4
+  reconnect: true
+  pool: 5
+  username: root
+  password: sekrit
+  port: 3306
+  host: mysql

@@ -1,0 +1,11 @@
+FROM nginx:1.9
+RUN mkdir -pv /ya/public
+RUN rm -rf /etc/nginx/ssl
+RUN mkdir -pv /etc/nginx/ssl
+WORKDIR /ya
+ADD public /ya/public
+# ADD deploy/tmp/ya.com.key /etc/nginx/ssl/ya.com.key
+# ADD deploy/tmp/ya.com.crt /etc/nginx/ssl/ya.com.crt
+RUN rm /etc/nginx/conf.d/default.conf
+COPY deploy/nginx.conf /etc/nginx/conf.d/ya.conf
+RUN chmod -R a+rX /ya

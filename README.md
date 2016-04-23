@@ -1,7 +1,8 @@
 Install
 =======
 
-1. `bundle install`
+1. Install docker
+2. bin/start_dev_server (note that a docker-machine starting with dev is expected)
 2. Make sure database.yml is configured properly for you
 3. `rake db:create`
 4. `rake db:reset`

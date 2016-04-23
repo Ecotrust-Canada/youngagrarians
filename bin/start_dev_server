@@ -1,0 +1,93 @@
+#!/usr/bin/env ruby
+require 'fileutils'
+require 'english'
+
+DOCKER_FILE = 'tmp/Dockerfile.app'.freeze
+PID_FILE = File.expand_path(File.join(__dir__, '../tmp/pids/server.pid')).freeze
+PORT = 3333
+CONTAINER_NAME = 'young_aggrarians_dev'
+MYSQL_DATA = File.expand_path( File.join( __dir__, '../dev/mysql' ) )
+FileUtils.mkdir_p(MYSQL_DATA)
+
+FileUtils.rm(PID_FILE) if File.exist?(PID_FILE)
+
+def write_docker_file
+  File.open(DOCKER_FILE, 'w') do |fh|
+    fh.puts <<-EOS
+FROM ruby:2.2.4-slim
+RUN apt-get update -qq && apt-get install -y build-essential libmysqlclient-dev git libxml2-dev libxslt1-dev nodejs
+RUN mkdir /ya
+RUN gem install bundler
+WORKDIR /ya
+ENV BUNDLE_GEMFILE=/ya/Gemfile
+ENV BUNDLE_JOBS=2
+ENV BUNDLE_PATH=/bundle
+ADD Gemfile* /ya/
+RUN bundle install --retry 5 --jobs 5 --without=test
+  EOS
+  end
+end
+
+def env_for_machine( machine, tries = 0 )
+  # will break with unexpeted docker machine output
+  vars = {}
+  output = `docker-machine env #{machine}`
+  if $?.to_i != 0
+    `docker-machine start #{machine}`
+    raise 'wtf' if tries > 0
+    return env_for_machine( machine, tries + 1 )
+
+  end
+  output.each_line.to_a[0..-3].each do |line|
+    var, value = line.sub(/^export /, '').split('=', 2)
+    vars[var] = value.strip
+  end
+  return vars, `docker-machine ip #{machine}`.strip
+end
+
+def dev_server_environment
+  machines = `docker-machine ls -q`.each_line.to_a.find_all { |x| x =~ /dev/ }
+  if machines.empty?
+    $stderr.puts 'No docker machines for dev use found!'
+    exit(1)
+  end
+  if machines.length == 1
+    env_for_machine(machines.first)
+  else
+    machine = nil
+    while machine.nil?
+      machines.each_with_index do |m, i|
+        puts format('%d) %s', i + 1, m)
+      end
+      puts 'Enter machine name:'
+      num = gets.to_i
+      exit if num == 0
+      machine = machines[num - 1]
+    end
+    return env_for_machine(machine)
+  end
+end
+write_docker_file
+vars, ip_address = dev_server_environment
+docker_env = vars.map { |x, y| "#{x}=#{y}" }.join(' ')
+cmds = ["docker rm -f #{CONTAINER_NAME}",
+        "docker build -f #{DOCKER_FILE} -t #{CONTAINER_NAME}:latest #{File.join(File.expand_path(__dir__), '..')}",
+        "docker run --name #{CONTAINER_NAME}_mysql -e MYSQL_ROOT_PASSWORD=sekrit -e MYSQL_DATABASE=ya_dev -d mysql || true",
+        "docker run --name=#{CONTAINER_NAME} "\
+          "-v #{File.expand_path(File.join(__dir__, '..'))}:/ya "\
+          "-p #{PORT}:3000 -d "\
+          "--link #{CONTAINER_NAME}_mysql:mysql "\
+          "-e DOCKER_DEV=1 "\
+          "#{CONTAINER_NAME}:latest "\
+          'bundle exec rails server -p 3000 -b 0.0.0.0',
+        "docker exec #{CONTAINER_NAME} rake db:migrate"]
+cmds.each_with_index do |cmd, i|
+  result = `#{docker_env} #{cmd}`
+  puts result
+  if $CHILD_STATUS.to_i != 0
+    $stderr.puts 'cmd failed'
+    $stderr.puts cmd
+    exit(1) unless i == 0
+  end
+end
+puts "Server should be on: http://#{ip_address}:#{PORT}"
