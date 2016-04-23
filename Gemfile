@@ -68,8 +68,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'rspec'
-  gem 'rspec-rails', '~> 2.11.0'
+  gem 'rspec-rails'
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'selenium-webdriver'
@@ -82,6 +81,7 @@ group :test do
   gem 'launchy'
   gem 'webmock'
   gem 'timecop'
+  gem 'test-unit', '~> 3.0'
 end
 
 gem 'devise'
