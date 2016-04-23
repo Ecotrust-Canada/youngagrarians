@@ -1,4 +1,5 @@
 module Strategies
+  #
   class Basic < Warden::Strategies::Base
     def valid?
       params = request.env['action_dispatch.request.path_parameters']

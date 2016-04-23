@@ -1,5 +1,6 @@
 module AppWarden
   module Mixins
+    #
     module HelperMethods
       # The main accessor for the warden proxy instance
       # :api: public
@@ -23,7 +24,7 @@ module AppWarden
         warden.set_user(user)
       end
     end # Helper Methods
-
+    #
     module HelperAppEventMethods
       delegate :authenticated?, to: :warden
 
@@ -31,7 +32,7 @@ module AppWarden
         warden.user
       end
     end
-
+    #
     module ControllerOnlyMethods
       # Logout the current user
       # :api: public

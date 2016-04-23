@@ -1,4 +1,6 @@
+#
 module Strategies
+  #
   class User < Warden::Strategies::Base
     def valid?
       params['email'] && params['password']

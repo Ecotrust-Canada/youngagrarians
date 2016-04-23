@@ -1,8 +1,9 @@
+#
 class ApplicationController < ActionController::Base
   protect_from_forgery
   # layout :get_layout
 
-  before_action :is_xhr
+  before_filter :xhr?
 
   include ApplicationHelper
   include AppWarden::Mixins::HelperMethods
@@ -101,7 +102,7 @@ class ApplicationController < ActionController::Base
     request.xhr? ? nil : 'application'
   end
 
-  def is_xhr
+  def xhr?
     @is_xhr = request.xhr?
   end
 
@@ -165,7 +166,8 @@ class ApplicationController < ActionController::Base
       # Backbone send two sets of params, all in the params and all in the resource key
       return santize_params_hash_for_storage(dirty_params[controller_name.singularize])
     else
-      clean_these_keys = [:controller, :action, :password, :credit_card_number, :credit_card_month, :credit_card_year, :credit_card_cvv]
+      clean_these_keys = [:controller, :action, :password, :credit_card_number,
+                          :credit_card_month, :credit_card_year, :credit_card_cvv]
 
       clean_params = dirty_params
 

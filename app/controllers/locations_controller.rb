@@ -1,3 +1,4 @@
+#
 class LocationsController < ApplicationController
   require 'spreadsheet'
   require 'fileutils'
@@ -25,14 +26,14 @@ class LocationsController < ApplicationController
         @filtered = !params[:filtered].nil?
         @locations = []
 
-        if @filtered
-          @locations = Location.where(is_approved: 0).order(:name).all
-        else
-          @locations = Location.order(:name).all
-        end
+        @locations = if @filtered
+                       Location.where(is_approved: 0).order(:name).all
+                     else
+                       Location.order(:name).all
+                     end
       end
       format.json do
-        @locations = Location.where('is_approved = 1 AND ( show_until is null OR show_until > ? )', Date.today).all
+        @locations = Location.where('is_approved = 1 AND ( show_until is null OR show_until > ? )', Time.zone.today).all
 
         @locations.each do |l|
           l.category = @categories.select { |cat| cat.id == l.category_id }[0]
@@ -119,10 +120,7 @@ class LocationsController < ApplicationController
     elsif params.key? :locations
       params[:locations][:location].each do |data|
         l = Location.find data[0]
-        unless l.update_attributes data[1]
-          pp l.errors
-          @errors.push l.errors
-        end
+        @errors.push(l.errors) unless l.update_attributes(data[1])
         @locations.push l
       end
     end

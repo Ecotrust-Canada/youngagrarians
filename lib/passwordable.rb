@@ -1,5 +1,5 @@
 require 'digest/sha1'
-
+#
 module Passwordable
   extend ActiveSupport::Concern
 
@@ -11,10 +11,11 @@ module Passwordable
 
     before_save :encrypt_password
   end
-
+  #
   class PasswordHelper
     def self.pepper
-      'b43c89c296285a8c7368eebbe57866a0ebfbb4408fc40a7d9003c4971941202dc158224924925c6057903a43ce95e46b8e3c95caa95444bcdff661c1778b1748'
+      'b43c89c296285a8c7368eebbe57866a0ebfbb4408fc40a7d9003c4971941202dc158224'\
+      '924925c6057903a43ce95e46b8e3c95caa95444bcdff661c1778b1748'
     end
 
     def self.digest(password, stretches, salt, pepper)
@@ -22,14 +23,15 @@ module Passwordable
       stretches.times { digest = secure_digest(salt, digest, password, pepper) }
       digest
     end
+    class << self
+      private
 
-    private
-
-    def self.secure_digest(*tokens)
-      ::Digest::SHA1.hexdigest('--' << tokens.flatten.join('--') << '--')
+      def secure_digest(*tokens)
+        ::Digest::SHA1.hexdigest('--' << tokens.flatten.join('--') << '--')
+      end
     end
   end
-
+  #
   module ClassMethods
     def generate_secret_key
       SecureRandom.base64(24).tr('+/=', '').strip.delete("\n")

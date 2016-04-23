@@ -1,3 +1,4 @@
+#
 class Location < ActiveRecord::Base
   include Gmaps4rails::ActsAsGmappable
   acts_as_gmappable validation: false
@@ -97,7 +98,8 @@ class Location < ActiveRecord::Base
       else
         location.attributes = row.to_hash.slice(*accessible_attributes)
         location.is_approved = true unless row['is_approved'].present?
-        if category = Category.find_by_name(row['category'])
+        category = Category.find_by_name(row['category'])
+        if category
           location.category = category
         else
           raise "Category \"#{row['category']}\" not found. Line #{line_num} Record: #{location.inspect}"
@@ -105,7 +107,8 @@ class Location < ActiveRecord::Base
 
         row['subcategories'].present? && row['subcategories'].split(';').each do |s|
           location.subcategories = []
-          if subcategory = Subcategory.find_by_name(s.strip)
+          subcategory = Subcategory.find_by_name(s.strip)
+          if subcategory
             location.subcategories << subcategory
           else
             raise "Subcategory \"#{s.strip}\" not found. Line #{line_num} Record: #{location.inspect}"

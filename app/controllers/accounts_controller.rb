@@ -1,5 +1,7 @@
 class AccountsController < ApplicationController
-  before_action :authenticate!, except: [:login, :login_post, :logout, :forgot_password, :retrieve_password, :password_reset, :reset_password]
+  before_action :authenticate!,
+                except: [:login, :login_post, :logout, :forgot_password,
+                         :retrieve_password, :password_reset, :reset_password]
   before_action :hide_map
   respond_to :html
 
@@ -30,7 +32,8 @@ class AccountsController < ApplicationController
 
   def create
     @code = params[:code]
-    if @user = User.create(params[:user])
+    @user = User.create(params[:user])
+    if @user
       if @user.valid?
         # self.current_user = @user
         # Notifications.account_created(@user).deliver #TODO: Notifications!
@@ -174,11 +177,10 @@ class AccountsController < ApplicationController
       user_id = code[0, 24]
       encoded_email = code[24, 32]
 
-      if listee = MailingList.where(id: user_id).first
-        if encoded_email == Digest::MD5.hexdigest(listee.email)
-          return listee unless listee.deleted
-          return false
-        end
+      listee = MailingList.where(id: user_id).first
+      if listee && encoded_email == Digest::MD5.hexdigest(listee.email)
+        return listee unless listee.deleted
+        return false
       end
       return false
     end

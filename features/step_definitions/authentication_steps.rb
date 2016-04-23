@@ -7,7 +7,7 @@ Given(/^I am logged in as an Admin$/) do
   )
 end
 
-Given /^I am logged in as "([^\"]*)" with password "([^\"]*)"$/ do |username, password|
+Given(/^I am logged in as "([^\"]*)" with password "([^\"]*)"$/) do |username, password|
   visit login_path
   fill_in 'email', with: username
   fill_in 'password', with: password

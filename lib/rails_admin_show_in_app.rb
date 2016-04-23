@@ -3,6 +3,7 @@
 module RailsAdmin
   module Config
     module Actions
+      #
       class ShowInApp < RailsAdmin::Config::Actions::Base
         RailsAdmin::Config::Actions.register(self)
 

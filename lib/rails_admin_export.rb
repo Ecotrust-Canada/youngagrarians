@@ -1,6 +1,7 @@
 module RailsAdmin
   module Config
     module Actions
+      #
       class Export < RailsAdmin::Config::Actions::Base
         RailsAdmin::Config::Actions.register(self)
 
@@ -14,9 +15,11 @@ module RailsAdmin
 
         register_instance_option :controller do
           proc do
-            if format = params[:csv] && :csv
+            format = params[:csv] && :csv
+            if format
               request.format = format
-              # @schema = params[:schema].symbolize if params[:schema] # to_json and to_xml expect symbols for keys AND values.
+              # @schema = params[:schema].symbolize if params[:schema]
+              # to_json and to_xml expect symbols for keys AND values.
               @objects = list_entries(@model_config, :export)
               send_data @objects.to_csv, filename: "#{@abstract_model.to_s.pluralize}.csv", type: 'text/csv'
               # index

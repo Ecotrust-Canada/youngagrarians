@@ -9,7 +9,7 @@ require 'rubygems'
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-puts 'Requiring seeds'
+Rails.logger.info 'Requiring seeds'
 # require the seeds
 Dir["#{Rails.root}/db/seeds/*.rb"].each { |file| require file }
 
@@ -33,9 +33,9 @@ Dir["#{Rails.root}/db/seeds/*.rb"].each { |file| require file }
 # end
 
 def time_block
-  start_time = Time.now
+  start_time = Time.current
   yield
-  puts " - Time: #{Time.now - start_time}"
+  Rails.logger.info " - Time: #{Time.current - start_time}"
 end
 
 # Link us for testing goodness!

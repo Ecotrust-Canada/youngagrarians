@@ -12,7 +12,8 @@ RailsAdmin.config do |config|
   # Set the admin name here (optional second array element will appear in red). For example:
   config.main_app_name = %w(Youngagrarians Admin)
   # or for a more dynamic name:
-  # config.main_app_name = Proc.new { |controller| [Rails.application.engine_name.titleize, controller.params['action'].titleize] }
+  # config.main_app_name = Proc.new { |controller| [Rails.application.engine_name.titleize,
+  # controller.params['action'].titleize] }
 
   # RailsAdmin may need a way to know who the current user is]
   config.current_user_method { current_user } # auto-generated
@@ -87,8 +88,10 @@ RailsAdmin.config do |config|
   #   - go in the model definition file in a `rails_admin do ... end` block
 
   # This is your choice to make:
-  #   - This initializer is loaded once at startup (modifications will show up when restarting the application) but all RailsAdmin configuration would stay in one place.
-  #   - Models are reloaded at each request in development mode (when modified), which may smooth your RailsAdmin development workflow.
+  #   - This initializer is loaded once at startup (modifications will show up when restarting the application)
+  #     but all RailsAdmin configuration would stay in one place.
+  #   - Models are reloaded at each request in development mode (when modified),
+  #     which may smooth your RailsAdmin development workflow.
 
   # Now you probably need to tour the wiki a bit: https://github.com/sferik/rails_admin/wiki
   # Anyway, here is how RailsAdmin saw your application's models when you ran the initializer:
@@ -117,7 +120,8 @@ RailsAdmin.config do |config|
   #     # label 'My model'              # Name of ModelName (smartly defaults to ActiveRecord's I18n API)
   #     # label_plural 'My models'      # Same, plural
   #     # weight 0                      # Navigation priority. Bigger is higher.
-  #     # parent OtherModel             # Set parent model for navigation. MyModel will be nested below. OtherModel will be on first position of the dropdown
+  #     # parent OtherModel             # Set parent model for navigation. MyModel will be nested below.
+  #                                     # OtherModel will be on first position of the dropdown
   #     # navigation_label              # Sets dropdown entry's name in navigation. Only for parents!
 
   #   # Section specific configuration:
@@ -131,8 +135,11 @@ RailsAdmin.config do |config|
   #     show do; end
   #     edit do; end
   #     export do; end
-  #     # also see the create, update, modal and nested sections, which override edit in specific cases (resp. when creating, updating, modifying from another model in a popup modal or modifying from another model nested form)
-  #     # you can override a cross-section field configuration in any section with the same syntax `configure :field_name do ... end`
+  #     # also see the create, update, modal and nested sections, which override edit in specific cases
+  #     # (resp. when creating, updating, modifying from another model in a
+  #     # popup modal or modifying from another model nested form)
+  #     # you can override a cross-section field configuration in any section
+  #     # with the same syntax `configure :field_name do ... end`
   #     # using `field` instead of `configure` will exclude all other fields and force the ordering
   # end
 
@@ -181,7 +188,8 @@ RailsAdmin.config do |config|
     # label 'My model'              # Name of ModelName (smartly defaults to ActiveRecord's I18n API)
     # label_plural 'My models'      # Same, plural
     # weight 0                      # Navigation priority. Bigger is higher.
-    # parent OtherModel             # Set parent model for navigation. MyModel will be nested below. OtherModel will be on first position of the dropdown
+    # parent OtherModel             # Set parent model for navigation. MyModel
+    #                               # will be nested below. OtherModel will be on first position of the dropdown
     # navigation_label              # Sets dropdown entry's name in navigation. Only for parents!
 
     # Section specific configuration:
@@ -210,8 +218,11 @@ RailsAdmin.config do |config|
       end
     end
     import
-    # also see the create, update, modal and nested sections, which override edit in specific cases (resp. when creating, updating, modifying from another model in a popup modal or modifying from another model nested form)
-    # you can override a cross-section field configuration in any section with the same syntax `configure :field_name do ... end`
+    # also see the create, update, modal and nested sections, which override
+    # edit in specific cases (resp. when creating, updating, modifying from
+    # another model in a popup modal or modifying from another model nested form)
+    # you can override a cross-section field configuration in any section with
+    # the same syntax `configure :field_name do ... end`
     # using `field` instead of `configure` will exclude all other fields and force the ordering
   end
 
@@ -240,7 +251,8 @@ RailsAdmin.config do |config|
   #     # label 'My model'              # Name of ModelName (smartly defaults to ActiveRecord's I18n API)
   #     # label_plural 'My models'      # Same, plural
   #     # weight 0                      # Navigation priority. Bigger is higher.
-  #     # parent OtherModel             # Set parent model for navigation. MyModel will be nested below. OtherModel will be on first position of the dropdown
+  #     # parent OtherModel             # Set parent model for navigation. MyModel will be nested below.
+  #                                     # OtherModel will be on first position of the dropdown
   #     # navigation_label              # Sets dropdown entry's name in navigation. Only for parents!
 
   #   # Section specific configuration:
@@ -254,8 +266,12 @@ RailsAdmin.config do |config|
   #     show do; end
   #     edit do; end
   #     export do; end
-  #     # also see the create, update, modal and nested sections, which override edit in specific cases (resp. when creating, updating, modifying from another model in a popup modal or modifying from another model nested form)
-  #     # you can override a cross-section field configuration in any section with the same syntax `configure :field_name do ... end`
+  #     # also see the create, update, modal and nested sections, which override
+  #     # edit in specific cases (resp. when creating, updating, modifying from
+  #     # another model in a popup modal or modifying from another model nested
+  #     # form)
+  #     # you can override a cross-section field configuration in any section
+  #     # with the same syntax `configure :field_name do ... end`
   #     # using `field` instead of `configure` will exclude all other fields and force the ordering
   # end
 end

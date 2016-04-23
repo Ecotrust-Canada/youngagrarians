@@ -17,6 +17,10 @@ CONFIG.symbolize_keys!
 
 module Youngagrarians
   class Application < Rails::Application
+    if ENV['DOCKER_DEV']
+      paths['config/database'] = 'config/database.docker-dev.yml'
+    end
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

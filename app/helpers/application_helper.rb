@@ -2,7 +2,7 @@ module ApplicationHelper
   include AppWarden::Mixins::HelperMethods
 
   def google_analytics_code
-    raw ''"
+    <<-EOS
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -11,8 +11,8 @@ module ApplicationHelper
 
       ga('create', 'UA-44608495-1', 'maps.youngagrarians.org');
       ga('send', 'pageview');
-
     </script>
-    "''
+    EOS
+      .html_safe
   end
 end

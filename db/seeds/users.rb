@@ -1,9 +1,9 @@
 def seed_users
-  puts 'Seeding users'
+  Rails.logger.info 'Seeding users'
 
   # ---------------------------------------------------------------------
 
-  u = User.create(
+  User.create(
     username: 'vincent',
     first_name: 'Vincent',
     last_name: 'van Haaff',
@@ -13,7 +13,7 @@ def seed_users
 
   # ---------------------------------------------------------------------
 
-  u = User.create(
+  User.create(
     username: 'sean',
     first_name: 'Sean',
     last_name: 'Hagen',
@@ -23,7 +23,7 @@ def seed_users
 
   # ---------------------------------------------------------------------
 
-  u = User.create(
+  User.create(
     username: 'sara',
     first_name: 'Sara',
     last_name: 'Dent',

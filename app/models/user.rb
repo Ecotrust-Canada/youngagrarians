@@ -16,7 +16,11 @@ class User < ActiveRecord::Base
   validates_presence_of :username
   validates_presence_of :email
   validates_uniqueness_of :email
-  validates_format_of :email, with: /\A([-a-z0-9!\#$%&'*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&'*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
+  validates_format_of :email,
+                      with: %r{\A([-a-z0-9!\#$%&'*+/=?^_`{|}~]+\.)*
+                               [-a-z0-9!\#$%&'*+/=?^_`{|}~]+
+                               @
+                               ((?:[-a-z0-9]+\.)+[a-z]{2,})\Z}ix
 
   before_validation :sanitize_data
 
