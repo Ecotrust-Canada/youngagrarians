@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
-ruby '1.9.3'
+ruby '2.2.4'
 
-gem 'rails', '~> 3.2.12'
+gem 'rails', '~> 3.2.0'
 gem 'rake', '~> 10.0.4'
 
 # Bundle edge Rails instead:
@@ -14,8 +14,8 @@ gem 'ejs'
 gem 'thin'
 
 group :assets do
-  gem 'sass-rails', '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
+  gem 'sass-rails'
+  gem 'coffee-rails'
   # Add Foundation Here
   gem 'compass-rails' # you need this or you get an err
   gem 'foundation-rails'
@@ -24,12 +24,12 @@ group :assets do
   gem 'marionette-rails'
   gem 'haml'
   gem 'sass'
-  gem 'uglifier', '>= 1.0.3'
+  gem 'uglifier'
 
   gem 'modernizr-rails'
 end
 
-gem 'gmaps4rails'
+gem 'gmaps4rails', '< 2.0.0'
 gem 'geocoder'
 
 gem 'jquery-rails'
@@ -37,7 +37,7 @@ gem 'spreadsheet', '~> 0.8.3'
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'warden', '~> 1.2.1'
 gem 'rails_admin'
-gem 'rails_admin_import', git: 'git://github.com/yagudaev/rails_admin_import.git'
+gem 'rails_admin_import' # this looks to have some backported , git: 'git://github.com/yagudaev/rails_admin_import.git'
 
 group :development, :test do
   gem 'rb-readline',	'~> 0.4.2'
@@ -62,7 +62,6 @@ group :development, :test do
   gem 'jasmine',              '~> 1.2.1'
 
   # Docs
-  gem 'chef', '~> 11.4.0'
   gem 'yard', '~> 0.8.5.2'
 
   gem 'letter_opener'
@@ -86,3 +85,5 @@ group :test do
 end
 
 gem 'devise'
+gem 'safe_yaml', '0.6.3'
+
