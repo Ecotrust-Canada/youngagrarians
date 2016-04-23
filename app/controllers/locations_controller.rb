@@ -2,7 +2,6 @@
 class LocationsController < ApplicationController
   require 'spreadsheet'
   require 'fileutils'
-  require 'iconv'
 
   @tmp = {}
 
