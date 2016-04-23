@@ -34,4 +34,10 @@ Youngagrarians::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+  Capybara::Webkit.configure do |config|
+    config.allow_url("fonts.googleapis.com")
+    config.allow_url("maps.googleapis.com")
+    config.allow_url("www.google-analytics.com")
+    config.allow_url("youngagrarians.org")
+  end
 end
