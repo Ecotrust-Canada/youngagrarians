@@ -4,8 +4,6 @@ class LocationsController < ApplicationController
   require 'fileutils'
   require 'iconv'
 
-  before_action :hide_map
-
   @tmp = {}
 
   def search
@@ -68,7 +66,6 @@ class LocationsController < ApplicationController
   def edit
     @categories = Category.all
     @locations = nil
-    @hide_map = true
     if params.key? :id
       location = Location.find(params[:id])
       @locations = [location]
@@ -84,7 +81,6 @@ class LocationsController < ApplicationController
   def create
     @location = Location.new(params[:location])
     @location.save
-    @hide_map = true
     if params[:subcategories]
       params[:subcategories].uniq.each do |subcategory|
         s = Subcategory.where(id: subcategory[:id]).first
@@ -107,12 +103,13 @@ class LocationsController < ApplicationController
   def update
     @locations = []
     @errors = []
-    @hide_map = true
     if params.key? :id
       location = Location.find(params[:id])
       @locations = [location]
+      # ACP:  WTFa??
       location_params = params.clone
-      [:created_at, :id, :updated_at, :category, :subcategories, :markerVisible, :action, :controller, :location].each do |param|
+      [:created_at, :id, :updated_at, :category, :subcategories, :markerVisible,
+       :action, :controller, :location].each do |param|
         location_params.delete param
       end
       location.update_attributes location_params
@@ -156,9 +153,4 @@ class LocationsController < ApplicationController
     end
   end
 
-  private
-
-  def hide_map
-    @hide_map = true
-  end
 end

@@ -1,13 +1,8 @@
 class AccountsController < ApplicationController
-  before_action :authenticate!,
+  before_filter :authenticate!,
                 except: [:login, :login_post, :logout, :forgot_password,
                          :retrieve_password, :password_reset, :reset_password]
-  before_action :hide_map
   respond_to :html
-
-  def hide_map
-    @hide_map = true
-  end
 
   def show
     respond_with @user = current_user
