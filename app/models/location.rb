@@ -37,6 +37,7 @@ class Location < ActiveRecord::Base
     super include: [:category, :subcategories], except: [:category_id, :is_approved]
   end
 
+  SEARCH_FIELDS = %w(name street_address city province country postal bioregion phone description).freeze
   def self.search(term, _province = nil)
     results = []
     if !term.nil? && !term.empty?
@@ -48,12 +49,16 @@ class Location < ActiveRecord::Base
         results += Location.where(is_approved: true).where('category_id IN (?)', categories).all
       end
       if subcategories
-        results += Location.joins(:subcategories).where(is_approved: true).where('subcategories.id IN (?)', subcategories).all
+        results += Location.joins(:subcategories)
+                           .where(is_approved: true)
+                           .where('subcategories.id IN (?)', subcategories)
+                           .all
       end
       term = "%#{term.tr(' ', '%')}%"
+
       results += Location.where(is_approved: true)
-                         .where('LOWER(name) LIKE ? OR LOWER(street_address) LIKE ? OR LOWER(city) LIKE ? OR LOWER(province) LIKE ? or LOWER(country) LIKE ? OR LOWER(postal) LIKE ? OR LOWER(bioregion) LIKE ? OR phone LIKE ? OR LOWER(description) LIKE ?',
-                                term, term, term, term, term, term, term, term, term).all
+                         .where(SEARCH_FIELDS.map { |x| "#{x} ILIKE ?" }.join(' OR '), *[term] * SEARCH_FIELDS.length)
+                         .all
     end
     results.uniq
   end
