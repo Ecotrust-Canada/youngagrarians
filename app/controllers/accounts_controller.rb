@@ -146,7 +146,6 @@ class AccountsController < ApplicationController
     else
       respond_to do |format|
         format.html do
-          puts 'invalid auth!'
           flash[:notice] = t('auth.invalid')
           render :login, status: 401, layout: 'application'
         end

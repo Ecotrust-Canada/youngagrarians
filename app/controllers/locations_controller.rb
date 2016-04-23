@@ -162,8 +162,3 @@ class LocationsController < ApplicationController
     @hide_map = true
   end
 end
-
-# WAT
-if @tmp
-  FileUtils.rm @tmp.path unless nil
-end
