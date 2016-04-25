@@ -58,9 +58,10 @@ class CategoriesController < ApplicationController
   # PUT /categories/1.json
   def update
     @category = Category.find(params[:id])
+    success = @category.update_attributes(params[:category])
 
     respond_to do |format|
-      if @category.update_attributes(params[:category])
+      if success
         format.html { redirect_to @category, notice: 'Category was successfully updated.' }
         format.json { head :no_content }
       else
