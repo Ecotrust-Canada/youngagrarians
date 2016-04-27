@@ -23,6 +23,7 @@ group :assets do
   gem 'eco'
   gem 'marionette-rails'
   gem 'haml'
+  gem 'jbuilder'
   gem 'sass'
   gem 'uglifier'
 
