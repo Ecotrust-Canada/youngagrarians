@@ -2,11 +2,12 @@
 class Location < ActiveRecord::Base
   include Gmaps4rails::ActsAsGmappable
   acts_as_gmappable validation: false
-  # scoped :approved, -> { where( is_approved: true ) } 
-  # scoped :currently_shown, -> { where( 'show_until IS NULL OR show_until > ?', Time.zone.today) }
+  scope :approved, -> { where( is_approved: true ) } 
+  scope :currently_shown, -> { where( 'show_until IS NULL OR show_until > ?', Time.zone.today) }
 
   belongs_to :category
   has_and_belongs_to_many :subcategories
+  belongs_to :nested_category
 
   # TODO: security issue, need to not allow is_approved to be sset by just anybody.
   attr_accessible :latitude, :longitude, :name, :content, :bioregion, :phone, :url, :fb_url,
