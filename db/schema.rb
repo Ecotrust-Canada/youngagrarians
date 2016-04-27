@@ -11,12 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140104011339) do
+ActiveRecord::Schema.define(:version => 20160427054607) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "category_location_tags", :force => true do |t|
+    t.integer  "category_id", :null => false
+    t.integer  "location_id", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "locations", :force => true do |t|
@@ -51,6 +58,13 @@ ActiveRecord::Schema.define(:version => 20140104011339) do
   create_table "locations_subcategories", :id => false, :force => true do |t|
     t.integer "location_id"
     t.integer "subcategory_id"
+  end
+
+  create_table "nested_categories", :force => true do |t|
+    t.integer  "parent_category_id"
+    t.string   "name",               :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   create_table "rails_admin_histories", :force => true do |t|
