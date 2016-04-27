@@ -8,6 +8,11 @@ Install
 4. `rake db:reset`
 5. `RAILS_ENV=test rake db:schema:load` - setups up the test database
 
+Production
+=========
+
+- Mount a volumen at config/secrets with devise_token & secure_token files ( generate with your preferred random token generator or rake secret > file_name)
+
 Run
 ====
 
