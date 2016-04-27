@@ -19,24 +19,14 @@ class LocationsController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to :root unless authenticated?
-
-        @filtered = !params[:filtered].nil?
-        @locations = []
-
-        @locations = if @filtered
+        @locations = if params[:filtered].present?
                        Location.where(is_approved: 0).order(:name).all
                      else
                        Location.order(:name).all
                      end
       end
       format.json do
-        @locations = Location.where('is_approved = 1 AND ( show_until is null OR show_until > ? )', Time.zone.today).all
-
-        @locations.each do |l|
-          l.category = @categories.select { |cat| cat.id == l.category_id }[0]
-        end
-
-        render json: @locations
+        @locations = Location.approved.currently_shown.includes( nested_cateogry: :parent )
       end
     end
   end

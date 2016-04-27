@@ -2,6 +2,8 @@
 class Location < ActiveRecord::Base
   include Gmaps4rails::ActsAsGmappable
   acts_as_gmappable validation: false
+  # scoped :approved, -> { where( is_approved: true ) } 
+  # scoped :currently_shown, -> { where( 'show_until IS NULL OR show_until > ?', Time.zone.today) }
 
   belongs_to :category
   has_and_belongs_to_many :subcategories
