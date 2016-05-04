@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 ruby '2.2.4'
 
-gem 'rails', '~> 3.2.0'
-gem 'rake', '~> 10.0.4'
+gem 'rails', '~> 4.2.0'
+gem 'rake'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'mysql2', '~> 0.3.6'
+gem 'pg'
 gem 'ejs'
 # Gems used only for assets and not required
 # in production environments by default.
@@ -35,8 +35,8 @@ gem 'geocoder'
 
 gem 'jquery-rails'
 gem 'spreadsheet', '~> 0.8.3'
-gem 'bcrypt-ruby', '~> 3.0.0'
-gem 'warden', '~> 1.2.1'
+#gem 'bcrypt-ruby', '~> 3.0.0'
+#gem 'warden', '~> 1.2.1'
 gem 'rails_admin'
 gem 'rails_admin_import' # this looks to have some backported , git: 'git://github.com/yagudaev/rails_admin_import.git'
 
@@ -86,5 +86,5 @@ group :test do
 end
 
 gem 'devise'
-gem 'safe_yaml', '0.6.3'
+gem 'safe_yaml' #, '0.6.3'
 

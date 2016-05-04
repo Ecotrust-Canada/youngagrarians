@@ -7,6 +7,8 @@ PID_FILE = File.expand_path(File.join(__dir__, '../tmp/pids/server.pid')).freeze
 PORT = 3333
 CONTAINER_NAME = 'young_aggrarians_dev'
 MYSQL_DATA = File.expand_path( File.join( __dir__, '../dev/mysql' ) )
+DB_NAME = 'ya_dev'
+$debug = true
 FileUtils.mkdir_p(MYSQL_DATA)
 
 FileUtils.rm(PID_FILE) if File.exist?(PID_FILE)
@@ -15,7 +17,9 @@ def write_docker_file
   File.open(DOCKER_FILE, 'w') do |fh|
     fh.puts <<-EOS
 FROM ruby:2.2.4-slim
-RUN apt-get update -qq && apt-get install -y build-essential libmysqlclient-dev git libxml2-dev libxslt1-dev nodejs
+RUN apt-get update -qq 
+#RUN apt-get install -y build-essential libmysqlclient-dev git libxml2-dev libxslt1-dev nodejs # use for mysql 
+RUN apt-get install -y build-essential postgresql-common libpq-dev git libxml2-dev  libxslt1-dev nodejs # use for pg
 RUN mkdir /ya
 RUN gem install bundler
 WORKDIR /ya
@@ -46,48 +50,86 @@ def env_for_machine( machine, tries = 0 )
 end
 
 def dev_server_environment
-  machines = `docker-machine ls -q`.each_line.to_a.find_all { |x| x =~ /dev/ }
-  if machines.empty?
-    $stderr.puts 'No docker machines for dev use found!'
-    exit(1)
-  end
-  if machines.length == 1
-    env_for_machine(machines.first)
-  else
-    machine = nil
-    while machine.nil?
-      machines.each_with_index do |m, i|
-        puts format('%d) %s', i + 1, m)
-      end
-      puts 'Enter machine name:'
-      num = gets.to_i
-      exit if num == 0
-      machine = machines[num - 1]
+  @dev_server_env ||= begin
+    machines = `docker-machine ls -q`.each_line.to_a.find_all { |x| x =~ /dev/ }
+    if machines.empty?
+      $stderr.puts 'No docker machines for dev use found!'
+      exit(1)
     end
-    return env_for_machine(machine)
+    r_val = nil
+    if machines.length == 1
+      r_val = env_for_machine(machines.first)
+    else
+      machine = nil
+      while machine.nil?
+        machines.each_with_index do |m, i|
+          puts format('%d) %s', i + 1, m)
+        end
+        puts 'Enter machine name:'
+        num = gets.to_i
+        exit if num == 0
+        machine = machines[num - 1]
+      end
+      r_val = env_for_machine(machine)
+    end
+    r_val
   end
 end
+def run_commands( cmds, halt_on_failure = false )
+  statuses = []
+  @vars ||= begin
+    vars, _ip_address = dev_server_environment
+    vars
+  end
+  docker_env = @vars.map { |x, y| "#{x}=#{y}" }.join(' ')
+  is_halted= false
+  cmds.each_with_index do |cmd, i|
+    if is_halted && halt_on_failure
+      statuses << nil
+      next
+    end
+    puts "RUNNING: #{docker_env} #{cmd}" if $debug
+    result = `#{docker_env} #{cmd}`
+    statuses << $CHILD_STATUS.to_i
+    if $CHILD_STATUS.to_i != 0
+      puts result
+      $stderr.puts "cmd failed: #{cmd}"
+      is_halted = true
+    end
+  end
+  return statuses
+end
+
 write_docker_file
-vars, ip_address = dev_server_environment
-docker_env = vars.map { |x, y| "#{x}=#{y}" }.join(' ')
 cmds = ["docker rm -f #{CONTAINER_NAME}",
+        "docker pull postgres:9.5", # too bleding edge?
         "docker build -f #{DOCKER_FILE} -t #{CONTAINER_NAME}:latest #{File.join(File.expand_path(__dir__), '..')}",
-        "docker run --name #{CONTAINER_NAME}_mysql -e MYSQL_ROOT_PASSWORD=sekrit -e MYSQL_DATABASE=ya_dev -d mysql || true",
-        "docker run --name=#{CONTAINER_NAME} "\
-          "-v #{File.expand_path(File.join(__dir__, '..'))}:/ya "\
-          "-p #{PORT}:3000 -d "\
-          "--link #{CONTAINER_NAME}_mysql:mysql "\
-          "-e DOCKER_DEV=1 "\
-          "#{CONTAINER_NAME}:latest "\
-          'bundle exec rails server -p 3000 -b 0.0.0.0',
-        "docker exec #{CONTAINER_NAME} rake db:migrate"]
-cmds.each_with_index do |cmd, i|
-  result = `#{docker_env} #{cmd}`
-  puts result
-  if $CHILD_STATUS.to_i != 0
-    $stderr.puts 'cmd failed'
-    $stderr.puts cmd
-    exit(1) unless i == 0
-  end
+        "docker run --name #{CONTAINER_NAME}_postgres -e POSTGRES_PASSWORD=sekrit "\
+            "-e POSTGRES_DB=#{DB_NAME} -v #{File.expand_path(File.join(__dir__, '../tmp'))}:/rails_tmp -d postgres" ]
+results = run_commands( cmds )
+code = results[1..-2].find{ |x| x != 0 } # ignore first as container maynot exist first time through
+if code
+  $stderr.puts "Exiting due to failure."
+  exit( code ) 
 end
+
+if results.last == 0 && File.exist?( 'tmp/db_dump.sql' )
+  sleep( 5 ) # HACK: postgres startup time is non-zero; poll for ready is slighltyb etter
+  code = run_commands( ["docker exec #{CONTAINER_NAME}_postgres sh -c 'echo \"CREATE DATABASE #{DB_NAME};\" | psql --user postgres'", 
+                        "docker exec #{CONTAINER_NAME}_postgres sh -c 'psql --user postgres #{DB_NAME} < /rails_tmp/db_dump.sql'"] )
+  exit( code.first ) if code.first != 0
+end
+cmds = [ "docker run --name=#{CONTAINER_NAME} "\
+         "-v #{File.expand_path(File.join(__dir__, '..'))}:/ya "\
+         "-p #{PORT}:3000 -d "\
+         "--link #{CONTAINER_NAME}_postgres:postgres "\
+         "-e DOCKER_DEV=1 "\
+         "#{CONTAINER_NAME}:latest "\
+         'bundle exec rails server -p 3000 -b 0.0.0.0',
+         "docker exec #{CONTAINER_NAME} rake db:migrate"]
+results = run_commands( cmds, true )
+code = results.find{ |x| x != 0 }
+exit( code ) if code
+
+_vars, ip_address = dev_server_environment
 puts "Server should be on: http://#{ip_address}:#{PORT}"

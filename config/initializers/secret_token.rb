@@ -13,3 +13,16 @@ else
   end
   File.read( token_file )
 end
+
+
+Youngagrarians::Application.config.secret_key_base = if Rails.env.development?
+  'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz'
+else
+  token_file = Rails.root.join( 'config/secrets/secret_key_base' )
+  unless File.exist?( token_file )
+    raise "Put a token in #{token_file}"
+  end
+  File.read( token_file )
+end
+
+

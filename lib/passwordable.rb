@@ -5,7 +5,6 @@ module Passwordable
 
   included do
     attr_accessor :password
-    attr_accessible :password, :encrypted_password, :password_reset_key
 
     validates_presence_of :password, on: :create
 

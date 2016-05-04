@@ -2,25 +2,20 @@
 class Location < ActiveRecord::Base
   include Gmaps4rails::ActsAsGmappable
   acts_as_gmappable validation: false
+
+  has_many :category_tags, dependent: :destroy
+  has_many :nested_categories, through: :category_tags
+
   scope :approved, -> { where( is_approved: true ) } 
   scope :currently_shown, -> { where( 'show_until IS NULL OR show_until > ?', Time.zone.today) }
 
-  belongs_to :category
-  has_and_belongs_to_many :subcategories
   belongs_to :nested_category
-
-  # TODO: security issue, need to not allow is_approved to be sset by just anybody.
-  attr_accessible :latitude, :longitude, :name, :content, :bioregion, :phone, :url, :fb_url,
-                  :twitter_url, :description, :is_approved, :category_id, :resource_type, :email, :postal, :show_until,
-                  :street_address, :city, :country, :province, :gmaps, :subcategory_ids
 
   REQUIRED_COLUMNS = %w(id resource_type category subcategories
                         name bioregion street_address city province country postal phone
                         url fb_url twitter_url description email).freeze
 
   attr_accessor :skip_approval_email
-
-  validates_presence_of :category
 
   def skip_approval_email
     @skip_approval_email ||= false
@@ -130,6 +125,17 @@ class Location < ActiveRecord::Base
   end
 
   rails_admin do
+    configure :category_tags do
+      visible( false )
+    end
+    configure :category do
+      visible( false )
+    end
+
+    configure :nestered_categories do
+      visible( false )
+    end
+
     list do
       field :name
       field :street_address
@@ -139,8 +145,7 @@ class Location < ActiveRecord::Base
       field :is_approved
       field :country
       field :postal
-      field :category
-      field :subcategories
+      field :nested_category
       field :email
       field :resource_type
       field :gmaps

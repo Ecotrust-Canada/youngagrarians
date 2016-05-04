@@ -3,7 +3,7 @@ class CreateSubcategories < ActiveRecord::Migration
     create_table :subcategories do |t|
       t.integer :category_id
       t.string :name
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end

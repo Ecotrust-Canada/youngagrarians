@@ -5,23 +5,17 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
   # include Mongoid::Document
   include Passwordable
 
-  attr_accessible :first_name, :last_name, :username, :email
-
-  validates_presence_of :first_name
-  validates_presence_of :last_name
-  validates_presence_of :username
-  validates_presence_of :email
-  validates_uniqueness_of :email
-  validates_format_of :email,
-                      with: %r{\A([-a-z0-9!\#$%&'*+/=?^_`{|}~]+\.)*
-                               [-a-z0-9!\#$%&'*+/=?^_`{|}~]+
-                               @
-                               ((?:[-a-z0-9]+\.)+[a-z]{2,})\Z}ix
-
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :username, presence: true
+  validates :email, presence: true,
+                    format:  { with: %r{\A([-a-z0-9!\#$%&'*+/=?^_`{|}~]+\.)*
+                                        [-a-z0-9!\#$%&'*+/=?^_`{|}~]+
+                                        @
+                                        ((?:[-a-z0-9]+\.)+[a-z]{2,})\Z}ix }
   before_validation :sanitize_data
 
   def full_name

@@ -3,7 +3,7 @@ class CreateNestedCategories < ActiveRecord::Migration
     create_table :nested_categories do |t|
       t.column :parent_category_id, :integer
       t.column :name, :string, null: false
-      t.timestamps
+      t.timestamps null: false
     end
     new_categories = {}
     Category.all.each do |category|
@@ -19,16 +19,17 @@ class CreateNestedCategories < ActiveRecord::Migration
           raise "Missing category: #{subcategory.category.name}"
         end
         subcategory_map[subcategory.id] = NestedCategory.create( name: subcategory.name,
-                                                                 parent_category: c )
+                                                                 parent: c )
       end
     end
     rows = CategoryTag.connection.select_rows( "SELECT location_id, subcategory_id FROM locations_subcategories" )
     rows.each do |location_id, subcategory_id|
       if subcategory_map[subcategory_id].nil?
-        raise "Did not map subcategory #{subcategory_id}"
+        say "Did not map subcategory #{subcategory_id}"
+      else
+        CategoryLocationTags.create( location_id: location_id,
+                                     category_id: subcategory_map[subcategory_id] )
       end
-      CategoryLocationTags.create( location_id: location_id,
-                                   category_id: subcategory_map[subcategory_id] )
     end
   end
 end

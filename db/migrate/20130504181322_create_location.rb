@@ -16,7 +16,7 @@ class CreateLocation < ActiveRecord::Migration
       l.string :subcategory
       l.boolean :is_approved
 
-      l.timestamps
+      l.timestamps null: false
     end
   end
 end

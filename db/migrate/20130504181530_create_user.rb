@@ -8,7 +8,7 @@ class CreateUser < ActiveRecord::Migration
       u.string :password_salt
       u.string :encrypted_password
       u.string :password_reset_key
-      u.timestamps
+      u.timestamps null: false
     end
   end
 end

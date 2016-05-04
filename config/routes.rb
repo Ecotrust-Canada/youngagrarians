@@ -7,7 +7,7 @@ Youngagrarians::Application.routes.draw do
   resources :categories
   resources :subcategories, only: [:index]
 
-  match 'locations/filtered/:filtered' => 'locations#index', as: :locations_filtered
+  get 'locations/filtered/:filtered' => 'locations#index', as: :locations_filtered
   resources :locations
 
   get 'home/index'
