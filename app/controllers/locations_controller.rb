@@ -15,7 +15,6 @@ class LocationsController < ApplicationController
   # GET /locations
   # GET /locations.json
   def index
-    @categories = Category.all
     respond_to do |format|
       format.html do
         redirect_to :root unless authenticated?
