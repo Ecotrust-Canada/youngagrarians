@@ -2,7 +2,6 @@
 #= require jquery_ujs
 #= require jquery.gomap
 #= require jquery.nicescroll
-#= require foundation
 #= require underscore
 #= require backbone
 #= require backbone.marionette
