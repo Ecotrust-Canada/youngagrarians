@@ -13,22 +13,33 @@ gem 'ejs'
 # in production environments by default.
 gem 'thin'
 
-group :assets do
-  gem 'sass-rails'
-  gem 'coffee-rails'
-  # Add Foundation Here
-  gem 'compass-rails' # you need this or you get an err
-  gem 'foundation-rails'
-  gem 'font-awesome-rails'
-  gem 'eco'
-  gem 'marionette-rails'
-  gem 'haml'
-  gem 'jbuilder'
-  gem 'sass'
-  gem 'uglifier'
+gem 'sass-rails'
+gem 'coffee-rails'
+# Add Foundation Here
+gem 'compass-rails' # you need this or you get an err
+#gem 'foundation-rails'
+gem 'font-awesome-rails'
+gem 'eco'
+gem 'marionette-rails'
+gem 'haml'
+gem 'jbuilder'
+gem 'sass'
+gem 'uglifier'
 
-  gem 'modernizr-rails'
-end
+gem 'modernizr-rails'
+
+# like bower.json...
+#source 'https://rails-assets.org' do
+  #gem 'rails-assets-leaflet', '~> 0.7.7'
+  #gem 'rails-assets-leaflet.markercluster' #: "leaflet.markerclusterer#^0.5.0",
+  #gem 'rails-assets-riot', '~> 2.3.18'
+  #gem 'rails-assets-riot-mui'
+#end
+
+#gem 'riotjs-rails', '~> 2.3.18'
+#gem 'leaflet-rails', '~> 0.7.7'
+#gem 'leaflet-markercluster-rails'
+
 
 gem 'gmaps4rails', '< 2.0.0'
 gem 'geocoder'
@@ -84,6 +95,8 @@ group :test do
   gem 'timecop'
   gem 'test-unit', '~> 3.0'
 end
+
+gem 'rails_12factor'
 
 gem 'devise'
 gem 'safe_yaml' #, '0.6.3'
