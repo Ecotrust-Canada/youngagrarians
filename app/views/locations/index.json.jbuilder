@@ -25,5 +25,10 @@ json.array! @locations do |location|
 
   json.url location.url
   json.resourceType location.resource_type
+  json.categories location.nested_categories do |category|
+    json.id category.id
+    json.name category.name
+    json.parent category.parent && category.parent.name
+  end
 end
 

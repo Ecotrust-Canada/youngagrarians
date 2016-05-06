@@ -9,8 +9,10 @@ Youngagrarians::Application.routes.draw do
 
   get 'locations/filtered/:filtered' => 'locations#index', as: :locations_filtered
   resources :locations
+  get 'surrey.json', controller: 'locations', action: 'index', format: 'json', surrey: 1
 
   get 'home/index'
+  get 'map', controller: 'home', action: 'map'
   root to: 'home#index'
 
   # Authentication flow
@@ -27,6 +29,7 @@ Youngagrarians::Application.routes.draw do
   put  '/password_reset/:code' => 'accounts#reset_password',     :as => :reset_password
 
   get  '/verify_credentials'   => 'accounts#verify_credentials', :as => :verify_credentials
+  get 'surrey.json', controller: 'locations', action: 'index', city: 'surrey'
 
   post '/search' => 'locations#search', :as => :search
 end

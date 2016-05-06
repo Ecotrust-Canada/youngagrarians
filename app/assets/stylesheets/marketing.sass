@@ -1,0 +1,472 @@
+@import fonts
+
+body
+  background: url( image_path( 'field-yellow-blur-grain.jpg' ) ) no-repeat center center fixed
+  -webkit-background-size: cover
+  -moz-background-size: cover
+  -o-background-size: cover
+  background-size: cover
+  font-family: "Sofia Pro", courier, sans-serif
+  margin: 0
+  padding: 0
+
+*
+  box-sizing: border-box
+
+header
+  position: fixed
+  top: 0
+  right: 0
+  left: 0
+  height: 50px
+  background-color: #343434
+  a.brand img
+    display: block
+    float: left
+    padding-top: 12px
+    padding-left: 15px
+    width: 310px
+  .nav
+    text-align: right
+    float: right
+    .nav-item
+      padding: 10px 10px
+      list-style: none
+      display: inline-block
+      a
+        text-decoration: none
+        font-family: 'YOUNG AGRARIANS legible', "Comic Sans MS", cursive, sans-serif
+        color: white
+        font-size: 20px
+
+.splash
+  top: 50%
+  left: 50%
+  margin-top: -200px
+  margin-left: -400px
+  width: 800px
+  position: absolute
+  text-align: center
+.splash-icons
+  margin-bottom: 20px
+  li
+    line-height: 15px
+    display: inline-block
+    color: white
+    width: 120px
+    height: 120px
+    padding: 20px 0 0 0
+    border-radius: 50%
+    background-color: rgba(0,0,0,0.2)
+    transition: 0.5s background-color linear
+    &:hover
+      background-color: rgba(0,0,0,0.9)
+.blurb
+  height: 40px
+  width: 120px
+  display: table-cell
+  vertical-align: middle
+.splash-subhead
+  margin-top: 50px
+  font-size: 20px
+  color: white
+
+input.search-box
+  width: 220px
+  font-size: 17px
+  border-radius: 0
+  border: 1px solid black
+  padding: 8px 8px 8px 40px
+  box-shadow: 0 3px 3px rgba(0,0,0,0.2)
+  background: url(../images/icon/search.png) 8px 8px no-repeat white
+input.search-box-map
+  top: 25px
+  left: 425px
+  height: 35px
+  margin: 0
+  width: 276px
+
+button.submit, .toggle, .search-box-map, .panel, .listing-detail
+  position: absolute
+  z-index: 1000
+
+button.submit
+  right: 25px
+  bottom: 25px
+  height: 35px
+  margin: 0
+
+  font-size: 17px
+  line-height: 15px
+  background-color: #188885
+  color: white
+  text-transform: none
+  font-weight: normal
+  border-radius: 0
+  border: 1px solid black
+  box-shadow: 0 3px 3px rgba(0,0,0,0.2)
+  big
+    font-weight: bold
+
+.notification
+  background-color: #188885
+  width: 16px
+  height: 16px
+  position: absolute
+  border-radius: 50%
+  color: white
+  top: 10px
+  left: 18px
+  line-height: 15px
+  padding: 0
+  text-align: center
+  font-weight: bold
+
+.category-toggle .notification
+  left: auto
+  right: 26px
+
+.toggle
+  border: 1px solid black
+  cursor: pointer
+  top: 25px
+  height: 35px
+  &:after
+    top: 40%
+    right: 10px
+    border: solid transparent
+    content: " "
+    height: 0
+    width: 0
+    position: absolute
+    pointer-events: none
+    border-color: rgba(0, 0, 0, 0)
+    border-top-color: #000000
+    border-width: 8px
+    margin-left: -8px
+
+.layer-toggle
+  right: 25px
+  width: 60px
+  background: url( image_path( 'icon/layers.png' ) ) white no-repeat 6px 6px
+
+.category-toggle
+  left: 700px
+  width: 130px
+  background: white
+  padding: 6px 0 0 6px
+
+.layer-panel
+  right: 25px
+.category-panel
+  left: 700px
+.panel
+  top: 60px
+  width: 200px
+  li
+    height: 50px
+    background-color: black
+    color: white
+    list-style: none
+    padding: 10px
+    font-size: 17px
+    cursor: pointer
+    margin: 0
+
+
+
+.listing-detail
+  top: 10px
+  left: 50%
+  margin-left: -500px
+  width: 1000px
+  bottom: 10px
+  background: rgba(255,255,255,0.9)
+  padding: 20px 40px
+  white-space: normal
+  font-family: "Sofia Pro", courier, sans-serif
+  h1, h3, .back
+    font-family: 'YOUNG AGRARIANS legible'
+    font-weight: normal
+  .back
+    margin: 5px 0 0 0
+    padding: 0 0 0 35px
+    cursor: pointer
+    background: url(image_path('icon/back-arrow.png')) 0 5px no-repeat
+    font-size: 22px
+.listing-header
+  position: relative
+  height: 53px
+  padding: 14px 0 0 60px
+  font-size: 20px
+  text-transform: uppercase
+  .filled
+    position: absolute
+    height: 2px
+    bottom: 0
+    left: 0
+    right: 0
+  img
+    position: absolute
+    top: 0
+    right: 0
+  .category-icon
+    position: absolute
+    top: 0
+    left: 0
+    width: 60px
+    height: 60px
+    background-repeat: no-repeat
+    background-size: 40px 40px
+
+/* -------------- sidebar --------------- */
+
+.results-sidebar
+  position: absolute
+  left: 0
+  top: 0
+  bottom: 0
+  width: 400px
+  overflow: auto
+  background: #343434
+.content-logo-wrap
+  padding: 8px 0 0 8px
+ul.results-list
+  padding: 0
+  margin: 0
+  z-index: 1000
+  li
+    position: relative
+    background-color: #eaeaea
+    list-style-type: none
+    margin: 6px 12px
+    width: 360px
+    height: 60px
+    p
+      position: absolute
+      left: 60px
+      right: 60px
+      top: 5px
+      bottom: 5px
+      font-size: 12px
+      line-height: 12px
+    label
+      text-transform: uppercase
+      font-weight: bold
+    .view-on-map
+      position: absolute
+      right: 10px
+      top: 7px
+      line-height: 12px
+      font-size: 12px
+      text-align: right
+      cursor: pointer
+    .listing-icon
+      position: absolute
+      left: 0
+      top: 0
+      width: 60px
+      height: 60px
+
+#map
+  position: absolute
+  top: 0
+  bottom: 0
+  left: 400px
+  right: 0
+  z-index: 10
+.map-icon .filled
+  width: 15px
+  height: 15px
+  border-radius: 50%
+  background-color: black
+  /*box-shadow: 0 3px 3px rgba(0,0,0,0.1);*/
+.leaflet-div-icon
+  border-width: 0
+  background: transparent
+.cluster-icon .filled
+  /*box-shadow: 0 3px 3px rgba(0,0,0,0.1);*/
+  text-align: center
+  border-radius: 50%
+  width: 25px
+  height: 25px
+  color: white
+
+.popup
+  position: relative
+  font-family: "Sofia Pro", Arial, Helvetica, sans-serif
+  .listing-icon
+    position: absolute
+    background-size: 30px 30px
+    background-repeat: no-repeat
+    left: 0
+    top: 0
+    width: 40px
+    height: 40px
+  label
+    padding: 5px 0 5px 32px
+    font-size: 17px
+    font-weight: normal
+    text-transform: uppercase
+  .description
+    margin: 0 0 5px 0
+    font-size: 20px
+    font-family: 'Young Agrarians', "Comic Sans MS", cursive, sans-serif
+  .city
+    margin: 0
+    font-size: 12px
+    text-transform: uppercase
+  .info
+    margin: 0
+    font-size: 12px
+    cursor: pointer
+    position: absolute
+    bottom: 0
+    right: 5px
+  .triangle-arrow
+    display: inline-block
+.leaflet-popup-content
+  margin: 5px 10px 5px 5px
+.leaflet-popup-content-wrapper
+  border: 1px solid black
+  min-width: 250px
+.leaflet-popup-tip-container
+  top: -1px
+.leaflet-popup-tip
+  border: 1px solid black
+
+/* --------------------- CONTROLS -------------------------------- */
+
+.leaflet-bar a:first-child, .leaflet-bar a:last-child, .leaflet-bar
+  border-radius: 0
+.leaflet-bar
+  border: 0.5px solid black
+  a:first-child
+    border-bottom: 0.5px solid black
+.leaflet-bar a, .leaflet-bar a:hover
+  width: 35px
+  height: 35px
+  line-height: 35px
+.leaflet-left .leaflet-control
+  margin-left: 25px
+.leaflet-bottom .leaflet-control
+  margin-bottom: 25px
+
+/* --------------------- DOMAIN CATEGORY ICONS ------------------- */
+
+.farm .filled
+  background: #85563D
+  &:after
+    border-color: #85563D
+.farm
+  color: #85563D
+
+.funding
+  color: #745DA3
+  .filled
+    background: #745DA3
+    &:after
+      border-color: #745DA3
+.web-resource
+  color: #7A7667
+  .filled
+    background: #7A7667
+    &:after
+      border-color: #7A7667
+.seed
+  color: #81A94E
+  .filled
+    background: #81A94E
+  &:after
+    border-color: #81A94E
+.publication
+  color: #222356
+  .filled
+    background: #222356
+    &:after
+      border-color: #222356
+.organization
+  color: #FFC20E
+  .filled
+    background: #FFC20E
+    &:after
+      border-color: #FFC20E
+
+.market
+  color: #F26522
+  .filled
+    background: #F26522
+    &:after
+      border-color: #F26522
+
+.land
+  color: #81A94E
+  .filled
+    background: #81A94E
+    &:after
+      border-color: #81A94E
+
+.job
+  color: #0084B5
+  .filled
+    background: #0084B5
+    &:after
+      border-color: #0084B5
+.infrastructure
+  color: #CF4F1C
+  .filled
+    background: #CF4F1C
+    &:after
+      border-color: #CF4F1C
+.event
+  color: #16807C
+  .filled
+    background: #16807C
+  &:after
+    border-color: #16807C
+
+.education
+  color: #9D0A0E
+  .filled
+    background: #9D0A0E
+  &:after
+    border-color: #9D0A0E
+
+.business
+  color: #00652E
+  .business .filled
+    background: #00652E
+    &:after
+      border-color: #00652E
+
+.apprenticeship
+  color: #A0174C
+  .filled
+    background: #A0174C
+  &:after 
+    border-color: #A0174C
+
+
+.view-on-map .triangle-arrow
+  margin: 8px 0 0 27px
+.popup .triangle-arrow
+  margin: 0 0 0 5px
+  top: -1px
+
+.view-on-map .triangle-arrow,
+.popup .triangle-arrow
+  width: 12px
+  height: 6px
+  position: relative
+
+.view-on-map .triangle-arrow:after,
+.popup .triangle-arrow:after
+  content: ''
+  position: absolute
+  top: -5px
+  right: -8px
+  border-left-width: 8px
+  border-left-style: solid
+  border-top: 8px solid transparent
+  border-bottom: 8px solid transparent
+

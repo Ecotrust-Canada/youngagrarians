@@ -1,0 +1,42 @@
+<!doctype html>
+
+<html><head>
+
+  <title>Young Agrarians</title>
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+  <link rel="stylesheet" href="http://drop.countable.ca:3000/vendor/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="http://drop.countable.ca:3000/vendor/leaflet.markercluster/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="http://drop.countable.ca:3000/vendor/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+
+  <%= stylesheet_link_tag 'marketing' -%>
+
+</head><body>
+
+  <results></results>
+  <div id='map'></div>
+  <button class='submit'>Submit a listing <big>+</big></button>
+  <layers></layers>
+  <search></search>
+  <listing></listing>
+
+  <script src="/tags/listing.tag" type="riot/tag"></script>
+  <script src="/tags/search.tag" type="riot/tag"></script>
+  <script src="/tags/layers.tag" type="riot/tag"></script>
+  <script src="/tags/results.tag" type="riot/tag"></script>
+
+  <script src="https://cdn.jsdelivr.net/riot/2.3.18/riot+compiler.min.js"></script>
+  <script src="https://cdn.rawgit.com/fdaciuk/ajax/v1.0.10/dist/ajax.min.js"></script>
+  <script src="http://drop.countable.ca:3000/vendor/leaflet/dist/leaflet-src.js"></script>
+  <script src="http://drop.countable.ca:3000/vendor/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+  <%= javascript_include_tag 'embedded_map' -%> 
+  <script>
+var CATEGORY_ICONS = <%= raw icon_hash.to_json -%>;
+  </script>
+
+</body></html>

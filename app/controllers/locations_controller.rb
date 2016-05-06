@@ -25,7 +25,12 @@ class LocationsController < ApplicationController
                      end
       end
       format.json do
-        @locations = Location.approved.currently_shown.includes( nested_cateogry: :parent )
+        scope = if params[:surrey]
+          Location.surrey
+        else
+          Location
+        end
+        @locations = scope.approved.currently_shown.includes( category_tags: { nested_category: :parent } ).order( 'id' )
       end
     end
   end
