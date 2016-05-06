@@ -1,0 +1,44 @@
+= f.text_field :first_name
+= f.text_field :last_name
+= f.phone_field :phone_number
+= f.email_field :email
+= f.text_field :address
+= f.text_field :city
+= f.select :province, PROVINCE_LIST
+= f.text_field :postal_code
+= f.check_boxes :training, 'What training and experience do you have?', ["Agriculture-related degree", "Farm management (3 years or less)", "Farm management (3 years+)", "Apprenticeship", "General degree", "General farming (3 years or less)", "General farming (3 years+)", "Other experience/ag./business training Specify"]
+= f.radio_buttons_with_comments "Do you have a business plan?"
+= f.radio_buttons_with_comments "Do you have financial resources available to start your farm?"
+= f.radio_buttons_with_comments "Do you have access to other financial resources (such as a financial partner, loan, etc.) to start your farm?"
+
+%h3<Your Project
+= f.text_field :name, label: 'Farm name:'
+= f.check_boxes :land_type, label: 'Type of farm land access agreement you are looking for:', ['Registered Lease on Title Lease', 'License', 'MOU', 'Transfer / Succession', 'Business Partnership', 'Lease-To-Own', 'Sale of Land', with_comments: true
+= f.text_field :duration, label: 'Duration of the desired agreement:'
+= f.date :date, label: 'Ideal date to obtain land by:'
+%h3<Land & Features Desired
+= f.check_boxes :farm_location, label: 'Where do you want to farm?', [ 'BC', 'Nova Scotia', 'Alberta', 'New Brunswick', 'Saskatchewan', 'Prince Edward Island', 'Manitoba', 'Yukon Territory', 'Ontario', 'Northwest Territories', 'Quebec', 'Nunavut', 'Newfoundland & Labrador' ]
+= f.check_boxes :bc_location, label: 'What part(s) of BC?', ['Cariboo – Upper Fraser', 'Skeena – North Coast', 'Lower Mainland - Fraser Valley', 'Thompson - Okanagan', 'Kootenays', 'Vancouver Island', 'Northeast']
+= f.check_boxes :lower_mainland_location, label: 'What part(s) of the Lower Mainland - Fraser Valley?', ['Abbotsford', 'Richmond', 'Chilliwack', 'Surrey', 'Ladner','Vancouver', 'Langley', 'White Rock', 'New Westminster' ]
+= f.text_field :land_size, label: 'Total Land Size( Acres):'
+= f.radio_buttons_with_comments :wooded_land_size, label: 'Wooded Area:'
+= f.text_field :cultivable_land_size, label: 'Cultivable Area:'
+= f.radio_buttons_with_comments :land_expansion, label: 'Possibility to expand area currently available:
+= f.radio_buttons :in_alr, label: 'Zoning:', ['ALR', 'Non-ALR' ]
+Preferred current state of the surface of the cultivable area:
+Specify      
+= f.radio_buttons_with_comments :owner_on_premises, label: 'Open to landowner residing on property:
+= f.radio_buttons_with_comments :buildings_needed, label: 'Need farm buildings:'
+= f.radio_buttons_with_comments :fenced_needed, label: 'Need fenced land:'
+= f.radio_buttons_with_comments :machinery_needed, label: 'Need farm machinery and tools:'
+= f.radio_buttons_with_comments :water_source, label: 'Need established water source and infrastructure:'
+= f.radio_buttons_with_comments :onsite_housing, label: 'Need on-site housing:'
+= f.check_box_with_comments :production_types, 'Production type:', ['Vegetable', 'Livestock', 'Grain', 'Seed', 'Hay & forage', 'Orchard / Fruit', 'Mixed', 'Other (specify)']
+= f.check_box_with_comments :agriculture_type, 'Type of agriculture:', ['Certified Organic', 'Organic', 'Conventional', 'Other (Specify)' ]
+= f.radio_buttons  :soil_needs, 'What are your soil needs?', ['Good', 'Excellent', "I don’t know" ]
+= f.radio_buttons  :preferred_model, 'Preferred arrangement model:', ['Registered Lease on Title', 'Lease', 'Licence', 'MOU', 'Transfer / Succession', 'Business Partnership', 'Sale of Land'
+= f.text_field :agreement_duration,  label: 'Duration of the desired agreement:'
+= f.radio_buttons_with_comments :commercial_insurance, label: 'I am willing to acquire commercial insurance and name the property owner as “additionally insured” on the insurance policy.'
+= f.agreement do
+  I certify that the foregoing statements made by me are true and accurate to the best of my knowledge and belief, and are made in good faith. I understand that there is not a guarantee that a match will occur or that if a match does occur that it will be successful. 
+= f.pick_one 'I consent to have my information listed publicly on the Young Agrarians U-Map.', 'I prefer to have people contact me privately through Young Agrarians In-Mail.'
