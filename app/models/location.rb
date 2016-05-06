@@ -3,13 +3,14 @@ class Location < ActiveRecord::Base
   include Gmaps4rails::ActsAsGmappable
   acts_as_gmappable validation: false
 
-  has_many :category_tags, dependent: :destroy
+  has_many :category_tags, dependent: :destroy, foreign_key: 'location_id'
   has_many :nested_categories, through: :category_tags
 
   scope :approved, -> { where( is_approved: true ) } 
   scope :currently_shown, -> { where( 'show_until IS NULL OR show_until > ?', Time.zone.today) }
-
-  belongs_to :nested_category
+  scope :surrey, -> {
+    where( "city ILIKE '%surrey%' OR province ILIKE '%surrey%' OR street_address ILIKE '%surrey%'" )
+  }
 
   REQUIRED_COLUMNS = %w(id resource_type category subcategories
                         name bioregion street_address city province country postal phone
