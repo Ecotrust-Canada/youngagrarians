@@ -23,6 +23,9 @@ To access the admin panel go to `/login` and login as the following user:
 email: dentsara@gmail.com
 password: test42
 
+Heroku Repo
+===========
+- https://git.heroku.com/youngagrarians.git
 
 youngagrarians
 ==============
