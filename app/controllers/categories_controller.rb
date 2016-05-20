@@ -14,7 +14,16 @@ class CategoriesController < ApplicationController
   # GET /categories/1
   # GET /categories/1.json
   def show
-    @category = Category.find(params[:id])
+    if params[:id] 
+      @category= NestedCategory.find( params[:id] )
+    elsif params[:top_level_name]
+      parent_category = NestedCategory.find_by( name: params[:top_level_name] )
+      if params[:subcategory_name]
+        @category = parent_category.children.find_by( name: params[:subcategory_name] )
+      else
+        @category = parent_category
+      end
+    end
 
     respond_to do |format|
       format.html # show.html.erb

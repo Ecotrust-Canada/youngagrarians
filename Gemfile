@@ -8,6 +8,7 @@ gem 'rake'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
+gem 'mysql2'
 gem 'ejs'
 # Gems used only for assets and not required
 # in production environments by default.
@@ -93,10 +94,12 @@ group :test do
   gem 'launchy'
   gem 'webmock'
   gem 'timecop'
-  gem 'test-unit', '~> 3.0'
+  gem 'test-unit'
+  gem 'sqlite3'
 end
-
-gem 'rails_12factor'
+group :production, :development, :staging do
+  gem 'rails_12factor'
+end
 
 gem 'devise'
 gem 'safe_yaml' #, '0.6.3'
