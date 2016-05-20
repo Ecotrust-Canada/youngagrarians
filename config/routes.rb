@@ -32,4 +32,5 @@ Youngagrarians::Application.routes.draw do
   get 'surrey.json', controller: 'locations', action: 'index', city: 'surrey'
 
   post '/search' => 'locations#search', :as => :search
+  get 'sitemap.xml', controller: 'home', action: 'sitemap', format: 'xml'
 end
