@@ -11,10 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427054607) do
+ActiveRecord::Schema.define(version: 20160511063543) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.string   "email",      null: false
+    t.string   "password",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -32,7 +39,6 @@ ActiveRecord::Schema.define(version: 20160427054607) do
   create_table "locations", force: :cascade do |t|
     t.float    "latitude"
     t.float    "longitude"
-    t.boolean  "gmaps"
     t.string   "street_address", limit: 255
     t.string   "name",           limit: 255
     t.text     "content"
@@ -42,20 +48,20 @@ ActiveRecord::Schema.define(version: 20160427054607) do
     t.string   "fb_url",         limit: 255
     t.string   "twitter_url",    limit: 255
     t.text     "description"
-    t.boolean  "is_approved",                default: false
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.integer  "category_id"
     t.string   "resource_type",  limit: 255
     t.string   "email",          limit: 255
     t.string   "postal",         limit: 255
     t.date     "show_until"
-    t.string   "city"
-    t.string   "country"
-    t.string   "province"
+    t.string   "city",           limit: 255
+    t.string   "country",        limit: 255
+    t.string   "province",       limit: 255
+    t.boolean  "is_approved"
+    t.boolean  "g_maps"
   end
 
-  add_index "locations", ["is_approved"], name: "index_locations_on_is_approved", using: :btree
   add_index "locations", ["show_until"], name: "index_locations_on_show_until", using: :btree
 
   create_table "locations_subcategories", id: false, force: :cascade do |t|
@@ -72,16 +78,16 @@ ActiveRecord::Schema.define(version: 20160427054607) do
 
   create_table "rails_admin_histories", force: :cascade do |t|
     t.text     "message"
-    t.string   "username"
+    t.string   "username",   limit: 255
     t.integer  "item"
-    t.string   "table"
+    t.string   "table",      limit: 255
     t.integer  "month",      limit: 2
     t.integer  "year",       limit: 8
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
-  add_index "rails_admin_histories", ["item", "table", "month", "year"], name: "index_rails_admin_histories", using: :btree
+  add_index "rails_admin_histories", ["item", "table", "month", "year"], name: "index_rails_admin_histories", unique: true, using: :btree
 
   create_table "subcategories", force: :cascade do |t|
     t.integer  "category_id"
@@ -100,17 +106,17 @@ ActiveRecord::Schema.define(version: 20160427054607) do
     t.string   "password_reset_key",     limit: 255
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
-    t.string   "reset_password_token"
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",                      default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", using: :btree
 
 end
