@@ -86,7 +86,6 @@ group :test do
   gem 'capybara-webkit'
   gem 'selenium-webdriver'
   gem 'email_spec',           '~> 1.2.1'
-  gem 'database_cleaner',     '~> 0.8.0'
   gem 'factory_girl_rails'
   gem 'cucumber-rails', require: false
   gem 'mocha', require: false
