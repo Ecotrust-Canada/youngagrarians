@@ -20,6 +20,7 @@ gem 'coffee-rails'
 gem 'compass-rails' # you need this or you get an err
 #gem 'foundation-rails'
 gem 'font-awesome-rails'
+gem 'bootstrap-sass'
 gem 'eco'
 gem 'marionette-rails'
 gem 'haml'
