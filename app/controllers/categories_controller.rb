@@ -14,19 +14,24 @@ class CategoriesController < ApplicationController
   # GET /categories/1
   # GET /categories/1.json
   def show
-    if params[:id] 
-      @category= NestedCategory.find( params[:id] )
-    elsif params[:top_level_name]
-      parent_category = NestedCategory.find_by( name: params[:top_level_name] )
-      if params[:subcategory_name]
-        @category = parent_category.children.find_by( name: params[:subcategory_name] )
-      else
-        @category = parent_category
-      end
+    @category = if params[:id] 
+                  NestedCategory.find( params[:id] )
+                elsif params[:top_level_name]
+                  parent_category = NestedCategory.by_name(  params[:top_level_name] ).first
+                  if params[:subcategory_name]
+                    parent_category.children.by_name( params[:subcategory_name] ).first
+                  else
+                    parent_category
+                  end
+                end
+    if @category.nil?
+      raise ActionController::RoutingError, 'no category found'
     end
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html do
+        render layout: 'basic'
+      end
       format.json { render json: @category }
     end
   end

@@ -1,0 +1,27 @@
+%h1<= @category.name
+
+.panel.panel-default
+  %p
+    You may want to #{link_to 'visit the map', map_path} to find more resources.
+
+%ol.breadcrumb
+  %li<= link_to( 'Home', map_path )
+  %li<= link_to( 'Categories', categories_path )
+  - if @category.parent
+    %li<= link_to( @category.parent.name, top_level_category_path( top_level_name: @category.parent.name ) )
+
+- if @category.children.any?
+  %h2<#{@category.name} Subcategories
+  %ul
+    - @category.children.each do |child|
+      %li
+        = link_to( child.name, subcategory_path( top_level_name: @category.name, subcategory_name: child.name ) )
+
+%h2<#{@category.name} Listings
+- if @category.locations.any?
+  %ul
+    - @category.locations.each do |item|
+      %li<= link_to( item.name, location_path( item ) )
+- elsif !@category.meta?
+  .pane.panel-default
+    There are no listings in #{@category.name}

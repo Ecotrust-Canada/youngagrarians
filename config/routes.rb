@@ -32,5 +32,7 @@ Youngagrarians::Application.routes.draw do
   get 'surrey.json', controller: 'locations', action: 'index', city: 'surrey'
 
   post '/search' => 'locations#search', :as => :search
+  get '/category/:top_level_name', as: 'top_level_category', controller: 'categories', action: 'show'
+  get '/category/:top_level_name/:subcategory_name', as: 'subcategory', controller: 'categories', action: 'show'
   get 'sitemap.xml', controller: 'home', action: 'sitemap', format: 'xml'
 end
