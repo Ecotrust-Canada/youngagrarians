@@ -4,12 +4,12 @@ xml.urlset( xmlns: 'http://www.sitemaps.org/schemas/sitemap/0.9' ) do
   end
   NestedCategory.top_level.find_each do |category|
     xml.url do
-      xml.loc top_level_category_url( top_level_name: category.name )
+      xml.loc top_level_category_url( top_level_name: category.name.downcase )
       xml.lastmod category.updated_at.to_date
     end
     category.children.each do |child|
       xml.url do
-        xml.loc top_level_category_url( top_level_name: category.name, subcategory_name: child.name )
+        xml.loc subcategory_url( top_level_name: category.name.downcase, subcategory_name: child.name.downcase )
         xml.lastmod category.updated_at.to_date
       end
     end

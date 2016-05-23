@@ -3,9 +3,16 @@ class CategoriesController < ApplicationController
   # GET /categories.json
   def index
     respond_to do |format|
-      @categories = Category.all
-      format.html
+      format.html do
+        render layout: 'basic'
+      end
       format.json do
+        if params[:meta]
+          NestedCategories.meta
+        elsif params[:parent_id]
+        else
+          @categories = NestedCategories.all
+        end
         render json: @categories
       end
     end

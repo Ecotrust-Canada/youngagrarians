@@ -35,4 +35,16 @@ class CategoriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal( c.parent, assigns( :category ) )
   end
+  # ----------------------------------------------- test_viewing_meta_categories
+  def test_viewing_meta_categories
+    FactoryGirl.create( :nested_category, parent: FactoryGirl.create( :nested_category ) )
+    get :index
+    assert_response :success
+  end
+  # --------------------------------------- test_viewing_meta_categories_as_json
+  def test_viewing_meta_categories_as_json
+    FactoryGirl.create( :nested_category, parent: FactoryGirl.create( :nested_category ) )
+    get :index, format: 'json', meta: true
+    assert_response :success
+  end
 end

@@ -40,7 +40,13 @@ class LocationsController < ApplicationController
   def show
     @location = Location.find(params[:id])
     respond_to do |format|
-      format.html # show.html.erb
+      format.html do
+        if @location.visible?
+          render layout: 'basic'
+        else
+          render nothing: true, status: 404
+        end
+      end
       format.json { render json: @location }
     end
   end

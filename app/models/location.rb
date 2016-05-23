@@ -22,6 +22,14 @@ class Location < ActiveRecord::Base
     @skip_approval_email ||= false
   end
 
+  def visible?
+    ( show_until.nil? || show_until > Time.zone.today ) && approved?
+  end
+
+  def approved?
+    is_approved
+  end
+
   def gmaps4rails_address
     if street_address.present? && postal.present?
       "#{street_address}, #{city}, #{province}, #{country}, #{postal}"
@@ -90,6 +98,10 @@ class Location < ActiveRecord::Base
         csv << values.values_at(*columns)
       end
     end
+  end
+  
+  def to_param
+    format( '%d-%s', id, name.gsub( /[^0-9a-z]+/i, '-' ).sub( /^-/, '' ) )
   end
 
   def self.import(file)

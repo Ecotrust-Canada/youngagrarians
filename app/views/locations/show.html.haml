@@ -1,0 +1,34 @@
+%h1<=@location.name
+
+%h3
+  %p
+    = content_tag( 'span', @location.resource_type, class: 'resource-type' ) if @location.resource_type
+    - if @location.bioregion.present?
+      in #{@location.bioregion}
+  #{top_category_list( @location )}
+
+
+- if @location.description.present? || @location.content.present?
+  %h3<Basic Details
+  = content_tag( 'div', @location.description, class: 'location-description' ) if @location.description.present?
+  = content_tag( 'div', @location.content, class: 'location-content' ) if @location.content.present?
+
+
+%h3<Location
+%p
+  = display_address( @location )
+%p
+- if @location.latitude && @location.longitude
+  = link_to( 'map', map_path )
+
+%h3<Contact Details
+%p
+  = contact_links( @location )
+  - if @location.phone.present?
+    = link_to( @location.phone, "tel:#{@location.phone}", class: 'phone' )
+    %br
+  = content_tag( 'span', mail_to( @location.email ), class: 'contact-email' ) if @location.email.present?
+
+.last-modified.text-muted
+  Last modifed #{@location.updated_at ? distance_of_time_in_words( @location.updated_at, Time.current ) : 'unknown'} ago;
+  #{@location.show_until ? @location.show_until : 'never expires'}.
