@@ -1,5 +1,4 @@
 version: '2'
-<<<<<<< HEAD
 
 services:
   app:
@@ -50,43 +49,3 @@ networks:
 volumes:
   db:
     driver: local
-=======
-services:
-  young_aggrarians_app:
-    build:
-      dockerfile: Dockerfile
-      context: .
-    restart: always
-    command: "bundle exec rails s -p 3000 -b '0.0.0.0'"
-    ports:
-      - 80:3000
-    environment:
-      RAILS_ENV: production
-    volumes:
-      - /data/ya-secrets:/ya/config/secrets:ro
-    expose:
-      - '3000'
-    # mem_limit: 350m
-    links:
-      - young_aggrarians_db:pg
-  # youngAggrariansFrontend:
-  #   restart: always
-  #   build:
-  #     dockerfile: Dockerfile.frontend
-  #   ports:
-  #     - 80:80
-  #     - 443:443
-  #   links:
-  #     - youngAggrariansApp:app
-  #   volumes:
-  #     - /data/docker/nginx/ssl:/etc/nginx/conf.d/ssl
-  #   mem_limit: 50m
-  young_aggrarians_db:
-    restart: always
-    image: postgres:9.5
-    mem_limit: 50m
-    volumes:
-      - /data/:/dumps:ro
-    environment:
-      POSTGRES_PASSWORD: sekrit
->>>>>>> 55274b3d1622d66bf386900abe414fd353c8e220
