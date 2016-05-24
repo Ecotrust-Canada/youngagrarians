@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  app:
+    environment:
+      RAILS_ENV: development
+  frontend:
+    ports:
+      - 8001:80
+      - 443:443    

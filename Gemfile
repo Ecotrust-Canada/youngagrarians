@@ -82,7 +82,7 @@ end
 group :test do
   gem 'rspec-rails'
   gem 'capybara'
-  gem 'capybara-webkit'
+  #gem 'capybara-webkit'
   gem 'selenium-webdriver'
   gem 'email_spec',           '~> 1.2.1'
   gem 'database_cleaner',     '~> 0.8.0'

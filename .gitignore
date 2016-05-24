@@ -1,3 +1,4 @@
+docker-compose.override.yml
 .project
 .DS_Store
 *.rbc

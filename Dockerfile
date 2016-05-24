@@ -1,5 +1,5 @@
 FROM ruby:2.2.4-slim
-RUN apt-get update -qq && apt-get install -y build-essential libmysqlclient-dev nodejs git libxml2-dev libxslt1-dev mysql-client
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev libmysqlclient-dev nodejs git libxml2-dev libxslt1-dev mysql-client qt5-qmake qt5-default
 RUN mkdir /ya
 RUN gem cleanup
 WORKDIR /ya

@@ -1,0 +1,8 @@
+development:
+  database: ya_dev
+  adapter: postgresql
+  reconnect: true
+  pool: 5
+  username: postgres
+  password: sekrit
+  host: postgres

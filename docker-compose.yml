@@ -1,36 +1,51 @@
-youngAggrariansApp:
-  restart: always
-  build:
-    dockerfile: Dockerfile
-  command: "bundle exec rails s -p 3000 -b '0.0.0.0'"
-  ports:
-    - 127.0.0.1:3000:3000
-  environment:
-    RAILS_ENV: production
-  volumes:
-    - log:/ya/log
-    - secrets:/ya/config/secrets
-  expose:
-    - '3000'
-  mem_limit: 250m
-  links:
-    - youngAggrariansDb:mysql
-youngAggrariansFrontend:
-  restart: always
-  build:
-    dockerfile: Dockerfile.frontend
-  ports:
-    - 80:80
-    - 443:443
-  links:
-    - youngAggrariansApp:app
-  volumes:
-    - /data/docker/nginx/ssl:/etc/nginx/conf.d/ssl
-  mem_limit: 50m
-youngAggrariansDb:
-  restart: always
-  image: "mysql:5.6"
-  mem_limit: 50m
-  environment:
-    MYSQL_ROOT_PASSWORD:
-    MYSQL_DATABASE: young_aggrarians_production
+version: '2'
+
+services:
+  app:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "bundle exec rails s -p 3000 -b '0.0.0.0'"
+    ports:
+      - 127.0.0.1:3000:3000
+    #environment:
+    #  RAILS_ENV: production
+    volumes:
+      #- ./log:/ya/log
+      #- ./secrets:/ya/config/secrets
+      - .:/ya
+    expose:
+      - '3000'
+    mem_limit: 250m
+    networks:
+      - back-tier
+  frontend:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+
+    volumes:
+      - /data/docker/nginx/ssl:/etc/nginx/conf.d/ssl
+    mem_limit: 50m
+    networks:
+      - back-tier
+  db:
+    restart: always
+    image: "postgres:9.5"
+    mem_limit: 50m
+    networks:
+      - back-tier
+    #environment:
+    #  MYSQL_ROOT_PASSWORD:
+    #  MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    #  MYSQL_DATABASE: young_aggrarians_production
+
+networks:
+  back-tier:
+    driver: bridge
+
+volumes:
+  db:
+    driver: local
