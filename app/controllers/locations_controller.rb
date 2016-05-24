@@ -64,23 +64,18 @@ class LocationsController < ApplicationController
 
   # GET /locations/1/edit
   def edit
-    @categories = Category.all
-    @locations = nil
-    if params.key? :id
-      location = Location.find(params[:id])
-      @locations = [location]
-      @ids = [location.id]
-    elsif params.key? :ids
-      @ids = params[:ids].split ','
-      @locations = Location.find @ids
+    @location = Location.find( params[:id] )
+    unless @location.admin?( current_user )
+      redirect_to map_url
     end
+    render layout: 'basic'
   end
 
   # POST /locations
   # POST /locations.json
   def create
     session[:in_progress_location] ||= {}
-    session[:in_progress_location].merge!( params.require( :location ).permit( { nested_category_ids: [] }, :name, :description, :street_address, :city, :phone, :fb_url, :twitter_url, :email, :public_contact, :show_until, :account_id, :province, :country ))
+    session[:in_progress_location].merge!( location_params )
     session[:in_progress_location_time] = Time.current.to_i
 
     @location = Location.new( session[:in_progress_location] )
@@ -114,20 +109,8 @@ class LocationsController < ApplicationController
     if params.key? :id
       location = Location.find(params[:id])
       @locations = [location]
-      # ACP:  WTFa??
-      location_params = params.clone
-      [:created_at, :id, :updated_at, :category, :subcategories, :markerVisible,
-       :action, :controller, :location].each do |param|
-        location_params.delete param
-      end
       location.update_attributes location_params
       @errors = location.errors
-    elsif params.key? :locations
-      params[:locations][:location].each do |data|
-        l = Location.find data[0]
-        @errors.push(l.errors) unless l.update_attributes(data[1])
-        @locations.push l
-      end
     end
 
     respond_to do |format|
@@ -144,20 +127,16 @@ class LocationsController < ApplicationController
   # DELETE /locations/1
   # DELETE /locations/1.json
   def destroy
-    @locations = nil
-
-    if params.key? :id
-      location = Location.find params[:id]
-      @locations = [location]
-    elsif params.key? :ids
-      @locations = Location.find params[:ids].split(',')
+    @location = Location.find( params[:id] )
+    if @location.is_admin?( current_user )
+      @location.destroy
+    else
+      redirect_to map_url
     end
-
-    @locations.each(&:destroy) unless @locations.empty?
 
     respond_to do |format|
       format.html { redirect_to locations_url }
-      format.json { head :no_content }
+      format.json { render text: @location }
     end
   end
 
@@ -199,5 +178,9 @@ class LocationsController < ApplicationController
         render :new, layout: 'basic'
       end
     end
+  end
+  # ------------------------------------------------------------ location_params
+  def location_params
+    params.require( :location ).permit( { nested_category_ids: [] }, :name, :description, :street_address, :city, :phone, :fb_url, :twitter_url, :email, :public_contact, :show_until, :account_id, :province, :country )
   end
 end

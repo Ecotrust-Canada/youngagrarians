@@ -1,0 +1,39 @@
+= stylesheet_link_tag 'locations_crud'
+%section.edit
+  %h1<Edit #{@location.name}
+
+  = form_for @location, builder: FormBuilder do |f|
+    = f.text_field :name, required: true
+    = f.text_area :description, required: true
+    - f.object.nested_category_ids.each do |category_id|
+      = f.select_tag 'nested_category_ids[]', category_options( f.object ), value: category_id, label: 'Category'
+    - if f.object.nested_category_ids.empty?
+      = f.select_tag( 'nested_category_ids[]', category_options( f.object ) )
+    .add_category
+      = link_to( 'List in another category', '#', class: 'add_category' )
+    = f.text_field :street_address
+    = f.text_field :city
+    = f.select :country, [ ['Canada', 'CA'], ['United States', 'US']]
+    = f.select :province, States::CANADIAN_PROVINCES
+    = f.phone_number :phone
+    = f.url :fb_url, label: 'Facebok URL'
+    = f.text_field :twitter_url, label: 'Twitter URL'
+    = f.email :email
+    %span.question<Can we display this contact info on U-Map?
+    = f.radio_option :public_contact, true, label: 'Yes! Please share these details publicly'
+    = f.radio_option :public_contact, false, label: 'No, I prefer that people contact me through Young Agrarians In-Mail (account required.)'
+    = f.date :show_until
+
+    .field_info
+      <span>*</span> required fields
+    = f.submit( 'Update' )
+= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'
+:javascript
+  $('a.add_category').click( function(e)
+  {
+    e.preventDefault()
+    var container = $('#location_nested_category_ids_').first().closest( 'div.form-element' );
+    var newEl = $( "<div class='form-element'>" + container.html() + "</div>" );
+    newEl.find( 'selected' ).val( '' );
+    $(e.currentTarget ).closest( '.add_category' ).before( newEl );
+  } );

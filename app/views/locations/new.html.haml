@@ -6,7 +6,7 @@
   = form_for @location do
     = hidden_field_tag 'next_step', 2
     .row
-      - halfway = NestedCategory.level_2.count / 2 + NestedCategory.meta.no_children.count
+      - halfway = NestedCategory.level_2.count( 'distinct nested_categories.id' ) / 2 + NestedCategory.meta.no_children.count
       - seen_kids = 0
       - col = 0
       - cur_col = nil

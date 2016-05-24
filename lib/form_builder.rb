@@ -62,6 +62,7 @@ class FormBuilder < ActionView::Helpers::FormBuilder
   def email( *args )
     text_field( *args )
   end
+  # ----------------------------------------------------------------- select_tag
   def select_tag( field, options, args = {} )
     if object.respond_to?( :errors ) && object.errors[field].any?
       args[:class] = 'field-error'
