@@ -3,7 +3,9 @@ class Location < ActiveRecord::Base
   include Gmaps4rails::ActsAsGmappable
   acts_as_gmappable validation: false
 
-  has_many :category_tags, dependent: :destroy, foreign_key: 'location_id'
+  belongs_to :account, inverse_of: :locations
+
+  has_many :category_tags, dependent: :destroy, foreign_key: 'location_id', inverse_of: :location
   has_many :nested_categories, through: :category_tags
 
   scope :approved, -> { where( is_approved: true ) } 
@@ -20,6 +22,14 @@ class Location < ActiveRecord::Base
 
   def skip_approval_email
     @skip_approval_email ||= false
+  end
+
+  def visible?
+    ( show_until.nil? || show_until > Time.zone.today ) && approved?
+  end
+
+  def approved?
+    is_approved
   end
 
   def gmaps4rails_address
@@ -68,12 +78,15 @@ class Location < ActiveRecord::Base
     return false if self[:gmaps] == false # lets us flag entries for re-processing manually
     !(street_address_changed? || city_changed? || country_changed? || postal_changed?)
   end
+  # --------------------------------------------------------------------- admin?
+  def admin?( user )
+    user && user.id == account_id
+  end
 
   def is_approved=(value)
-    value = ActiveRecord::ConnectionAdapters::Column.value_to_boolean(value)
-    self[:is_approved] = value
+    self[:is_approved] = ActiveRecord::Type::Boolean.new.type_cast_from_database(value)
     if value && email.present? && !@skip_approval_email
-      UserMailer.listing_approved(self).deliver
+      UserMailer.listing_approved( self ).deliver
     end
   end
 
@@ -90,6 +103,10 @@ class Location < ActiveRecord::Base
         csv << values.values_at(*columns)
       end
     end
+  end
+  
+  def to_param
+    format( '%d-%s', id, name.gsub( /[^0-9a-z]+/i, '-' ).sub( /^-/, '' ) )
   end
 
   def self.import(file)

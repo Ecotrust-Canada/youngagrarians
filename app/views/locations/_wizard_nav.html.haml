@@ -1,0 +1,9 @@
+= stylesheet_link_tag 'new_listing'
+.row
+  .column.twelve
+    %ul.menu
+      %li{ class: selected == 'categories' ? 'selected' : nil }<= link_to 'Categories', new_location_path( step: 'categories' )
+      %li{ class: selected == 'account' ? 'selected' : nil }<= link_to 'Log In', new_location_path( step: 'account' )
+      %li{ class: selected == 'description' ? 'selected' : nil }<= link_to 'Description', new_location_path( step: 'description' )
+      %li{ class: selected == 'contact' ? 'selected' : nil }<= link_to 'Contact', new_location_path( step: 'contact' )
+

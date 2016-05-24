@@ -1,0 +1,42 @@
+%section
+  = render( partial: 'wizard_nav', locals: { selected: 'categories' } )
+  .row
+    .column.twelve
+      %h2<What kind of listing is this?
+  = form_for @location do
+    = hidden_field_tag 'next_step', 2
+    .row
+      - halfway = NestedCategory.level_2.count( 'distinct nested_categories.id' ) / 2 + NestedCategory.meta.no_children.count
+      - seen_kids = 0
+      - col = 0
+      - cur_col = nil
+      - NestedCategory.meta.with_children.each do |category|
+        - if cur_col != col
+          - if col > 0
+            #{"</div>".html_safe}
+          #{"<div class='six columns'>".html_safe}
+          - cur_col = col
+        .category_section
+          %h3<= category.name
+          %ol
+            - category.children.each do |child_category|
+              - seen_kids += 1
+              %li
+                %label
+                  = radio_button_tag 'location[nested_category_ids][]', child_category.id
+                  = child_category.name
+        - if halfway < seen_kids && col != 1
+          - col += 1
+      .category_section
+        %h3<Other
+        %ol
+          - NestedCategory.meta.no_children.each do |category|
+            %li
+              %label
+                = radio_button_tag 'location[nested_category_ids][]', category.id
+                = category.name
+      #{"</div>".html_safe}
+    .row
+      .column.twelve
+        %button.btn-cancel<Cancel
+        %button.button-primary<Save

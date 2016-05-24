@@ -1,0 +1,34 @@
+= stylesheet_link_tag 'locations_crud'
+%h1<Listings for #{current_user.email}
+
+- if @locations.any?
+  %ul.location_list
+    - @locations.each do |location|
+      %li
+        = link_to location.name, location_path( location )
+        - if !location.approved?
+          (Pending approval)
+        - elsif !location.visible?
+          (Expired)
+        - elsif location.show_until.present?
+          ( Expires #{location.show_until} )
+        = link_to 'edit', edit_location_path( location ), class: 'link_edit'
+        = form_for location, method: :delete do 
+          = link_to 'remove', '#', class: 'link_remove'
+- else
+  .panel
+    You current have no listings tied to your account.
+= link_to( 'Click here to add a new listing', new_listing_path )
+
+= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'
+:javascript
+  $('a.link_remove').click( function(e)
+  {
+    e.preventDefault();
+    if( confirm( "Are you sure you want to remove that location?" ) )
+    {
+      $(e.currentTarget ).closest( 'form' ).submit();
+    }
+  } );
+  
+

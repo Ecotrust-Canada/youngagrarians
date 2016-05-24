@@ -1,0 +1,34 @@
+ul.location_list
+  li
+    a.link_edit, a.link_remove
+      display: none
+      padding-left: 1em
+      padding-right: 1em
+    form
+      display: inline
+  &:hover
+    a.link_edit, a.link_remove
+      display: inline
+section.edit
+  form
+    label
+      width: 20%
+    input, select, textarea
+      width: 60%
+    label.radio
+      width: 60%
+      padding-left: 23%
+      font-weight: normal
+    .required
+      label
+        &:after
+          content: '*'
+          color: red
+    span.question
+      font-weight: bold
+  .field_info
+    text-align: right
+    max-width: 80%
+    span
+      color: red
+

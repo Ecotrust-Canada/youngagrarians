@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 require 'fileutils'
-require 'english'
 
 DOCKER_FILE = 'tmp/Dockerfile.app'.freeze
 PID_FILE = File.expand_path(File.join(__dir__, '../tmp/pids/server.pid')).freeze
@@ -16,10 +15,10 @@ FileUtils.rm(PID_FILE) if File.exist?(PID_FILE)
 def write_docker_file
   File.open(DOCKER_FILE, 'w') do |fh|
     fh.puts <<-EOS
-FROM ruby:2.2.4-slim
+FROM ruby:2.2.5-slim
 RUN apt-get update -qq 
-#RUN apt-get install -y build-essential libmysqlclient-dev git libxml2-dev libxslt1-dev nodejs # use for mysql 
-RUN apt-get install -y build-essential postgresql-common libpq-dev git libxml2-dev  libxslt1-dev nodejs # use for pg
+#RUN apt-get install -y build-essential git libxml2-dev libxslt1-dev nodejs # use for mysql 
+RUN apt-get install -y build-essential postgresql-common libpq-dev git libxml2-dev  libxslt1-dev nodejs libmysqlclient-dev  # use for pg
 # RUN apt-get install -y curl #debug
 RUN mkdir /ya
 RUN gem install bundler
@@ -91,8 +90,8 @@ def run_commands( cmds, halt_on_failure = false )
     end
     puts "RUNNING: #{docker_env} #{cmd}" if $debug
     result = `#{docker_env} #{cmd}`
-    statuses << $CHILD_STATUS.to_i
-    if $CHILD_STATUS.to_i != 0
+    statuses << $?.to_i
+    if $?.to_i != 0
       puts result
       $stderr.puts "cmd failed: #{cmd}"
       is_halted = true
@@ -110,9 +109,13 @@ cmds = ["docker rm -f #{CONTAINER_NAME}",
             "-p 5432 "\
             "-d postgres" ]
 results = run_commands( cmds )
+puts results[1..-2].inspect
 code = results[1..-2].find{ |x| x != 0 } # ignore first as container maynot exist first time through
 if code
   $stderr.puts "Exiting due to failure."
+  cmds.each_with_index do |cmd,i|
+    puts format( "code %d: %s", results[i], cmd )
+  end
   exit( code ) 
 end
 

@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.2.4'
+ruby '2.2.5'
 
 gem 'rails', '~> 4.2.0'
 gem 'rake'
@@ -8,6 +8,7 @@ gem 'rake'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
+gem 'mysql2'
 gem 'ejs'
 # Gems used only for assets and not required
 # in production environments by default.
@@ -19,6 +20,7 @@ gem 'coffee-rails'
 gem 'compass-rails' # you need this or you get an err
 #gem 'foundation-rails'
 gem 'font-awesome-rails'
+gem 'bootstrap-sass'
 gem 'eco'
 gem 'marionette-rails'
 gem 'haml'
@@ -85,7 +87,6 @@ group :test do
   #gem 'capybara-webkit'
   gem 'selenium-webdriver'
   gem 'email_spec',           '~> 1.2.1'
-  gem 'database_cleaner',     '~> 0.8.0'
   gem 'factory_girl_rails'
   gem 'cucumber-rails', require: false
   gem 'mocha', require: false
@@ -93,10 +94,12 @@ group :test do
   gem 'launchy'
   gem 'webmock'
   gem 'timecop'
-  gem 'test-unit', '~> 3.0'
+  gem 'test-unit'
+  gem 'sqlite3'
 end
-
-gem 'rails_12factor'
+group :production, :development, :staging do
+  gem 'rails_12factor'
+end
 
 gem 'devise'
 gem 'safe_yaml' #, '0.6.3'

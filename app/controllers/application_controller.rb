@@ -5,26 +5,27 @@ class ApplicationController < ActionController::Base
 
   before_filter :xhr?
 
-  include ApplicationHelper
-  include AppWarden::Mixins::HelperMethods
-  include AppWarden::Mixins::ControllerOnlyMethods
+  #include ApplicationHelper
+  #include AppWarden::Mixins::HelperMethods
+  #include AppWarden::Mixins::ControllerOnlyMethods
 
-  class ClientError               < StandardError; end
-  class BadRequestError           < ClientError; end
-  class UnauthenticatedError      < ClientError; end
-  class UnauthorizedError         < ClientError; end
-  class NotFoundError             < ClientError; end
-  class TeamNotFoundError         < ClientError; end
-  class UserNotFoundError         < ClientError; end
-  class SessionNotFoundError      < ClientError; end
+  # #class ClientError               < StandardError; end
+  # class BadRequestError           < ClientError; end
+  # class UnauthenticatedError      < ClientError; end
+  # class UnauthorizedError         < ClientError; end
+  # class NotFoundError             < ClientError; end
+  # class TeamNotFoundError         < ClientError; end
+  # class UserNotFoundError         < ClientError; end
+  # class SessionNotFoundError      < ClientError; end
 
-  rescue_from BadRequestError,                   with: :bad_request       # 400 Bad Request
-  rescue_from UnauthenticatedError,              with: :unauthenticated   # 401 Unauthorized
-  rescue_from UnauthorizedError,                 with: :unauthorized      # 403 Forbidden
-  rescue_from ActionView::MissingTemplate,       with: :not_found         # 404 Not Found
-  rescue_from NotFoundError,                     with: :not_found         # 404 Not Found
-  rescue_from UserNotFoundError,                 with: :user_not_found    # 404 Not Found
-  rescue_from SessionNotFoundError,              with: :session_not_found # 404 Not Found
+  # rescue_from BadRequestError,                   with: :bad_request       # 400 Bad Request
+  # rescue_from UnauthenticatedError,              with: :unauthenticated   # 401 Unauthorized
+  # rescue_from UnauthorizedError,                 with: :unauthorized      # 403 Forbidden
+  # rescue_from ActionView::MissingTemplate,       with: :not_found         # 404 Not Found
+  # rescue_from NotFoundError,                     with: :not_found         # 404 Not Found
+  # rescue_from UserNotFoundError,                 with: :user_not_found    # 404 Not Found
+  # rescue_from SessionNotFoundError,              with: :session_not_found # 404 Not Found
+
   # rescue_from Mongoid::Errors::DocumentNotFound, :with => :not_found         # 404 Not Found
 
   # Display error when the request is bad
@@ -181,5 +182,8 @@ class ApplicationController < ActionController::Base
 
       clean_params
     end
+  end
+  def current_user
+    @current_user ||= Account.find_by( id: session['account_id'] ) if session['account_id']
   end
 end

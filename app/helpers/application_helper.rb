@@ -1,5 +1,8 @@
 module ApplicationHelper
   include AppWarden::Mixins::HelperMethods
+  def current_user
+    controller.send( :current_user )
+  end
 
   def google_analytics_code
     <<-EOS
