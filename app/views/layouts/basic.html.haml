@@ -16,7 +16,11 @@
     /[if lt IE 9]
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript"></script>
     = stylesheet_link_tag "application", media: "all"
-    = stylesheet_link_tag "basic", media: "all"
+    - if @skeleton
+      = stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css'
+    - else
+      = stylesheet_link_tag 'basic', media: "all"
+
     = javascript_include_tag 'modernizr'
     / For third-generation iPad with high-resolution Retina display:
     / Size should be 144 x 144 pixels

@@ -6,11 +6,12 @@ Youngagrarians::Application.configure do
   # your test database is "scratch space" for the test suite and is wiped
   # and recreated between test runs. Don't rely on the data there!
   config.cache_classes = true
+  config.active_support.test_order = :random
 
   # Configure static asset server for tests with Cache-Control for performance
   config.serve_static_files = true
   config.static_cache_control = 'public, max-age=3600'
-  active_support.test_order = :random
+  config.active_support.test_order = :random
 
   config.eager_load = false
   # Show full error reports and disable caching
@@ -29,7 +30,8 @@ Youngagrarians::Application.configure do
   config.action_mailer.delivery_method = :test
 
   # Print deprecation notices to the stderr
-  config.active_support.deprecation = :stderr
+  config.active_support.deprecation = :raise
+  config.action_controller.action_on_unpermitted_parameters = :raise
   Capybara::Webkit.configure do |config|
     config.allow_url("fonts.googleapis.com")
     config.allow_url("maps.googleapis.com")

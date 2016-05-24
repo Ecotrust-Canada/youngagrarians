@@ -24,6 +24,8 @@ Youngagrarians::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+  config.action_controller.action_on_unpermitted_parameters = :raise
+
 
   config.action_mailer.delivery_method = :letter_opener
 end

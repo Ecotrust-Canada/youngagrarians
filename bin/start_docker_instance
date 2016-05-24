@@ -1,0 +1,11 @@
+echo "enter digital ocean token:"
+read DO_TOKEN
+docker-machine create \
+  -d digitalocean \
+  --digitalocean-access-token ${DO_TOKEN} \
+  --digitalocean-region "sfo1" \
+  --digitalocean-size "512mb" \
+  --swarm \
+  --swarm-master \
+  --swarm-discovery token://9b7df78062d82d601422efe6dfeb75d5 \
+  ya-swarm-master

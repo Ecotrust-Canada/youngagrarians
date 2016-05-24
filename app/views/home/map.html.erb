@@ -19,7 +19,9 @@
 
   <results></results>
   <div id='map'></div>
-  <button class='submit'>Submit a listing <big>+</big></button>
+  <form action='<%= new_listing_path -%>' method='get'>
+    <button class='submit'>Submit a listing <big>+</big></button>
+  </form>
   <layers></layers>
   <search></search>
   <listing></listing>

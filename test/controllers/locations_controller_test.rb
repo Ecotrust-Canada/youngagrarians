@@ -36,6 +36,7 @@ class LocationsControllerTest < ActionController::TestCase
     assert_template :details
   end
   
+  # ---------------------------------- test_viewing_new_form_for_contact_details
   def test_viewing_new_form_for_contact_details
     get :new, step: 'contact'
     assert_response :success

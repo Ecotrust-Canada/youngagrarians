@@ -27,6 +27,11 @@ Heroku Repo
 ===========
 - https://git.heroku.com/youngagrarians.git
 
+Note the pg is not used as the db, cleardb powered mysql is.  Access via mysql client and details from heroku config.
+echo "SET standard_conforming_strings = 'off';\nSET backslash_quote = 'on';\n" > tmp/db_dump.sql
+mysqldump -h us-cdbr-east-04.cleardb.com -u USEr -p DB  --compatible=postgresql >> tmp/db_dump.sql
+Note that id columns need to be turned into serial columns and tinyints into booleans
+
 youngagrarians
 ==============
 

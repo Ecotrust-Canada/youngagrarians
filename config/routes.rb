@@ -12,7 +12,7 @@ Youngagrarians::Application.routes.draw do
   get 'surrey.json', controller: 'locations', action: 'index', format: 'json', surrey: 1
 
   get 'home/index'
-  get 'map', controller: 'home', action: 'map'
+  get 'map', controller: 'home', action: 'map', as: 'map'
   root to: 'home#index'
 
   # Authentication flow
@@ -33,6 +33,11 @@ Youngagrarians::Application.routes.draw do
 
   post '/search' => 'locations#search', :as => :search
   get '/category/:top_level_name', as: 'top_level_category', controller: 'categories', action: 'show'
+  get '/category/:top_level_name', as: 'meta_category', controller: 'categories', action: 'show'
   get '/category/:top_level_name/:subcategory_name', as: 'subcategory', controller: 'categories', action: 'show'
+  resources :accounts
+  resource :session
+
   get 'sitemap.xml', controller: 'home', action: 'sitemap', format: 'xml'
+  get 'new-listing', controller: 'locations', action: 'new', as: 'new_listing'
 end

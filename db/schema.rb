@@ -11,16 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160511063543) do
+ActiveRecord::Schema.define(version: 20160523062926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
-    t.string   "email",      null: false
-    t.string   "password",   null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "email",           null: false
+    t.string   "password_digest", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "categories", force: :cascade do |t|
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20160511063543) do
   create_table "locations", force: :cascade do |t|
     t.float    "latitude"
     t.float    "longitude"
+    t.integer  "gmaps"
     t.string   "street_address", limit: 255
     t.string   "name",           limit: 255
     t.text     "content"
@@ -48,8 +49,9 @@ ActiveRecord::Schema.define(version: 20160511063543) do
     t.string   "fb_url",         limit: 255
     t.string   "twitter_url",    limit: 255
     t.text     "description"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.integer  "is_approved",                default: 0
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.integer  "category_id"
     t.string   "resource_type",  limit: 255
     t.string   "email",          limit: 255
@@ -58,10 +60,11 @@ ActiveRecord::Schema.define(version: 20160511063543) do
     t.string   "city",           limit: 255
     t.string   "country",        limit: 255
     t.string   "province",       limit: 255
-    t.boolean  "is_approved"
-    t.boolean  "g_maps"
+    t.integer  "account_id"
+    t.boolean  "public_contact",             default: true, null: false
   end
 
+  add_index "locations", ["is_approved"], name: "index_locations_on_is_approved", using: :btree
   add_index "locations", ["show_until"], name: "index_locations_on_show_until", using: :btree
 
   create_table "locations_subcategories", id: false, force: :cascade do |t|

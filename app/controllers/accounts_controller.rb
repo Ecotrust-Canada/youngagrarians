@@ -1,7 +1,4 @@
 class AccountsController < ApplicationController
-  before_filter :authenticate!,
-                except: [:login, :login_post, :logout, :forgot_password,
-                         :retrieve_password, :password_reset, :reset_password]
   respond_to :html
 
   def show
@@ -26,20 +23,25 @@ class AccountsController < ApplicationController
   end
 
   def create
-    @code = params[:code]
-    @user = User.create(params[:user])
-    if @user
-      if @user.valid?
-        # self.current_user = @user
-        # Notifications.account_created(@user).deliver #TODO: Notifications!
+    @account = Account.new( params.require( :account ).permit( :email, :password ) )
+    if @account.save
+      session['account_id'] = @account.id
+      if params[:for_listing]
+        session[:in_progress_location] ||= {}
+        session[:in_progress_location]['account_id'] = @account.id
+        redirect_to new_listing_url
+      else
+        redirect_to account_url( @account )
+      end
+    else
+      if params[:for_listing]
+        @skeleton = true
+        render 'locations/account_setup', layout: 'basic'
+      else
+        render :new
       end
     end
 
-    if @user.valid?
-      respond_with @user, location: :locations
-    else
-      render action: 'new'
-    end
   end
 
   # ACCOUNT UPDATING NOT AVAILABLE. SEE UPDATE_PASSWORD BELOW.

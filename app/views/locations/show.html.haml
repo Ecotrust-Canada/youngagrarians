@@ -1,5 +1,9 @@
 %h1<=@location.name
 
+%p
+  = link_to 'Click here to return to the Young Agrarians Young Farmer resource map', map_path
+- if current_user && @location.admin?( current_user )
+  = link_to 'edit location details', edit_location_path( @location )
 %h3
   %p
     = content_tag( 'span', @location.resource_type, class: 'resource-type' ) if @location.resource_type
