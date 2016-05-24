@@ -1,0 +1,9 @@
+= stylesheet_link_tag 'messages'
+= form_for @message, url: @location ? location_message_path( @location ) : account_message_path, builder: FormBuilder do |f|
+  = f.text_field :subject, required: true
+  = f.email_field :email, required: true
+  = f.honeypot_field :link
+  = f.text_field :name, required: true
+  = f.text_area :message, required: true, rows: 10
+  = f.submit( 'Deliver Message' )
+  = link_to "Return to #{@location ? @location.name : @account.email}", cancel_path

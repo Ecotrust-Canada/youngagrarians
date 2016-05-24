@@ -27,6 +27,7 @@
 
 %h3<Contact Details
 %p
+  = link_to 'Message Owner', new_location_message_path( @location )
   = contact_links( @location )
   - if @location.phone.present?
     = link_to( @location.phone, "tel:#{@location.phone}", class: 'phone' )

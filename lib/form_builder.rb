@@ -18,6 +18,14 @@ class FormBuilder < ActionView::Helpers::FormBuilder
     v = '0' if v.is_a?( FalseClass )
     template.check_box_tag( field_name, v, is_checked )
   end
+  # ------------------------------------------------------------- honeypot_field
+  def honeypot_field( field, args = {} )
+    x = template.text_field( object_name, field )
+    label = field.to_s.humanize
+    klasses = ['form-element', "hp-#{field.to_s.gsub( / /, '_')}"]
+    klasses << 'required' if args[:required]
+    template.content_tag( 'div', template.content_tag( 'label', label ) + x + append_errors( field ), class: klasses.join(' ' ) )
+  end
   # -------------------------------------------------------------- check_box_tag
   def radio_button_tag( f, v, cur_val )
     field_name = if f.to_s.match( /\[\]$/ )
