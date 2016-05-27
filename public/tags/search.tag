@@ -31,13 +31,16 @@
     controller.showing = !controller.showing;
   }
 
-  function listing_visible(item){
-    console.log( 'cat cache', category_cache );
+  function listing_visible(item)
+  {
+    return item.categories.find( function(x){ return category_cache[x.name] || category_cache[x.parent];  } );
+    /*
     var cat = item.categories.find( function(x){ return category_cache[x.name] || category_cache[x.parent];  } );
     var include = cat
       &&
       (!query || (item.name.toLowerCase().indexOf(query.toLowerCase() ) > -1));
     return include;
+    */
   }
 
   onfilter(e){
@@ -82,22 +85,22 @@
         }); 
       }
     }
-
     var current_listings = [];
     var matches = 0;
-
-    for (var i=0; i<orig_listings.length; i++) {
-
-      if (listing_visible(orig_listings[i])) {
-        current_listings.push(orig_listings[i]);
-        matches ++;
-        //if (matches > 50) return results;
-        orig_listings[i].show = true;
-      } else {
-        orig_listings[i].show = false;
-      }
+    if( query )
+    {
+      var path = opts.kwargs['surrey'] ? '/surrey.json' : '/locations.json'
+      path += '?q=' + query;
+      ajax().get( path ).then(function(response){
+        var l = response.filter( function(x){ return listing_visible( x ); } );
+        opts.trigger('load', l );
+      } );
     }
-    opts.trigger('load', current_listings);
+    else
+    {
+      var l = orig_listings.filter( function(x){ return listing_visible( x ); } );
+      opts.trigger('load', l );
+    }
   }
 
 </search>
