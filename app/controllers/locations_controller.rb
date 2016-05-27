@@ -30,6 +30,8 @@ class LocationsController < ApplicationController
         else
           Location
         end
+
+        scope = apply_search_scope( scope ) if params[:q].present?
         @locations = scope.approved.currently_shown.includes( category_tags: { nested_category: :parent } ).order( 'id' )
       end
     end
@@ -182,5 +184,19 @@ class LocationsController < ApplicationController
   # ------------------------------------------------------------ location_params
   def location_params
     params.require( :location ).permit( { nested_category_ids: [] }, :name, :description, :street_address, :city, :phone, :fb_url, :twitter_url, :email, :public_contact, :show_until, :account_id, :province, :country )
+  end
+
+  # --------------------------------------------------------- apply_search_scope
+  def apply_search_scope( scope )
+    if ActiveRecord::Base.connection.instance_of?( ActiveRecord::ConnectionAdapters::PostgreSQLAdapter  )
+      args = []
+      clause = params[:q].split( /\s+/ ).map do |phrase|
+        args << phrase
+        'to_tsquery(?)'
+      end.join( ' && ' )
+      scope.where( "search @@ (#{clause})", *args )
+    else
+      scope.where( 'description LIKE ?', "%#{params[:q]}%" )
+    end
   end
 end

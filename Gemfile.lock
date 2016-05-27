@@ -56,9 +56,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-webkit (1.11.1)
-      capybara (>= 2.3.0, < 2.8.0)
-      json
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     chunky_png (1.3.5)
@@ -362,7 +359,6 @@ DEPENDENCIES
   binding_of_caller
   bootstrap-sass
   capybara
-  capybara-webkit
   coffee-rails
   compass-rails
   cucumber-rails
