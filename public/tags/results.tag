@@ -16,7 +16,7 @@
           { name }<br>
           <span if={ city } class='city'>{ city }, { province }</span>
         </p>
-        <div if={ latitude } class='view-on-map { slugify(categories[0].name) }' onclick={ view_on_map }>
+        <div if={ latitude } class='view-on-map { slugify(categories[0]) }' onclick={ view_on_map }>
           VIEW ON<br>MAP
           <div class='triangle-arrow filled'></div>
         </div>
@@ -33,7 +33,7 @@
   view_on_map(e) {
     pubsub.trigger('zoom_to', e.item.marker)
   }
- 
+
   slugify(category) {
     return slug(category)
   }
@@ -42,7 +42,6 @@
     response = response.sort(
       function(x, y)
       {
-
         if ( x.dist > y.dist) {
           return 1;
         } else if (x.dist < y.dist) {
