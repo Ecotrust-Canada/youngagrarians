@@ -54,6 +54,25 @@ module LocationsHelper
       nil
     end
   end
+
+  # ---------------------------------------------------------- top_category_list
+  def category_class_list( location )
+    metas = location.nested_categories
+                    .joins( "LEFT OUTER JOIN nested_categories parent ON nested_categories.parent_category_id = parent.id" )
+                    .pluck( 'COALESCE( parent.name, nested_categories.name ) AS name',
+                            'COALESCE( parent.id, nested_categories.id ) as x' )
+    if metas.any?
+      
+      links = metas.map do |category_name, category_id|
+        category_name.downcase
+      end
+      safe_join( links, ' ' )
+
+    else
+      nil
+    end
+  end
+
   # -------------------------------------------------------------- contact_links
   def contact_links( location )
     content_tag( 'div', class: 'links' ) do

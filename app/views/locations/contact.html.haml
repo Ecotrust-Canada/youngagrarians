@@ -1,31 +1,56 @@
-%section.contact
+.listing-edit
   = render partial: 'wizard_nav', locals: { selected: 'contact' }
-  %h2<Contact Info
-  - @location.email ||= current_user && current_user.email
+  %h3<Contact Info
   = form_for @location, builder: FormBuilder do |f|
-    - if @location.errors.any?
-      .panel
-        %ul
-          - @location.errors.full_messages.each do |msg|
-            %li<=msg
-    = f.hidden_field_tag 'done', '1'
-    .row
-      .columns.six
-        = f.text_field :street_address
-        = f.text_field :city
-        = f.select :country, [ ['Canada', 'CA'], ['United States', 'US']]
-        = f.select :province, States::CANADIAN_PROVINCES
-        = f.phone_number :phone
-        = f.url :fb_url, label: 'Facebok URL'
-        = f.text_field :twitter_url, label: 'Twitter URL'
-        = f.email :email
-      .columns.six
-        %span.question<Can we display this contact info on U-Map?
-        = f.radio_option :public_contact, true, label: 'Yes! Please share these details publicly'
-        = f.radio_option :public_contact, false, label: 'No, I prefer that people contact me through Young Agrarians In-Mail (account required.)'
-        = f.date :show_until
-        = f.submit( 'Previous' )
-        = f.submit( 'Submit' )
+    %content
+      - @location.email ||= current_user && current_user.email
+      - if @location.errors.any?
+        .panel
+          %ul
+            - @location.errors.full_messages.each do |msg|
+              %li<=msg
+      = f.hidden_field_tag 'done', '1'
+      .row
+        .columns.six
+          = f.text_field :street_address
+          = f.text_field :city
+          = f.select :country, [ ['Canada', 'CA'], ['United States', 'US']]
+          = f.select :province, States::CANADIAN_PROVINCES
+          = f.phone_number :phone
+          = f.url :fb_url, label: 'Facebok URL'
+          = f.text_field :twitter_url, label: 'Twitter URL'
+          = f.email :email
+        .columns.six
+          %p
+            %big<Can we display this contact info on U-Map?
+            %span.required<*
+          %p.radio-wrap
+            = f.radio_option :public_contact, true, label: 'Yes! Please share these details publicly'
+          %p.radio-wrap
+            = f.radio_option :public_contact, false, label: 'No, I prefer that people contact me through Young Agrarians In-Mail (account required.)'
+          = f.date :show_until
+          %p
+            %small Leave blank to show the listing permanently.
+      .row{:style => "margin-top:1em"}
+        .nine.columns  
+        .three.columns
+          %span.required *
+          required fields.            
+        %p
+
+    .btnbar
+      .row{:style => "padding-top:20px"}
+        .three.columns
+          %a.btn.btn-muted{:href => "/map"} Cancel
+        .three.columns
+          = f.submit( 'Previous' )
+        .three.columns
+          = f.submit( 'Submit' )          
+        .three.columns{:style => "margin-left: 0"}
+          %p.aside
+            %small
+              By clicking submit, I agree the information I am providing is true and correct.
+
 = javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'
 :javascript
   var states = #{States::AMERICAN_STATES.to_json};

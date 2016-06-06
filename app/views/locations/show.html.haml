@@ -1,39 +1,71 @@
-%h1<=@location.name
-
-%p
-  = link_to 'Click here to return to the Young Agrarians Young Farmer resource map', map_path
-- if current_user && @location.admin?( current_user )
-  = link_to 'edit location details', edit_location_path( @location )
-%h3
-  %p
-    = content_tag( 'span', @location.resource_type, class: 'resource-type' ) if @location.resource_type
-    - if @location.bioregion.present?
-      in #{@location.bioregion}
-  #{top_category_list( @location )}
 
 
-- if @location.description.present? || @location.content.present?
-  %h3<Basic Details
-  = content_tag( 'div', @location.description, class: 'location-description' ) if @location.description.present?
-  = content_tag( 'div', @location.content, class: 'location-content' ) if @location.content.present?
+.detail-page.standalone
+  .listing-header
+    .category-icon{:style => "background-image:url(#{category_class_list( @location )})"}
+    .b #{category_class_list( @location )}
+    %img{:src => "/images/umap-content-title.png"}/
+    .filled
+  .back #{link_to 'Return to Map', map_path}
 
+  %h1<=@location.name
 
-%h3<Location
-%p
-  = display_address( @location )
-%p
-- if @location.latitude && @location.longitude
-  = link_to( 'map', map_path )
+  - if current_user && @location.admin?( current_user )
+    = link_to 'edit location details', edit_location_path( @location )
+  %h3
+    %p
+      = content_tag( 'span', @location.resource_type, class: 'resource-type' ) if @location.resource_type
+      - if @location.bioregion.present?
+        in #{@location.bioregion}
+    #{top_category_list( @location )}
 
-%h3<Contact Details
-%p
-  = link_to 'Message Owner', new_location_message_path( @location )
-  = contact_links( @location )
-  - if @location.phone.present?
-    = link_to( @location.phone, "tel:#{@location.phone}", class: 'phone' )
-    %br
-  = content_tag( 'span', mail_to( @location.email ), class: 'contact-email' ) if @location.email.present?
+  - if @location.description.present? || @location.content.present?
+    %h3<Basic Details
+    = content_tag( 'div', @location.description, class: 'location-description' ) if @location.description.present?
+    = content_tag( 'div', @location.content, class: 'location-content' ) if @location.content.present?
 
-.last-modified.text-muted
-  Last modifed #{@location.updated_at ? distance_of_time_in_words( @location.updated_at, Time.current ) : 'unknown'} ago;
-  #{@location.show_until ? @location.show_until : 'never expires'}.
+  .row-wrap
+    .row
+      .six.columns
+
+        %h3<Location
+        %p
+          = display_address( @location )
+        %p
+        - if @location.latitude && @location.longitude
+          = link_to( 'map', map_path )
+
+        %h3<Learn More
+        %p
+          = link_to 'Message Owner', new_location_message_path( @location )
+          = contact_links( @location )
+          - if @location.phone.present?
+            = link_to( @location.phone, "tel:#{@location.phone}", class: 'phone' )
+            %br
+          = content_tag( 'span', mail_to( @location.email ), class: 'contact-email' ) if @location.email.present?
+
+      .six.columns
+
+        #minimap
+
+        %ul.social.one
+          %li
+            %a.facebook{:href => "http://www.facebook.com/sharer.php?u=#{request.protocol}#{request.host_with_port}#{request.fullpath}", :target => "_blank", :title => "Facebook"}
+          %li
+            %a.twitter{:href => "http://twitter.com/share?url=#{request.protocol}#{request.host_with_port}#{request.fullpath}", :target => "_blank", :title => "Twitter"}
+          /
+            %li
+              %a.flickr{:href => "http://www.flickr.com/groups/youngagrarians/", :target => "_blank", :title => "Flickr"}
+        %ul.social.two
+          /
+            %li
+              %a.instagram{:href => "http://instagram.com/youngagrarians", :target => "_blank", :title => "Instagram"}
+          /
+            %li
+              %a.google{:href => "http://feeds.feedburner.com/YoungAgrarians", :title => "RSS"}
+          %li
+            %a.mail{:href => "mailto:?subject=#{@location.name}&body=See%20#{request.protocol}#{request.host_with_port}#{request.fullpath}", :target => "_blank", :title => "Mail"}
+
+  .last-modified.text-muted
+    Last modifed #{@location.updated_at ? distance_of_time_in_words( @location.updated_at, Time.current ) : 'unknown'} ago;
+    #{@location.show_until ? @location.show_until : 'never expires'}.
