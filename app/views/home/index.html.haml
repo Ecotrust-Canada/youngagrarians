@@ -1,1 +1,50 @@
-= link_to "Locations", locations_path
+.splash
+  %img{:src => "../images/young-agrarians-text.png"}/
+  %br/
+  %img{:src => "../images/umap-text.png"}/
+  %br/
+  %p.splash-subhead
+    Choose a category or enter a keyword to begin.
+  %ul.splash-icons
+    %li{"data-category" => "network", :onclick => "pickCategory(event)"}
+      %img{:src => "../images/icon/network.png"}/
+      .blurb
+        Network
+    %li{"data-category" => "education", :onclick => "pickCategory(event)"}
+      %img{:src => "../images/icon/education.png"}/
+      .blurb
+        Education
+    %li{"data-category" => "jobs-training", :onclick => "pickCategory(event)"}
+      %img{:src => "../images/icon/jobs-training.png"}/
+      .blurb
+        Jobs &
+        %br/
+        Training
+    %li{"data-category" => "business", :onclick => "pickCategory(event)"}
+      %img{:src => "../images/icon/business.png"}/
+      .blurb
+        Business
+    %li{"data-category" => "land", :onclick => "pickCategory(event)"}
+      %img{:src => "../images/icon/land.png"}/
+      .blurb
+        Land
+    %li{"data-category" => "run-your-farm", :onclick => "pickCategory(event)"}
+      %img{:src => "../images/icon/run-your-farm.png"}/
+      .blurb
+        Run Your
+        %br/
+        Farm
+  %p
+    %input.search-box{:onkeyup => "checkKeyUp(event)", :placeholder => "Search: ie) bees, soil testing, etc.", :type => "text"}/
+:javascript
+  function checkKeyUp(e){
+      console.log(e.which);
+      if (e.which === 13) {
+          window.location = "/map#q=" + e.target.value;
+      }
+  }
+  
+  function pickCategory(e){
+      console.log(e.target);
+      window.location = "/map#c=" + e.target.parentNode.getAttribute('data-category');
+  }

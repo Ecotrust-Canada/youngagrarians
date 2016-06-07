@@ -6,6 +6,12 @@
       <img src="/images/umap-text.png">
     </div>
 
+    <div class='cat-counts'>
+      <span each="{ name, value in cat_counts }" class="cat-count { name.toLowerCase().replace(/\s/,'-') }"><span class="filled">
+        { name }&nbsp;<b>{ value }</b>
+      </span></span> 
+    </div>
+
     <ul class='results-list'>
       <li each={ items }>
         <div class='listing-icon'
@@ -29,7 +35,8 @@
   var category_cache = {};
 
   this.items = opts.items;
-  
+  this.cat_counts = {};
+
   view_on_map(e) {
     pubsub.trigger('zoom_to', e.item.marker)
   }
@@ -52,8 +59,18 @@
       }
     );
 
+    var cat_counts = {};
+    response.forEach(function(item){
+      for (var i=0; i<1; i++) {
+        name = item.categories[i].parent || item.categories[i].name;
+        cat_counts[name] = (cat_counts[name] || 0) + 1
+      }
+    });
+    console.log(cat_counts);
+
     controller.update({
-      items: response
+      items: response,
+      cat_counts: cat_counts
     });
 
   });

@@ -1,5 +1,4 @@
 @import "fonts"
-@import "icons"
 
 $orange: #F36F2D
 
@@ -385,6 +384,20 @@ ul.social
 
 /* -------------- sidebar ---------------
 
+page
+  top: 50px
+  position: fixed
+  bottom: 0
+  left: 0
+  right: 0
+
+.cat-count
+  padding: 1px
+  span
+    padding: 1px 3px 1px 3px
+    color: black
+    border-radius: 2px
+
 .results-sidebar
   position: absolute
   left: 0
@@ -452,7 +465,7 @@ ul.results-list
   width: 15px
   height: 15px
   border-radius: 50%
-  background-color: black
+  background: black
   /*box-shadow: 0 3px 3px rgba(0,0,0,0.1);
 
 .leaflet-div-icon
@@ -494,6 +507,7 @@ ul.results-list
     margin: 0
     font-size: 12px
     cursor: pointer
+    display: block
     position: absolute
     bottom: 0
     right: 5px
@@ -539,7 +553,7 @@ ul.results-list
 .leaflet-bar a:first-child
   border-bottom: 0.5px solid black
 
-
+@import "icons"
 
 .view-on-map .triangle-arrow
   margin: 8px 0 0 27px
@@ -698,3 +712,5 @@ input.taggle_input
   padding: 0
   margin: 0
   line-height: 30px
+
+

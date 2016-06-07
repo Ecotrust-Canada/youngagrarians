@@ -1,8 +1,8 @@
 class HomeController < ApplicationController
   def index
-    @json = Location.where(is_approved: true).all.to_gmaps4rails
+    render layout: 'basic'
   end
   def map
-    render layout: false
+    render layout: false, embed: @embed
   end
 end
