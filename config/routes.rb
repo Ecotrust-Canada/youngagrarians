@@ -15,6 +15,8 @@ Youngagrarians::Application.routes.draw do
 
   get 'home/index'
   get 'map', controller: 'home', action: 'map', as: 'map'
+  get 'embed', controller: 'home', action: 'map', as: 'embed-map'
+  get 'splash', controller: 'home', action: 'splash', as: 'splash'
   root to: 'home#index'
 
   # Authentication flow

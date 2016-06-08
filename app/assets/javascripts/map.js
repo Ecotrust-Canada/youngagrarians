@@ -1,7 +1,10 @@
 
+/**
+ * variables map_center and map_zoom must be set
+ */
 var map = L.map('map', {
-  center: [49.104430, -122.801094],
-  zoom: 11,
+  center: map_center,
+  zoom: map_zoom,
   zoomControl: false
 });
 
@@ -29,17 +32,7 @@ url = "parks/within?lat1=" + bounds.getSouthWest().lat + "&lon1=" + bounds.getSo
 
 var geo;
 
-myStyle = {
-    fillColor: "#ffaa00",
-    color: "#000",
-    weight: 2,
-    opacity: 0.7,
-    fillOpacity: 0.1
-}
 
-ajax().get('/locations.json').then(function(response){
-  L.geoJson(response, {style:myStyle}).addTo(map);
-});
 
 
 function getSoil(e){
@@ -98,6 +91,19 @@ var markers = new L.MarkerClusterGroup({
 
 map.addLayer(markers);
 
+if (typeof city_json !== 'undefined') {
+  surrey_style = {
+      fillColor: "#ffaa00",
+      color: "#000",
+      weight: 2,
+      opacity: 0.7,
+      fillOpacity: 0.1
+  };
+  ajax().get(city_json).then(function(response){
+    L.geoJson(response, {style:surrey_style}).addTo(map);
+  });
+}
+
 pubsub.on('load', function(response){
   updateMarkers(response);
 });
@@ -134,9 +140,9 @@ function updateMarkers(response){
         +"<div class='listing-icon' style='background-image:url(" + CATEGORY_ICONS[the_slug] + ")'></div>"
         +"<label class='" + the_slug + "'>" + ( cat ? cat.name : 'no category' ) + "</label>"
           +"<p class='description'>" + listing.name + "</p><p class='city'>" + listing_city( listing) + "</p>"
-        +"<div data-id='" + listing.id + "' class='info " + the_slug +"'>MORE INFO"
+        +"<a target='_blank' href='/locations/" + listing.id + "' class='info " + the_slug +"'>MORE INFO"
           +"<div class='triangle-arrow filled'></div>"
-        +"</div>"
+        +"</a>"
       +"</div>"
       );
       markers.addLayer(marker);

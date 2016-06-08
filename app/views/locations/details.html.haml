@@ -1,20 +1,17 @@
-%section.about
+.listing-edit
   = render partial: 'locations/wizard_nav', locals: { selected: 'description' }
-  .row
-    .column.twelve
-      %h2<About the Listing
-  .row
-    .columns.ten
-      = form_for @location, builder: FormBuilder do |f|
-        = f.text_field :name, required: true
-        = f.select_tag 'nested_category_ids[]', category_options( @location ), 'value' => 1, label: 'Category'
-        = f.text_area :description, required: true
-        .field_info
-          <span>*</span> required fields
-        = f.submit( 'Previous' )
-        = f.submit( 'Next' )
-    .columns.two
-
-
-
-  %button.btn.btn-default<Cancel
+  %h3<About the Listing
+  = form_for @location, builder: FormBuilder do |f|
+    %content
+      = f.text_field :name, required: true
+      = f.select_tag 'nested_category_ids[]', category_options( @location ), 'value' => 1, label: 'Category'
+      = f.text_area :description, required: true
+      .field_info
+        <span class='required-icon'>*</span> required fields
+    .btnbar
+      .row{:style => "padding-top:20px"}
+        .three.columns
+          %a.btn.btn-muted{:href => "/map"} Cancel
+        .nine.columns
+          = f.submit( 'Previous' )
+          = f.submit( 'Next' )
