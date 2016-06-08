@@ -1,0 +1,36 @@
+!!! 5
+%html{ xmlns: "http://www.w3.org/1999/xhtml", "xml:lang" => "en", lang: "en" }
+  %head
+    %title<=message.subject
+    = render partial: 'layouts/mail_css'
+  %body{ leftmargin: 0, marginwidth: 0, topmargin: 0, marginheight: 0, offset: 0, class: 'background', style: "background: #e6e6e6;" }
+    %center
+      %table#background_table{ align: 0, border: 0, cellpadding: 0, cellspacing: 0, height: '100%', width: '100%', class: 'background', style: " background: #e6e6e6;" }
+        %tr
+          %td{ align: 'center', valign: 'top' }
+            %table#templateContainer{ border: 0, cellpadding: 0, cellspacing: 0 }
+              %tr.email_header
+                %td
+                  = image_tag( 'umap-text.png', height: '0', style: 'height: 30px;' )
+              %tr
+                %td{ valign: 'top' }
+                  %table.email_content{ border: 0, cellpadding: 0, cellspacing: 0, width: '100%' }
+                    %tr
+                      %td.body_content{ valign: 'top', style: 'padding: 15px 25px;'}
+                        = yield
+              %tr
+                %td{ align: 'center', valign: 'top' }
+                  %table#template_footer{ border: 0, cellpadding: 10, cellspacing: 0 }
+                    %tr
+                      %td.footer_content{ valign: 'top' }
+                        %table{ border: 0, cellpadding: 10, cellspacing: 0, width: '100%' }
+                          %tr
+                            %td{ valign: 'top', style: 'padding: 0 10px;'}
+                              This email is sent by:<br/>
+                              Young Agrarins<br/>
+                              Suite 203-1661 Duranleau Street, 2nd Floor<br/>
+                              Net Loft, Granville Island,Vancouver, BC V6H 3S3<br/>
+                              You're receiving this because you've interacted with the 
+                              u-map online farm resource map system.  To opt out, please contact 
+                              #{mail_to( 'farm@youngagrarians.org' )}.
+

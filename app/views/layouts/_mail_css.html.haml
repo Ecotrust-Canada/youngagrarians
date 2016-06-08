@@ -1,0 +1,392 @@
+- foreground_color = 'BE572E'
+- bg_color = '#ccc'
+:css
+  /* Client-specific Styles */
+  #outlook a{padding:0;}
+  body{width:100% !important;}
+  .ReadMsgBody{width:100%;}
+  .ExternalClass{width:100%;} /* Force Hotmail to display emails at full width */
+  body{-webkit-text-size-adjust:none;} /* Prevent Webkit platforms from changing default text sizes. */
+
+  body{ margin:0; padding:0;}
+  img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
+  table td{border-collapse:collapse;}
+  #background_table{height:100% !important; margin:0; padding:0; width:100% !important;}
+
+  body, #background_table {
+     background-color: ##{bg_color};
+  }
+
+  #templateContainer{
+     border: 1px solid #DDDDDD;
+     margin: 20px 0 30px 0;
+  }
+
+  h1, .h1{
+    color: #202020;
+    display: block;
+    font-family: Helvetica, Arial;
+    font-size: 34px;
+    font-weight: bold;
+    line-height: 100%;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+    text-align: left;
+  }
+
+  h2, .h2{
+    color: #202020;
+    display: block;
+    font-family: Helvetica, Arial;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 100%;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+    text-align: left;
+  }
+
+  h3, .h3 {
+    color: #202020;
+    display: block;
+    font-family: Helvetica, Arial;
+    font-size: 26px;
+    font-weight: bold;
+    line-height: 100%;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+    text-align: left;
+  }
+
+  h4, .h4{
+     color: #202020;
+    display: block;
+    font-family: Helvetica, Arial;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 100%;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+    text-align: left;
+  }
+
+  #templateContainer, #templateButton{
+    max-width: 600px;
+  }
+
+  #template_header {
+     background-color: #FFFFFF;
+     border-bottom: 0;
+     background-color: ##{foreground_color};
+     margin: 0px;
+     width: 100%;
+  }
+
+  .email_header td{
+    background-color: ##{foreground_color};
+    padding: 10px 10px 10px 10px;
+  }
+
+  .header_content{
+     color: #fff;
+     font-family: Helvetica, Arial;
+     font-size: 34px;
+     font-weight: bold;
+     line-height: 100%;
+     padding: 15px;
+     text-align: left;
+     vertical-align: middle;
+  }
+
+  .header_content a:link, .header_content a:visited, /* Yahoo! Mail Override */ .header_content a .yshortcuts /* Yahoo! Mail Override */{
+     color: #FFF;
+     text-decoration: none;
+  }
+
+  .header_content h1{
+    font-size: 18px;
+    padding-top: 15px;
+    font-weight: bold;
+  }
+
+  .header_content img{
+    font-size: 16px;
+  }
+
+  #header_image{
+    height: auto;
+    max-width: 45px !important;
+    padding-left: none;
+    padding-right: 10px;
+    float: left;
+  }
+
+  #templateBody .body_content{
+    padding: 25px;
+  }
+
+  .body_content .hi{
+    float: left;
+    margin-right: 3px;
+    font-size: 12px;
+  } 
+
+  #templateContainer, .body_content{
+     background-color: #FFFFFF;
+  }
+
+  .body_content div, .body_content p {
+     color: #505050;
+     font-family: Helvetica, Arial;
+     font-size: 12px;
+     font-weight: 100;
+     line-height: 150%;
+     text-align: left;
+  }
+
+  .body_content div a:link, .body_content div a:visited, /* Yahoo! Mail Override */ .body_content div a .yshortcuts /* Yahoo! Mail Override */{
+     color: ##{foreground_color};
+     font-weight: normal;
+     text-decoration: underline;
+  }
+
+  .email_content{
+    font-family: Helvetica, Arial;
+  }
+
+  .email_content td{
+    padding: 5px 15px 5px 0;
+    font-size: 12px;
+    vertical-align: top;
+    font-weight: 100;
+    line-height: 22px;
+  }
+
+  .email_content td b{
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .event_title{
+    font-size: 16px;
+  }
+
+  .team_name a{
+    font-weight: bold;
+    color: ##{foreground_color};
+  }
+
+  #announcement {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    color: #333333;
+    border-top: 1px solid #ccc;
+  }
+
+  #announcement p{
+    font-size: 12px;
+    line-height: 24px;
+  }
+
+  .reply_details{
+    padding-top: 15px;
+    border-top: 1px solid #ccc;
+  }
+
+  .reply_details a{
+    word-break: break-all;
+    color: #067AC6 !important;
+  }
+
+  .reply_details .reply_options{
+    font-weight: bold;
+  }
+
+  .body_content .thanks{
+    font-weight: bold;
+  }
+
+  .body_content #announcement .sender_img{
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    float: left;
+    margin: 5px 15px 15px 0;
+  }
+
+  .body_content #announcement .sender_img img{
+    width: 100%;
+  }
+
+  #announcement h1{
+    font-size: 22px;
+    padding: 22px 0 0 0;
+    line-height: 30px;
+  }
+
+  .documents{
+    font-size: 14px;
+    font-weight: 100;
+    line-height: 20px;
+  }
+
+  .documents a{
+    word-break: break-all;
+    color: #067AC6 !important;
+  }
+
+  .templateDataTable{
+     background-color: #FFFFFF;
+     border: 1px solid #DDDDDD;
+  }
+
+  .dataTableHeading{
+     background-color: #D8E2EA;
+     color: #336699;
+     font-family: Helvetica, Arial;
+     font-size: 14px;
+     font-weight: bold;
+     line-height: 150%;
+     text-align: left;
+  }
+
+  .dataTableHeading a:link, .dataTableHeading a:visited, /* Yahoo! Mail Override */ .dataTableHeading a .yshortcuts /* Yahoo! Mail Override */{
+     color: #FFFFFF;
+     font-weight: bold;
+     text-decoration: underline;
+  }
+
+  .dataTableContent{
+    border-top: 1px solid #DDDDDD;
+    border-bottom: 0;
+    color: #202020;
+    font-family: Helvetica, Arial;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 150%;
+    text-align: left;
+  }
+
+  .dataTableContent a:link, .dataTableContent a:visited, /* Yahoo! Mail Override */ .dataTableContent a .yshortcuts /* Yahoo! Mail Override */{
+     color: #202020;
+     font-weight: bold;
+     text-decoration: underline;
+  }
+
+  .templateButton{
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+     background-color: #336699;
+     border: 0;
+    border-collapse: separate !important;
+    border-radius: 3px;
+  }
+
+  .templateButton, .templateButton a:link, .templateButton a:visited, /* Yahoo! Mail Override */ .templateButton a .yshortcuts /* Yahoo! Mail Override */{
+     color: #FFFFFF;
+     font-family: Helvetica, Arial;
+     font-size: 15px;
+     font-weight: bold;
+     letter-spacing: -.5px;
+     line-height: 100%;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .body_content {
+    padding: 10px;
+  }
+  .body_content img{
+    display: inline;
+    height: auto;
+  }
+
+  .view_online_btn{
+    padding: 10px 20px 13px;
+    background-color: #58B957;
+    border: 0px;
+    margin-top: 15px;
+    border-radius: 5px;
+  }
+
+  .view_online_btn a{
+    color: #fff !important;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none !important;
+  }
+
+  #template_footer{
+     background-color: ##{foreground_color};
+     border-top: 0;
+     width: 100%;
+  }
+
+  .footer_content{
+    padding: 15px;
+    font-family: Helvetica, Arial;
+    font-size: 9px;
+    color: #555;
+  }
+
+  .footer_content div{
+     font-family: Helvetica, Arial;
+     font-size: 12px;
+     line-height: 125%;
+  }
+
+  .footer_content p, .footer_content p span.im{
+    color: #FFF;
+    font-weight: 100;
+    font-size: 8pt;
+  }
+
+  .footer_content div a:link, .footer_content div a:visited, /* Yahoo! Mail Override */
+  .footer_content div a .yshortcuts, /* Yahoo! Mail Override */
+  .footer_content p a{
+     color: #FFF;
+     font-weight: bold;
+     text-decoration: underline;
+     word-break: break-all;
+  }
+
+  .footer_content img{
+    display: inline;
+  }
+  .footer_content p{
+    line-height: 18px;
+  }
+
+  .tp_contact{
+    padding-top: 5px;
+  }
+
+  .footer_content a.tp_logo{
+    float: left;
+    padding-right: 7px;
+  }
+
+  #utility{
+     background-color: #FFFFFF;
+     border: 0;
+  }
+
+  #utility div{
+     text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    #templateContainer{
+      margin: 0 !important;
+    }
+  }

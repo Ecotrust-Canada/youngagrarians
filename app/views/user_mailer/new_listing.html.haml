@@ -1,0 +1,7 @@
+- signature, expiry = @location.signature
+%p<Hi,
+%p
+  A new listing has just been added to the Young Aggrarians map system. This
+  lsting requires admin approval before it goes live.  Click here to review
+  and approve:
+  = link_to location_url( @location, signature: signature, expiry: expiry ), location_url( @location, signature: signature, expiry: expiry )
