@@ -33,6 +33,18 @@
     = link_to( @location.phone, "tel:#{@location.phone}", class: 'phone' )
     %br
   = content_tag( 'span', mail_to( @location.email ), class: 'contact-email' ) if @location.email.present?
+- if params[:signature] 
+  - e = Time.at( params[:expiry].to_i )
+  - if Time.current < e
+    %h3<Approve Listing
+    - signature = @location.signature( e ).first
+    - if signature == params[:signature]
+      = form_for @location, builder: FormBuilder do |f|
+        = f.hidden_field_tag 'signature', params[:signature]
+        = f.hidden_field_tag 'expiry', params[:expiry]
+        = f.hidden_field 'is_approved', value: true
+        = f.submit( 'Approve Listing' )
+
 
 .last-modified.text-muted
   Last modifed #{@location.updated_at ? distance_of_time_in_words( @location.updated_at, Time.current ) : 'unknown'} ago;

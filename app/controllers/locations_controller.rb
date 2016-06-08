@@ -85,6 +85,8 @@ class LocationsController < ApplicationController
       @location.account_id = nil unless current_user && current_user.id == @location.account_id
       session.delete( :in_progress_location )
       @location.save
+      UserMailer.new_listing( @location ).deliver_now
+      UserMailer.new_listing_registration( @location ).deliver_now
     else
       redirect_to new_location_path
       return
@@ -106,22 +108,16 @@ class LocationsController < ApplicationController
   # PUT /locations/1
   # PUT /locations/1.json
   def update
-    @locations = []
-    @errors = []
-    if params.key? :id
-      location = Location.find(params[:id])
-      @locations = [location]
-      location.update_attributes location_params
-      @errors = location.errors
+    @location = Location.find(params[:id])
+    if @location.admin?( current_user ) || params[:signature]
+      @location.update_attributes location_params
     end
 
     respond_to do |format|
-      if @errors.empty?
-        format.html { redirect_to :locations, notice: 'Locations successfully updated.' }
-        format.json { head :no_content }
+      if @location.valid?
+        format.html { redirect_to location_url( @location ) }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @errors, status: :unprocessable_entity }
       end
     end
   end
@@ -183,7 +179,17 @@ class LocationsController < ApplicationController
   end
   # ------------------------------------------------------------ location_params
   def location_params
-    params.require( :location ).permit( { nested_category_ids: [] }, :name, :description, :street_address, :city, :phone, :fb_url, :twitter_url, :email, :public_contact, :show_until, :account_id, :province, :country )
+    args = [{ nested_category_ids: [] }, :name, :description, :street_address, :city, :phone, :fb_url, :twitter_url, :email, :public_contact, :show_until, :account_id, :province, :country]
+    if params[:signature]
+      e = Time.at( params[:expiry].to_i )
+      s, _ = @location.signature( e )
+      if e > Time.current && s == params[:signature]
+        args << :is_approved
+      else
+        args = []
+      end
+    end
+    params.require( :location ).permit( *args )
   end
 
   # --------------------------------------------------------- apply_search_scope

@@ -19,7 +19,14 @@ class Location < ActiveRecord::Base
                         url fb_url twitter_url description email).freeze
 
   attr_accessor :skip_approval_email
-
+  # ------------------------------------------------------------------ signature
+  def signature( expiry = nil )
+    expiry ||= 1.week.since
+    params = { id: id, updated_at: updated_at.to_i, expiry: expiry.to_i } 
+    key = '8f7e749324d0d0f965d97a9dcfd78973120f970566bf3bbae0aa5bd4000a833b89ccdeb6cb88dfa6e75a206750e60677f9182f73f3d952a40433cdcec16b73e3'
+    hmac = OpenSSL::HMAC.digest( OpenSSL::Digest.new( 'sha1' ), key, params.to_json )
+    return Base64.urlsafe_encode64( hmac )[0..-2], expiry.to_i
+  end
   def skip_approval_email
     @skip_approval_email ||= false
   end
@@ -85,8 +92,8 @@ class Location < ActiveRecord::Base
 
   def is_approved=(value)
     self[:is_approved] = ActiveRecord::Type::Boolean.new.type_cast_from_database(value)
-    if value && email.present? && !@skip_approval_email
-      UserMailer.listing_approved( self ).deliver
+    if value && ( email.present? || account ) && !@skip_approval_email
+      UserMailer.listing_approved( self ).deliver_now
     end
   end
 
