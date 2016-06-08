@@ -1,0 +1,8 @@
+development:
+  database: postgres
+  adapter: postgresql
+  reconnect: true
+  pool: 5
+  username: postgres
+  password: postgres
+  host: db
