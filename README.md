@@ -5,10 +5,22 @@ Install
 2. bin/start_dev_server (note that a docker-machine with a name starting with dev is expected)
 3. Want to start with data?  Put a file with data in tmp/db_dump.sql
 
-Production
+Production (Docker-compose)
 =========
 
 - Mount a volumen at config/secrets with devise_token & secure_token files ( generate with your preferred random token generator or rake secret > file_name)
+
+```
+cp configs/database.docker-compose.yml configs/database.yml
+cp docker-compose.override.yml.template docker-compose.override.yml
+```
+
+Modify the docker-compose override to "production" if desired.
+You may want to restore a database clone with `psql -f <file>` [inside the container.](https://hub.docker.com/_/postgres/) to the postgres container.
+
+```
+docker-compose up
+```
 
 Run
 ====
