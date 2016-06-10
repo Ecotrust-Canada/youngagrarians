@@ -47,7 +47,7 @@ function slug(category){
   return rVal.replace(/\s/,'-');
 }
 
-ajax().get('/locations.json').then(function(response){
+ajax().get( pubsub.kwargs['surrey'] ? '/surrey.json' : '/locations.json').then(function(response){
   setTimeout(function(){
     response.forEach(function(listing){
       listing.dist = Math.abs((listing.latitude || 999) - 49.104430) + Math.abs((listing.longitude || 999) - -122.801094);

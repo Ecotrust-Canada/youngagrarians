@@ -7,6 +7,7 @@ class LocationsController < ApplicationController
 
   def search
     @locations = Location.search params[:term]
+    @locations = []
     respond_to do |format|
       format.json { render json: @locations }
     end

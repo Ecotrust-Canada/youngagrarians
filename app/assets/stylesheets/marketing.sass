@@ -154,21 +154,27 @@ header
 .splash-subtag-menu
   display: none
   position: absolute
+  overflow: hidden
   padding: 0
   margin: 0
-  top: 115px
-  background-color: rgba(0, 0, 0, 0.9)
+  top: 120px
+  border-radius: 5px
   width: 190px
   left: -35px
   li
     margin: 0
+    background-color: rgba(0, 0, 0, 0.8)
     list-style: none
     padding: 5px 0 5px 0
+    cursor: pointer
     display: block
+    &:hover
+      background-color: rgba(0,0,0, 0.6)
 
 .splash-icons
   margin-bottom: 20px
   > li
+    cursor: pointer
     position: relative
     line-height: 15px
     display: inline-block

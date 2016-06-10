@@ -9,9 +9,8 @@ services:
     command: "bundle exec rails s -p 3000 -b '0.0.0.0'"
     ports:
       - 3000:3000
-    #environment:
-    #  RAILS_ENV: production
-
+    volumes:
+      - .:/ya
     expose:
       - '3000'
     mem_limit: 250m
