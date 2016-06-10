@@ -11,7 +11,7 @@
             = f.email_field :email
             = f.password_field :password
             .btn-wrap
-              %button.btn.btn-primary.btn-small Create
+              %button.btn.btn-primary.btn-small{ name: 'step', value: 'description' } Create
         .columns.six.login
           %h4{:style => "margin-bottom:30px"} Log Into Your Account
           = form_for( Struct.new( :email, :password ).new, as: 'session', url: session_path, builder: FormBuilder,  method: :post ) do |f|
@@ -19,7 +19,7 @@
             = f.email_field :email
             = f.password_field :password
             .btn-wrap
-              %button.btn.btn-primary.btn-small Login
+              %button.btn.btn-primary.btn-small{ name: 'step', value: 'description' } Login
       .row
         .columns.three
           &nbsp;
@@ -28,7 +28,7 @@
           = form_for @location, builder: FormBuilder do |f|
             = f.hidden_field :account_id, value: -1
             No thanks, I won't need to manage my listing in the future.
-            %button.btn.btn-primary.btn-small Continue
+            %button.btn.btn-primary.btn-small{ name: 'step', value: 'description' } Continue
   -  else
     %content
 

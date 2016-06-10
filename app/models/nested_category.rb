@@ -22,6 +22,7 @@ class NestedCategory < ActiveRecord::Base
     where( arel_table[:name].matches( x ) )
   }
 
+
   # ---------------------------------------------------------------- meta_lookup
   def self.meta_lookup
     scopes = []
