@@ -32,7 +32,7 @@ class LocationsController < ApplicationController
         end
 
         scope = apply_search_scope( scope ) if params[:q].present?
-        @locations = scope.approved.currently_shown.includes( category_tags: { nested_category: :parent } ).order( 'id' )
+        @locations = scope.approved.currently_shown.includes( nested_categories: :parent ).order( 'id' )
       end
     end
   end
