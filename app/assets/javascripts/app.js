@@ -3,7 +3,6 @@ var pubsub = riot.observable();
 
 // parse hash vars.
 pubsub.kwargs = {};
-console.log( window.location.hash );
 (window.location.hash + '').substr(1).split("&").forEach(function(part){
   var key = part.split("=")[0];
   var val = part.split("=")[1] || true;
@@ -48,8 +47,7 @@ function slug(category){
   return rVal.replace(/\s/,'-');
 }
 
-console.log( pubsub.kwargs );
-ajax().get( pubsub.kwargs['surrey'] ? '/surrey.json' : '/locations.json').then(function(response){
+ajax().get('/locations.json').then(function(response){
   setTimeout(function(){
     response.forEach(function(listing){
       listing.dist = Math.abs((listing.latitude || 999) - 49.104430) + Math.abs((listing.longitude || 999) - -122.801094);

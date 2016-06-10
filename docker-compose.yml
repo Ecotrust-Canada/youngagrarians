@@ -11,10 +11,7 @@ services:
       - 3000:3000
     #environment:
     #  RAILS_ENV: production
-    volumes:
-      #- ./log:/ya/log
-      #- ./secrets:/ya/config/secrets
-      - .:/ya
+
     expose:
       - '3000'
     mem_limit: 250m
