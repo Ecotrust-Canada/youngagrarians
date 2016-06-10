@@ -10,8 +10,6 @@ services:
     ports:
       - 3000:3000
     volumes:
-      #- ./log:/ya/log
-      #- ./secrets:/ya/config/secrets
       - .:/ya
     expose:
       - '3000'

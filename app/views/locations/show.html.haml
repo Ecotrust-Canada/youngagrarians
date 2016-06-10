@@ -2,7 +2,7 @@
 
 .detail-page.standalone
   .listing-header
-    .category-icon{:style => "background-image:url(#{category_class_list( @location )})"}
+    .category-icon{:style => "background-image:url(#{icon_hash[category_class_list( @location )]})"}
     .b #{category_class_list( @location )}
     %img{:src => "/images/umap-content-title.png"}/
     .filled

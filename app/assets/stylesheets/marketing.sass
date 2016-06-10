@@ -15,7 +15,6 @@ body
 *
   box-sizing: border-box
 
-
 input[type="text"], input[type="date"], input[type="email"], input[type="password"], select
   height: auto
   border-radius: 0
@@ -108,6 +107,7 @@ header
   right: 0
   left: 0
   height: 50px
+  z-index: 3
   background-color: #343434
   a.brand
     background: url(../images/young-agrarians-text-small.png) 15px 15px no-repeat
@@ -130,7 +130,7 @@ header
         color: white
         font-size: 20px
 
-/* Map Landing Page - leads into specific search */
+/* Map Landing Page - leads into specific search. */
 .splash
   top: 50%
   left: 50%
@@ -139,21 +139,6 @@ header
   width: 800px
   position: absolute
   text-align: center
-
-.splash-icons
-  margin-bottom: 20px
-  li
-    line-height: 15px
-    display: inline-block
-    color: white
-    width: 120px
-    height: 120px
-    padding: 20px 0 0 0
-    border-radius: 50%
-    background-color: rgba(0, 0, 0, 0.2)
-    transition: 0.5s background-color linear
-    &:hover
-      background-color: rgba(0, 0, 0, 0.9)
 
 .blurb
   height: 40px
@@ -166,8 +151,45 @@ header
   font-size: 20px
   color: white
 
-/* end of map landing page */
+.splash-subtag-menu
+  display: none
+  position: absolute
+  overflow: hidden
+  padding: 0
+  margin: 0
+  top: 120px
+  border-radius: 5px
+  width: 190px
+  left: -35px
+  li
+    margin: 0
+    background-color: rgba(0, 0, 0, 0.8)
+    list-style: none
+    padding: 5px 0 5px 0
+    cursor: pointer
+    display: block
+    &:hover
+      background-color: rgba(0,0,0, 0.6)
 
+.splash-icons
+  margin-bottom: 20px
+  > li
+    cursor: pointer
+    position: relative
+    line-height: 15px
+    display: inline-block
+    color: white
+    width: 120px
+    height: 120px
+    padding: 20px 0 0 0
+    border-radius: 50%
+    background-color: rgba(0, 0, 0, 0.2)
+    transition: 0.5s background-color linear
+    &:hover
+      background-color: rgba(0, 0, 0, 0.9)
+      .splash-subtag-menu
+        display: block
+/* end of map landing page */
 
 textarea
 
@@ -329,7 +351,7 @@ ul.social
 .wrap
   padding-top: 100px
 
-.detail-page
+.detail-page, .list-page
   &.standalone
     position static
     margin: 0 auto

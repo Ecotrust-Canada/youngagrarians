@@ -19,6 +19,7 @@
   var controller = this
      ,query = opts.kwargs['q']
      ,category = opts.kwargs['c']
+     ,active_tag = opts.kwargs['t']
      ,orig_listings
      ,showing=false;
 
@@ -33,14 +34,15 @@
 
   function listing_visible(item)
   {
-    return item.categories.find( function(x){ return category_cache[x.name] || category_cache[x.parent];  } );
-    /*
-    var cat = item.categories.find( function(x){ return category_cache[x.name] || category_cache[x.parent];  } );
-    var include = cat
-      &&
-      (!query || (item.name.toLowerCase().indexOf(query.toLowerCase() ) > -1));
-    return include;
-    */
+    if (active_tag) {
+      return item.categories.find( function(x){
+        return x.name === active_tag || x.parent === active_tag;
+      });
+    } else {
+      return item.categories.find( function(x){
+        return category_cache[x.name] || category_cache[x.parent];
+      });
+    }
   }
 
   onfilter(e){
@@ -49,6 +51,7 @@
   }
 
   oncategorize(e){
+    active_tag = null;
     controller.categories[e.item.key].showing = !controller.categories[e.item.key].showing;
     filter_listings();
   }
@@ -56,7 +59,7 @@
   opts.on('initial_load', function(listings){
     orig_listings = listings;
 
-    // initial categories    
+    // initial categories
     if (category) {
       controller.categories[category].showing = true
       controller.update();
@@ -72,7 +75,6 @@
 
   });
   
-
   function filter_listings(){
     category_cache = {};
     for(var cat in controller.categories) {

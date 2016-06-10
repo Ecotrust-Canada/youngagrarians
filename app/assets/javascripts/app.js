@@ -3,7 +3,6 @@ var pubsub = riot.observable();
 
 // parse hash vars.
 pubsub.kwargs = {};
-console.log( window.location.hash );
 (window.location.hash + '').substr(1).split("&").forEach(function(part){
   var key = part.split("=")[0];
   var val = part.split("=")[1] || true;
