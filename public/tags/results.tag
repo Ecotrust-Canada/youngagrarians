@@ -3,17 +3,18 @@
 
   <div class='results-sidebar'>
     <div class="content-logo-wrap">
-      <img src="/images/umap-text.png">
+      <img src="/images/umap-text-inverted.png">
     </div>
 
     <div class='cat-counts'>
-      <span each="{ name, value in cat_counts }" class="cat-count { name.toLowerCase().replace(/\s/,'-') }"><span class="filled">
+      <span each="{ name, value in cat_counts }" onclick={ set_tag } class="cat-count { name.toLowerCase().replace(/\s/,'-') }"><span class="filled">
         { name }&nbsp;<b>{ value }</b>
       </span></span> 
+      <span class="cat-count"><span class="filled show-all" onclick={ set_tag_null }>All&nbsp;<b>{ items.length }</b></span></span>
     </div>
 
     <ul class='results-list'>
-      <li each={ items }>
+      <li each={ items } class="{ slugify(categories[0]) } lightbg">
         <div class='listing-icon'
              style='background:url( { CATEGORY_ICONS[slugify( categories[0] )] }) 10px 10px no-repeat'
         ></div>
@@ -23,7 +24,8 @@
           <span if={ city } class='city'>{ city }, { province }</span>
         </p>
         <div if={ latitude } class='view-on-map { slugify(categories[0]) }' onclick={ view_on_map }>
-          VIEW ON<br>MAP
+          <span if={ is_mobile() }>GO TO<br>LISTING</span>
+          <span if={ !is_mobile() }>VIEW ON<br>MAP</span>
           <div class='triangle-arrow filled'></div>
         </div>
       </li>
@@ -33,12 +35,29 @@
 
   var controller = this;
   var category_cache = {};
-
+  
   this.items = opts.items;
   this.cat_counts = {};
 
+  is_mobile(){
+    return window.mobile;
+  }
+
+  set_tag(e){
+    opts.trigger('update_tag', e.item.name)
+  }
+
+  set_tag_null(e){
+    opts.trigger('update_tag', null)
+  }
+
   view_on_map(e) {
-    pubsub.trigger('zoom_to', e.item.marker)
+    if (window.mobile) {
+      var win = window.open('/locations/'+e.item.id, '_blank');
+      win.focus();
+    } else {
+      pubsub.trigger('zoom_to', e.item.marker)
+    }
   }
 
   slugify(category) {

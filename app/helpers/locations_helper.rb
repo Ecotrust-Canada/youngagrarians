@@ -26,8 +26,7 @@ module LocationsHelper
       r_val << h( @location.province )
     end
     if @location.postal.present?
-      r_val << h( @location.postal )
-      r_val << tag( 'br' )
+      r_val << h( ", " + @location.postal )
     end
     r_val << tag('br' ) if @location.city.present? || @location.province.present?
     r_val << @location.country if @location.country.present?
@@ -45,7 +44,9 @@ module LocationsHelper
         links = metas.map do |category_name, category_id|
           content_tag( 'li', link_to( category_name,
                              meta_category_path( top_level_name: category_name ),
-                             class: "category_#{category_id}" ) )
+                             class: "filled" ),
+                          class: "category_#{category_id} #{category_name.downcase}"
+                          )
         end
         safe_join( links, '' )
 

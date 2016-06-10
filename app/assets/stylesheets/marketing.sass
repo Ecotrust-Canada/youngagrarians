@@ -15,7 +15,7 @@ body
 *
   box-sizing: border-box
 
-input[type="text"], input[type="date"], input[type="email"], input[type="password"], select
+input[type="text"], input[type="date"], input[type="email"], input[type="password"], select, textarea
   height: auto
   border-radius: 0
   border: 1px solid #888
@@ -44,12 +44,16 @@ input
     padding: 8px 8px 8px 40px
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2)
     background: url(../images/icon/search.png) 8px 8px no-repeat white
+
   &.search-box-map
     top: 25px
     left: 425px
     height: 35px
     margin: 0
     width: 276px
+    @media (max-width: 768px)
+      left: 25px
+      top: 10px
 
 input
   &[type="checkbox"], &[type="radio"]
@@ -108,6 +112,7 @@ header
   left: 0
   height: 50px
   z-index: 3
+  overflow: hidden
   background-color: #343434
   a.brand
     background: url(../images/young-agrarians-text-small.png) 15px 15px no-repeat
@@ -139,6 +144,18 @@ header
   width: 800px
   position: absolute
   text-align: center
+
+
+@media (max-width: 768px)
+  .splash 
+    margin-left: 0
+    width: 100%
+    left: 0
+    top: 150px
+    margin-top: 0
+    img
+      max-width: 100%
+
 
 .blurb
   height: 40px
@@ -200,13 +217,15 @@ button.submit, .toggle, .search-box-map, .panel
   z-index: 1000
 
 button.submit
+  font-family: "Sofia Pro", courier, sans-serif
   right: 25px
   bottom: 25px
   height: 35px
   margin: 0
+  padding: 7px 12px 7px 12px
   font-size: 17px
   line-height: 15px
-  background-color: #188885
+  background-color: $orange
   color: white
   text-transform: none
   font-weight: normal
@@ -235,23 +254,42 @@ button.submit
   right: 26px
 
 .toggle
-  border: 1px solid black
+  border: 1px solid #888
   cursor: pointer
   top: 25px
   height: 35px
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2)
+  @media (max-width: 768px)
+    top: 55px
+
+.results-toggle
+  background: url(/images/map.png) no-repeat 3px 7px white
+  text-align: right
+  padding: 5px 15px 0 0
+  left: -75px
+  width: 60px
+  @media (max-width: 768px)
+    left: auto
+    right: 25px
+  z-index: 6000
 
 .layer-toggle
   right: 25px
   width: 60px
   background: url(../images/icon/layers.png) white no-repeat 6px 6px
+  @media (max-width: 768px)
+    right: auto
+    left: 25px
 
 .category-toggle
   left: 700px
   width: 130px
   background: white
   padding: 6px 0 0 6px
+  @media (max-width: 768px)
+    left: 95px
 
-.toggle:after
+.category-toggle:after, .layer-toggle:after
   top: 40%
   right: 10px
   border: solid transparent
@@ -267,13 +305,21 @@ button.submit
 
 .layer-panel
   right: 25px
+  @media (max-width: 768px)
+    right: auto
+    left: 25px
 
 .category-panel
   left: 700px
+  @media (max-width: 768px)
+    left: 95px
+
 
 .panel
   top: 60px
   width: 200px
+  @media (max-width: 768px)
+    top: 95px
   li
     height: 50px
     background-color: black
@@ -369,7 +415,8 @@ ul.social
   font-family: "Sofia Pro", courier, sans-serif
   h1, h3
     font-family: 'YOUNG AGRARIANS legible'
-    font-weight: normal
+    font-weight: bold
+    margin: 0
   .back
     font-family: 'YOUNG AGRARIANS legible'
     font-weight: normal
@@ -379,12 +426,17 @@ ul.social
     background: url(../images/icon/back-arrow.png) 0 5px no-repeat
     font-size: 22px
 
+  .location-description
+    margin: 1em 0 1em 0
+
 .listing-header
   position: relative
   height: 53px
-  padding: 14px 0 0 60px
+  padding: 0 0 0 60px
   font-size: 20px
   text-transform: uppercase
+  border-bottom-width: 2px
+  border-bottom-style: solid
   .filled
     position: absolute
     height: 2px
@@ -395,6 +447,9 @@ ul.social
     position: absolute
     top: 0
     right: 0
+  .category-heading
+    font-weight: normal
+    padding-top: 20px
   .category-icon
     position: absolute
     top: 0
@@ -403,6 +458,11 @@ ul.social
     height: 60px
     background-repeat: no-repeat
     background-size: 40px 40px
+
+.back a
+  color: inherit
+  text-decoration: none
+  font-size: 23px
 
 /* -------------- sidebar ---------------
 
@@ -413,12 +473,34 @@ page
   left: 0
   right: 0
 
+.cat-counts
+  &:before
+    content: "SHOWING:"
+  margin: 8px 5px 8px 10px
 .cat-count
   padding: 1px
   span
     padding: 1px 3px 1px 3px
     color: black
     border-radius: 2px
+    cursor: pointer
+    &.show-all
+      color: white
+      background: black
+      border: 1px solid black
+
+.top_category_list
+  display: inline-block
+  margin: 0
+  li
+    padding: 1px
+    list-style: none
+    a
+      display: inline
+      padding: 1px 3px 1px 3px
+      border-radius: 2px
+      color: white
+      text-decoration: none
 
 .results-sidebar
   position: absolute
@@ -426,8 +508,9 @@ page
   top: 0
   bottom: 0
   width: 400px
+  max-width: 100%
   overflow: auto
-  background: #343434
+  background: white
 
 .content-logo-wrap
   padding: 8px 0 0 8px
@@ -437,12 +520,17 @@ ul.results-list
   margin: 0
   z-index: 1000
   li
+    overflow: hidden
     position: relative
     background-color: #eaeaea
     list-style-type: none
     margin: 6px 12px
     width: 360px
     height: 60px
+    border-left-width: 3px
+    border-left-style: solid
+    @media (max-width: 768px)
+      max-width: 90%
     p
       position: absolute
       left: 60px
@@ -454,8 +542,10 @@ ul.results-list
     label
       text-transform: uppercase
       font-weight: bold
-
+    .name
+      color: black
     .city
+      color: black
       text-transform: uppercase
     .view-on-map
       position: absolute
@@ -479,6 +569,13 @@ ul.results-list
   left: 400px
   right: 0
   z-index: 10
+  @media (max-width: 768px)
+    left: 0
+
+results.show
+  .results-sidebar
+    z-index: 5000
+
 #minimap
   width: 400px
   height: 200px
@@ -568,6 +665,7 @@ ul.results-list
 
 .leaflet-left .leaflet-control
   margin-left: 25px
+  box-shadow:  0 3px 3px rgba(0, 0, 0, 0.2)
 
 .leaflet-bottom .leaflet-control
   margin-bottom: 25px
@@ -692,31 +790,7 @@ ul.results-list
     height: 96px
     padding: 20px
     background-color: white
-  .btn, button
-    vertical-align: middle
-    display: inline-block
-    height: 38px
-    font-family: 'Sofia Pro'
-    color: white
-    border: 0px none transparent
-    border-radius: 0
-    text-transform: none
-    font-size: 15px
-    font-weight: normal
-    line-height: 18px
-    padding: 10px 30px
-  .btn-primary, button
-    background: $orange
-    padding-right: 50px
-    padding-left: 50px
-  .btn-muted
-    background: #bcbab9
-  .btn-small
-    padding: 0 20px 0 20px
-    line-height: 30px
-    height: 30px
-  p.aside
-    line-height: 17px
+
 
 .required-icon
   color: $orange
@@ -736,3 +810,30 @@ input.taggle_input
   line-height: 30px
 
 
+.btn, button, .button
+  vertical-align: middle
+  display: inline-block
+  height: 38px
+  font-family: 'Sofia Pro'
+  color: white
+  border: 0px none transparent
+  border-radius: 0
+  text-transform: none
+  font-size: 15px
+  font-weight: normal
+  line-height: 18px
+  padding: 10px 30px
+
+button.btn-primary, button.button-primary, .button.button-primary
+  background-color: $orange
+  padding-right: 50px
+  padding-left: 50px
+.btn-muted
+  background: #bcbab9
+.btn-small
+  padding: 0 20px 0 20px
+  line-height: 30px
+  height: 30px
+
+p.aside
+  line-height: 17px

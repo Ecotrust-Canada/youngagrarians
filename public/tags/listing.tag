@@ -26,6 +26,7 @@
   }
 
   opts.on('detail', function(listing_id){
+    return;
     var listing = controller.listings.filter(function(l){return l.id == listing_id})[0];
 
     controller.update({

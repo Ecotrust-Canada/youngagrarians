@@ -1,9 +1,9 @@
 
 
 .detail-page.standalone
-  .listing-header
-    .category-icon{:style => "background-image:url(#{icon_hash[category_class_list( @location )]})"}
-    .b #{category_class_list( @location )}
+  .listing-header{:class => category_class_list( @location )}
+    .category-icon{:style => "background-image:url(#{icon_hash[category_class_list( @location )]})"} &nbsp;
+    .category-heading #{category_class_list( @location )}
     %img{:src => "/images/umap-content-title.png"}/
     .filled
   .back #{link_to 'Return to Map', map_path}
@@ -12,15 +12,14 @@
 
   - if current_user && @location.admin?( current_user )
     = link_to 'edit location details', edit_location_path( @location )
-  %h3
-    %p
-      = content_tag( 'span', @location.resource_type, class: 'resource-type' ) if @location.resource_type
-      - if @location.bioregion.present?
-        in #{@location.bioregion}
-    #{top_category_list( @location )}
-
+  %i
+    = content_tag( 'span', @location.resource_type, class: 'resource-type' ) if @location.resource_type
+    - if @location.bioregion.present?
+      in #{@location.bioregion}
+  
+  #{top_category_list( @location )}
+  
   - if @location.description.present? || @location.content.present?
-    %h3<Basic Details
     = content_tag( 'div', @location.description, class: 'location-description' ) if @location.description.present?
     = content_tag( 'div', @location.content, class: 'location-content' ) if @location.content.present?
 
@@ -31,18 +30,15 @@
         %h3<Location
         %p
           = display_address( @location )
-        %p
-        - if @location.latitude && @location.longitude
-          = link_to( 'map', map_path )
 
         %h3<Learn More
         %p
-          = link_to 'Message Owner', new_location_message_path( @location )
-          = contact_links( @location )
-          - if @location.phone.present?
-            = link_to( @location.phone, "tel:#{@location.phone}", class: 'phone' )
-            %br
-          = content_tag( 'span', mail_to( @location.email ), class: 'contact-email' ) if @location.email.present?
+          = link_to 'Message Owner', new_location_message_path( @location ), class: 'button button-primary'
+        = contact_links( @location )
+        - if @location.phone.present?
+          = link_to( @location.phone, "tel:#{@location.phone}", class: 'phone' )
+          %br
+        = content_tag( 'span', mail_to( @location.email ), class: 'contact-email' ) if @location.email.present?
         - if params[:signature]
           - e = Time.at( params[:expiry].to_i )
           - if Time.current < e
@@ -57,7 +53,8 @@
 
       .six.columns
 
-        #minimap
+        - if @location.latitude && @location.longitude
+          #minimap
 
         %ul.social.one
           %li
