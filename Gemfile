@@ -78,8 +78,6 @@ group :development, :test do
 
   # Docs
   gem 'yard', '~> 0.8.5.2'
-
-  gem 'letter_opener'
 end
 
 group :test do
