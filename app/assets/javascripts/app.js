@@ -48,7 +48,6 @@ function slug(category){
   return rVal.replace(/\s/,'-');
 }
 
-console.log( pubsub.kwargs );
 ajax().get( pubsub.kwargs['surrey'] ? '/surrey.json' : '/locations.json').then(function(response){
   setTimeout(function(){
     response.forEach(function(listing){

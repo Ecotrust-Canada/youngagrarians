@@ -6,12 +6,13 @@ Youngagrarians::Application.routes.draw do
 
   resources :categories
   resources :subcategories, only: [:index]
-
+  
+  # [cvo] Surrey probably doesn't need their own json url, since if the user navigates out of surrey we still want locations showing up.
+  get 'surrey.json', controller: 'locations', action: 'index', format: 'json', surrey: 1
   get 'locations/filtered/:filtered' => 'locations#index', as: :locations_filtered
   resources :locations do
     resource :message
   end
-  get 'surrey.json', controller: 'locations', action: 'index', format: 'json', surrey: 1
 
   get 'home/index'
   get 'map', controller: 'home', action: 'map', as: 'map'
@@ -33,7 +34,7 @@ Youngagrarians::Application.routes.draw do
   put  '/password_reset/:code' => 'accounts#reset_password',     :as => :reset_password
 
   get  '/verify_credentials'   => 'accounts#verify_credentials', :as => :verify_credentials
-  get 'surrey.json', controller: 'locations', action: 'index', city: 'surrey'
+
 
   post '/search' => 'locations#search', :as => :search
   get '/category/:top_level_name', as: 'top_level_category', controller: 'categories', action: 'show'
