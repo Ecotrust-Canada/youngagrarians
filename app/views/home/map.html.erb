@@ -46,7 +46,7 @@
     <results></results>
     <div id='map'></div>
     <form target='_blank' action='<%= new_listing_path -%>' method='get'>
-      <button class='submit'>Submit a listing<big>+</big></button>
+      <button class='submit'>Submit a listing&nbsp;&nbsp;&nbsp;<big>+</big></button>
     </form>
     <layers></layers>
     <search></search>
@@ -63,9 +63,10 @@
   <script src="/vendor/leaflet/dist/leaflet-src.js"></script>
   <script src="/vendor/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
 
-  <%= javascript_include_tag 'embedded_map' -%> 
+  <%= javascript_include_tag 'embedded_map' -%>
+
   <script>
-var CATEGORY_ICONS = <%= raw icon_hash.to_json -%>;
+  var CATEGORY_ICONS = <%= raw icon_hash.to_json -%>;
   </script>
 
 </body></html>

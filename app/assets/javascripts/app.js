@@ -62,3 +62,12 @@ addEvent(document.body, 'click', function(e){
     pubsub.trigger('detail', e.target.getAttribute('data-id'));
   }
 })
+
+// media query
+var mq = window.matchMedia( "(max-width: 768px)" );
+if (mq.matches) {
+  console.log('mobile');
+  window.mobile = true;
+} else {
+  console.log('mobile');
+}
