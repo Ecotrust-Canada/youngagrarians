@@ -40,4 +40,8 @@ class NestedCategory < ActiveRecord::Base
   def meta?
     parent.nil?
   end
+  # ----------------------------------------------------------------- leaf_node?
+  def leaf_node?
+    children.empty?
+  end
 end
