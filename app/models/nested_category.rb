@@ -1,4 +1,5 @@
 class NestedCategory < ActiveRecord::Base
+  MAX_DEPTH = 4
   validates :name, presence: true
   scope :top_level, -> { where( parent_category_id: nil ) }
   scope :meta, -> { where( parent_category_id: nil ) }
@@ -20,6 +21,27 @@ class NestedCategory < ActiveRecord::Base
   scope :by_name, proc { |x|
     where( arel_table[:name].matches( x ) )
   }
+
+
+  # ---------------------------------------------------------------- meta_lookup
+  def self.meta_lookup
+    scopes = []
+    MAX_DEPTH.times do |i|
+      joins = i.times.to_a.map do |j|
+        previous_table = j == 0 ? 'nested_categories' : "nested_categories_#{j-1}"
+        "JOIN nested_categories nested_categories_#{j} ON nested_categories_#{j}.parent_category_id = #{previous_table}.id"
+      end
+      scopes.push( unscoped
+                   .select( format( 'nested_categories.name, nested_categories.id, %s', i == 0 ? 'nested_categories.id' : "nested_categories_#{i-1}.id" ) )
+                   .joins( joins.join( ' ' ) ) )
+    end
+    query = scopes.map( &:to_sql ).join( " UNION ALL " )
+    r_val = {}
+    connection.select_rows( query ).each do |meta_name, meta_id, leaf_id|
+      r_val[ leaf_id.to_i ] = { name: meta_name, id: meta_id.to_i }
+    end
+    r_val
+  end
   
   rails_admin do
     configure :category_location_tags do
@@ -39,5 +61,9 @@ class NestedCategory < ActiveRecord::Base
   # ---------------------------------------------------------------------- meta?
   def meta?
     parent.nil?
+  end
+  # ----------------------------------------------------------------- leaf_node?
+  def leaf_node?
+    children.empty?
   end
 end

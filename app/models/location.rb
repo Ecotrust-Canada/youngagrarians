@@ -1,5 +1,6 @@
 #
 class Location < ActiveRecord::Base
+  attr_accessor :parent_category_id
   include Gmaps4rails::ActsAsGmappable
   acts_as_gmappable validation: false
 
@@ -61,6 +62,7 @@ class Location < ActiveRecord::Base
       starts_with = "#{term}%"
       categories = Category.where('LOWER(name) LIKE ?', starts_with).pluck(:id)
       subcategories = Subcategory.where('LOWER(name) LIKE ?', starts_with).pluck(:id)
+
       if categories
         results += Location.where(is_approved: true).where('category_id IN (?)', categories).all
       end

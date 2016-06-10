@@ -8,7 +8,7 @@
     %content.overflow
       = hidden_field_tag 'next_step', 2
       .row
-        - halfway = NestedCategory.level_2.count( 'distinct nested_categories.id' ) / 2 + NestedCategory.meta.no_children.count
+        - halfway = NestedCategory.level_2.count( 'distinct nested_categories.id' ) / 2
         - seen_kids = 0
         - col = 0
         - cur_col = nil
@@ -25,23 +25,18 @@
                 - seen_kids += 1
                 %li
                   %label
-                    = radio_button_tag 'location[nested_category_ids][]', child_category.id
+                    = radio_button_tag 'location[parent_category_id]',
+                                       child_category.id,
+                                       @location.parent_category_id.to_i == child_category.id,
+                                       required: true
                     = child_category.name
           - if halfway < seen_kids && col != 1
             - col += 1
-        .category_section
-          %h4<Other
-          %ul.category-list
-            - NestedCategory.meta.no_children.each do |category|
-              %li
-                %label
-                  = radio_button_tag 'location[nested_category_ids][]', category.id
-                  = category.name
         #{"</div>".html_safe}
   
     .btnbar
-      .row{:style => "padding-top:20px"}
+      .row{ style: "padding-top:20px"}
         .four.columns
-          %a.btn.btn-muted{:href => "/map"} Cancel
-        .three.columns{:style => "text-align: right"}
-          %button.btn.btn-primary{:type => "submit"} Next >
+          %a.btn.btn-muted{ href: "/map"} Cancel
+        .three.columns{ style: "text-align: right"}
+          %button.btn.btn-primary{ type: "submit", name: 'step', value: 'account' } Next >

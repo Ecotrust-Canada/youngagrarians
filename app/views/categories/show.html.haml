@@ -1,4 +1,3 @@
-
 .detail-page.standalone
 
   %h1<= @category.name
@@ -8,21 +7,22 @@
   %ol.breadcrumb
     %li<= link_to( 'Home', map_path )
     %li<= link_to( 'Categories', categories_path )
-    - if @category.parent
-      %li<= link_to( @category.parent.name, top_level_category_path( top_level_name: @category.parent.name ) )
-
+    - path_to_root( @category ).reverse.each do |category|
+      %li<= link_to( category.name, category_path( category ) )
+      
   - if @category.children.any?
     %h2<#{@category.name} Subcategories
     %ul
-      - @category.children.each do |child|
+      - @category.children.order( :name ).each do |child|
         %li
           = link_to( child.name, subcategory_path( top_level_name: @category.name, subcategory_name: child.name ) )
 
-  %h2<#{@category.name} Listings
-  - if @category.locations.any?
-    %ul
-      - @category.locations.each do |item|
-        %li<= link_to( item.name, location_path( item ) )
-  - elsif !@category.meta?
-    .pane.panel-default
-      There are no listings in #{@category.name}
+  - if @category.locations.any? || @category.leaf_node?
+    %h2<#{@category.name} Listings
+    - if @category.locations.any?
+      %ul
+        - @category.locations.order( :name ).each do |item|
+          %li<= link_to( item.name, location_path( item ) )
+    - else
+      .pane.panel-default
+        There are no listings in #{@category.name}

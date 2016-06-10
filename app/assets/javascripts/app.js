@@ -43,11 +43,11 @@ riot.compile(function( x ) {
 });
 
 function slug(category){
-  var rVal = category.parent ? category.parent.toLowerCase() : category.name.toLowerCase();
-  return rVal.replace(/\s/,'-');
+  var rVal = category.meta ? category.meta.name.toLowerCase() : category.name.toLowerCase();
+  return rVal.replace(/\s/g,'-');
 }
 
-ajax().get('/locations.json').then(function(response){
+ajax().get( pubsub.kwargs['surrey'] ? '/surrey.json' : '/locations.json').then(function(response){
   setTimeout(function(){
     response.forEach(function(listing){
       listing.dist = Math.abs((listing.latitude || 999) - 49.104430) + Math.abs((listing.longitude || 999) - -122.801094);
@@ -62,3 +62,12 @@ addEvent(document.body, 'click', function(e){
     pubsub.trigger('detail', e.target.getAttribute('data-id'));
   }
 })
+
+// media query
+var mq = window.matchMedia( "(max-width: 768px)" );
+if (mq.matches) {
+  console.log('mobile');
+  window.mobile = true;
+} else {
+  console.log('mobile');
+}

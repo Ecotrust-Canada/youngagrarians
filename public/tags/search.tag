@@ -1,9 +1,11 @@
 
 <search>
 
-  <input placeholder="Search: ie) Bees, Soil, etc." name="q" class="search-box search-box-map" onkeyup={ onfilter }>
+  <input type="text" placeholder="Search: ie) Bees, Soil, etc." name="q" class="search-box search-box-map" onkeyup={ onfilter }>
+  
+  <div class='results-toggle toggle' onclick={ toggle_results }>list</div>
 
-  <div class='category-toggle toggle' onclick={ toggle }>
+  <div class='category-toggle toggle' onclick={ toggle_categories }>
     <div class='notification' if={ num_cats_showing() }>{ num_cats_showing() }</div>
     CATEGORY
   </div>
@@ -28,7 +30,16 @@
     return num_cats;
   }
 
-  toggle(){
+  toggle_results(){
+    var rl = document.querySelector('results');
+    if (rl.className) {
+      rl.className='';
+    } else {
+      rl.className='show';
+    }
+  }
+
+  toggle_categories(){
     controller.showing = !controller.showing;
   }
 
@@ -36,11 +47,11 @@
   {
     if (active_tag) {
       return item.categories.find( function(x){
-        return x.name === active_tag || x.parent === active_tag;
+        return x.name === active_tag || x.meta.name === active_tag;
       });
     } else {
       return item.categories.find( function(x){
-        return category_cache[x.name] || category_cache[x.parent];
+        return category_cache[x.name] || category_cache[x.meta.name];
       });
     }
   }
@@ -55,6 +66,11 @@
     controller.categories[e.item.key].showing = !controller.categories[e.item.key].showing;
     filter_listings();
   }
+  
+  opts.on('update_tag', function(tag){
+    active_tag = tag;
+    filter_listings();
+  });
 
   opts.on('initial_load', function(listings){
     orig_listings = listings;

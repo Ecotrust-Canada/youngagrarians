@@ -118,15 +118,14 @@ function updateMarkers(response){
       var cat = listing.categories[0]; // TODO: show first applicable category
 
       var the_slug = slug( cat );
-      console.log( the_slug );
       var title = listing.name;
       var marker = L.marker(new L.LatLng(listing.latitude, listing.longitude), {
         icon: L.divIcon({
           html:'<div class="map-icon '
             + the_slug
             + '"><div class="filled"></div></div>',
-          iconSize: [12, 12],
-          iconAnchor: [6, 6],
+          iconSize: [20, 20],
+          iconAnchor: [10, 10],
           popupAnchor: [3, 0]
         }),
         title: title
@@ -176,6 +175,19 @@ pubsub.on('zoom_to', function(marker){
       marker.openPopup();
     });
 })
+
+map.locate({setView: true, maxZoom: 16});
+function onLocationFound(e) {
+    var radius = e.accuracy / 2;
+
+    L.marker(e.latlng).addTo(map)
+        .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+    L.circle(e.latlng, radius).addTo(map);
+}
+
+map.on('locationfound', onLocationFound);
+
 /*
 map.on('dragend', getSoil);
 map.on('zoomend', getSoil);

@@ -1,15 +1,15 @@
 module LocationsHelper
   # ----------------------------------------------------------- category_options
-  def category_options( location )
-    # assumes 2 levels deep.
-    c = NestedCategory.level_2.order( 'parent_name, nested_categories.name' ).map do |category|
-      if category.parent_name
-        [format( '%s > %s', category.parent_name, category.name), category.id]
-      else
-        [category.name, category.id]
-      end
-    end
-    options_for_select( c, location.nested_category_ids.first )
+  def category_options( location, category = nil )
+    # inefficient!
+    category ||= NestedCategory.find( location.parent_category_id )
+    @cateogry_options_list ||= build_list( category.parent, true )
+    options_for_select( @cateogry_options_list.map{ |x| [ x.parent ? format( '%s > %s', x.parent.name, x.name ) : x.name, x.id] }, category.id )
+  end
+  # ----------------------------------------------------------------- build_list
+  def build_list( c, skip_self = false )
+    kids = c.children.map{ |x| build_list( x ) }.flatten
+    skip_self ? kids : [c] + kids
   end
   # ------------------------------------------------------------ display_address
   def display_address( location )
@@ -26,8 +26,7 @@ module LocationsHelper
       r_val << h( @location.province )
     end
     if @location.postal.present?
-      r_val << h( @location.postal )
-      r_val << tag( 'br' )
+      r_val << h( ", " + @location.postal )
     end
     r_val << tag('br' ) if @location.city.present? || @location.province.present?
     r_val << @location.country if @location.country.present?
@@ -45,7 +44,9 @@ module LocationsHelper
         links = metas.map do |category_name, category_id|
           content_tag( 'li', link_to( category_name,
                              meta_category_path( top_level_name: category_name ),
-                             class: "category_#{category_id}" ) )
+                             class: "filled" ),
+                          class: "category_#{category_id} #{category_name.downcase}"
+                          )
         end
         safe_join( links, '' )
 

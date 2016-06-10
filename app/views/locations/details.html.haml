@@ -1,10 +1,17 @@
+= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'
 .listing-edit
   = render partial: 'locations/wizard_nav', locals: { selected: 'description' }
   %h3<About the Listing
   = form_for @location, builder: FormBuilder do |f|
     %content
       = f.text_field :name, required: true
-      = f.select_tag 'nested_category_ids[]', category_options( @location ), 'value' => 1, label: 'Category'
+      #category
+        - if @location.nested_categories.any?
+          - @location.nested_categories.each do |c|
+            = f.select_tag 'nested_category_ids[]', category_options( @location, c ), 'value' => 1, label: 'Category'
+        - else
+          = f.select_tag 'nested_category_ids[]', category_options( @location ), 'value' => 1, label: 'Category'
+        = link_to 'list in another category', '#', class: 'add_category'
       = f.text_area :description, required: true
       .field_info
         <span class='required-icon'>*</span> required fields
@@ -13,5 +20,19 @@
         .three.columns
           %a.btn.btn-muted{:href => "/map"} Cancel
         .nine.columns
-          = f.submit( 'Previous' )
-          = f.submit( 'Next' )
+          = f.submit( 'Previous', name: 'step', value: 'account' )
+          = f.submit( 'Next', name: 'step', value: 'contact' )
+:javascript
+  $('a.add_category').click( function(e )
+  {
+    e.preventDefault();
+    var newItem = $('#category div.form-element' ).first();
+    $('#category div.form-element' ).last().after( newItem.clone() );
+    $('#category div.form-element' ).last().append( $( "<a href='#' class='remove'>Remove</a>" ) );
+
+  } );
+  $( '#category').on( 'click', 'a.remove', function(e)
+  {
+    e.preventDefault();
+    $( e.currentTarget ).closest('.form-element' ).remove();
+  } );

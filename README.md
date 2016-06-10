@@ -22,6 +22,11 @@ You may want to restore a database clone with `psql -f <file>` [inside the conta
 docker-compose up
 ```
 
+If you need to apply DB migrations:
+```
+docker exec -it youngagrarians_app_1 rake db:migrate
+```
+
 Run
 ====
 

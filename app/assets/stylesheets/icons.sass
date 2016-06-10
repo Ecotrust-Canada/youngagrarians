@@ -1,11 +1,20 @@
 /* --------------------- DOMAIN CATEGORY ICONS -------------------
 
+@mixin background-opacity($color, $opacity: 0.3)
+  background: $color
+  background: rgba($color, $opacity)
+
+
 .farm
   .filled
     background: #85563D
+    color: white
     &:after
       border-color: #85563D
   color: #85563D
+  &.lightbg
+    @include background-opacity(#85563D, .15)
+  border-color: #85563D
 
 .funding
   .filled
@@ -13,6 +22,9 @@
     &:after
       border-color: #745DA3
   color: #745DA3
+  &.lightbg
+    @include background-opacity(#745DA3, .15)
+  border-color: #745DA3
 
 .web-resource
   .filled
@@ -20,6 +32,9 @@
     &:after
       border-color: #7A7667
   color: #7A7667
+  &.lightbg
+    @include background-opacity(#7A7667, .15)
+  border-color: #7A7667
 
 .seed
   .filled
@@ -27,6 +42,9 @@
     &:after
       border-color: #81A94E
   color: #81A94E
+  &.lightbg
+    @include background-opacity(#81A94E, .15)
+  border-color: #81A94E
 
 .publication
   .filled
@@ -34,6 +52,9 @@
     color: white
     &:after
       border-color: #222356
+  &.lightbg
+    @include background-opacity(#222356, .15)
+  border-color: #222356
   color: #222356
 
 .organization
@@ -42,6 +63,9 @@
     &:after
       border-color: #FFC20E
   color: #FFC20E
+  &.lightbg
+    @include background-opacity(#FFC20E, .15)
+  border-color: #FFC20E
 
 .market
   .filled
@@ -49,6 +73,9 @@
     &:after
       border-color: #F26522
   color: #F26522
+  &.lightbg
+    @include background-opacity(#F26522, .15)
+  border-color: #F26522
 
 .land
   .filled
@@ -56,6 +83,9 @@
     &:after
       border-color: #81A94E
   color: #81A94E
+  &.lightbg
+    @include background-opacity(#81A94E, .15)
+  border-color: #81A94E
 
 .job
   .filled
@@ -63,6 +93,9 @@
     &:after
       border-color: #0084B5
   color: #0084B5
+  &.lightbg
+    @include background-opacity(#0084B5, .15)
+  border-color: #0084B5
 
 .infrastructure
   .filled
@@ -70,6 +103,9 @@
     &:after
       border-color: #CF4F1C
   color: #CF4F1C
+  &.lightbg
+    @include background-opacity(#CF4F1C, .15)
+  border-color: #CF4F1C
 
 .event
   .filled
@@ -77,6 +113,9 @@
     &:after
       border-color: #16807C
   color: #16807C
+  &.lightbg
+    @include background-opacity(#16807C, .15)
+  border-color: #16807C
 
 .education
   .filled
@@ -84,6 +123,9 @@
     color: white
     &:after
       border-color: #9D0A0E
+  &.lightbg
+    @include background-opacity(#9D0A0E, .15)
+  border-color: #9D0A0E
   color: #9D0A0E
 
 .business
@@ -92,11 +134,18 @@
     color: white
     &:after
       border-color: #00652E
+  &.lightbg
+    @include background-opacity(#00652E, .15)
+  border-color: #00652E
   color: #00652E
 
 .apprenticeship
   .filled
     background: #A0174C
+    color: white
     &:after
       border-color: #A0174C
   color: #A0174C
+  &.lightbg
+    @include background-opacity(#A0174C, .15)
+  border-color: #A0174C

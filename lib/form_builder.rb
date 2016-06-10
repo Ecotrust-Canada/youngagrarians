@@ -117,7 +117,7 @@ class FormBuilder < ActionView::Helpers::FormBuilder
   end
   # --------------------------------------------------------------------- submit
   def submit( text, args = {} )
-    template.content_tag( 'button', text, class: 'button-primary' )
+    template.content_tag( 'button', text, args.merge( class: 'button-primary' ) )
   end
   # ----------------------------------------------------------- hidden_field_tag
   def hidden_field_tag( *args )
