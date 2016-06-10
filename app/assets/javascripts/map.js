@@ -118,7 +118,6 @@ function updateMarkers(response){
       var cat = listing.categories[0]; // TODO: show first applicable category
 
       var the_slug = slug( cat );
-      console.log( the_slug );
       var title = listing.name;
       var marker = L.marker(new L.LatLng(listing.latitude, listing.longitude), {
         icon: L.divIcon({
