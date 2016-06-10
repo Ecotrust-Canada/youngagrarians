@@ -42,8 +42,8 @@
       .row{:style => "padding-top:20px"}
         .three.columns
           %a.btn.btn-muted{:href => "/map"} Cancel
-        .three.columns
-          = f.submit( 'Previous' )
+        .three.columns.previous
+          = f.submit( 'Previous', name: 'step', value: 'description' )
         .three.columns
           = f.submit( 'Submit' )          
         .three.columns{:style => "margin-left: 0"}
@@ -53,6 +53,11 @@
 
 = javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'
 :javascript
+  $('.previous button').click( function( e )
+  {
+    // may break back...
+    $('#done').remove();
+  } );
   var states = #{States::AMERICAN_STATES.to_json};
   var provinces = #{States::CANADIAN_PROVINCES.to_json};
   $('#location_country').change( function(e)

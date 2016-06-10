@@ -1,15 +1,15 @@
 module LocationsHelper
   # ----------------------------------------------------------- category_options
-  def category_options( location )
-    # assumes 2 levels deep.
-    c = NestedCategory.level_2.order( 'parent_name, nested_categories.name' ).map do |category|
-      if category.parent_name
-        [format( '%s > %s', category.parent_name, category.name), category.id]
-      else
-        [category.name, category.id]
-      end
-    end
-    options_for_select( c, location.nested_category_ids.first )
+  def category_options( location, category = nil )
+    # inefficient!
+    category ||= NestedCategory.find( location.parent_category_id )
+    @cateogry_options_list ||= build_list( category.parent, true )
+    options_for_select( @cateogry_options_list.map{ |x| [ x.parent ? format( '%s > %s', x.parent.name, x.name ) : x.name, x.id] }, category.id )
+  end
+  # ----------------------------------------------------------------- build_list
+  def build_list( c, skip_self = false )
+    kids = c.children.map{ |x| build_list( x ) }.flatten
+    skip_self ? kids : [c] + kids
   end
   # ------------------------------------------------------------ display_address
   def display_address( location )

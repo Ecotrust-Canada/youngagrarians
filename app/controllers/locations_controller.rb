@@ -89,7 +89,7 @@ class LocationsController < ApplicationController
       UserMailer.new_listing( @location ).deliver_now
       UserMailer.new_listing_registration( @location ).deliver_now
     else
-      redirect_to new_location_path
+      redirect_to new_location_path( step: params[:step] )
       return
     end
     respond_to do |format|
@@ -145,6 +145,7 @@ class LocationsController < ApplicationController
 
   ##############################################################################
 
+  # ---------------------------------------------------------------- render_form
   def render_form
     if session[:in_progress_location_time] && Time.at( session[:in_progress_location_time] ) > 20.minutes.ago
       @location = Location.new( session[:in_progress_location] ) if session[:in_progress_location]
@@ -152,16 +153,23 @@ class LocationsController < ApplicationController
       session.delete( :in_progress_location )
       @location = Location.new
     end
+    unless @location.parent_category_id
+      render :new, layout: 'basic'
+      return
+    end
     @skeleton = true
     if params[:step]
       case params[:step]
       when 'contact'
         render :contact, layout: 'basic'
-      when 'details'
+      when 'description'
         render :details, layout: 'basic'
       when 'account'
         render :account_setup, layout: 'basic'
+      when 'categories'
+        render :new, layout: 'basic'
       else
+        raise "Unknown step: #{params[:step]}"
         render :new, layout: 'basic'
       end
     else
@@ -171,7 +179,7 @@ class LocationsController < ApplicationController
         render :contact, layout: 'basic'
       elsif session[:in_progress_location]  && ( session[:in_progress_location]['account_id']  || session[:in_progress_location]['skip_account'] ) 
         render :details, layout: 'basic'
-      elsif session[:in_progress_location]  && session[:in_progress_location]['nested_category_ids'] 
+      elsif session[:in_progress_location]  && session[:in_progress_location]['parent_category_id'] 
         render :account_setup, layout: 'basic'
       else
         render :new, layout: 'basic'
@@ -180,7 +188,7 @@ class LocationsController < ApplicationController
   end
   # ------------------------------------------------------------ location_params
   def location_params
-    args = [{ nested_category_ids: [] }, :name, :description, :street_address, :city, :phone, :fb_url, :twitter_url, :email, :public_contact, :show_until, :account_id, :province, :country]
+    args = [{ nested_category_ids: [] }, :parent_category_id, :name, :description, :street_address, :city, :phone, :fb_url, :twitter_url, :email, :public_contact, :show_until, :account_id, :province, :country]
     if params[:signature]
       e = Time.at( params[:expiry].to_i )
       s, _ = @location.signature( e )

@@ -1,5 +1,6 @@
 #
 class Location < ActiveRecord::Base
+  attr_accessor :parent_category_id
   include Gmaps4rails::ActsAsGmappable
   acts_as_gmappable validation: false
 
