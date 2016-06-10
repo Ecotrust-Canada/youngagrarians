@@ -36,11 +36,11 @@
   {
     if (active_tag) {
       return item.categories.find( function(x){
-        return x.name === active_tag || x.parent === active_tag;
+        return x.name === active_tag || x.meta.name === active_tag;
       });
     } else {
       return item.categories.find( function(x){
-        return category_cache[x.name] || category_cache[x.parent];
+        return category_cache[x.name] || category_cache[x.meta.name];
       });
     }
   }

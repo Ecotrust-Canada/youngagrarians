@@ -43,8 +43,8 @@ riot.compile(function( x ) {
 });
 
 function slug(category){
-  var rVal = category.parent ? category.parent.toLowerCase() : category.name.toLowerCase();
-  return rVal.replace(/\s/,'-');
+  var rVal = category.meta ? category.meta.name.toLowerCase() : category.name.toLowerCase();
+  return rVal.replace(/\s/g,'-');
 }
 
 ajax().get( pubsub.kwargs['surrey'] ? '/surrey.json' : '/locations.json').then(function(response){

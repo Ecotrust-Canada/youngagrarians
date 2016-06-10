@@ -1,3 +1,4 @@
+meta_lookup = NestedCategory.meta_lookup
 json.array! @locations do |location|
   json.id location.id
   json.name location.name
@@ -28,7 +29,7 @@ json.array! @locations do |location|
   json.categories location.nested_categories do |category|
     json.id category.id
     json.name category.name
-    json.parent category.parent && category.parent.name
+    json.meta meta_lookup[ category.id ]
   end
 end
 
