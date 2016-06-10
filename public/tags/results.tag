@@ -19,8 +19,8 @@
              style='background:url( { CATEGORY_ICONS[slugify( categories[0] )] }) 10px 10px no-repeat'
         ></div>
         <p class='listing-text'>
-          <label>{ categories[0].parent || categories[0].name }</label>
-          <span class='name'>{ name }</span><br>
+          <label class='{ slugify(categories[0]) }'>{ categories[0].meta.name || categories[0].name }</label>
+          { name }<br>
           <span if={ city } class='city'>{ city }, { province }</span>
         </p>
         <div if={ latitude } class='view-on-map { slugify(categories[0]) }' onclick={ view_on_map }>
@@ -81,7 +81,7 @@
     var cat_counts = {};
     response.forEach(function(item){
       for (var i=0; i<1; i++) {
-        name = item.categories[i].parent || item.categories[i].name;
+        name = item.categories[i].meta.name || item.categories[i].name;
         cat_counts[name] = (cat_counts[name] || 0) + 1
       }
     });

@@ -18,6 +18,8 @@ module ApplicationHelper
     EOS
       .html_safe
   end
+
+  # ------------------------------------------------------------------ icon_hash
   def icon_hash
     icons = Dir.glob( Rails.root.join( "app/assets/images/icon/category/*" ) )
     icons.each_with_object( {} ) do |x, m|

@@ -33,7 +33,7 @@ class LocationsController < ApplicationController
         end
 
         scope = apply_search_scope( scope ) if params[:q].present?
-        @locations = scope.approved.currently_shown.includes( category_tags: { nested_category: :parent } ).order( 'id' )
+        @locations = scope.approved.currently_shown.includes( :nested_categories ).order( 'id' )
       end
     end
   end
@@ -44,7 +44,7 @@ class LocationsController < ApplicationController
     @location = Location.find(params[:id])
     respond_to do |format|
       format.html do
-        if @location.visible? || @location.is_admin?( current_user )
+        if @location.visible? || @location.admin?( current_user )
           render layout: 'basic'
         else
           render nothing: true, status: 404
@@ -127,7 +127,7 @@ class LocationsController < ApplicationController
   # DELETE /locations/1.json
   def destroy
     @location = Location.find( params[:id] )
-    if @location.is_admin?( current_user )
+    if @location.admin?( current_user )
       @location.destroy
     else
       redirect_to map_url
