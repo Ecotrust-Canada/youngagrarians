@@ -1,0 +1,9 @@
+%p<Hi,
+
+%p
+  Thanks for registerying #{@location.name}.  You can view it online
+  #{link_to( 'here.', location_url( @location ) )}.
+- if @location.account
+  %p
+    You can update you loation details at any time by visiting
+    #{link_to login_url, login_url}.
