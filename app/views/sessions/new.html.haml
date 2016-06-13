@@ -1,0 +1,7 @@
+.detail-page.standalone
+  %h4{ style: "margin-bottom:30px"} Log Into Your Account
+  = form_for( Struct.new( :email, :password ).new, as: 'session', url: session_path, builder: FormBuilder,  method: :post ) do |f|
+    = f.email_field :email
+    = f.password_field :password
+    .btn-wrap
+      %button.btn.btn-primary.btn-small{ name: 'step', value: 'description' } Login

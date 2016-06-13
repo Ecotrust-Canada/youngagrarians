@@ -1,4 +1,9 @@
 class SessionsController < ApplicationController
+  layout 'basic'
+  # ------------------------------------------------------------------------ new
+  def new
+    redirect_to locations_url if current_user
+  end
   # --------------------------------------------------------------------- create
   def create
     account = Account.find_by( email: params[:session] && params[:session][:email] )
@@ -16,9 +21,14 @@ class SessionsController < ApplicationController
         @skeleton = true
         render 'locations/account_setup', layout: 'basic'
       else
+        flash[:error] = 'Please check email or password.'
         render :new
       end
     end
 
+  end
+  def destroy
+    session.delete( 'account_id' )
+    redirect_to login_url
   end
 end
