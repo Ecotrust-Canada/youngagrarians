@@ -29,7 +29,9 @@ json.array! @locations do |location|
   json.categories location.nested_categories do |category|
     json.id category.id
     json.name category.name
-    json.meta meta_lookup[ category.id ]
+    # Primary category are children of metas
+    json.meta meta_lookup[ category.id ][:meta]
+    json.primary meta_lookup[ category.id ][:primary]
   end
 end
 
