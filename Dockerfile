@@ -13,7 +13,7 @@ ENV BUNDLE_JOBS=5
 ENV BUNDLE_PATH=/bundle
 ADD Gemfile* /ya/
 RUN gem install ffi -v '1.9.10' # Fix sisue where this crashes  if not done beforehand; keep tagged to Gemfile.lock version (or remove )
-RUN bundle install --retry 5 --jobs 2 --without=test development
+RUN bundle install --retry 5 --jobs 2 --without=test
 # bundling happens first to get better docker cache behaviour
 ADD . /ya
 RUN rake assets:precompile
