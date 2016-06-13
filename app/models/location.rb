@@ -1,12 +1,79 @@
 #
 class Location < ActiveRecord::Base
-  attr_accessor :parent_category_id
+  # Field constant definations
+  WOODED_LAND_SIZE = 1
+  CULTIVABLE_AREA = 2
+  ZONING = 3
+  CURRENT_PROPERTY_USE = 4
+  CURRENT_PRACTICES = 5
+  SURFACE_DESCRIPTION = 6
+  HISTORICAL_USE = 7
+  ROAD_ACCESS = 8
+  ELECTRICITY = 9
+  CELL_SERVICE = 10
+  LONG_TERM_VISION = 10
+  HAZARDS = 11
+  RESIDENTS_PRESENT = 12
+  FARM_BUILDINGS = 13
+  IS_FENCED = 14
+  TOOLS = 15
+  WATER_SOURCE = 16
+  WATER_RIGHTS = 17
+  ONSITE_HOUSING = 18
+  RESTRICTED_VISTOR_ACCESS = 19
+  AGRICULTURE_PREFERRED = 20
+  PRACTICES_PREFERRED = 21
+  AGRONOMIC_POTENTIAL = 22
+  SOIL_DETAILS = 23
+  PREFERRED_ARRANGEMENT = 24
+  MENTORSHIP = 25
+  REFERENCES_REQUIRED = 26
+  AGREEMENT_DURATION = 27
+  INSURANCE = 28
+  AGREEMENT_TRUE = 29
+  EXPANSION_OPTIONS = 30
+  TRAINING = 31
+  BUSINESS_PLAN = 32
+  FINANCIAL_RESOURCES = 33
+  OTHER_FINANCIAL_RESOURCES = 34
+  FARM_NAME = 35
+  DESIRED_START_DATE = 36
+  FV_REGION = 37
+  DESIRED_TOTAL_SIZE = 38
+  WOODED_AREA = 39
+  DESIRED_CULTIVABLE_AREA = 40
+  EXPANSION_SIZE = 41
+  DESIRED_SURFACE_STATE = 42
+  OWNER_RESIDES = 43
+  BUILDINGS_REQUIRED = 44
+  FENCING_REQUIRED = 45
+  TOOLS_REQUIRED = 46
+  NEED_WATER = 47
+  NEED_HOUSING = 48
+  DESIRED_USE = 49
+  DESIRED_PRACTICES = 50
+  SOIL_NEEDS = 51
+
+  LAND_LISTING_PARAMS = %w(land_size cultivable_area zoning
+                           current_property_use current_practices
+                           surface_description historical_use road_access
+                           electricity cell_service long_term_vision hazards
+                           residents_present farm_buildings is_fenced tools
+                           water_source water_rights onsite_housing
+                           restricted_vistor_access agriculture_preferred
+                           practices_preferred agronomic_potential soil_details
+                           preferred_arrangement mentorship references_required
+                           agreement_duration insurance agreement_true ).map( &:to_sym ).freeze
+  attr_accessor :primary_category_id, :agreement_true
   include Gmaps4rails::ActsAsGmappable
+  include CustomFields
   acts_as_gmappable validation: false
 
   belongs_to :account, inverse_of: :locations
+  belongs_to :person
 
   has_many :category_tags, dependent: :destroy, foreign_key: 'location_id', inverse_of: :location
+  has_many :location_fields
   has_many :nested_categories, through: :category_tags
 
   scope :approved, -> { where( is_approved: true ) } 
@@ -17,9 +84,70 @@ class Location < ActiveRecord::Base
 
   REQUIRED_COLUMNS = %w(id resource_type category subcategories
                         name bioregion street_address city province country postal phone
-                        url fb_url twitter_url description email).freeze
+                        url fb_url twitter_url description email)
+  add_boolean_with_comment_field :wooded_land_size
+  add_boolean_with_comment_field :business_plan
+  add_boolean_with_comment_field :financial_resources
+  add_boolean_with_comment_field :other_financial_resources
+  add_boolean_with_comment_field :expansion_options
+  add_boolean_with_comment_field :tools
+  add_boolean_with_comment_field :is_fenced
+  add_boolean_with_comment_field :road_access
+  add_boolean_with_comment_field :electricity
+  add_boolean_with_comment_field :onsite_housing
+  add_boolean_with_comment_field :restricted_vistor_access
+  add_boolean_with_comment_field :cell_service
+  add_boolean_with_comment_field :farm_buildings
+  add_boolean_with_comment_field :water_rights
+  add_boolean_with_comment_field :mentorship
+  add_boolean_with_comment_field :references_required
+  add_boolean_with_comment_field :insurance
+  add_boolean_with_comment_field :wooded_area
+  add_boolean_with_comment_field :expansion_size
+  add_boolean_with_comment_field :owner_resides
+  add_boolean_with_comment_field :buildings_required
+  add_boolean_with_comment_field :fencing_required
+  add_boolean_with_comment_field :tools_required
+  add_boolean_with_comment_field :need_water
+  add_boolean_with_comment_field :need_housing
+  add_number_field :cultivable_area
+  add_string_field :zoning
+  add_string_field :training
+  add_string_field :preferred_arrangement
+  add_string_field :agronomic_potential
+  add_string_field :agreement_duration
+  add_string_field :farm_name
+  add_string_field :desired_start_date
+  add_string_field :fv_region
+  add_string_field :desired_total_size
+  add_string_field :desired_cultivable_area
+  add_string_field :desired_surface_state
+  add_string_field :soil_needs
+  add_multiselect_field :current_property_use
+  add_multiselect_field :desired_use
+  add_multiselect_field :desired_practices
+  add_multiselect_field :agriculture_preferred
+  add_multiselect_field :soil_details
+  add_multiselect_field :water_source
+  add_multiselect_field :current_practices
+  add_multiselect_field :practices_preferred
+  add_boolean_with_comment_field :hazards
+  add_boolean_with_comment_field :residents_present
+  add_text_field :surface_description
+  add_text_field :historical_use
+  add_text_field :long_term_vision
+  attr_accessor :skip_approval_email, :details_complete
 
-  attr_accessor :skip_approval_email
+  # -------------------------------------------------------------- land_listing?
+  def land_listing?
+    primary_category_id.to_i == 743 || nested_category_ids.include?( 743 )
+  end
+
+  # ------------------------------------------------------------ seeker_listing?
+  def seeker_listing?
+    primary_category_id.to_i == 744 || nested_category_ids.include?( 745 )
+  end
+
   # ------------------------------------------------------------------ signature
   def signature( expiry = nil )
     expiry ||= 1.week.since

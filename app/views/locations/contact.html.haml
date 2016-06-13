@@ -16,7 +16,7 @@
           = f.text_field :city
           = f.select :country, [ ['Canada', 'CA'], ['United States', 'US']]
           = f.select :province, States::CANADIAN_PROVINCES
-          = f.phone_number :phone
+          = f.phone_field :phone
           = f.url :fb_url, label: 'Facebok URL'
           = f.text_field :twitter_url, label: 'Twitter URL'
           = f.email :email

@@ -7,7 +7,7 @@ smtp_password: ''
 
 development:
   mailer_host: 'localhost:3000'
-  send_mail_to: 'michael@yagudaev.com'
+  send_mail_to: 'apalmblad@gmail.com'
 
 test:
   mailer_host: 'localhost:3000'

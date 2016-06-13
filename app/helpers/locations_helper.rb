@@ -1,8 +1,21 @@
 module LocationsHelper
+  # ------------------------------------------------------- agriculature_options
+  def agriculture_options
+    ['Vegetable', 'Livestock', 'Grain', 'Seed', 'Hay & Forage', 'Orchard/Fruit', 'Mixed', 'Other']
+  end
+  # --------------------------------------------------- agriculture_type_options
+  def agriculture_type_options
+    ['Certified Organic', 'Organic', 'Conventional', 'Other' ]
+  end
+  # ----------------------------------------------------------------- bc_regions
+  def bc_regions
+    [ 'Cariboo – Upper Fraser', 'Skeena – North Coast', 'Lower Mainland - Fraser Valley',
+      'Thompson - Okanagan', 'Kootenays', 'Vancouver Island', 'Northeast']
+  end
   # ----------------------------------------------------------- category_options
   def category_options( location, category = nil )
     # inefficient!
-    category ||= NestedCategory.find( location.parent_category_id )
+    category ||= NestedCategory.find( location.primary_category_id )
     @cateogry_options_list ||= build_list( category.parent, true )
     options_for_select( @cateogry_options_list.map{ |x| [ x.parent ? format( '%s > %s', x.parent.name, x.name ) : x.name, x.id] }, category.id )
   end

@@ -125,6 +125,7 @@ header
   .nav
     text-align: right
     float: right
+    text-transform: uppercase
     .nav-item
       padding: 10px 10px
       list-style: none
@@ -207,8 +208,6 @@ header
       .splash-subtag-menu
         display: block
 /* end of map landing page */
-
-textarea
 
 /* map overlays -----------------------
 
@@ -399,10 +398,10 @@ ul.social
 
 .detail-page, .list-page
   &.standalone
-    position static
+    position: static
     margin: 0 auto
   &.embed
-    position absolute
+    position: absolute
     top: 10px
     left: 50%
     margin-left: -500px
@@ -837,3 +836,6 @@ button.btn-primary, button.button-primary, .button.button-primary
 
 p.aside
   line-height: 17px
+.land-form
+  div.multiple-choice, div.choice-wrapper
+    display: inline

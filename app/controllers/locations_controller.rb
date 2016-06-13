@@ -56,13 +56,7 @@ class LocationsController < ApplicationController
 
   # ------------------------------------------------------------------------ new
   def new
-    @location = Location.new
-    respond_to do |format|
-      format.html do
-        render_form
-      end
-      format.json { render json: @location }
-    end
+    render_form
   end
 
   # GET /locations/1/edit
@@ -77,19 +71,28 @@ class LocationsController < ApplicationController
   # POST /locations
   # POST /locations.json
   def create
-    session[:in_progress_location] ||= {}
-    session[:in_progress_location].merge!( location_params )
+    in_progress_location = {}
+    in_progress_location = if session[:in_progress_location]
+      JSON.parse( ActiveSupport::Gzip.decompress(session[:in_progress_location] ) )
+    else
+      {}
+    end
+    @location = Location.new( in_progress_location )
+    in_progress_location.merge!( location_params )
     session[:in_progress_location_time] = Time.current.to_i
 
-    @location = Location.new( session[:in_progress_location] )
+    @location.attributes = in_progress_location
     if params[:done]
       @location.account_id = nil unless current_user && current_user.id == @location.account_id
       session.delete( :in_progress_location )
       @location.save
       UserMailer.new_listing( @location ).deliver_now
-      UserMailer.new_listing_registration( @location ).deliver_now
+      if @location.email.present? || @location.account
+        UserMailer.new_listing_registration( @location ).deliver_now
+      end
     else
-      redirect_to new_location_path( step: params[:step] )
+      session[:in_progress_location] = ActiveSupport::Gzip.compress( in_progress_location.to_json )
+      redirect_to new_location_url( step: params[:step] )
       return
     end
     respond_to do |format|
@@ -148,12 +151,26 @@ class LocationsController < ApplicationController
   # ---------------------------------------------------------------- render_form
   def render_form
     if session[:in_progress_location_time] && Time.at( session[:in_progress_location_time] ) > 20.minutes.ago
-      @location = Location.new( session[:in_progress_location] ) if session[:in_progress_location]
+      begin
+        @location ||= begin
+          loc = if session[:in_progress_location]
+            JSON.parse( ActiveSupport::Gzip.decompress( session[:in_progress_location] ) )
+          else
+            {}
+          end
+          Location.new( loc )
+        end
+        
+      rescue ActiveRecord::UnknownAttributeError 
+        session.delete( :in_progress_location )
+        @location = Location.new
+      end
     else
       session.delete( :in_progress_location )
+      session.delete( :in_progress_location_time )
       @location = Location.new
     end
-    unless @location.parent_category_id
+    unless @location.primary_category_id
       render :new, layout: 'basic'
       return
     end
@@ -163,7 +180,7 @@ class LocationsController < ApplicationController
       when 'contact'
         render :contact, layout: 'basic'
       when 'description'
-        render :details, layout: 'basic'
+        render_description_form
       when 'account'
         render :account_setup, layout: 'basic'
       when 'categories'
@@ -173,13 +190,11 @@ class LocationsController < ApplicationController
         render :new, layout: 'basic'
       end
     else
-      if session[:in_progress_location] && session[:in_progress_location]['name']
+      if @location.name.present? || @location.details_complete
         render :contact, layout: 'basic'
-      elsif session[:in_progress_location] && session[:in_progress_location]['name']
-        render :contact, layout: 'basic'
-      elsif session[:in_progress_location]  && ( session[:in_progress_location]['account_id']  || session[:in_progress_location]['skip_account'] ) 
-        render :details, layout: 'basic'
-      elsif session[:in_progress_location]  && session[:in_progress_location]['parent_category_id'] 
+      elsif @location.account_id.present? || @location.skip_account
+        render_description_form
+      elsif @location.primary_category_id
         render :account_setup, layout: 'basic'
       else
         render :new, layout: 'basic'
@@ -188,7 +203,7 @@ class LocationsController < ApplicationController
   end
   # ------------------------------------------------------------ location_params
   def location_params
-    args = [{ nested_category_ids: [] }, :parent_category_id, :name, :description, :street_address, :city, :phone, :fb_url, :twitter_url, :email, :public_contact, :show_until, :account_id, :province, :country]
+    args = [{ nested_category_ids: [] }, :primary_category_id, :name, :description, :street_address, :city, :phone, :fb_url, :twitter_url, :email, :public_contact, :show_until, :account_id, :province, :country, :details_complete ]
     if params[:signature]
       e = Time.at( params[:expiry].to_i )
       s, _ = @location.signature( e )
@@ -197,6 +212,20 @@ class LocationsController < ApplicationController
       else
         args = []
       end
+    end
+    if @location && @location.land_listing?
+      args += Location::LAND_LISTING_PARAMS
+      args << :bioregion
+      b_with_c = [:string, :boolean]
+      [:wooded_land_size, :road_access, :electricity, :cell_service, :hazards,
+        :residents_present, :farm_buildings, :tools, :is_fenced, :water_rights,
+        :onsite_housing, :restricted_vistor_access, :mentorship, :references_required,
+        :insurance, :expansion_options ].each do |f|
+        args << { f => b_with_c }
+      end
+      multi = [ :value, :comment ]
+      args <<  { current_property_use: multi, practices_preferred: multi, soil_details: multi,
+          current_practices: multi, water_source: multi, agriculture_preferred: multi }
     end
     params.require( :location ).permit( *args )
   end
@@ -212,6 +241,15 @@ class LocationsController < ApplicationController
       scope.where( "search @@ (#{clause})", *args )
     else
       scope.where( 'description LIKE ?', "%#{params[:q]}%" )
+    end
+  end
+  def render_description_form
+    if @location.land_listing?
+      render :new_land_listing, layout: 'basic'
+    elsif @location.seeker_listing?
+      render :new_seeker_listing, layout: 'basic'
+    else
+      render :details, layout: 'basic'
     end
   end
 end
