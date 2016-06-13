@@ -25,9 +25,9 @@
                 - seen_kids += 1
                 %li
                   %label
-                    = radio_button_tag 'location[parent_category_id]',
+                    = radio_button_tag 'location[primary_category_id]',
                                        child_category.id,
-                                       @location.parent_category_id.to_i == child_category.id,
+                                       @location.primary_category_id.to_i == child_category.id,
                                        required: true
                     = child_category.name
           - if halfway < seen_kids && col != 1

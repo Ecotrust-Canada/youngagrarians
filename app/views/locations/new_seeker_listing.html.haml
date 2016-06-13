@@ -1,0 +1,52 @@
+= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'
+.listing-edit.land-form#land_provider_form
+  = render partial: 'locations/wizard_nav', locals: { selected: 'description' }
+  =  form_for( @location, builder: FormBuilder ) do |f|
+    %section
+      %h2<Land Seeker Details
+      = f.radio_select :training, ['Agriculture-related degree', 'Farm management (3 years or less)',
+      'Farm management (3 years+)', 'Apprenticeship', 'General degree', 'General farming (3 years or less)',
+      'General farming (3 years+)', 'Other experience/ag./business training Specify'], label: 'What training and experience do you have?'
+
+      = f.boolean_with_comments :business_plan, no_comments: true, yes_comments: true, label: 'Do you have a business plan?'
+      = f.boolean_with_comments :financial_resources, no_comments: true, yes_comments: true, label: 'Do you have financial resources available to start your farm?'
+      = f.boolean_with_comments :other_financial_resources, no_comments: true, yes_comments: true, label: 'Do you have access to other financial resources (such as a financial partner, loan, etc.) to start your farm?'
+      = f.text_field :farm_name
+
+      = f.radio_select :preferred_arrangement, ['Registered Lease on Title', 'Lease', 'License', 'MOU', 'Transfer / Succession', 'Business Partnership', 'Sale of Land', 'Other'], label: 'Type of farm land access agreement you are looking for'
+      = f.text_field :agreement_duration, label: 'Duration of the desired agreement'
+      = f.text_field :desired_start_date, label: 'Ideal date to obtain land by'
+
+      %h3<Land & Features Desired
+      = f.select :province, States::CANADIAN_PROVINCES, label: 'Where do you want to farm?'
+      = f.select :bioregion, bc_regions, hidden: @location.province != 'BC', label: 'What part(s) of BC?'
+      = f.select :fv_region, %w(Abbotsford Richmond Chilliwack Surrey Ladner Vancouver Langley White Rock New Westminster ), hidden: @location.province != 'Fraser Valley', label: 'What part(s) of the Fraser Valley?'
+      = f.text_field :desired_total_size, label: 'Total Land Size (specify acres)'
+      = f.boolean_with_number :wooded_area, label: 'Wooded Area (specify acres)', yes_comments: true
+      = f.text_field :desired_cultivable_area, label: 'Cultivable Area (specify acres)'
+      = f.boolean_with_number :expansion_size, label: 'Possibility to expand area currently available (specify acres)', yes_comments: true
+      = f.radio_select :zoning, ['ALR', 'Non-ALR' ]
+      = f.text_area :desired_surface_state, label: 'Preferred current state of the surface of the cultivable area'
+      = f.boolean_with_comments :owner_resides, no_comments: true, yes_comments: true, label: 'Open to landowner residing on property'
+      = f.boolean_with_comments :buildings_required, yes_comments: true, label: 'Need farm buildings'
+      = f.boolean_with_comments :fencing_required, yes_comments: true, label: 'Need fenced land'
+      = f.boolean_with_comments :tools_required, yes_comments: true, label: 'Need farm machinery and tools'
+      = f.boolean_with_comments :need_water, yes_comments: true, label: 'Need established water source and infrastructure'
+      = f.boolean_with_comments :need_housing, yes_comments: true, label: 'Need on-site housing'
+      = f.check_all_with_comments :desired_use, agriculture_options, label: 'Production type'
+      = f.check_all_with_other :desired_practices, agriculture_type_options, label: 'Type of agriculture'
+      = f.radio_select :soil_needs, ['Good', 'Excellent', "I don’t know" ], label: 'What are your soil needs?'
+      = f.boolean_with_comments :insurance, yes_comments: true, no_comments: true, label: 'I am willing to acquire commercial insurance and name the property owner as “additionally insured” on the insurance policy.'
+ 
+      = f.form_js
+      .row{:style => "padding-top:20px"}
+        .three.columns
+          %a.btn.btn-muted{:href => "/map"} Cancel
+        .three.columns.previous
+          = f.submit( 'Previous', name: 'step', value: 'description' )
+        .three.columns
+          = f.submit( 'Submit' )          
+        .three.columns{:style => "margin-left: 0"}
+          %p.aside
+            %small
+              By clicking submit, I agree the information I am providing is true and correct.

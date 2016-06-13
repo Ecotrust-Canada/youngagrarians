@@ -21,10 +21,10 @@ Youngagrarians::Application.routes.draw do
   root to: 'home#index'
 
   # Authentication flow
-  get  '/login'                => 'accounts#login',              as: :login
+  #get  '/login'                => 'accounts#login',              as: :login
   post '/login'                => 'accounts#login_post',         :as => :login_post
   post '/login.json'           => 'accounts#login_post',         :as => :login_post_json, :format => 'json'
-  get  '/logout'               => 'accounts#logout',             :as => :logout
+  get  '/logout'               => 'sessions#destroy'
   get  '/create_account'               => 'accounts#new',                :as => :signup
   post '/create_account'               => 'accounts#create',             :as => :create_account
   get  '/forgot_password'      => 'accounts#forgot_password',    as: :forgot_password
@@ -44,6 +44,8 @@ Youngagrarians::Application.routes.draw do
     resource :message
   end
   resource :session
+  get 'login' => 'sessions#new'
+  get 'logout' => 'sessions#destroy'
 
   get 'sitemap.xml', controller: 'home', action: 'sitemap', format: 'xml'
   get 'new-listing', controller: 'locations', action: 'new', as: 'new_listing'

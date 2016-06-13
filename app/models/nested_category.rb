@@ -32,13 +32,19 @@ class NestedCategory < ActiveRecord::Base
         "JOIN nested_categories nested_categories_#{j} ON nested_categories_#{j}.parent_category_id = #{previous_table}.id"
       end
       scopes.push( unscoped
-                   .select( format( 'nested_categories.name, nested_categories.id, %s', i == 0 ? 'nested_categories.id' : "nested_categories_#{i-1}.id" ) )
+                   .select( format( 'nested_categories.name, nested_categories.id, %s, %s, %s',
+                                    i == 0 ? 'nested_categories.id' : "nested_categories_#{i-1}.id",
+                                    i == 0 ? 'NULL' : "nested_categories_0.id",
+                                    i == 0 ? 'NULL' : "nested_categories_0.name",
+
+                                    ) )
                    .joins( joins.join( ' ' ) ) )
     end
     query = scopes.map( &:to_sql ).join( " UNION ALL " )
     r_val = {}
-    connection.select_rows( query ).each do |meta_name, meta_id, leaf_id|
-      r_val[ leaf_id.to_i ] = { name: meta_name, id: meta_id.to_i }
+    connection.select_rows( query ).each do |meta_name, meta_id, leaf_id, primary_id, primary_name|
+      r_val[ leaf_id.to_i ] = { meta: { name: meta_name, id: meta_id.to_i },
+                                primary: { name: primary_name, id: primary_id.to_i } }
     end
     r_val
   end

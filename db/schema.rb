@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160610033013) do
+ActiveRecord::Schema.define(version: 20160612195348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,14 @@ ActiveRecord::Schema.define(version: 20160610033013) do
     t.integer  "location_id", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "location_fields", force: :cascade do |t|
+    t.string  "comment"
+    t.integer "boolean_value", null: false
+    t.integer "field_id",      null: false
+    t.integer "location_id",   null: false
+    t.text    "serial_data"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -63,6 +71,7 @@ ActiveRecord::Schema.define(version: 20160610033013) do
     t.integer  "account_id"
     t.boolean  "public_contact",             default: true, null: false
     t.tsvector "search"
+    t.string   "land_size"
   end
 
   add_index "locations", ["is_approved"], name: "index_locations_on_is_approved", using: :btree

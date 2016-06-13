@@ -14,11 +14,18 @@ class UserMailer < ActionMailer::Base
   # ----------------------------------------------------------- listing_approved
   def new_listing( location )
     @location = location
+    mail(to: 'farm@youngagrarians.org',
+          subject: 'Young Agrarians - Listing Needs Approval')
+  end
+
+  # ----------------------------------------------------------- listing_approved
+  def new_listing_registration( location )
+    @location = location
     addresses = []
     addresses << @location.email if @location.email.present?
     addresses << @location.account.email if @location.account && @location.account.email
-    mail(to: 'farm@youngagrarians.org',
-          subject: 'Young Agrarians - Listing Needs Approval')
+    mail(to: addresses,
+          subject: 'Young Agrarians - New Listing')
   end
 
   # ------------------------------------------------------------ deliver_message

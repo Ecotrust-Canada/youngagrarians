@@ -64,6 +64,7 @@ group :development, :test do
   gem 'awesome_print',        '~> 1.0.2'
   gem 'table_print',          '~> 1.0.0'
   gem 'pry'
+  gem 'letter_opener'
 
   # Guard, guard!
   gem 'guard',                '~> 1.3.2'
@@ -77,8 +78,6 @@ group :development, :test do
 
   # Docs
   gem 'yard', '~> 0.8.5.2'
-
-  gem 'letter_opener'
 end
 
 group :test do

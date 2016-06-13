@@ -1,8 +1,8 @@
 class FormBuilder < ActionView::Helpers::FormBuilder
   attr_accessor :template
-  def phone_number( *args )
-    text_field( *args )
-  end
+
+
+  # ------------------------------------------------------------------------ url
   def url( *args )
     text_field( *args )
   end
@@ -18,6 +18,7 @@ class FormBuilder < ActionView::Helpers::FormBuilder
     v = '0' if v.is_a?( FalseClass )
     template.check_box_tag( field_name, v, is_checked )
   end
+
   # ------------------------------------------------------------- honeypot_field
   def honeypot_field( field, args = {} )
     x = template.text_field( object_name, field )
@@ -26,6 +27,7 @@ class FormBuilder < ActionView::Helpers::FormBuilder
     klasses << 'required' if args[:required]
     template.content_tag( 'div', template.content_tag( 'label', label ) + x + append_errors( field ), class: klasses.join(' ' ) )
   end
+
   # -------------------------------------------------------------- check_box_tag
   def radio_button_tag( f, v, cur_val )
     field_name = if f.to_s.match( /\[\]$/ )
@@ -72,6 +74,7 @@ class FormBuilder < ActionView::Helpers::FormBuilder
   end
   # ----------------------------------------------------------------- select_tag
   def select_tag( field, options, args = {} )
+    args[:disabled] = true if args[:hidden]
     if object.respond_to?( :errors ) && object.errors[field].any?
       args[:class] = 'field-error'
     end
@@ -86,22 +89,24 @@ class FormBuilder < ActionView::Helpers::FormBuilder
     klasses << 'required' if args[:required]
     template.content_tag( 'div',
                           template.content_tag( 'label', label ) + x + append_errors( field ),
-                          class: klasses.join( ' ' ) )
+                          class: klasses.join( ' ' ),
+                          style: args[:hidden] ? 'display:none;' : nil)
   end
   # --------------------------------------------------------------------- select
   def select( field, options, args = {} )
     if object.respond_to?( :errors ) && object.errors[field].any?
       args[:class] = 'field-error'
     end
-    x = super
+    x = super( field, options, args, disabled: args[:hidden] )
     label = args[:label] || field.to_s.humanize
     klasses = ['form-element']
     klasses << 'required' if args[:required]
     template.content_tag( 'div',
                           template.content_tag( 'label', label ) + x + append_errors( field ),
-                          class: klasses.join( ' ' ) )
+                          class: klasses.join( ' ' ), 
+                          style: args[:hidden] ? 'display:none' : nil)
   end
-  [:password_field, :text_field, :email_field, :text_area].each do |field_type|
+  [:password_field, :phone_field, :text_field, :email_field, :text_area].each do |field_type|
     class_eval <<-EOC
       def #{field_type}(field, args = {} )
         if object.respond_to?( :errors ) && object.errors[field].any?
@@ -123,6 +128,224 @@ class FormBuilder < ActionView::Helpers::FormBuilder
   def hidden_field_tag( *args )
     template.hidden_field_tag( *args )
   end
+  # ---------------------------------------------------------------- postal_code
+  def postal_code( field, args = {} )
+    text_field( field, args.merge( size: 7 ) )
+  end
+  # --------------------------------------------------------------------- number
+  def number( field, args = {} )
+    text_field( field, args.merge( size: 10 ) )
+  end
+
+  # --------------------------------------------------------------- radio_select
+  def radio_select( field, choices, options = {} )
+    label = options[:label] || field.to_s.humanize
+    val = object.send( field )
+    val = options[:default] || choices.first if val.nil? || !choices.include?( val )
+    x = ''.html_safe
+    field_name = format( '%s[%s]', object_name, field )
+    x = template.safe_join( choices.map do |choice|
+                     content_tag( 'label',
+                                  template.radio_button_tag( field_name,
+                                                             choice,
+                                                             val == choice,
+                                                             required: options[:required] ) + choice )
+                   end )
+    klasses = ['form-element']
+    klasses << 'required' if options[:required]
+    template.content_tag( 'div', template.content_tag( 'label', label ) + x + append_errors( field ), class: klasses.join(' ' ) )
+
+  end
+  # -------------------------------------------------------- boolean_with_number
+  def boolean_with_comments( field, args = {} )
+    if object.respond_to?( :errors ) && object.errors[field].any?
+      args[:class] = 'field-error'
+    end
+    val = object.send( field )
+    label = args[:label] || field.to_s.humanize
+    b_name = format( '%s[%s][boolean]', object_name, field )
+    s_name = format( '%s[%s][string]', object_name, field )
+    yes_label = if args[:yes_comments]
+                  'Yes (please specify)'
+                else
+                  'Yes'
+                end
+    no_label = if args[:no_comments]
+                  'No (please specify)'
+                else
+                  'No'
+                end
+    x = content_tag( 'label',
+                     template.radio_button_tag( b_name,
+                                                args[:yes_comments] ? LocationField::YES_WITH_COMMENTS : LocationField::YES,
+                                                ( val.not_set? && args[:default].is_a?( TrueClass ) ) || val.true?,
+                                                class: args[:yes_comments] ? 'needs_comments' : nil ) +
+                       yes_label.html_safe )
+    x << content_tag( 'label',
+                      template.radio_button_tag( b_name,
+                                                 args[:no_comments] ? LocationField::NO_WITH_COMMENTS : LocationField::NO,
+                                                 ( val.not_set? && args[:default].is_a?(FalseClass ) ) || val.false?,
+                                                 class: args[:no_comments] ? 'needs_comments' : nil ) +
+                        no_label.html_safe )
+    comments_enabled = if args[:yes_comments] && args[:no_comments]
+                         true
+                       else
+                         val.true? ? args[:yes_comments] : args[:no_comments]
+                       end
+    x << content_tag( 'span',
+                      template.text_field_tag( s_name, val.comment, disabled: !comments_enabled ),
+                      class: 'comments',
+                      style: comments_enabled ? nil : 'display: none;' )
+    klasses = ['form-element']
+    klasses << 'required' if args[:required]
+    klasses << 'boolean-with-comments'
+    @boolean_with_numbers_present = true
+    template.content_tag( 'div',
+                          template.content_tag( 'label', label ) + x + append_errors( field ), class: klasses.join(' ' ) )
+  end
+  # -------------------------------------------------------- boolean_with_number
+  def boolean_with_number( field, args = {} )
+    if object.respond_to?( :errors ) && object.errors[field].any?
+      args[:class] = 'field-error'
+    end
+    val = object.send( field )
+    label = args[:label] || field.to_s.humanize
+    b_name = format( '%s[%s][boolean]', object_name, field )
+    s_name = format( '%s[%s][string]', object_name, field )
+    yes_label = if args[:yes_comments]
+                  'Yes (please specify)'
+                else
+                  'Yes'
+                end
+    no_label = if args[:no_comments]
+                  'No (please specify)'
+                else
+                  'No'
+                end
+    x = content_tag( 'label',
+                     template.radio_button_tag( b_name,
+                                                args[:yes_comments] ? LocationField::YES_WITH_COMMENTS : LocationField::YES,
+                                                val.true?,
+                                                class: args[:yes_comments] ? 'needs_comments' : nil ) +
+                       yes_label.html_safe )
+    x << content_tag( 'label',
+                      template.radio_button_tag( b_name,
+                                                 args[:no_comments] ? LocationField::NO_WITH_COMMENTS : LocationField::NO,
+                                                 true,
+                                                 class: args[:no_comments] ? 'needs_comments' : nil ) +
+                        no_label.html_safe )
+    x << content_tag( 'span',
+                      template.text_field_tag( s_name, val.comment ),
+                      class: 'comments',
+                      style: val.show_comment? ? nil : 'display: none;' )
+    klasses = ['form-element']
+    klasses << 'required' if args[:required]
+    klasses << 'boolean-with-number'
+    @boolean_with_numbers_present = true
+    template.content_tag( 'div',
+                          template.content_tag( 'label', label ) + x + append_errors( field ), class: klasses.join(' ' ) )
+  end
+  # ---------------------------------------------------- check_all_with_comments
+  def check_all_with_comments( field, choices, args = {} )
+    val = object.send( field )
+    label = args[:label] || field.to_s.humanize
+    empty_name = format( '%s[%s][0][value]', object_name, field )
+    x = template.hidden_field_tag( empty_name )
+    choices.each_with_index do |choice, i|
+      v = val.find{ |y| y['value'] == choice }
+      b_name = format( '%s[%s][%d][value]', object_name, field, i )
+      c_name = format( '%s[%s][%d][comment]', object_name, field, i )
+      x << content_tag( 'div', class: 'choice-wrapper' ) do
+        content_tag( 'label', template.check_box_tag( b_name, choice, v ) + choice + ' (specify)' ) +
+        content_tag( 'span', template.text_field_tag( c_name, v && v.fetch('comment','' ), disabled: !v ),
+                      style: v ? nil : 'display: none;',
+                      class: 'comments' )
+      end
+    end
+    klasses = ['form-element']
+    klasses << 'required' if args[:required]
+    klasses << 'check-all-with-comments'
+    @check_all_with_comments_present = true
+    template.content_tag( 'div',
+                          template.content_tag( 'label', label ) + x + append_errors( field ), class: klasses.join(' ' ) )
+  end
+  # ---------------------------------------------------- check_all_with_comments
+  def check_all_with_other( field, choices, args = {} )
+    #raise object.send( field ).inspect + field.to_s
+    val = object.send( field ).map { |x| x['value'] }
+    label = args[:label] || field.to_s.humanize
+    empty_name = format( '%s[%s][0][value]', object_name, field )
+    x = template.hidden_field_tag( empty_name )
+    choices.each_with_index do |choice, i|
+      v = val.delete( choice )
+      b_name = format( '%s[%s][%d][value]', object_name, field, i )
+      x << content_tag( 'div', class: 'multiple-choice' ) do
+        content_tag( 'label', template.check_box_tag( b_name, choice, v ) + choice )
+      end
+    end
+    x << content_tag( 'div', class: 'choice-wrapper' ) do
+        name = format( '%s[%s][%d][value]', object_name, field, choices.length )
+        content_tag( 'label', template.check_box_tag( '', nil, val.any? ) + 'Other (specify)' ) +
+        content_tag( 'span', template.text_field_tag( name, val.join(','), disabled: val.empty? ),
+                      style: val.any? ? nil : 'display: none;',
+                      class: 'comments' )
+    end
+    klasses = ['form-element']
+    klasses << 'required' if args[:required]
+    klasses << 'check-all-with-comments'
+    @check_all_with_comments_present = true
+    template.content_tag( 'div',
+                          template.content_tag( 'label', label ) + x + append_errors( field ), class: klasses.join(' ' ) )
+  end
+
+  # -------------------------------------------------------------------- form_js
+  def form_js
+    r_val = ''.html_safe
+    if has_boolean_with_numbers?
+      r_val << <<-EOC
+        function onCommentyFieldChange( e )
+        {
+          var outer = $( e.currentTarget ).closest('.boolean-with-number, .boolean-with-comments')
+          var checkedBox = outer.find( ':checked' );
+          if( checkedBox.hasClass( 'needs_comments' ) )
+          {
+            outer.find( 'span.comments' ).show().find( 'input' ).removeProp( 'disabled' );
+          }
+          else
+          {
+            outer.find( 'span.comments ').hide().find( 'input' ).prop( 'disabled', true );
+          }
+        }
+        $('div.boolean-with-number, div.boolean-with-comments').on( 'change', 'input[type=radio]', onCommentyFieldChange );
+      EOC
+      .html_safe
+    end
+    if @check_all_with_comments_present 
+      r_val << <<-EOC
+        function onChoiceWrapperChange( e )
+        {
+          var outer = $( e.currentTarget ).closest('.choice-wrapper');
+          var isChecked = outer.find( ':checked' ).length > 0;
+          if( isChecked )
+          {
+            outer.find( 'span.comments' ).show().find( 'input' ).removeProp( 'disabled' );
+          }
+          else
+          {
+            outer.find( 'span.comments ').hide().find( 'input' ).prop( 'disabled', true );
+          }
+        }
+        $('div.choice-wrapper').on( 'change', 'input[type=checkbox]', onChoiceWrapperChange );
+      EOC
+      .html_safe
+    end
+    unless r_val.blank?
+      r_val = content_tag( 'script', r_val, type: 'text/javascript' )
+    end
+    return r_val
+  end
+
+
   ##############################################################################
 
   protected
@@ -138,7 +361,12 @@ class FormBuilder < ActionView::Helpers::FormBuilder
     end
   end
   # ---------------------------------------------------------------- content_tag
-  def content_tag( *args )
-    template.content_tag( *args)
+  def content_tag( *args, &b)
+    template.content_tag( *args, &b)
+  end
+
+  # -------------------------------------------------- has_boolean_with_numbers?
+  def has_boolean_with_numbers?
+    @boolean_with_numbers_present
   end
 end
