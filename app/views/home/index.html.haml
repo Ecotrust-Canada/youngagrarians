@@ -1,8 +1,10 @@
 
 .splash
-  %img{:src => "../images/young-agrarians-text.png"}/
-  %br/
-  %img{:src => "../images/umap-text.png"}/
+  %a{:href => "/map"}
+    %img.tablet.desktop{:src => "../images/young-agrarians-text.png"}/
+    %img.mobile{:src => "../images/ya-letters.png"}/
+    %br/
+    %img{:src => "../images/umap-text.png"}/
   %br/
   %p.splash-subhead
     Choose a category or enter a keyword to begin.
@@ -10,15 +12,15 @@
     %li{"data-category" => "network", :onclick => "pickCategory(event)"}
       %img{:src => "../images/icon/network.png"}/
       .blurb
-        Network
+        Networks
       %ul.splash-subtag-menu
-        %li.network{"data-tag" => "event", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "event", :onclick => "pickTag(event)"}
           
           Events
-        %li.network{"data-tag" => "organization", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "organization", :onclick => "pickTag(event)"}
           
           Organizations
-        %li.network{"data-tag" => "farm", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "farm", :onclick => "pickTag(event)"}
           
           Farms
     %li{"data-category" => "education", :onclick => "pickCategory(event)"}
@@ -26,13 +28,13 @@
       .blurb
         Education
       %ul.splash-subtag-menu
-        %li.network{"data-tag" => "education", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "education", :onclick => "pickTag(event)"}
           
           Education Programs
-        %li.network{"data-tag" => "publication", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "publication", :onclick => "pickTag(event)"}
           
           Publications
-        %li.network{"data-tag" => "web-resource", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "web-resource", :onclick => "pickTag(event)"}
           
           Web Resources
     %li{"data-category" => "jobs-training", :onclick => "pickCategory(event)"}
@@ -42,10 +44,10 @@
         %br/
         Training
       %ul.splash-subtag-menu
-        %li.network{"data-tag" => "job", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "job", :onclick => "pickTag(event)"}
           
           Jobs
-        %li.network{"data-tag" => "apprenticeship", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "apprenticeship", :onclick => "pickTag(event)"}
           
           Apprenticeship
     %li{"data-category" => "business", :onclick => "pickCategory(event)"}
@@ -53,10 +55,10 @@
       .blurb
         Business
       %ul.splash-subtag-menu
-        %li.network{"data-tag" => "business", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "business", :onclick => "pickTag(event)"}
           
           Business Development
-        %li.network{"data-tag" => "funding", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "funding", :onclick => "pickTag(event)"}
           
           Funding
     %li{"data-category" => "land", :onclick => "pickCategory(event)"}
@@ -64,13 +66,13 @@
       .blurb
         Land
       %ul.splash-subtag-menu
-        %li.network{"data-tag" => "land", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "land", :onclick => "pickTag(event)"}
           
           Land Listings
-        %li.network{"data-tag" => "seeking", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "seeking", :onclick => "pickTag(event)"}
           
           Farmers Looking For Land
-        %li.network{"data-tag" => "resource", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "resource", :onclick => "pickTag(event)"}
           
           Resources            
     %li{"data-category" => "run-your-farm", :onclick => "pickCategory(event)"}
@@ -80,16 +82,16 @@
         %br/
         Farm
       %ul.splash-subtag-menu
-        %li.network{"data-tag" => "market", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "market", :onclick => "pickTag(event)"}
           
           Market
-        %li.network{"data-tag" => "tool", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "tool", :onclick => "pickTag(event)"}
           
           Production Planning Tools
-        %li.network{"data-tag" => "seed", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "seed", :onclick => "pickTag(event)"}
           
           Seeds
-        %li.network{"data-tag" => "resource", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "resource", :onclick => "pickTag(event)"}
           
           Services and Suppliers   
   %p

@@ -102,6 +102,18 @@ input
     display: block
     background-color: $orange
 
+.desktop
+  @media (max-width: 1024x)
+    display: none
+
+.mobile
+  @media (min-width: 769px)
+    display: none
+
+.tablet
+  /* TODO: add min-width query. */
+  @media (max-width: 769px)
+    display: none
 
 /* site chrome / template */
 
