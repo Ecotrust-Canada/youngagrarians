@@ -35,6 +35,12 @@ class LocationsController < ApplicationController
         else
           Location
         end
+        if params[:center_lat] && params[:center_long]
+          lat = params[:center_lat].to_f 
+          long = params[:center_long].to_f 
+          scope = scope.order( "SQRT( POW( latitude-#{lat}, 2 ) + POW( longitude - #{long}, 2 )  )" )
+          # TODO: replace with haversine?
+        end
 
         scope = apply_search_scope( scope ) if params[:q].present?
         @locations = scope.approved.currently_shown.includes( :nested_categories ).order( 'id' )
