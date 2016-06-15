@@ -203,7 +203,22 @@ class LocationsController < ApplicationController
   end
   # ------------------------------------------------------------ location_params
   def location_params
-    args = [{ nested_category_ids: [] }, :primary_category_id, :name, :description, :street_address, :city, :phone, :fb_url, :twitter_url, :email, :public_contact, :show_until, :account_id, :province, :country, :details_complete ]
+    args = [{ nested_category_ids: [] },
+              :primary_category_id,
+              :name,
+              :description,
+              :street_address,
+              :city,
+              :phone,
+              :fb_url,
+              :twitter_url,
+              :email,
+              :public_contact,
+              :show_until,
+              :account_id,
+              :province,
+              :country,
+              :details_complete ]
     if params[:signature]
       e = Time.at( params[:expiry].to_i )
       s, _ = @location.signature( e )
@@ -214,18 +229,9 @@ class LocationsController < ApplicationController
       end
     end
     if @location && @location.land_listing?
-      args += Location::LAND_LISTING_PARAMS
-      args << :bioregion
-      b_with_c = [:string, :boolean]
-      [:wooded_land_size, :road_access, :electricity, :cell_service, :hazards,
-        :residents_present, :farm_buildings, :tools, :is_fenced, :water_rights,
-        :onsite_housing, :restricted_vistor_access, :mentorship, :references_required,
-        :insurance, :expansion_options ].each do |f|
-        args << { f => b_with_c }
-      end
-      multi = [ :value, :comment ]
-      args <<  { current_property_use: multi, practices_preferred: multi, soil_details: multi,
-          current_practices: multi, water_source: multi, agriculture_preferred: multi }
+      args += Location.land_params
+    elsif @location && @location.seeker_listing?
+      args += Location.seeker_params
     end
     params.require( :location ).permit( *args )
   end
