@@ -46,7 +46,7 @@ Youngagrarians::Application.routes.draw do
   resource :session
   get 'login' => 'sessions#new'
   get 'logout' => 'sessions#destroy'
-
+  get 'thanks' => 'locations#thanks'
   get 'sitemap.xml', controller: 'home', action: 'sitemap', format: 'xml'
   get 'new-listing', controller: 'locations', action: 'new', as: 'new_listing'
 end

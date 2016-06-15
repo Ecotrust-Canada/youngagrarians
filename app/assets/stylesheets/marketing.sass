@@ -709,13 +709,19 @@ results.show
   border-bottom: 8px solid transparent
 
 /* Listing CRUD pages. */
-
-.tabs
-  background: url(../images/umap-text.png) 15px 15px no-repeat $orange
+.tabs, .thanks header
+  background: url(image_path( 'umap-text.png' )) 15px 15px no-repeat $orange
   background-size: 155px
-  list-style: none
   padding: 0 0 0 250px
   margin: 0
+.thanks header
+  height: 80px
+  /* override other header */
+  position: relative
+  top: auto
+  right: auto
+.tabs
+  list-style: none
   li
     display: inline-block
     padding: 20px
@@ -730,16 +736,16 @@ results.show
       background: white
       a
         color: black
-
-
-.listing-edit
-  position: absolute
+.thanks section, .listing-edit
   background-color: white
+  position: absolute
   top: 200px
   left: 50%
   width: 800px
-  height: 550px
   margin-left: -400px
+
+.listing-edit
+  height: 550px
   
   form
     padding: 0
@@ -851,3 +857,16 @@ p.aside
 .land-form
   div.multiple-choice, div.choice-wrapper
     display: inline
+
+.thanks
+  h3
+    text-align: center
+  .button
+    margin: auto
+    display: block
+    width: 200px
+    margin-bottom: 2em
+  p
+    width: 50%
+    margin: auto
+

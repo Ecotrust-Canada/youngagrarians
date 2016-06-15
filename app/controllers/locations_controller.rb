@@ -13,6 +13,10 @@ class LocationsController < ApplicationController
     end
   end
 
+  def thanks
+    render layout: 'basic'
+  end
+
   # GET /locations
   # GET /locations.json
   def index
@@ -97,14 +101,12 @@ class LocationsController < ApplicationController
     end
     respond_to do |format|
       if @location.valid?
-        format.html { redirect_to @location, notice: 'Location was successfully created.' }
-        format.json { render json: @location, status: :created, location: @location }
+        format.html { redirect_to thanks_url, notice: 'Location was successfully created.' }
       else
         format.html do
           render_form
           return
         end
-        format.json { render json: @location.errors, status: :unprocessable_entity }
       end
     end
   end
