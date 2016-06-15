@@ -53,11 +53,6 @@
     <listing></listing>
   </page>
 
-  <script src="/tags/listing.tag" type="riot/tag"></script>
-  <script src="/tags/search.tag" type="riot/tag"></script>
-  <script src="/tags/layers.tag" type="riot/tag"></script>
-  <script src="/tags/results.tag" type="riot/tag"></script>
-
   <script src="https://cdn.jsdelivr.net/riot/2.3.18/riot+compiler.min.js"></script>
   <script src="https://cdn.rawgit.com/fdaciuk/ajax/v1.0.10/dist/ajax.min.js"></script>
   <script src="/vendor/leaflet/dist/leaflet-src.js"></script>
@@ -65,8 +60,19 @@
 
   <%= javascript_include_tag 'embedded_map' -%>
 
+  <script src="/tags/listing.tag" type="riot/tag"></script>
+  <script src="/tags/search.tag" type="riot/tag"></script>
+  <script src="/tags/layers.tag" type="riot/tag"></script>
+  <script src="/tags/results.tag" type="riot/tag"></script>
+
   <script>
   var CATEGORY_ICONS = <%= raw icon_hash.to_json -%>;
+  riot.compile(function( x ) {
+    riot.mount('search', pubsub);
+    riot.mount('layers', pubsub);
+    riot.mount('listing', pubsub);
+    riot.mount('results', pubsub);
+  });
   </script>
 
 </body></html>

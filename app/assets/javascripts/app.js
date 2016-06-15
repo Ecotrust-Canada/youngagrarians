@@ -35,12 +35,8 @@ pubsub.categories = {
       showing: !pubsub.kwargs['c']
     }
 };
-riot.compile(function( x ) {
-  riot.mount('search', pubsub);
-  riot.mount('layers', pubsub);
-  riot.mount('listing', pubsub);
-  riot.mount('results', pubsub);
-});
+
+
 
 function slug(category){
   var rVal = category.meta ? category.meta.name.toLowerCase() : category.name.toLowerCase();
