@@ -10,8 +10,10 @@ Youngagrarians::Application.routes.draw do
   # [cvo] Surrey probably doesn't need their own json url, since if the user navigates out of surrey we still want locations showing up.
   get 'surrey.json', controller: 'locations', action: 'index', format: 'json', surrey: 1
   get 'locations/filtered/:filtered' => 'locations#index', as: :locations_filtered
+  get 'signup' => 'accounts#new'
   resources :locations do
     resource :message
+    resources :comments, only: [:create, :destroy]
   end
 
   get 'home/index'
@@ -25,15 +27,12 @@ Youngagrarians::Application.routes.draw do
   post '/login'                => 'accounts#login_post',         :as => :login_post
   post '/login.json'           => 'accounts#login_post',         :as => :login_post_json, :format => 'json'
   get  '/logout'               => 'sessions#destroy'
-  get  '/create_account'               => 'accounts#new',                :as => :signup
   post '/create_account'               => 'accounts#create',             :as => :create_account
-  get  '/forgot_password'      => 'accounts#forgot_password',    as: :forgot_password
-  post '/forgot_password'      => 'accounts#retrieve_password',  :as => :retrieve_password
   get  '/password_sent'        => 'accounts#password_sent',      :as => :password_sent
-  get  '/password_reset/:code' => 'accounts#password_reset',     :as => :password_reset
-  put  '/password_reset/:code' => 'accounts#reset_password',     :as => :reset_password
 
   get  '/verify_credentials'   => 'accounts#verify_credentials', :as => :verify_credentials
+
+  resources :password_resets
 
 
   post '/search' => 'locations#search', :as => :search
@@ -46,7 +45,7 @@ Youngagrarians::Application.routes.draw do
   resource :session
   get 'login' => 'sessions#new'
   get 'logout' => 'sessions#destroy'
-
+  get 'thanks' => 'locations#thanks'
   get 'sitemap.xml', controller: 'home', action: 'sitemap', format: 'xml'
   get 'new-listing', controller: 'locations', action: 'new', as: 'new_listing'
 end

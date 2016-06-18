@@ -1,0 +1,7 @@
+.detail-page.standalone
+  %h4{ style: "margin-bottom:30px"} Set New Password
+  = form_for( @account, url: password_reset_path( params[:id] ), builder: FormBuilder,  method: :put ) do |f|
+    = f.password_field :password
+    = f.password_field :password_confirmation
+    .btn-wrap
+      %button.btn.btn-primary.btn-small{ name: 'step', value: 'description' } Reset Password

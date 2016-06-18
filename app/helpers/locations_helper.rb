@@ -19,6 +19,10 @@ module LocationsHelper
     @cateogry_options_list ||= build_list( category.parent, true )
     options_for_select( @cateogry_options_list.map{ |x| [ x.parent ? format( '%s > %s', x.parent.name, x.name ) : x.name, x.id] }, category.id )
   end
+  # ------------------------------------------------------------------ is_admin?
+  def is_admin?
+    true
+  end
   # ----------------------------------------------------------------- build_list
   def build_list( c, skip_self = false )
     kids = c.children.map{ |x| build_list( x ) }.flatten

@@ -11,6 +11,12 @@ class UserMailer < ActionMailer::Base
     mail(to: addresses, subject: 'Young Agrarians Resource Map - your listing is live!')
   end
 
+  # ------------------------------------------------------------- password_reset
+  def password_reset( user )
+    @user = user
+    mail(to: user.email, subject: 'Young Agrarians: Password Reset')
+  end
+
   # ----------------------------------------------------------- listing_approved
   def new_listing( location )
     @location = location

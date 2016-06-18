@@ -2,6 +2,7 @@
 .listing-edit.land-form#land_provider_form
   = render partial: 'locations/wizard_nav', locals: { selected: 'description' }
   =  form_for( @location, builder: FormBuilder ) do |f|
+    = f.hidden_field :details_complete, value: 1
     %section
       %h2<Land Seeker Details
       = f.radio_select :training, ['Agriculture-related degree', 'Farm management (3 years or less)',
@@ -41,7 +42,7 @@
       = f.form_js
       .row{:style => "padding-top:20px"}
         .three.columns
-          %a.btn.btn-muted{:href => "/map"} Cancel
+          = link_to 'Cancel', map_path, class: 'btn btn-muted'
         .three.columns.previous
           = f.submit( 'Previous', name: 'step', value: 'description' )
         .three.columns

@@ -12,6 +12,10 @@ class LocationsController < ApplicationController
     end
   end
 
+  def thanks
+    render layout: 'basic'
+  end
+
   # GET /locations
   # GET /locations.json
   def index
@@ -29,6 +33,12 @@ class LocationsController < ApplicationController
           Location.surrey
         else
           Location
+        end
+        if params[:center_lat] && params[:center_long]
+          lat = params[:center_lat].to_f 
+          long = params[:center_long].to_f 
+          scope = scope.order( "SQRT( POW( latitude-#{lat}, 2 ) + POW( longitude - #{long}, 2 )  )" )
+          # TODO: replace with haversine?
         end
 
         scope = apply_search_scope( scope ) if params[:q].present?
@@ -96,14 +106,12 @@ class LocationsController < ApplicationController
     end
     respond_to do |format|
       if @location.valid?
-        format.html { redirect_to @location, notice: 'Location was successfully created.' }
-        format.json { render json: @location, status: :created, location: @location }
+        format.html { redirect_to thanks_url, notice: 'Location was successfully created.' }
       else
         format.html do
           render_form
           return
         end
-        format.json { render json: @location.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -202,7 +210,22 @@ class LocationsController < ApplicationController
   end
   # ------------------------------------------------------------ location_params
   def location_params
-    args = [{ nested_category_ids: [] }, :primary_category_id, :name, :description, :street_address, :city, :phone, :fb_url, :twitter_url, :email, :public_contact, :show_until, :account_id, :province, :country, :details_complete ]
+    args = [{ nested_category_ids: [] },
+              :primary_category_id,
+              :name,
+              :description,
+              :street_address,
+              :city,
+              :phone,
+              :fb_url,
+              :twitter_url,
+              :email,
+              :public_contact,
+              :show_until,
+              :account_id,
+              :province,
+              :country,
+              :details_complete ]
     if params[:signature]
       e = Time.at( params[:expiry].to_i )
       s, _ = @location.signature( e )
@@ -213,18 +236,9 @@ class LocationsController < ApplicationController
       end
     end
     if @location && @location.land_listing?
-      args += Location::LAND_LISTING_PARAMS
-      args << :bioregion
-      b_with_c = [:string, :boolean]
-      [:wooded_land_size, :road_access, :electricity, :cell_service, :hazards,
-        :residents_present, :farm_buildings, :tools, :is_fenced, :water_rights,
-        :onsite_housing, :restricted_vistor_access, :mentorship, :references_required,
-        :insurance, :expansion_options ].each do |f|
-        args << { f => b_with_c }
-      end
-      multi = [ :value, :comment ]
-      args <<  { current_property_use: multi, practices_preferred: multi, soil_details: multi,
-          current_practices: multi, water_source: multi, agriculture_preferred: multi }
+      args += Location.land_params
+    elsif @location && @location.seeker_listing?
+      args += Location.seeker_params
     end
     params.require( :location ).permit( *args )
   end
