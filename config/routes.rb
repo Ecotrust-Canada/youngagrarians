@@ -1,4 +1,6 @@
 Youngagrarians::Application.routes.draw do
+  resource :soil
+
   devise_for :users
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
@@ -7,9 +9,9 @@ Youngagrarians::Application.routes.draw do
   resources :categories
   resources :subcategories, only: [:index]
   
-  # [cvo] Surrey probably doesn't need their own json url, since if the user navigates out of surrey we still want locations showing up.
-  get 'surrey.json', controller: 'locations', action: 'index', format: 'json', surrey: 1
-  get 'locations/filtered/:filtered' => 'locations#index', as: :locations_filtered
+  # dead code?
+  #get 'locations/filtered/:filtered' => 'locations#index', as: :locations_filtered
+
   get 'signup' => 'accounts#new'
   resources :locations do
     resource :message
@@ -23,7 +25,9 @@ Youngagrarians::Application.routes.draw do
   root to: 'home#index'
 
   # Authentication flow
+  # dead code?
   #get  '/login'                => 'accounts#login',              as: :login
+
   post '/login'                => 'accounts#login_post',         :as => :login_post
   post '/login.json'           => 'accounts#login_post',         :as => :login_post_json, :format => 'json'
   get  '/logout'               => 'sessions#destroy'
@@ -34,8 +38,9 @@ Youngagrarians::Application.routes.draw do
 
   resources :password_resets
 
+  # dead code?
+  #post '/search' => 'locations#search', :as => :search
 
-  post '/search' => 'locations#search', :as => :search
   get '/category/:top_level_name', as: 'top_level_category', controller: 'categories', action: 'show'
   get '/category/:top_level_name', as: 'meta_category', controller: 'categories', action: 'show'
   get '/category/:top_level_name/:subcategory_name', as: 'subcategory', controller: 'categories', action: 'show'

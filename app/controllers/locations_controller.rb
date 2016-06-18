@@ -5,12 +5,13 @@ class LocationsController < ApplicationController
 
   @tmp = {}
 
-  def search
-    @locations = Location.search params[:term]
-    respond_to do |format|
-      format.json { render json: @locations }
-    end
-  end
+  # dead code?
+  #def search
+  #  @locations = Location.search params[:term]
+  #  respond_to do |format|
+  #    format.json { render json: @locations }
+  #  end
+  #end
 
   def thanks
     render layout: 'basic'
@@ -20,25 +21,25 @@ class LocationsController < ApplicationController
   # GET /locations.json
   def index
     respond_to do |format|
-      format.html do
-        if current_user
-          @locations = current_user.locations.order(:name)
-          render layout: 'basic'
-        else
-          redirect_to map_url
-        end
-      end
+      
+      #format.html do
+      #  if current_user
+      #    @locations = current_user.locations.order(:name)
+      #    render layout: 'basic'
+      #  else
+      #    redirect_to map_url
+      #  end
+      #end
+
       format.json do
-        scope = if params[:surrey]
-          Location.surrey
-        else
-          Location
-        end
+        Location
         if params[:center_lat] && params[:center_long]
           lat = params[:center_lat].to_f 
           long = params[:center_long].to_f 
-          scope = scope.order( "SQRT( POW( latitude-#{lat}, 2 ) + POW( longitude - #{long}, 2 )  )" )
+          scope = Location..order( "SQRT( POW( latitude-#{lat}, 2 ) + POW( longitude - #{long}, 2 )  )" )
           # TODO: replace with haversine?
+        else
+          scope = Location
         end
 
         scope = apply_search_scope( scope ) if params[:q].present?
@@ -255,7 +256,9 @@ class LocationsController < ApplicationController
     else
       scope.where( 'description LIKE ?', "%#{params[:q]}%" )
     end
+    scope
   end
+  
   def render_description_form
     if @location.land_listing?
       render :new_land_listing, layout: 'basic'

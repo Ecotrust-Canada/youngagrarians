@@ -211,33 +211,34 @@ class Location < ActiveRecord::Base
   def as_json(_options = nil)
     super include: [:category, :subcategories], except: [:category_id, :is_approved]
   end
+  
+  # dead code?
+  # SEARCH_FIELDS = %w(name street_address city province country postal bioregion phone).freeze
+  # def self.search(term, _province = nil)
+  #   results = []
+  #   if !term.nil? && !term.empty?
+  #     term = term.downcase
+  #     starts_with = "#{term}%"
+  #     categories = Category.where('LOWER(name) LIKE ?', starts_with).pluck(:id)
+  #     subcategories = Subcategory.where('LOWER(name) LIKE ?', starts_with).pluck(:id)
 
-  SEARCH_FIELDS = %w(name street_address city province country postal bioregion phone).freeze
-  def self.search(term, _province = nil)
-    results = []
-    if !term.nil? && !term.empty?
-      term = term.downcase
-      starts_with = "#{term}%"
-      categories = Category.where('LOWER(name) LIKE ?', starts_with).pluck(:id)
-      subcategories = Subcategory.where('LOWER(name) LIKE ?', starts_with).pluck(:id)
+  #     if categories
+  #       results += Location.where(is_approved: true)
+  #                          .where('category_id IN (?)', categories).select("name, street_address, city, province, country, categories")
+  #     end
+  #     if subcategories
+  #       results += Location.joins(:subcategories)
+  #                          .where(is_approved: true)
+  #                          .where('subcategories.id IN (?)', subcategories).select("name, street_address, city, province, country, categories")
+  #     end
+  #     term = "%#{term.tr(' ', '%')}%"
 
-      if categories
-        results += Location.where(is_approved: true)
-                           .where('category_id IN (?)', categories).select("name, street_address, city, province, country, categories")
-      end
-      if subcategories
-        results += Location.joins(:subcategories)
-                           .where(is_approved: true)
-                           .where('subcategories.id IN (?)', subcategories).select("name, street_address, city, province, country, categories")
-      end
-      term = "%#{term.tr(' ', '%')}%"
-
-      results += Location.where(is_approved: true)
-                         .where(SEARCH_FIELDS.map { |x| "#{x} ILIKE ?" }.join(' OR '), *[term] * SEARCH_FIELDS.length)
-                         .select("name, street_address, city, province, country, categories")
-    end
-    results.uniq
-  end
+  #     results += Location.where(is_approved: true)
+  #                        .where(SEARCH_FIELDS.map { |x| "#{x} ILIKE ?" }.join(' OR '), *[term] * SEARCH_FIELDS.length)
+  #                        .select("name, street_address, city, province, country, categories")
+  #   end
+  #   results.uniq
+  # end
 
   # Tells gmaps4rails if it already got the geocoordinates for that or not
   def gmaps
@@ -245,6 +246,7 @@ class Location < ActiveRecord::Base
     return false if self[:gmaps] == false # lets us flag entries for re-processing manually
     !(street_address_changed? || city_changed? || country_changed? || postal_changed?)
   end
+
   # --------------------------------------------------------------------- admin?
   def admin?( user )
     user && user.id == account_id
