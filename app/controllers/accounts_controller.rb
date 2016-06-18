@@ -1,29 +1,20 @@
 class AccountsController < ApplicationController
   respond_to :html
 
+  # ----------------------------------------------------------------------- show
   def show
-    respond_with @user = current_user
+    redirect_to locations_url
   end
 
+
+  # ------------------------------------------------------------------------ new
   def new
-    if params[:code] && (listee = validate_beta_code(params[:code])) # TODO: check if they are approved
-      @code = params[:code]
-      @user = User.new(first_name: listee.first_name, last_name: listee.last_name, email: listee.email)
-      respond_with @user, layout: 'application'
-    else
-      @user = User.new
-      # TOOD: CAN PROBABLY BE REFACTORED TO USE user.to_json function properly or some better work around
-      # SILLY Dynamic stuff...
-      [:first_name, :last_name].each do |k|
-        # so these dynamic keys will exist for the rails form.
-        @user[k] = ''
-      end
-      render 'accounts/new', layout: 'application'
-    end
+    render layout: 'basic'
   end
 
+  # --------------------------------------------------------------------- create
   def create
-    @account = Account.new( params.require( :account ).permit( :email, :password ) )
+    @account = Account.new( params.require( :account ).permit( :email, :password, :password_confirmation ) )
     if @account.save
       session['account_id'] = @account.id
       if params[:for_listing]
@@ -31,7 +22,7 @@ class AccountsController < ApplicationController
         session[:in_progress_location]['account_id'] = @account.id
         redirect_to new_listing_url
       else
-        redirect_to account_url( @account )
+        redirect_to map_url
       end
     else
       if params[:for_listing]
