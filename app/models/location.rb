@@ -73,6 +73,7 @@ class Location < ActiveRecord::Base
   belongs_to :person
 
   has_many :category_tags, dependent: :destroy, foreign_key: 'location_id', inverse_of: :location
+  has_many :comments, class_name: 'ListingComment'
   has_many :location_fields
   has_many :nested_categories, through: :category_tags
 

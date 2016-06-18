@@ -12,6 +12,7 @@ Youngagrarians::Application.routes.draw do
   get 'locations/filtered/:filtered' => 'locations#index', as: :locations_filtered
   resources :locations do
     resource :message
+    resources :comments, only: [:create, :destroy]
   end
 
   get 'home/index'

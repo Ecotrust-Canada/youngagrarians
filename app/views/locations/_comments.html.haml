@@ -1,0 +1,23 @@
+%section#comments
+- if @location.comments.empty?
+  %p.no-comments
+    There are current no comments for this listing.
+
+- @location.comments.order( 'created_at desc' ).each do |comment|
+  .comment
+    .body
+      = comment.body
+    .meta
+      %span.name
+        = current_user && comment.email.present? ? mail_to( comment.name, comment.email ) : comment.name
+      %span.age
+        Posted #{distance_of_time_in_words( comment.created_at, Time.current )} ago
+    - if is_admin?
+      = link_to 'Remove', location_comment_path( @location, comment ), class: 'remove'
+
+
+= form_for @location.comments.new, url: location_comments_url( @location ), builder: FormBuilder do |f|
+  = f.text_area :body, label: 'Comment'
+  = f.text_field :name, label: 'Name'
+  = f.text_field :email, label: 'email'
+  = f.submit 'Post'
