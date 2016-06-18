@@ -21,11 +21,20 @@ module ApplicationHelper
 
   # ------------------------------------------------------------------ icon_hash
   def icon_hash
-    icons = Dir.glob( Rails.root.join( "app/assets/images/icon/category/*" ) )
+    icons = Dir.glob( Rails.root.join( "app/assets/images/map-icons/small/*" ) )
     icons.each_with_object( {} ) do |x, m|
       x = File.basename( x )
       key= File.basename(x, File.extname(x))
-      m[ key ] = image_path("icon/category/#{x}" )
+      m[ key ] = image_path("map-icons/small/#{x}" )
+    end
+  end
+
+  def big_icon_hash
+    icons = Dir.glob( Rails.root.join( "app/assets/images/map-icons/original/*" ) )
+    icons.each_with_object( {} ) do |x, m|
+      x = File.basename( x )
+      key= File.basename(x, File.extname(x))
+      m[ key ] = image_path("map-icons/original/#{x}" )
     end
   end
 end

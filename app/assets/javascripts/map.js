@@ -34,7 +34,6 @@ var geo;
 
 
 
-
 function getSoil(e){
   if (geo) map.removeLayer(geo);
   var bounds = map.getBounds();
@@ -54,35 +53,34 @@ function getSoil(e){
   });
 }
 
+var get_cluster_class = function(markers) {
+  var the_category = null;
+  for (var i=0; i<markers.length; i++) {
+    var categories = markers[i].item.categories
+    for (var j=0; j<categories.length; j++) {
+      var current_category_name = categories[j].primary.name || categories[j].name;
+      if (the_category) {
+        if (current_category_name !== the_category) {
+          return 'mixed'
+        }
+      } else {
+        the_category = current_category_name;
+      }
+    }
+  }
+  return slug(the_category) || 'mixed';
+};
 
 var markers = new L.MarkerClusterGroup({
-  maxClusterRadius: 20,
+  maxClusterRadius: 18,
   iconCreateFunction: function(cluster) {
-    
-    // get most frequent category for coloring.
-    var counters = {};
-    var highest_counter_value = 0;
-    var highest_counter = null;
 
-    cluster.getAllChildMarkers().forEach(function(marker)
-    {
-      marker.item.categories.forEach( function( category )
-      {
-        var cn = ( category.parent || category.name ).toLowerCase();
-        counters[cn] = (counters[cn] || 0) + 1;
-        if (counters[cn] > highest_counter_value) {
-          highest_counter_value = counters[cn];
-          highest_counter = category;
-        }
-      } );
-    });
-
-    //console.log(counters, highest_counter);
+    var cat_class = get_cluster_class(cluster.getAllChildMarkers());
 
     return new L.DivIcon({
       iconSize: [25, 25],
       html: '<div class="cluster-icon '
-        +slug(highest_counter)
+        + cat_class
         +'"><div class="filled">' + cluster.getChildCount() + '</div></div>'
     });
   }

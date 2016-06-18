@@ -5,7 +5,7 @@
   background: rgba($color, $opacity)
 
 
-.farm
+.farms
   .filled
     background: #85563D
     color: white
@@ -26,7 +26,7 @@
     @include background-opacity(#745DA3, .15)
   border-color: #745DA3
 
-.web-resource
+.web-resources
   .filled
     background: #7A7667
     &:after
@@ -36,7 +36,7 @@
     @include background-opacity(#7A7667, .15)
   border-color: #7A7667
 
-.seed
+.seeds
   .filled
     background: #81A94E
     &:after
@@ -46,7 +46,7 @@
     @include background-opacity(#81A94E, .15)
   border-color: #81A94E
 
-.publication
+.publications
   .filled
     background: #222356
     color: white
@@ -57,17 +57,17 @@
   border-color: #222356
   color: #222356
 
-.organization
+.organizations
   .filled
     background: #FFC20E
     &:after
       border-color: #FFC20E
-  color: #FFC20E
+  color: #AD810A
   &.lightbg
     @include background-opacity(#FFC20E, .15)
   border-color: #FFC20E
 
-.market
+.markets
   .filled
     background: #F26522
     &:after
@@ -87,7 +87,17 @@
     @include background-opacity(#81A94E, .15)
   border-color: #81A94E
 
-.job
+.land-listings
+  .filled
+    background: #81A94E
+    &:after
+      border-color: #81A94E
+  color: #81A94E
+  &.lightbg
+    @include background-opacity(#81A94E, .15)
+  border-color: #81A94E
+
+.jobs
   .filled
     background: #0084B5
     &:after
@@ -107,7 +117,7 @@
     @include background-opacity(#CF4F1C, .15)
   border-color: #CF4F1C
 
-.event
+.events
   .filled
     background: #16807C
     &:after
@@ -117,7 +127,7 @@
     @include background-opacity(#16807C, .15)
   border-color: #16807C
 
-.education
+.educational-programs, .education
   .filled
     background: #9D0A0E
     color: white
@@ -128,7 +138,7 @@
   border-color: #9D0A0E
   color: #9D0A0E
 
-.business
+.business-development, .business
   .filled
     background: #00652E
     color: white
@@ -139,7 +149,7 @@
   border-color: #00652E
   color: #00652E
 
-.apprenticeship
+.apprenticeships
   .filled
     background: #A0174C
     color: white
@@ -149,3 +159,14 @@
   &.lightbg
     @include background-opacity(#A0174C, .15)
   border-color: #A0174C
+
+.mixed
+  .filled
+    background: #444
+    color: white
+    &:after
+      border-color: #444
+  color: #444
+  &.lightbg
+    @include background-opacity(#444, .15)
+  border-color: #444

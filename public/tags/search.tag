@@ -50,6 +50,7 @@
         return x.name === active_tag || x.meta.name === active_tag;
       });
     } else {
+      return true;
       return item.categories.find( function(x){
         return category_cache[x.name] || category_cache[x.meta.name];
       });

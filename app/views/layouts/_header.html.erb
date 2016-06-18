@@ -1,19 +1,47 @@
 
 <header>
     <a class="brand" href="/">&nbsp;</a>
-    <ul class="nav">
-        <li class="nav-item"><a href="http://youngagrarians.org/about/" target="_blank">ABOUT</a></li>
-        <li class="nav-item"><a href="http://youngagrarians.org/events/" target="_blank">EVENTS</a></li>
-        <li class="nav-item"><a href="http://youngagrarians.org/tools/" target="_blank">TOOLS</a></li>
-        <li class="nav-item"><a href="http://youngagrarians.org/mediafarm/" target="_blank">MEDIA FARM</a></li>
-        <li class="nav-item"><a href="http://youngagrarians.org/contact-us/" target="_blank">CONTACT US</a></li>
-        <li class="nav-item"><a href="http://youngagrarians.org/index.php?page_id=2440" target="_blank">DONATE</a></li>
-        <li class="nav-item">
-          <% if current_user -%>
+    <!--<ul class="nav">
+        <a href="http://youngagrarians.org/about/" target="_blank">ABOUT</a>
+        <a href="http://youngagrarians.org/events/" target="_blank">EVENTS</a>
+        <a href="http://youngagrarians.org/tools/" target="_blank">TOOLS</a>
+        <a href="http://youngagrarians.org/mediafarm/" target="_blank">MEDIA FARM</a>
+        <a href="http://youngagrarians.org/contact-us/" target="_blank">CONTACT US</a>
+        <a href="http://youngagrarians.org/index.php?page_id=2440" target="_blank">DONATE</a>
+   
+        </li>
+    </ul>-->
+
+    <nav class="desktop tablet">
+      <% if current_user -%>
+        <%= link_to 'log out', logout_path -%>
+      <% else -%>
+        <%= link_to 'log in', login_path -%>
+      <% end -%>
+      <a href="http://youngagrarians.org/index.php?page_id=2440" target="_blank">DONATE</a>
+      <a href="http://youngagrarians.org/contact-us/" target="_blank">CONTACT US</a>
+      <a href="http://youngagrarians.org/mediafarm/" target="_blank">MEDIA FARM</a>
+      <a href="http://youngagrarians.org/tools/" target="_blank">TOOLS</a>
+      <a href="http://youngagrarians.org/events/" target="_blank">EVENTS</a>
+      <a href="http://youngagrarians.org/about/" target="_blank">ABOUT</a>
+    </nav>
+
+    <nav class="mobile">
+      <span id="ham" onclick='toggleHam(event)'></span>
+      <div id='menu' class='away'>
+           <% if current_user -%>
             <%= link_to 'log out', logout_path -%>
           <% else -%>
             <%= link_to 'log in', login_path -%>
           <% end -%>
-        </li>
-    </ul>
+          <a href="http://youngagrarians.org/index.php?page_id=2440" target="_blank">DONATE</a>
+          <a href="http://youngagrarians.org/contact-us/" target="_blank">CONTACT US</a>
+          <a href="http://youngagrarians.org/mediafarm/" target="_blank">MEDIA FARM</a>
+          <a href="http://youngagrarians.org/tools/" target="_blank">TOOLS</a>
+          <a href="http://youngagrarians.org/events/" target="_blank">EVENTS</a>
+          <a href="http://youngagrarians.org/about/" target="_blank">ABOUT</a>
+      </div>
+    </nav>
+
 </header>
+

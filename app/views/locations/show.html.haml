@@ -1,6 +1,6 @@
 .detail-page.standalone
   .listing-header{:class => category_class_list( @location )}
-    .category-icon{:style => "background-image:url(#{icon_hash[category_class_list( @location )]})"} &nbsp;
+    .category-icon{:style => "background-image:url(#{big_icon_hash[category_class_list( @location )]})"} &nbsp;
     .category-heading #{category_class_list( @location )}
     %img{:src => "/images/umap-content-title.png"}/
     .filled
@@ -53,6 +53,8 @@
 
         - if @location.latitude && @location.longitude
           #minimap
+        
+        %h3<Share This Listing
 
         %ul.social.one
           %li

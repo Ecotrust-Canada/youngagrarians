@@ -37,17 +37,28 @@ pubsub.categories = {
 };
 
 
-
 function slug(category){
-  var rVal = category.meta ? category.meta.name.toLowerCase() : category.name.toLowerCase();
-  return rVal.replace(/\s/g,'-');
+  var rVal;
+  if (typeof(category) === 'string') {
+    rVal = category;
+  } else {
+    rVal = category.primary.name ? category.primary.name : category.name;
+  } 
+  return rVal.toLowerCase().replace(/\s/g,'-');
 }
 
-ajax().get( pubsub.kwargs['surrey'] ? '/surrey.json' : '/locations.json').then(function(response){
+ajax().get( '/locations.json' ).then(function(response){
   setTimeout(function(){
+    cats = {};
+    console.log(response);
     response.forEach(function(listing){
       listing.dist = Math.abs((listing.latitude || 999) - 49.104430) + Math.abs((listing.longitude || 999) - -122.801094);
+      listing.categories.forEach(function(cat){
+        cats[cat.name] = cats[cat.name] || 0;
+        cats[cat.name] ++;
+      })
     });
+    console.log(cats);
     pubsub.trigger('initial_load', response);
   })
 });
@@ -62,8 +73,5 @@ addEvent(document.body, 'click', function(e){
 // media query
 var mq = window.matchMedia( "(max-width: 768px)" );
 if (mq.matches) {
-  console.log('mobile');
   window.mobile = true;
-} else {
-  console.log('mobile');
 }
