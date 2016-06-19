@@ -24,6 +24,7 @@ module CustomFields
       define_method( "#{field_name}=", ) do |x|
         f = load_field( konst )
         f.comment = x
+        f.boolean_value = false
         f.save unless new_record?
       end
     end
@@ -37,6 +38,7 @@ module CustomFields
       define_method( "#{field_name}=", ) do |x|
         f = load_field( konst )
         f.comment = x
+        f.boolean_value = false #todo: make defualt
         f.save unless new_record?
       end
     end
@@ -50,6 +52,7 @@ module CustomFields
       define_method( "#{field_name}=", ) do |x|
         f = load_field( konst )
         f.serial_data = x
+        f.boolean_value = false
         f.save unless new_record?
       end
     end
@@ -74,6 +77,7 @@ module CustomFields
         end
         f = load_field(konst )
         f.serial_data = array.to_json
+        f.boolean_value = false
         f.save unless new_record?
       end
 

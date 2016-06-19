@@ -29,7 +29,7 @@ class LocationField < ActiveRecord::Base
     unless [YES, NO, YES_WITH_COMMENTS, NO_WITH_COMMENTS].include?( v )
       raise ArgumentError, "Invalid value: #{x} -- #{v}"
     end
-    self.boolean_value = v
+    self.boolean_value = v.nil? ? false : v
     self.comment = x.fetch( 'string', nil )
   end
 end

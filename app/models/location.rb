@@ -141,14 +141,24 @@ class Location < ActiveRecord::Base
 
   # -------------------------------------------------------------- land_listing?
   def land_listing?
-    primary_category_id.to_i == 743 || nested_category_ids.include?( 743 )
+    # IDs not consistent migration to migration, hence string matching
+    if primary_category_id
+      @primary_category ||= NestedCategory.find( primary_category_id )
+      return true if @primary_category.name == 'Land Listings' || @primary_category.name == 'Land Listing'
+    end
+    names = nested_categories.pluck( :name )
+    names.include?( 'Land Listings' ) || names.include?( 'Land Listing' )
   end
   # -------------------------------------------------------------- seeker_params
   def self.seeker_params
     r_val = []
-    r_val += [ :training, :farm_name, :preferred_arrangement, :agreement_duration, :desired_start_date, :desired_total_size, :desired_cultivable_area, :zoning, :desired_surface_state ]
+    r_val += [ :training, :farm_name, :preferred_arrangement, :agreement_duration,
+               :desired_start_date, :desired_total_size, :desired_cultivable_area,
+               :zoning, :desired_surface_state ]
     b_with_c = [:string, :boolean]
-    [:insurance, :need_housing, :need_water, :tools_required, :fencing_required, :buildings_required, :owner_resides, :business_plan, :financial_resources, :other_financial_resources, :wooded_area, :expansion_size].each do |thing|
+    [ :insurance, :need_housing, :need_water, :tools_required, :fencing_required,
+      :buildings_required, :owner_resides, :business_plan, :financial_resources,
+      :other_financial_resources, :wooded_area, :expansion_size].each do |thing|
       r_val << { thing => b_with_c }
     end
     multi = [ :value, :comment ]
@@ -159,23 +169,27 @@ class Location < ActiveRecord::Base
   end
   # ---------------------------------------------------------------- land_params
   def self.land_params
-    Location::LAND_LISTING_PARAMS
-      args << :bioregion
-      b_with_c = [:string, :boolean]
-      [:wooded_land_size, :road_access, :electricity, :cell_service, :hazards,
-        :residents_present, :farm_buildings, :tools, :is_fenced, :water_rights,
-        :onsite_housing, :restricted_vistor_access, :mentorship, :references_required,
-        :insurance, :expansion_options ].each do |f|
-        args << { f => b_with_c }
-      end
-      multi = [ :value, :comment ]
-      args <<  { current_property_use: multi, practices_preferred: multi, soil_details: multi,
-          current_practices: multi, water_source: multi, agriculture_preferred: multi }
+    args = Location::LAND_LISTING_PARAMS.dup
+    args << :bioregion
+    b_with_c = [:string, :boolean]
+    [:wooded_land_size, :road_access, :electricity, :cell_service, :hazards,
+      :residents_present, :farm_buildings, :tools, :is_fenced, :water_rights,
+      :onsite_housing, :restricted_vistor_access, :mentorship, :references_required,
+      :insurance, :expansion_options ].each do |f|
+      args << { f => b_with_c }
+    end
+    multi = [ :value, :comment ]
+    args <<  { current_property_use: multi, practices_preferred: multi, soil_details: multi,
+        current_practices: multi, water_source: multi, agriculture_preferred: multi }
   end
 
   # ------------------------------------------------------------ seeker_listing?
   def seeker_listing?
-    primary_category_id.to_i == 744 || nested_category_ids.include?( 745 )
+    if primary_category_id
+      @primary_category ||= NestedCategory.find( primary_category_id )
+      return true if @primary_category.name == 'Farmers Looking for Land'
+    end
+    nested_categories.pluck( :name ).include?( 'Farmers Looking for Land' )
   end
 
   # ------------------------------------------------------------------ signature

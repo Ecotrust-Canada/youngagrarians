@@ -35,13 +35,7 @@ class LocationsController < ApplicationController
         else
           Location
         end
-        if params[:center_lat] && params[:center_long]
-          lat = params[:center_lat].to_f 
-          long = params[:center_long].to_f 
-          scope = scope.order( "SQRT( POW( latitude-#{lat}, 2 ) + POW( longitude - #{long}, 2 )  )" )
-          # TODO: replace with haversine?
-        end
-
+        scope = apply_distance_sort_scope( scope ) if params[:center_lat] && params[:center_long]
         scope = apply_search_scope( scope ) if params[:q].present?
         @locations = scope.approved.currently_shown.includes( :nested_categories ).order( 'id' )
       end
@@ -80,17 +74,11 @@ class LocationsController < ApplicationController
 
   # POST /locations
   # POST /locations.json
+  # --------------------------------------------------------------------- create
   def create
-    in_progress_location = {}
-    in_progress_location = if session[:in_progress_location]
-      JSON.parse( ActiveSupport::Gzip.decompress(session[:in_progress_location] ) )
-    else
-      {}
-    end
     @location = Location.new( in_progress_location )
     in_progress_location.merge!( location_params )
     session[:in_progress_location_time] = Time.current.to_i
-
     @location.attributes = in_progress_location
     if params[:done]
       @location.account_id = nil unless current_user && current_user.id == @location.account_id
@@ -119,6 +107,7 @@ class LocationsController < ApplicationController
 
   # PUT /locations/1
   # PUT /locations/1.json
+  # --------------------------------------------------------------------- update
   def update
     @location = Location.find(params[:id])
     if @location.admin?( current_user ) || params[:signature]
@@ -257,6 +246,15 @@ class LocationsController < ApplicationController
       scope.where( 'description LIKE ?', "%#{params[:q]}%" )
     end
   end
+
+  # -------------------------------------------------- apply_distance_sort_scope
+  def apply_distance_sort_scope( scope )
+    lat = params[:center_lat].to_f 
+    long = params[:center_long].to_f 
+    scope.order( "SQRT( POW( latitude-#{lat}, 2 ) + POW( longitude - #{long}, 2 )  )" )
+  end
+
+  # ---------------------------------------------------- render_description_form
   def render_description_form
     if @location.land_listing?
       render :new_land_listing, layout: 'basic'
@@ -264,6 +262,16 @@ class LocationsController < ApplicationController
       render :new_seeker_listing, layout: 'basic'
     else
       render :details, layout: 'basic'
+    end
+  end
+  # ------------------------------------------------------- in_progress_location
+  def in_progress_location
+    @in_progress_location ||= begin
+      if session[:in_progress_location]
+        JSON.parse( ActiveSupport::Gzip.decompress(session[:in_progress_location] ) )
+      else
+        {}
+      end
     end
   end
 end
