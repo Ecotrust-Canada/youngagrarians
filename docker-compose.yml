@@ -27,7 +27,7 @@ services:
       - back-tier
   db:
     restart: always
-    image: "postgres:9.5"
+    image: mdillon/postgis:9.5
     mem_limit: 50m
     networks:
       - back-tier

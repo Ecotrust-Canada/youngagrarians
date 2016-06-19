@@ -1,5 +1,5 @@
 Youngagrarians::Application.routes.draw do
-  resource :soil
+  resource :soils
 
   devise_for :users
 

@@ -37,17 +37,17 @@ var geo;
 function getSoil(e){
   if (geo) map.removeLayer(geo);
   var bounds = map.getBounds();
-  var url = "soil/within?lat1=" + bounds.getSouthWest().lat + "&lon1=" + bounds.getSouthWest().lng + "&lat2=" + bounds.getNorthEast().lat + "&lon2=" + bounds.getNorthEast().lng;
+  var url = "/soils.json?lat1=" + bounds.getSouthWest().lat + "&lon1=" + bounds.getSouthWest().lng + "&lat2=" + bounds.getNorthEast().lat + "&lon2=" + bounds.getNorthEast().lng;
   var request = ajax().get(url).then(function(response){
     geo = {
       "type": "FeatureCollection",
-      "features": JSON.parse(response)
+      "features": response
     }
     geo = L.geoJson(geo, {
       style:{
         "color": "#ff7800",
-        "weight": 5,
-        "opacity": 0.65
+        "weight": 2,
+        "opacity": 0.35
       }
     }).addTo(map);
   });
@@ -186,9 +186,9 @@ function onLocationFound(e) {
 
 map.on('locationfound', onLocationFound);
 
-/*
+
 map.on('dragend', getSoil);
 map.on('zoomend', getSoil);
 map.whenReady(getSoil);
-*/
+
 
