@@ -22,14 +22,14 @@ class LocationsController < ApplicationController
   def index
     respond_to do |format|
       
-      #format.html do
-      #  if current_user
-      #    @locations = current_user.locations.order(:name)
-      #    render layout: 'basic'
-      #  else
-      #    redirect_to map_url
-      #  end
-      #end
+      format.html do
+       if current_user
+         @locations = current_user.locations.order(:name)
+         render layout: 'basic'
+       else
+         redirect_to map_url
+       end
+      end
 
       format.json do
         Location

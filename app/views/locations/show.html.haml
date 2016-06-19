@@ -28,6 +28,9 @@
         %h3<Location
         %p
           = display_address( @location )
+        
+        %h3<Details
+        %p #{ @location.business_plan.comments }
 
         %h3<Learn More
         %p
@@ -47,7 +50,7 @@
                 = f.hidden_field_tag 'signature', params[:signature]
                 = f.hidden_field_tag 'expiry', params[:expiry]
                 = f.hidden_field 'is_approved', value: true
-                = f.submit( 'Approve Listing' )
+                = f.submit('Approve Listing')
 
       .six.columns
         = render partial: 'comments'

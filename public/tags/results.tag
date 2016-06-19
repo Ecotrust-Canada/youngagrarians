@@ -68,7 +68,9 @@
   }
   
   opts.on('load', function(response){
-   
+    
+    console.log(response);
+    
     response = response.sort(
       function(x, y)
       {
