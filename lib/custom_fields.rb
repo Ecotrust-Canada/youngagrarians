@@ -29,7 +29,7 @@ module CustomFields
       end
     end
 
-    # --------------------------------------------------------- add_number_field
+    # --------------------------------------------------------- add_string_field
     def add_string_field( field_name )
       konst = const_get( field_name.to_s.upcase )
       define_method( field_name ) do
@@ -43,7 +43,7 @@ module CustomFields
       end
     end
 
-    # --------------------------------------------------------- add_number_field
+    # --------------------------------------------------------- add_text_field
     def add_text_field( field_name )
       konst = const_get( field_name.to_s.upcase )
       define_method( field_name ) do
@@ -57,7 +57,7 @@ module CustomFields
       end
     end
 
-    # --------------------------------------------------------- add_number_field
+    # --------------------------------------------------------- add_multiselect_field
     def add_multiselect_field( field_name )
       konst = const_get( field_name.to_s.upcase )
       define_method( field_name ) do

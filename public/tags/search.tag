@@ -1,11 +1,11 @@
 
 <search>
 
-  <input type="text" placeholder="Search: ie) Bees, Soil, etc." name="q" class="search-box search-box-map" onkeyup={ onfilter }>
+  <input type="text" placeholder="Search: ie) Bees, Soil, etc." name="q" class="search-box search-box-map" onkeyup={ onquery }>
   
   <div class='results-toggle toggle' onclick={ toggle_results }>list</div>
 
-  <div class='category-toggle toggle' onclick={ toggle_categories }>
+  <!--<div class='category-toggle toggle' onclick={ toggle_categories }>
     <div class='notification' if={ num_cats_showing() }>{ num_cats_showing() }</div>
     CATEGORY
   </div>
@@ -14,21 +14,16 @@
       { key }
       <span if={ value.showing } class='on'>&#x2714;</span>
     </li>
-  </ul>
+  </ul>-->
 
-  this.categories = opts.categories;
+  //this.categories = opts.categories;
   
   var controller = this
      ,query = opts.kwargs['q']
-     ,category = opts.kwargs['c']
+     //,category = opts.kwargs['c']
      ,active_tag = opts.kwargs['t']
      ,orig_listings
      ,showing=false;
-
-  num_cats_showing(){
-    var num_cats = Object.keys(controller.categories).filter(function(cat){ return controller.categories[cat].showing; }).length;
-    return num_cats;
-  }
 
   toggle_results(){
     var rl = document.querySelector('results');
@@ -39,86 +34,69 @@
     }
   }
 
-  toggle_categories(){
-    controller.showing = !controller.showing;
-  }
-
   function listing_visible(item)
   {
     if (active_tag) {
+      var match_type = is_meta(active_tag) ? 'meta' : 'primary';
       return item.categories.find( function(x){
-        return x.name === active_tag || x.meta.name === active_tag;
+        return x.name === active_tag || x[match_type].name === active_tag;
       });
     } else {
-      return item.categories.find( function(x){
-        return category_cache[x.name] || category_cache[x.meta.name];
-      });
+      return true;
     }
   }
 
-  onfilter(e){
+  onquery(e){
     query = e.target.value;
+    orig_listings = null; // clear listings cache to force a trip to server.
     filter_listings();
   }
 
-  oncategorize(e){
-    active_tag = null;
-    controller.categories[e.item.key].showing = !controller.categories[e.item.key].showing;
-    filter_listings();
+  function update_hash(){
+    var hash_parts = [];
+    if (active_tag) hash_parts.push("t=" + active_tag);
+    if (query) hash_parts.push("q=" + query);
+    window.location.hash = "#" + hash_parts.join("&");
   }
   
   opts.on('update_tag', function(tag){
     active_tag = tag;
+    update_hash();
     filter_listings();
   });
 
-  opts.on('initial_load', function(listings){
-    orig_listings = listings;
+  function handle_load(){
+    console.log(is_meta(active_tag) ? 'meta' : 'primary');
+    var l = orig_listings.filter( function(x){ return listing_visible( x ); } );
+    opts.trigger('load', l );
+  }
 
-    // initial categories
-    if (category) {
-      controller.categories[category].showing = true
-      controller.update();
-      opts.trigger('categorize', controller.categories);
-    }
-
-    // initial query.
-    if (query) {
-      controller.q.value = query;
-    }
-
-    filter_listings();
-
-  });
-  
   function filter_listings(){
-    category_cache = {};
-    for(var cat in controller.categories) {
-      if(controller.categories[cat].showing)
-      {
-        category_cache[cat] = 1;
-        controller.categories[cat].tags.forEach(function(tag)
-        {
-          category_cache[tag] = 1;
-        }); 
-      }
-    }
-    var current_listings = [];
-    var matches = 0;
-    if( query )
+    if( !orig_listings )
     {
-      var path = opts.kwargs['surrey'] ? '/surrey.json' : '/locations.json'
-      path += '?q=' + query;
+      var path = '/locations.json'
+      if (query) path += '?q=' + query;
       ajax().get( path ).then(function(response){
-        var l = response.filter( function(x){ return listing_visible( x ); } );
-        opts.trigger('load', l );
-      } );
+        response.forEach(function(listing){
+          listing.dist = Math.abs((listing.latitude || 999) - 49.104430) + Math.abs((listing.longitude || 999) - -122.801094);
+        });
+        orig_listings = response;
+        console.log(response);
+        handle_load();
+      });
     }
     else
     {
-      var l = orig_listings.filter( function(x){ return listing_visible( x ); } );
-      opts.trigger('load', l );
+      handle_load();
     }
   }
+  if (query) {
+    controller.q.value = query;
+  }
+
+  setTimeout(function(){
+    filter_listings();  
+  })
+  
 
 </search>

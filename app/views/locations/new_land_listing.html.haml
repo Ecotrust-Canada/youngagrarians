@@ -2,7 +2,7 @@
 .listing-edit.land-form#land_provider_form
   = render partial: 'locations/wizard_nav', locals: { selected: 'description' }
   =  form_for( @location, builder: FormBuilder ) do |f|
-    %section
+    %content.overflow
       %h2<Land Details
       = f.hidden_field :details_complete, value: 1
       = f.select :province, States::CANADIAN_PROVINCES
@@ -41,17 +41,15 @@
       = f.boolean_with_comments :insurance, yes_comments: true, no_comments: true, label: 'I have home insurance on the property, and expect a farmer to have commercial insurance and to be named as “additionally insured” on the tenant farmers insurance policy.'
       = f.radio_select :agreement_true, %w( Yes No ), label: 'I certify that the foregoing statements made by me are true and accurate to the best of my knowledge and belief, and are made in good faith. I understand that there is not a guarantee that a match will occur or that if a match does occur that it will be successful.', default: 'No'
       = f.form_js
+
+    .btnbar
       .row{:style => "padding-top:20px"}
         .three.columns
-          %a.btn.btn-muted{:href => "/map"} Cancel
-        .three.columns.previous
+          = link_to 'Cancel', map_path, class: 'btn btn-muted'
+        .nine.columns
           = f.submit( 'Previous', name: 'step', value: 'description' )
-        .three.columns
-          = f.submit( 'Submit' )          
-        .three.columns{:style => "margin-left: 0"}
-          %p.aside
-            %small
-              By clicking submit, I agree the information I am providing is true and correct.
+          = f.submit( 'Submit' )
+
 :javascript
   $('#location_province' ).change( function(e)
   {

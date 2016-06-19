@@ -25,8 +25,8 @@ class SessionsController < ApplicationController
         render :new
       end
     end
-
   end
+
   def destroy
     session.delete( 'account_id' )
     redirect_to login_url

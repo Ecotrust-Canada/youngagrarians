@@ -5,13 +5,13 @@ class LocationsController < ApplicationController
 
   @tmp = {}
 
-  def search
-    @locations = Location.search params[:term]
-    @locations = []
-    respond_to do |format|
-      format.json { render json: @locations }
-    end
-  end
+  # dead code?
+  #def search
+  #  @locations = Location.search params[:term]
+  #  respond_to do |format|
+  #    format.json { render json: @locations }
+  #  end
+  #end
 
   def thanks
     render layout: 'basic'
@@ -21,14 +21,16 @@ class LocationsController < ApplicationController
   # GET /locations.json
   def index
     respond_to do |format|
+      
       format.html do
-        if current_user
-          @locations = current_user.locations.order(:name)
-          render layout: 'basic'
-        else
-          redirect_to map_url
-        end
+       if current_user
+         @locations = current_user.locations.order(:name)
+         render layout: 'basic'
+       else
+         redirect_to map_url
+       end
       end
+
       format.json do
         scope = if params[:surrey]
           Location.surrey

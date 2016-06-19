@@ -2,7 +2,7 @@
   = render partial: 'locations/wizard_nav', locals: { selected: 'account' }
   %h3<Manage Your Listings
   - if current_user.nil?
-    %content
+    %content.boxy
       .row
         .columns.six.create_account
           %h4{:style => "margin-bottom:30px"} Create an account

@@ -4,9 +4,9 @@
   = form_for @message, url: @location ? location_message_path( @location ) : account_message_path, builder: FormBuilder do |f|
     = f.text_field :subject, required: true, value: "RE: #{@location.name}"
     - if current_user
-      = f.email_field :email, required: true, value: current_user.email
+      = f.email_field :email, required: true, value: current_user.email, label: "Your Email"
     - else
-      = f.email_field :email, required: true
+      = f.email_field :email, required: true, label: "Your Email"
     = f.honeypot_field :link
     = f.text_field :name, required: true
     = f.text_area :message, required: true, rows: 10

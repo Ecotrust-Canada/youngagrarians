@@ -4,17 +4,21 @@
   background: $color
   background: rgba($color, $opacity)
 
-
-.farm
+.run-your-farm, .networking, .business, .land, .education, .jobs---training
   .filled
-    background: #85563D
+    background: black
+    color: white
+
+.farms
+  .filled
+    background: #F36F2D
     color: white
     &:after
-      border-color: #85563D
+      border-color: #F36F2D
   color: #85563D
   &.lightbg
-    @include background-opacity(#85563D, .15)
-  border-color: #85563D
+    @include background-opacity(#F36F2D, .15)
+  border-color: #F36F2D
 
 .funding
   .filled
@@ -26,7 +30,7 @@
     @include background-opacity(#745DA3, .15)
   border-color: #745DA3
 
-.web-resource
+.web-resources
   .filled
     background: #7A7667
     &:after
@@ -36,7 +40,7 @@
     @include background-opacity(#7A7667, .15)
   border-color: #7A7667
 
-.seed
+.seeds
   .filled
     background: #81A94E
     &:after
@@ -46,7 +50,7 @@
     @include background-opacity(#81A94E, .15)
   border-color: #81A94E
 
-.publication
+.publications
   .filled
     background: #222356
     color: white
@@ -57,17 +61,17 @@
   border-color: #222356
   color: #222356
 
-.organization
+.organizations
   .filled
     background: #FFC20E
     &:after
       border-color: #FFC20E
-  color: #FFC20E
+  color: #AD810A
   &.lightbg
     @include background-opacity(#FFC20E, .15)
   border-color: #FFC20E
 
-.market
+.markets
   .filled
     background: #F26522
     &:after
@@ -77,7 +81,7 @@
     @include background-opacity(#F26522, .15)
   border-color: #F26522
 
-.land
+.land-listings
   .filled
     background: #81A94E
     &:after
@@ -87,7 +91,7 @@
     @include background-opacity(#81A94E, .15)
   border-color: #81A94E
 
-.job
+.jobs
   .filled
     background: #0084B5
     &:after
@@ -107,7 +111,7 @@
     @include background-opacity(#CF4F1C, .15)
   border-color: #CF4F1C
 
-.event
+.events
   .filled
     background: #16807C
     &:after
@@ -117,7 +121,7 @@
     @include background-opacity(#16807C, .15)
   border-color: #16807C
 
-.education
+.educational-programs
   .filled
     background: #9D0A0E
     color: white
@@ -128,7 +132,7 @@
   border-color: #9D0A0E
   color: #9D0A0E
 
-.business
+.business-development
   .filled
     background: #00652E
     color: white
@@ -139,7 +143,7 @@
   border-color: #00652E
   color: #00652E
 
-.apprenticeship
+.apprenticeships
   .filled
     background: #A0174C
     color: white
@@ -149,3 +153,14 @@
   &.lightbg
     @include background-opacity(#A0174C, .15)
   border-color: #A0174C
+
+.mixed
+  .filled
+    background: #444
+    color: white
+    &:after
+      border-color: #444
+  color: #444
+  &.lightbg
+    @include background-opacity(#444, .15)
+  border-color: #444

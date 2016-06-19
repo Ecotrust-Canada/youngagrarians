@@ -1,6 +1,6 @@
 .detail-page.standalone
   .listing-header{:class => category_class_list( @location )}
-    .category-icon{:style => "background-image:url(#{icon_hash[category_class_list( @location )]})"} &nbsp;
+    .category-icon{:style => "background-image:url(#{big_icon_hash[category_class_list( @location )]})"} &nbsp;
     .category-heading #{category_class_list( @location )}
     %img{:src => "/images/umap-content-title.png"}/
     .filled
@@ -28,6 +28,9 @@
         %h3<Location
         %p
           = display_address( @location )
+        
+        %h3<Details
+        %p #{ @location.business_plan.comments }
 
         %h3<Learn More
         %p
@@ -47,13 +50,15 @@
                 = f.hidden_field_tag 'signature', params[:signature]
                 = f.hidden_field_tag 'expiry', params[:expiry]
                 = f.hidden_field 'is_approved', value: true
-                = f.submit( 'Approve Listing' )
+                = f.submit('Approve Listing')
 
       .six.columns
         = render partial: 'comments'
 
         - if @location.latitude && @location.longitude
           #minimap
+        
+        %h3<Share This Listing
 
         %ul.social.one
           %li

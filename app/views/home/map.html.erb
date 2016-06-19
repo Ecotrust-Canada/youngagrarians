@@ -17,6 +17,7 @@
 
 </head><body>
   
+  <%= javascript_include_tag 'global' -%>
   <!--
 <%= request.fullpath -%>
   -->
@@ -53,8 +54,8 @@
     <listing></listing>
   </page>
 
-  <script src="https://cdn.jsdelivr.net/riot/2.3.18/riot+compiler.min.js"></script>
-  <script src="https://cdn.rawgit.com/fdaciuk/ajax/v1.0.10/dist/ajax.min.js"></script>
+  <script src="/vendor/riot/riot+compiler.min.js"></script>
+  <script src="/vendor/ajax.min.js"></script>
   <script src="/vendor/leaflet/dist/leaflet-src.js"></script>
   <script src="/vendor/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
 
