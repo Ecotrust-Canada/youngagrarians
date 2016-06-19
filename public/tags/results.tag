@@ -1,19 +1,23 @@
 
 <results>
 
-  <div class='results-sidebar'>
+  <div class='results-sidebar' onscroll={ scroll }>
     <div class="content-logo-wrap">
       <img src="/images/umap-text-inverted.png">
     </div>
 
     <div class='cat-counts'>
-      <span each="{ name, value in cat_counts }" onclick={ set_tag } class="cat-count { name.toLowerCase().replace(/\s/,'-') }"><span class="filled">
-        { name }&nbsp;<b>{ value }</b>
-      </span></span> 
-      <span class="cat-count"><span class="filled show-all" onclick={ set_tag_null }>Show All&nbsp;<b></b></span></span>
+      <span if={ !tag }>CLICK ONE: </span>
+      <span if={ show_current(tag) } onclick={ set_tag_null }>IN "{ tag.toUpperCase() }":</span>
+
+      <span each="{ name, value in cat_counts }" onclick={ set_tag } class="cat-count { name.toLowerCase().replace(/[^a-z]/g,'-') }"><span class="filled">
+        { name }&nbsp;<b>{ value }</b>&nbsp;
+      </span> </span>
+      
+      <span class="cat-count" if={ tag }><span class="filled show-all" onclick={ set_tag_null }>Show All&nbsp;<b></b></span></span>
     </div>
 
-    <ul class='results-list'>
+    <ul class='results-list' id='results-list'>
       <li each={ items } class="{ slugify(categories[0]) } lightbg">
         <div if={ CATEGORY_ICONS[slugify( categories[0] )] } class='listing-icon'
              style='background:url( { CATEGORY_ICONS[slugify( categories[0] )] }) 10px 10px no-repeat'
@@ -44,6 +48,19 @@
     return window.mobile;
   }
 
+  show_current(tag) {
+    return tag && is_meta(tag);
+  }
+  
+  // "infinite" scroll.
+  scroll(e){
+    if ( document.getElementById('results-list').offsetHeight - e.target.scrollTop < 1000) {
+      controller.update({
+        items: controller.response.slice(0,controller.items.length+10),
+        })
+    }
+  }
+
   set_tag(e){
     this.tag = e.item.name;
     opts.trigger('update_tag', e.item.name);
@@ -68,8 +85,6 @@
   }
   
   opts.on('load', function(response){
-    
-    console.log(response);
     
     response = response.sort(
       function(x, y)
@@ -97,10 +112,10 @@
         cat_counts[name] = (cat_counts[name] || 0) + 1
       }
     });
-    console.log(cat_counts);
 
+    controller.response = response;
     controller.update({
-      items: response,
+      items: response.slice(0,30),
       cat_counts: cat_counts
     });
 
