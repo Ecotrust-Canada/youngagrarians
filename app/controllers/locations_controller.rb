@@ -256,7 +256,6 @@ class LocationsController < ApplicationController
     else
       scope.where( 'description LIKE ?', "%#{params[:q]}%" )
     end
-    scope
   end
   
   def render_description_form

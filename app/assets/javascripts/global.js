@@ -10,6 +10,7 @@ var toggleHam = function(e) {
   }
 };
 
+/*
 window.fbAsyncInit = function() {
   // init the FB JS SDK
   FB.init({
@@ -39,3 +40,4 @@ window.fbAsyncInit = function() {
    // Insert the Facebook JS SDK into the DOM
    firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
  }());
+ */

@@ -10,12 +10,12 @@
       <span each="{ name, value in cat_counts }" onclick={ set_tag } class="cat-count { name.toLowerCase().replace(/\s/,'-') }"><span class="filled">
         { name }&nbsp;<b>{ value }</b>
       </span></span> 
-      <span class="cat-count"><span class="filled show-all" onclick={ set_tag_null }>All&nbsp;<b>{ items.length }</b></span></span>
+      <span class="cat-count"><span class="filled show-all" onclick={ set_tag_null }>Show All&nbsp;<b></b></span></span>
     </div>
 
     <ul class='results-list'>
       <li each={ items } class="{ slugify(categories[0]) } lightbg">
-        <div class='listing-icon'
+        <div if={ CATEGORY_ICONS[slugify( categories[0] )] } class='listing-icon'
              style='background:url( { CATEGORY_ICONS[slugify( categories[0] )] }) 10px 10px no-repeat'
         ></div>
         <p class='listing-text'>
@@ -38,16 +38,19 @@
   
   this.items = opts.items;
   this.cat_counts = {};
+  this.tag = opts.kwargs['t'];
 
   is_mobile(){
     return window.mobile;
   }
 
   set_tag(e){
-    opts.trigger('update_tag', e.item.name)
+    this.tag = e.item.name;
+    opts.trigger('update_tag', e.item.name);
   }
 
   set_tag_null(e){
+    this.tag = null;
     opts.trigger('update_tag', null)
   }
 
@@ -65,6 +68,7 @@
   }
   
   opts.on('load', function(response){
+   
     response = response.sort(
       function(x, y)
       {
@@ -79,9 +83,15 @@
     );
 
     var cat_counts = {};
+    var match_type;
+    if(controller.tag) {
+      match_type = 'primary';
+    } else {
+      match_type = 'meta';
+    }
     response.forEach(function(item){
-      for (var i=0; i<1; i++) {
-        name = item.categories[i].primary.name || item.categories[i].name;
+      for (var i=0; i<item.categories.length; i++) {
+        name = item.categories[i][match_type].name || item.categories[i].name;
         cat_counts[name] = (cat_counts[name] || 0) + 1
       }
     });

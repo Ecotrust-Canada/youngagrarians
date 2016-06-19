@@ -9,59 +9,24 @@ pubsub.kwargs = {};
   pubsub.kwargs[key] = val
 });
 
-pubsub.categories = {
-    'network': {
-      tags:['Market', 'Web Resource', 'Event', 'Organization'],
-      showing: !pubsub.kwargs['c']
-    },
-    'education': {
-      tags:['Education', 'Publication', 'Web Resource'],
-      showing: !pubsub.kwargs['c']
-    },
-    'jobs-training': {
-      tags:['Job', 'Apprenticeship', 'Funding'],
-      showing: !pubsub.kwargs['c']
-    },
-    'business': {
-      tags:['Infrastructure', 'Business', 'Funding', 'Market'],
-      showing: !pubsub.kwargs['c']
-    },
-    'land': {
-      tags:['Land'],
-      showing: !pubsub.kwargs['c']
-    },
-    'run-your-farm': {
-      tags:['Seed', 'Business'],
-      showing: !pubsub.kwargs['c']
-    }
-};
-
 
 function slug(category){
+  if (!category) return null;
   var rVal;
-  if (typeof(category) === 'string') {
+  if ((typeof category) === 'string') {
     rVal = category;
   } else {
-    rVal = category.primary.name ? category.primary.name : category.name;
+    rVal = (category.primary && category.primary.name) ? category.primary.name : category.name;
   } 
   return rVal.toLowerCase().replace(/\s/g,'-');
 }
 
-ajax().get( '/locations.json' ).then(function(response){
-  setTimeout(function(){
-    cats = {};
-    console.log(response);
-    response.forEach(function(listing){
-      listing.dist = Math.abs((listing.latitude || 999) - 49.104430) + Math.abs((listing.longitude || 999) - -122.801094);
-      listing.categories.forEach(function(cat){
-        cats[cat.name] = cats[cat.name] || 0;
-        cats[cat.name] ++;
-      })
-    });
-    console.log(cats);
-    pubsub.trigger('initial_load', response);
-  })
-});
+
+// if it has an icon, it's a primary category (not meta).
+function is_meta(category_str){
+  return !CATEGORY_ICONS[slug(category_str)];
+}
+
 
 // the get-info button.
 addEvent(document.body, 'click', function(e){
