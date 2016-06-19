@@ -160,6 +160,7 @@ class Location < ActiveRecord::Base
   # ---------------------------------------------------------------- land_params
   def self.land_params
     Location::LAND_LISTING_PARAMS
+      args = []
       args << :bioregion
       b_with_c = [:string, :boolean]
       [:wooded_land_size, :road_access, :electricity, :cell_service, :hazards,
@@ -171,6 +172,7 @@ class Location < ActiveRecord::Base
       multi = [ :value, :comment ]
       args <<  { current_property_use: multi, practices_preferred: multi, soil_details: multi,
           current_practices: multi, water_source: multi, agriculture_preferred: multi }
+      return args
   end
 
   # ------------------------------------------------------------ seeker_listing?
