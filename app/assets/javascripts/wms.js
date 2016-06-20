@@ -27,3 +27,12 @@ wms_layers.push({
   name: 'all wells'
 });
 
+wms_layers.push({
+  layer: L.tileLayer.wms("http://openmaps.gov.bc.ca/mapserver/admin-boundaries", {
+    layers: 'ALC_AGRI_LAND_RESERVE_POLYS',
+    format: 'image/png',
+    transparent: true
+  }),
+  name: 'ALR'
+});
+
