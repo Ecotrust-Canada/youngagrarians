@@ -7,9 +7,9 @@ json.array! @locations do |location|
   json.longitude location.longitude
   #json.bioregion location.bioregion
   json.city  location.city
-  json.country location.country
+  #json.country location.country
   json.province location.province
-  json.streetAddress location.street_address
+  #json.streetAddress location.street_address
   #json.hasGoogleMap location.gmaps
   #json.postalCode location.postal
 
@@ -19,13 +19,13 @@ json.array! @locations do |location|
   #json.content location.content
   #json.description location.description
 
-  json.owner nil
+  #json.owner nil
   
   #json.created location.created_at
   #json.updated location.updated_at
 
   #json.url location.url
-  json.resourceType location.resource_type
+  #json.resourceType location.resource_type
   json.categories location.nested_categories do |category|
     json.id category.id
     json.name category.name

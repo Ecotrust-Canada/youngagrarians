@@ -6,7 +6,8 @@
     %ul.location_list
       - @locations.each do |location|
         %li
-          = link_to location.name, location_path( location )
+          - if location.name?
+            = link_to location.name, location_path( location )
           - if !location.approved?
             (Pending approval)
           - elsif !location.visible?
