@@ -92,12 +92,13 @@ L.tileLayer.betterWms = function (url, options) {
 
 wms_layers.push({
   layer: L.tileLayer.wms("http://openmaps.gov.bc.ca/mapserver/freshwater-and-marine", {
-    layers: 'GW_WATER_WELLS_WRBC_WATER_WELLS,GW_WATER_WELLS_WRBC_WATER_UTILITY',
+    layers: 'GW_WATER_WELLS_WRBC_WATER_WELLS',
     format: 'image/png',
     transparent: true
   }),
-  name: 'Wells (zoom in first)',
-  legend_style: 'background:blue; border-radius:50%'
+  name: 'Wells (zoom in)',
+  legend_class: 'wells',
+  legend_style: 'background:blue; border-radius:50%; border: 1px solid white'
 });
 
 wms_layers.push({
@@ -108,7 +109,8 @@ wms_layers.push({
     opacity: 0.5
   }),
   name: 'ALR',
-  legend_style: 'background:green'
+  legend_class: 'alr',
+  legend_style: 'background:#93D798; border: 1px solid #bbb'
 });
 
 wms_layers.push({
@@ -119,6 +121,7 @@ wms_layers.push({
     opacity: 0.5
   }),
   name: 'Water Mgnt.',
+  legend_class: 'water',
   legend_style: 'background:lightblue'
 });
 
@@ -131,5 +134,6 @@ wms_layers.push({
     opacity: 0.5
   }),
   name: 'Aquifer Prod.',
-  legend_style: 'background:yellow'
+  legend_class: 'aquifers',
+  legend_style: 'background:url(/images/aquifers-legend.png)'
 });

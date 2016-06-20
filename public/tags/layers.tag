@@ -6,7 +6,7 @@
 
   <ul class='layer-panel panel' if={ showing }>
     <li class='panel-item' each={ wms_layers } onclick={ layer_on_off }>
-      { name }
+      <span class="legend-item { legend_class }" style="{ legend_style }"></span> { name }
       <span if={ map_has_layer(layer) } class='on'>&#x2714;</span>
     </li>
   </ul>
@@ -18,7 +18,6 @@
   
   num_layers_showing(){
     var num_showing = controller.wms_layers.filter(function(layer){ return map.hasLayer(layer.layer) }).length
-    console.log( 'num layers', num_showing);
     return num_showing;
   }
 
