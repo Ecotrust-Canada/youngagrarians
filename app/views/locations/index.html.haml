@@ -19,8 +19,8 @@
           = form_for location, method: :delete do 
             = link_to 'remove', '#', class: 'link_remove'
   - else
-    .panel
-      You current have no listings tied to your account.
+    
+    %p<You currently have no listings tied to your account.
 
   = link_to( 'new listing', new_listing_path, class: 'button button-primary' )
   = link_to 'log out', logout_path, class: 'button button-primary'
