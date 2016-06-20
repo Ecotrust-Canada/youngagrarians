@@ -15,7 +15,6 @@
     - if is_admin?
       = link_to 'Remove', location_comment_path( @location, comment ), class: 'remove'
 
-
 = form_for @location.comments.new, url: location_comments_url( @location ), builder: FormBuilder do |f|
   = f.text_area :body, label: 'Comment'
   = f.text_field :name, label: 'Name'

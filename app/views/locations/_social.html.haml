@@ -1,0 +1,18 @@
+%h3<Share This Listing
+%ul.social.one
+  %li
+    %a.facebook{:href => "http://www.facebook.com/sharer.php?u=#{request.protocol}#{request.host_with_port}#{request.fullpath}", :target => "_blank", :title => "Facebook"}
+  %li
+    %a.twitter{:href => "http://twitter.com/share?url=#{request.protocol}#{request.host_with_port}#{request.fullpath}", :target => "_blank", :title => "Twitter"}
+  /
+    %li
+      %a.flickr{:href => "http://www.flickr.com/groups/youngagrarians/", :target => "_blank", :title => "Flickr"}
+%ul.social.two
+  /
+    %li
+      %a.instagram{:href => "http://instagram.com/youngagrarians", :target => "_blank", :title => "Instagram"}
+  /
+    %li
+      %a.google{:href => "http://feeds.feedburner.com/YoungAgrarians", :title => "RSS"}
+  %li
+    %a.mail{:href => "mailto:?subject=#{@location.name}&body=See%20#{request.protocol}#{request.host_with_port}#{request.fullpath}", :target => "_blank", :title => "Mail"}
