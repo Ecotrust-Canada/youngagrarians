@@ -45,6 +45,7 @@ class LocationsController < ApplicationController
         end
         scope = apply_distance_sort_scope( scope ) if params[:center_lat] && params[:center_long]
         scope = apply_search_scope( scope ) if params[:q].present?
+        scope = scope.order( 'updated_at DESC' ) if params[:recent]
         @locations = scope.approved.currently_shown.includes( :nested_categories ).order( 'id' )
       end
     end
@@ -57,7 +58,13 @@ class LocationsController < ApplicationController
     respond_to do |format|
       format.html do
         if @location.visible? || @location.admin?( current_user )
-          render layout: 'basic'
+          if @location.land_listing?
+            render 'show_land_listing', layout: 'basic'
+          elsif @location.seeker_listing?
+            render 'show_seeker', layout: 'basic'
+          else
+            render layout: 'basic'
+          end
         else
           render nothing: true, status: 404
         end
@@ -90,6 +97,10 @@ class LocationsController < ApplicationController
     @location.attributes = in_progress_location
     if params[:done]
       @location.account_id = nil unless current_user && current_user.id == @location.account_id
+      if @location.nested_category_ids.empty?
+        @location.nested_category_ids = [@location.primary_category_id]
+      end
+
       session.delete( :in_progress_location )
       @location.save
       UserMailer.new_listing( @location ).deliver_now

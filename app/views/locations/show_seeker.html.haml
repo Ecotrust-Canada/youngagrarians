@@ -1,5 +1,4 @@
 .detail-page.standalone
-  = @location.nested_categories.inspect
   .listing-header{ class: category_class_list( @location )}
     .category-icon{ style: "background-image:url(#{big_icon_hash[category_class_list( @location )]})"} &nbsp;
     .category-heading #{category_class_list( @location )}
@@ -22,6 +21,43 @@
   - if @location.description.present? || @location.content.present?
     = content_tag( 'div', @location.description, class: 'location-description' ) if @location.description.present?
     = content_tag( 'div', @location.content, class: 'location-content' ) if @location.content.present?
+
+  %h2<Examples for Clark
+  -#  boolean with comment
+  Wooded area:
+  - if @location.wooded_land_size # old data
+    - if @location.wooded_land_size.true?
+      Yes
+    - if @location.wooded_land_size.false?
+      No
+    - # theoretically could be neither true nor false if it were not set, but 
+    - # would require abusing the current html form
+    - if @location.wooded_land_size.comment.present? # present changes nil or empty string
+      %span<= @location.wooded_land_size.comment
+  - # end boolean with comments
+
+  - # number fields
+  - if @location.cultivable_area.present?
+    There are #{@location.cultivable_area} acres available (number field)
+  %br
+  - # number fields
+  - # string fields
+  The land zoning is: #{@location.zoning}. (string field)
+  %br
+  - # string fields
+
+  -# multiselect 
+  Current use:
+  %ul
+    - @location.current_property_use.each do |use|
+      %li
+        = use['value'] 
+        = content_tag( 'span', use['comment'], class: 'comment' ) if use['comment'].present?
+
+  %h3<Vision (text field)
+  %p
+    = @location.long_term_vision
+
 
   .row-wrap
     .row
@@ -62,7 +98,6 @@
 
         - if @location.latitude && @location.longitude
           #minimap
-        
         = render partial: 'social' 
 
   .last-modified.text-muted

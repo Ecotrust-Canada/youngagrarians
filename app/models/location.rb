@@ -297,7 +297,7 @@ class Location < ActiveRecord::Base
     if name.present?
       format( '%d-%s', id, name.gsub( /[^0-9a-z]+/i, '-' ).sub( /^-/, '' ) )
     else
-      id
+      id.to_s
     end
   end
 
