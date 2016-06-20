@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
         redirect_to locations_url
       end
     else
-      flash[:error] = 'Please check your email or password.'
+      flash[:error] = 'Could not log in; please check your email or password.'
       if params[:for_listing]
         @skeleton = true
         @location = Location.new( in_progress_location )
