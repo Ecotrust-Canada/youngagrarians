@@ -6,3 +6,24 @@ $h2-font-size: rem-calc(30px);
 @import "maps";
 @import "admin";
 
+.flash {
+  border-width: 1px;
+  border-radius: 3px;
+  border-style: solid;
+  padding: 0.5em;
+  margin: auto;
+  margin-top: 1em;
+  width: 50%
+}
+
+.flash_error {
+  border-color: #f00;
+  color: #f00;
+  background-color: #fcc;
+}
+
+.flash_notice {
+  border-color: #0f0;
+  color: #0f0;
+  background-color: #cfc;
+}

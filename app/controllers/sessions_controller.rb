@@ -10,18 +10,19 @@ class SessionsController < ApplicationController
     if account && account = account.authenticate( params[:session][:password] )
       session['account_id'] = account.id
       if params[:for_listing]
-        session[:in_progress_location] ||= {}
-        session[:in_progress_location]['account_id'] = account.id
+        in_progress_location.merge!( 'account_id' => @account.id )
+        session[:in_progress_location] = ActiveSupport::Gzip.compress( in_progress_location.to_json )
         redirect_to new_listing_url
       else
         redirect_to locations_url
       end
     else
+      flash[:error] = 'Please check your email or password.'
       if params[:for_listing]
         @skeleton = true
+        @location = Location.new( in_progress_location )
         render 'locations/account_setup', layout: 'basic'
       else
-        flash[:error] = 'Please check email or password.'
         render :new
       end
     end

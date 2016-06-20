@@ -186,4 +186,14 @@ class ApplicationController < ActionController::Base
   def current_user
     @current_user ||= Account.find_by( id: session['account_id'] ) if session['account_id']
   end
+  # ------------------------------------------------------- in_progress_location
+  def in_progress_location
+    @in_progress_location ||= begin
+      if session[:in_progress_location]
+        JSON.parse( ActiveSupport::Gzip.decompress(session[:in_progress_location] ) )
+      else
+        {}
+      end
+    end
+  end
 end

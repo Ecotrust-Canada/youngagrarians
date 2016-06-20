@@ -42,6 +42,12 @@
       %div{:class => "alert-box #{name}", "data-alert" => ""}
         = msg
         %a.close{:href => "#"} ×
+    - unless flash.empty?
+      - if flash[:error]
+        = content_tag( 'div', flash[:error], class: 'flash flash_error' )
+      - if flash[:notice]
+        = content_tag( 'div', flash[:notice], class: 'flash flash_notice' )
+
     .wrap<= yield
     #fb_img{"data-img" => "#{request.protocol}#{request.host}/assets/ya.jpg"}
     = google_analytics_code

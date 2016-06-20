@@ -266,14 +266,5 @@ class LocationsController < ApplicationController
       render :details, layout: 'basic'
     end
   end
-  # ------------------------------------------------------- in_progress_location
-  def in_progress_location
-    @in_progress_location ||= begin
-      if session[:in_progress_location]
-        JSON.parse( ActiveSupport::Gzip.decompress(session[:in_progress_location] ) )
-      else
-        {}
-      end
-    end
-  end
+  
 end

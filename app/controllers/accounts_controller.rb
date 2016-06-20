@@ -15,17 +15,18 @@ class AccountsController < ApplicationController
   # --------------------------------------------------------------------- create
   def create
     @account = Account.new( params.require( :account ).permit( :email, :password, :password_confirmation ) )
-    if @account.save
+    if current_user.nil? && @account.save
       session['account_id'] = @account.id
       if params[:for_listing]
-        session[:in_progress_location] ||= {}
-        session[:in_progress_location]['account_id'] = @account.id
+        in_progress_location.merge!( 'account_id' => @account.id )
+        session[:in_progress_location] = ActiveSupport::Gzip.compress( in_progress_location.to_json )
         redirect_to new_listing_url
       else
         redirect_to map_url
       end
     else
       if params[:for_listing]
+        @location = Location.new( in_progress_location )
         @skeleton = true
         render 'locations/account_setup', layout: 'basic'
       else
