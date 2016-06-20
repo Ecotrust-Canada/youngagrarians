@@ -75,19 +75,25 @@ module LocationsHelper
 
   # ---------------------------------------------------------- top_category_list
   def category_class_list( location )
-    metas = location.nested_categories
-                    .joins( "LEFT OUTER JOIN nested_categories parent ON nested_categories.parent_category_id = parent.id" )
-                    .pluck( 'COALESCE( parent.name, nested_categories.name ) AS name',
-                            'COALESCE( parent.id, nested_categories.id ) as x' )
-    if metas.any?
-      
-      links = metas.map do |category_name, category_id|
-        category_name.downcase
+    # TODO: slow and inefficient
+    @category_class_list ||= {}
+    @category_class_list[location.id] ||= begin
+      r_val = []
+      location.nested_categories.each do |category|
+        loop do
+          break if category.nil?
+          if category.parent && category.parent.parent.nil?
+            r_val << category.parent.name.gsub( /\s+/, '-' )
+            break
+          end
+          category = category.parent
+        end
       end
-      safe_join( links, ' ' )
-
-    else
-      nil
+      if r_val.any?
+        safe_join( r_val, ' ' ).downcase
+      else
+        nil
+      end
     end
   end
 
