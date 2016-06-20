@@ -183,6 +183,11 @@ class Location < ActiveRecord::Base
         current_practices: multi, water_source: multi, agriculture_preferred: multi }
   end
 
+  # --------------------------------------------------------------- messageable?
+  def messageable?
+    email.present? || account
+  end
+
   # ------------------------------------------------------------ seeker_listing?
   def seeker_listing?
     if primary_category_id

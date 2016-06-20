@@ -1,0 +1,10 @@
+%p<Hi,
+%p
+  You've received a message regarding #{link_to( @entity.name, @entity.is_a?( Location ) ? location_url( @entity ) : user_url( @entity ) )} on 
+  the Young Aggrarians website.
+%p
+  #{@message.name} said:
+  %br
+  = @message.message
+%p
+  You can reply to this message to get back to #{@message.name}.

@@ -42,10 +42,10 @@ class UserMailer < ActionMailer::Base
       to << message.entity.email if message.entity.email.present?
       to << message.entity.account.email if message.entity.account
     end
+    @message = message
+    @entity = message.entity
     # TODO: validate email reply to string
     # TODO: Wrap body in nice layout
-    mail( to: to, subject: message.subject, reply_to: "#{message.name} <#{message.email}>" ) do |format|
-      format.text { render text: message.message }
-    end
+    mail( to: to, subject: message.subject, reply_to: "#{message.name} <#{message.email}>" )
   end
 end

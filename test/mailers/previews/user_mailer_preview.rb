@@ -13,5 +13,11 @@ class UserMailerPreview < ActionMailer::Preview
   def password_reset
     UserMailer.password_reset( Account.first )
   end
+  # ---------------------------------------------------------------- new_listing
+  def new_message
+    message = Message.new( name: 'Message SEnder', email: 'sender@gmail.com', subject: 'I like bacon', message: 'lorum ipsom' )
+    message.entity = Location.find( 45971 )
+    UserMailer.deliver_message( message )
+  end
 
 end

@@ -24,6 +24,7 @@ class MessagesController < ApplicationController
   ##############################################################################
   def load_entity
     @location = Location.find( params[:location_id] ) if params[:location_id]
+    @location = nil unless  @location.messageable?
     @user = User.find( params[:user_id] ) if params[:user_id]
     redirect_to map_url if @user.nil? && @location.nil?
   end
