@@ -18,7 +18,7 @@
     .btnbar
       .row{:style => "padding-top:20px"}
         .three.columns
-          %a.btn.btn-muted{:href => "/map"} Cancel
+          %a.btn.btn-muted{:href => cancel_locations_path} Cancel
         .nine.columns
           = f.submit( 'Previous', name: 'step', value: 'account' )
           = f.submit( 'Next', name: 'step', value: 'contact' )

@@ -16,6 +16,9 @@ Youngagrarians::Application.routes.draw do
   resources :locations do
     resource :message
     resources :comments, only: [:create, :destroy]
+    collection do 
+      get :cancel
+    end
   end
 
   get 'home/index'

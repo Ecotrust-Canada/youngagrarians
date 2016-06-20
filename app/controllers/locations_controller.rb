@@ -4,6 +4,12 @@ class LocationsController < ApplicationController
   require 'fileutils'
 
   @tmp = {}
+  
+  # --------------------------------------------------------------------- cancel
+  def cancel
+    session.delete( :in_progress_location )
+    redirect_to map_url
+  end
 
   # dead code?
   #def search

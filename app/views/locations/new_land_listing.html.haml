@@ -45,7 +45,7 @@
     .btnbar
       .row{:style => "padding-top:20px"}
         .three.columns
-          = link_to 'Cancel', map_path, class: 'btn btn-muted'
+          = link_to 'Cancel', cancel_locations_path, class: 'btn btn-muted'
         .nine.columns
           = f.submit( 'Previous', name: 'step', value: 'description' )
           = f.submit( 'Submit' )
