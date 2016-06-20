@@ -44,9 +44,11 @@
         %a.close{:href => "#"} ×
     - unless flash.empty?
       - if flash[:error]
-        = content_tag( 'div', flash.delete( :error ), class: 'flash flash_error' )
+        = content_tag( 'div', flash[ :error ], class: 'flash flash_error' )
+        - flash.delete( :error )
       - if flash[:notice]
-        = content_tag( 'div', flash.delete( :notice ), class: 'flash flash_notice' )
+        = content_tag( 'div', flash[ :notice ], class: 'flash flash_notice' )
+        - flash.delete( :notice )
 
     .wrap<= yield
     #fb_img{"data-img" => "#{request.protocol}#{request.host}/assets/ya.jpg"}
