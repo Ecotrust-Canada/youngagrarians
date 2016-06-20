@@ -33,7 +33,6 @@ url = "parks/within?lat1=" + bounds.getSouthWest().lat + "&lon1=" + bounds.getSo
 var geo;
 
 
-
 function getSoil(e){
   if (geo) map.removeLayer(geo);
   var bounds = map.getBounds();
@@ -186,9 +185,9 @@ function onLocationFound(e) {
 
 map.on('locationfound', onLocationFound);
 
-
+/*
 map.on('dragend', getSoil);
 map.on('zoomend', getSoil);
 map.whenReady(getSoil);
-
+*/
 
