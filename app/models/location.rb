@@ -289,7 +289,11 @@ class Location < ActiveRecord::Base
   end
   
   def to_param
-    format( '%d-%s', id, name.gsub( /[^0-9a-z]+/i, '-' ).sub( /^-/, '' ) )
+    if name.present?
+      format( '%d-%s', id, name.gsub( /[^0-9a-z]+/i, '-' ).sub( /^-/, '' ) )
+    else
+      id
+    end
   end
 
   def self.import(file)
