@@ -29,6 +29,7 @@ module ApplicationHelper
     end
   end
 
+  # -------------------------------------------------------------- big_icon_hash
   def big_icon_hash
     icons = Dir.glob( Rails.root.join( "app/assets/images/map-icons/original/*" ) )
     icons.each_with_object( {} ) do |x, m|
