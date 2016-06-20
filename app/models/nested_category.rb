@@ -22,6 +22,13 @@ class NestedCategory < ActiveRecord::Base
     where( arel_table[:name].matches( x ) )
   }
 
+  # --------------------------------------------------------- primary_categories
+  def self.primary_categories
+    NestedCategory.joins( 'JOIN nested_categories meta ON meta.id = nested_categories.parent_category_id' )
+                  .where( 'meta.parent_category_id IS NULL' )
+                  .select( 'nested_categories.*, meta.name AS meta_name, meta.id AS meta_id' )
+  end
+
 
   # ---------------------------------------------------------------- meta_lookup
   def self.meta_lookup

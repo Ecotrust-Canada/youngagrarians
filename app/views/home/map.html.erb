@@ -68,6 +68,7 @@
 
   <script>
   var CATEGORY_ICONS = <%= raw icon_hash.to_json -%>;
+  var PRIMARY_CATEGORIES = <%= raw NestedCategory.primary_categories.map { |x| { id: x.id, name: x.name, metaName: x.meta_name, metaId: x.meta_id } }.to_json -%>;
   riot.compile(function( x ) {
     riot.mount('search', pubsub);
     riot.mount('layers', pubsub);
