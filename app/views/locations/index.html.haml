@@ -1,13 +1,14 @@
 .list-page.standalone
   = stylesheet_link_tag 'locations_crud'
   %h1<Listings for #{current_user.email}
-
   - if @locations.any?
     %ul.location_list
       - @locations.each do |location|
         %li
           - if location.name?
             = link_to location.name, location_path( location )
+          - else
+            = link_to "untitled", location_path( location )
           - if !location.approved?
             (Pending approval)
           - elsif !location.visible?
@@ -20,7 +21,9 @@
   - else
     .panel
       You current have no listings tied to your account.
-  = link_to( 'Click here to add a new listing', new_listing_path )
+
+  = link_to( 'new listing', new_listing_path, class: 'button button-primary' )
+  = link_to 'log out', logout_path, class: 'button button-primary'
 
   = javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'
   :javascript

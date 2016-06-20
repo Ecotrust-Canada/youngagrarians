@@ -2,7 +2,7 @@
   .listing-header{ class: category_class_list( @location )}
     .category-icon{ style: "background-image:url(#{big_icon_hash[category_class_list( @location )]})"} &nbsp;
     .category-heading #{category_class_list( @location )}
-    #{image_tag 'umap-content-title.png'}/
+    #{image_tag 'umap-content-title.png'}
     
     .filled
   .back #{link_to 'Return to Map', map_path}
@@ -22,41 +22,132 @@
     = content_tag( 'div', @location.description, class: 'location-description' ) if @location.description.present?
     = content_tag( 'div', @location.content, class: 'location-content' ) if @location.content.present?
 
-  %h2<Examples for Clark
-  -#  boolean with comment
-  Wooded area:
-  - if @location.wooded_land_size # old data
-    - if @location.wooded_land_size.true?
-      Yes
-    - if @location.wooded_land_size.false?
-      No
-    - # theoretically could be neither true nor false if it were not set, but 
-    - # would require abusing the current html form
-    - if @location.wooded_land_size.comment.present? # present changes nil or empty string
-      %span<= @location.wooded_land_size.comment
-  - # end boolean with comments
+  %h2<Land Details
 
-  - # number fields
-  - if @location.cultivable_area.present?
-    There are #{@location.cultivable_area} acres available (number field)
-  %br
-  - # number fields
-  - # string fields
-  The land zoning is: #{@location.zoning}. (string field)
-  %br
-  - # string fields
+  .extensions
+    .row
+      .three.columns Total land size in acres
+      .nine.columns #{ lf_simple(@location, 'land_size') }
+    
+    .row
+      .three.columns Wooded Area
+      .nine.columns #{ lf_bool_with_comment( @location, 'wooded_land_size' ) }
 
-  -# multiselect 
-  Current use:
-  %ul
-    - @location.current_property_use.each do |use|
-      %li
-        = use['value'] 
-        = content_tag( 'span', use['comment'], class: 'comment' ) if use['comment'].present?
+    .row
+      .three.columns Cultivable Area
+      .nine.columns #{ lf_simple(@location, 'cultivable_area') }
 
-  %h3<Vision (text field)
-  %p
-    = @location.long_term_vision
+    .row
+      .three.columns Expansion potential (acres)
+      .nine.columns #{ lf_bool_with_comment( @location, 'expansion_options' )}
+
+    .row
+      .three.columns Zoning
+      .nine.columns #{ lf_simple( @location, 'zoning' ) }
+
+    .row
+      .three.columns Current use
+      .nine.columns #{ lf_multiselect(@location, 'current_property_use') }
+
+    .row
+      .three.columns Current practices
+      .nine.columns #{ lf_multiselect(@location, 'current_practices') }
+
+    .row
+      .three.columns State of the surface of the cultivable area
+      .nine.columns
+        %p 
+          = @location.surface_description
+    .row
+      .three.columns Description and historical use of land available for farming
+      .nine.columns
+        %p 
+          = @location.historical_use
+    
+    .row
+      .three.columns Road Access
+      .nine.columns #{ lf_bool_with_comment( @location, 'road_access') }
+    
+    .row
+      .three.columns Electricity
+      .nine.columns #{ lf_bool_with_comment( @location, 'electricity') }
+    
+    .row
+      .three.columns Cell Service
+      .nine.columns #{ lf_bool_with_comment( @location, 'cell_service') }
+    .row
+      .three.columns Long-term goal or vision for land
+      .nine.columns
+        %p 
+          = @location.long_term_vision
+    
+    .row
+      .three.columns Known environmental hazards (wildfire area, flooding, etc.)
+      .nine.columns #{ lf_bool_with_comment( @location, 'hazards') }
+    
+    .row
+      .three.columns Current residents living on property
+      .nine.columns #{ lf_bool_with_comment( @location, 'residents_present') }
+    
+    .row
+      .three.columns Availability of farm buildings
+      .nine.columns #{ lf_bool_with_comment( @location, 'farm_buildings') }
+    
+    .row
+      .three.columns Land is fenced
+      .nine.columns #{ lf_bool_with_comment( @location, 'is_fenced') }
+    
+    .row
+      .three.columns Availability of farm machinery and tools
+      .nine.columns #{ lf_bool_with_comment( @location, 'tools') }
+
+    .row
+      .three.columns Water source
+      .nine.columns #{ lf_multiselect(@location, 'water_source') }
+    
+    .row
+      .three.columns Water rights to these sources
+      .nine.columns #{ lf_bool_with_comment( @location, 'water_rights') }
+    
+    .row
+      .three.columns On-site housing
+      .nine.columns #{ lf_bool_with_comment( @location, 'onsite_housing') }
+    
+    .row
+      .three.columns Restricted access of visitors
+      .nine.columns #{ lf_bool_with_comment( @location, 'restricted_vistor_access') }
+
+    .row
+      .three.columns Preferred Agriculture Products
+      .nine.columns #{ lf_multiselect(@location, 'agriculture_preferred') }
+
+    .row
+      .three.columns Current Agriculture Practices
+      .nine.columns #{ lf_multiselect(@location, 'practices_preferred') }
+
+    .row
+      .three.columns Agromic potential
+      .nine.columns #{ lf_simple( @location, 'agronomic_potential' ) }
+
+    .row
+      .three.columns Current practices
+      .nine.columns #{ lf_multiselect(@location, 'soil_details') }
+
+    .row
+      .three.columns Preferred arrangement
+      .nine.columns #{ lf_simple( @location, 'preferred_arrangement' ) }
+    
+    .row
+      .three.columns Would you be willing to mentor or advise the entering farmer(s)?
+      .nine.columns #{ lf_bool_with_comment( @location, 'mentorship') }
+    
+    .row
+      .three.columns Do you require references from the farmer(s)?
+      .nine.columns #{ lf_bool_with_comment( @location, 'references_required') }
+
+    .row
+      .three.columns Agreement duration
+      .nine.columns #{ lf_simple( @location, 'agreement_duration' ) }
 
 
   .row-wrap
@@ -88,10 +179,10 @@
             - signature = @location.signature( e ).first
             - if signature == params[:signature]
               = form_for @location, builder: FormBuilder do |f|
-                = f.hidden_field_tag 'signature', params[:signature]
-                = f.hidden_field_tag 'expiry', params[:expiry]
-                = f.hidden_field 'is_approved', value: true
-                = f.submit('Approve Listing')
+                - #hidden_field_tag 'signature', params[:signature]
+                - #hidden_field_tag 'expiry', params[:expiry]
+                - #hidden_field 'is_approved', value: true
+                - #submit('Approve Listing')
 
       .six.columns
         = render partial: 'comments'
