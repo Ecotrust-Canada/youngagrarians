@@ -5,8 +5,8 @@ var pubsub = riot.observable();
 pubsub.kwargs = {};
 (window.location.hash + '').substr(1).split("&").forEach(function(part){
   var key = part.split("=")[0];
-  var val = part.split("=")[1] || true;
-  pubsub.kwargs[key] = val
+  var val = part.split("=")[1] || 'true';
+  pubsub.kwargs[key] = decodeURIComponent(val)
 });
 
 
