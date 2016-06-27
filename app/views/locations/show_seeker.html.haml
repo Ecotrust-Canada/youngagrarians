@@ -1,11 +1,6 @@
 .detail-page.standalone
-  .listing-header{ class: category_class_list( @location )}
-    .category-icon{ style: "background-image:url(#{big_icon_hash[category_class_list( @location )]})"} &nbsp;
-    .category-heading #{category_class_list( @location )}
-    #{image_tag 'umap-content-title.png'}
-    
-    .filled
-  .back #{link_to 'Return to Map', map_path}
+
+  = render partial: 'header'
 
   %h1<=@location.name
 
@@ -112,36 +107,12 @@
   .row-wrap
     .row
       .six.columns
+        
+        = render partial: 'message'
 
         %h3<Location
         %p
           = display_address( @location )
-        
-        %h3<Details
-        %p #{ @location.business_plan.comment }
-
-        %h3<Learn More
-        %p
-          - if @location.messageable?
-            = link_to 'Message Owner',
-                      new_location_message_path( @location ),
-                      class: 'button button-primary'
-        = contact_links( @location )
-        - if @location.phone.present?
-          = link_to( @location.phone, "tel:#{@location.phone}", class: 'phone' )
-          %br
-        = content_tag( 'span', mail_to( @location.email ), class: 'contact-email' ) if @location.email.present?
-        - if params[:signature]
-          - e = Time.at( params[:expiry].to_i )
-          - if Time.current < e
-            %h3<Approve Listing
-            - signature = @location.signature( e ).first
-            - if signature == params[:signature]
-              = form_for @location, builder: FormBuilder do |f|
-                - #hidden_field_tag 'signature', params[:signature]
-                - #hidden_field_tag 'expiry', params[:expiry]
-                - #hidden_field 'is_approved', value: true
-                - #submit('Approve Listing')
 
       .six.columns
         = render partial: 'comments'

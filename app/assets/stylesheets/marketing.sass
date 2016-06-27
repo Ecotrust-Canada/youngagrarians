@@ -384,6 +384,14 @@ button.submit
     &:not(:last-child):after
       content: ">"
 
+.social-wrap
+  @media (min-width: 769px)
+    position: absolute
+    top: 80px
+    right: 40px
+    text-align: right
+    width: 220px
+
 ul.social
   list-style: none
   display: inline
@@ -397,7 +405,7 @@ ul.social
   width: 140px
 
 .social li a
-  float: left
+  float: right
   background-image: url('/images/social-icons.jpg')
   width: 43px
   height: 45px
@@ -447,8 +455,8 @@ ul.social
     padding-top: 60px
 
 .detail-page, .list-page
+  position: relative
   &.standalone
-    position: static
     margin: 0 auto
   &.embed
     position: absolute
@@ -467,14 +475,25 @@ ul.social
     font-family: 'YOUNG AGRARIANS legible'
     font-weight: bold
     margin: 0
+  h1
+    @media (min-width: 769px)
+      max-width: 500px
+      font-size: 40px
+    @media (min-width: 1025px)
+      font-size: 50px
+      max-width: 700px
   .back
     font-family: 'YOUNG AGRARIANS legible'
     font-weight: normal
+    display: block
     margin: 5px 0 0 0
     padding: 0 0 0 35px
     cursor: pointer
     background: url(../images/icon/back-arrow.png) 0 5px no-repeat
     font-size: 22px
+    color: inherit
+    text-decoration: none
+    height: 30px
 
   .location-description
     margin: 1em 0 1em 0
@@ -513,10 +532,7 @@ ul.social
     background-repeat: no-repeat
     background-size: 50px 50px
 
-.back a
-  color: inherit
-  text-decoration: none
-  font-size: 23px
+
 
 /* -------------- sidebar ---------------
 

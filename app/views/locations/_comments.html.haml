@@ -1,7 +1,7 @@
 %section#comments
 - if @location.comments.empty?
   %p.no-comments
-    There are current no comments for this listing.
+    Be the first to comment:
 
 - @location.comments.order( 'created_at desc' ).each do |comment|
   .comment

@@ -1,12 +1,5 @@
 .detail-page.standalone
-  .listing-header{ class: category_class_list( @location )}
-    .category-icon{ style: "background-image:url(#{big_icon_hash[category_class_list( @location )]})"} &nbsp;
-    .category-heading #{category_class_list( @location )}
-    %a{ href: '/map', target: '_blank'}
-      #{image_tag 'umap-content-title.png'}
-    
-    .filled
-  .back #{link_to 'Return to Map', map_path}
+  = render partial: 'header'
 
   %h1<=@location.name
 
@@ -27,32 +20,11 @@
     .row
       .six.columns
 
+        = render partial: 'message'
+
         %h3<Location
         %p
           = display_address( @location )
-
-        %h3<Learn More
-        %p
-          - if @location.messageable?
-            = link_to 'Message Owner',
-                      new_location_message_path( @location ),
-                      class: 'button button-primary'
-        = contact_links( @location )
-        - if @location.phone.present?
-          = link_to( @location.phone, "tel:#{@location.phone}", class: 'phone' )
-          %br
-        = content_tag( 'span', mail_to( @location.email ), class: 'contact-email' ) if @location.email.present?
-        - if params[:signature]
-          - e = Time.at( params[:expiry].to_i )
-          - if Time.current < e
-            %h3<Approve Listing
-            - signature = @location.signature( e ).first
-            - if signature == params[:signature]
-              = form_for @location, builder: FormBuilder do |f|
-                = f.hidden_field_tag 'signature', params[:signature]
-                = f.hidden_field_tag 'expiry', params[:expiry]
-                = f.hidden_field 'is_approved', value: true
-                = f.submit('Approve Listing')
 
       .six.columns
         = render partial: 'comments'
@@ -60,11 +32,12 @@
         - if @location.latitude && @location.longitude
           #minimap
         
-        = render partial: 'social' 
+        .social-wrap
+          = render partial: 'social' 
 
   .last-modified.text-muted
-    Last modifed #{@location.updated_at ? distance_of_time_in_words( @location.updated_at, Time.current ) : 'unknown'} ago;
-    #{@location.show_until ? @location.show_until : 'never expires'}.
+    Last modifed #{@location.updated_at ? distance_of_time_in_words( @location.updated_at, Time.current ) : 'unknown'} ago. 
+    #{@location.show_until ? @location.show_until + '.' : ''}
 
 = javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'
 :javascript
