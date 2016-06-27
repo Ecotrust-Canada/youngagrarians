@@ -1,4 +1,5 @@
 @import "fonts"
+@import "tooltip"
 
 $orange: #F36F2D
 
@@ -58,7 +59,6 @@ input
 input
   &[type="checkbox"], &[type="radio"]
     -webkit-appearance: none
-    /* Hides the default checkbox style
     height: 1.3em
     width: 1.3em
     margin: 0
@@ -90,7 +90,7 @@ input
       line-height: 1em
       font-size: 1.5em
       text-align: center
-      color: black
+      color: blacksplash-subhead
       content: ''
   &[type="checkbox"]:checked:before, &[type="radio"]:checked:before
     content: ''
@@ -113,14 +113,14 @@ header
   height: 50px
   z-index: 3000
   background-color: #343434
-  a.brand
-    background: url(../images/young-agrarians-text-small.png) 15px 15px no-repeat
+  img.brand
     display: block
     float: left
-    padding-top: 12px
-    padding-left: 15px
-    width: 325px
-    height: 50px
+    margin-top: 12px
+    margin-left: 15px
+    width: 300px
+    max-width: 80%
+    height: auto
 
   nav.mobile
     position: fixed
@@ -208,6 +208,9 @@ header
   margin-top: 50px
   font-size: 20px
   color: white
+  a
+    color: white
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8)
 
 .splash-subtag-menu
   display: none
@@ -343,6 +346,7 @@ button.submit
   margin-left: -8px
 
 .layer-panel
+  z-index: 2000
   right: 25px
   @media (max-width: 768px)
     right: auto
@@ -581,13 +585,14 @@ ul.results-list
     border-left-style: solid
     @media (max-width: 768px)
       max-width: 90%
-    p
+    .listing-text
       position: absolute
       left: 60px
       right: 60px
       top: 5px
       bottom: 5px
       font-size: 12px
+      text-decoration: none
       line-height: 12px
     label
       text-transform: uppercase
@@ -753,6 +758,10 @@ results.show
   background-size: 155px
   padding: 0 0 0 250px
   margin: 0
+  @media (max-width: 769px)
+    background: $orange
+    padding-left: 0
+
 .thanks header
   height: 80px
   /* override other header */
@@ -775,17 +784,29 @@ results.show
       background: white
       a
         color: black
+    @media (max-width: 769px)
+      padding: 2px
+
 .thanks section, .listing-edit
   background-color: white
   position: absolute
-  top: 200px
-  left: 50%
-  width: 800px
-  margin-left: -400px
+  top: 50px
+  @media (min-width: 769px)
+    top: 100px
+    left: 50%
+    margin-left: -400px
+    width: 800px
+
+.btn-wrap
+  margin-top: 10px
+  margin-left: -3px
+
+.center
+  text-align: center
 
 .listing-edit
-  height: 550px
-  
+  @media (min-width: 769px)
+    height: 550px
   form
     padding: 0
     margin: 0
@@ -807,6 +828,9 @@ results.show
   .boxy
     label
       width: 150px
+  .comments
+    input
+      width: 300px
   label
     font-size: 17px
     font-weight: normal
@@ -816,15 +840,18 @@ results.show
       span
         padding-left: 10px
 
-  content
-    position: absolute
-    top: 140px
-    bottom: 100px
-    left: 20px
-    right: 20px
-    &.overflow
-      overflow: auto
-      box-shadow: inset 0 -10px 10px -10px rgba(0,0,0,0.3), inset 0 10px 10px -10px rgba(0,0,0,0.3)
+  .form-content
+    @media (min-width: 769px)
+      position: absolute
+      top: 140px
+      bottom: 100px
+      left: 20px
+      right: 20px
+      &.overflow
+        overflow: auto
+        box-shadow: inset 0 -10px 10px -10px rgba(0,0,0,0.3), inset 0 10px 10px -10px rgba(0,0,0,0.3)
+    @media (max-width: 768px)
+      padding: 10px 20px
 
   &.land-form
     label:first-child
@@ -832,16 +859,15 @@ results.show
     label:not(:first-child), span, .choice-wrapper label, .multiple-choice label
       display: block
       padding-left: 25px
-      font-size: 12px
+      font-size: 15px
+      line-height: 15px
 
   .category-list
     li
       margin: 0
       label
         width: auto
-  .btn-wrap
-    text-align: center
-    margin-top: 10px
+
   .radio-wrap
     padding: 0 0 0 15px
     margin: 0 0 10px 0
@@ -850,10 +876,11 @@ results.show
   .row-fieldset
     padding-top: 11px
   .btnbar
-    position: absolute
-    bottom: 0
-    left: 0
-    right: 0
+    @media (min-width: 769px)
+      position: absolute
+      bottom: 0
+      left: 0
+      right: 0
     height: 96px
     padding: 20px
     background-color: white
@@ -912,12 +939,12 @@ p.aside
 
 .desktop, nav.desktop
   /* desktop and tablet are currently treated the same.*/
-  @media (max-width: 769px)
+  @media (max-width: 768px)
     display: none
 
 .tablet, nav.tablet
   /* desktop and tablet are currently treated the same.*/
-  @media (max-width: 769px)
+  @media (max-width: 768px)
     display: none
 
 .mobile, nav.mobile
@@ -926,11 +953,6 @@ p.aside
 .thanks
   h3
     text-align: center
-  .button
-    margin: auto
-    display: block
-    width: 200px
-    margin-bottom: 2em
   p
     width: 50%
     margin: auto

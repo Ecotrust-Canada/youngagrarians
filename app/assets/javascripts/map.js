@@ -25,7 +25,7 @@ var OpenStreetMap_BlackAndWhite = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-m
 
 map.addLayer(OpenStreetMap_BlackAndWhite);
 
-map.locate({setView: true, maxZoom: 12});
+map.locate({setView: true, maxZoom: 10});
 
 bounds = map.getBounds();
 url = "parks/within?lat1=" + bounds.getSouthWest().lat + "&lon1=" + bounds.getSouthWest().lng + "&lat2=" + bounds.getNorthEast().lat + "&lon2=" + bounds.getNorthEast().lng;  
@@ -164,13 +164,21 @@ function listing_city( listing )
   return rVal;
 }
 
+map.on('click', function(){
+  pubsub.trigger('map_click');
+});
+
 pubsub.on('zoom_to', function(marker){ 
-    //map.setZoom(12);
-    map.panTo(marker.getLatLng());
-    markers.zoomToShowLayer(marker, function() {
-      map.panTo(marker.getLatLng());
-      marker.openPopup();
-    });
+    if (map.getBounds().contains( marker.getLatLng()) && marker.map ) {
+      marker.openPopup({
+        autoPan:false
+      });
+    } else {
+      markers.zoomToShowLayer(marker, function() {
+        map.panTo(marker.getLatLng());
+        marker.openPopup();
+      });
+    }
 })
 
 map.locate({setView: true, maxZoom: 16});

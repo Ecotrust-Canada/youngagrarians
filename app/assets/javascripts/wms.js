@@ -98,7 +98,8 @@ wms_layers.push({
   }),
   name: 'Wells (zoom in)',
   legend_class: 'wells',
-  legend_style: 'background:blue; border-radius:50%; border: 1px solid white'
+  legend_style: 'background:blue; border-radius:50%; border: 1px solid white',
+  tooltip: "Please zoom in to a single lot/farm to see all wells."
 });
 
 wms_layers.push({
@@ -110,7 +111,8 @@ wms_layers.push({
   }),
   name: 'ALR',
   legend_class: 'alr',
-  legend_style: 'background:#93D798; border: 1px solid #bbb'
+  legend_style: 'background:#93D798; border: 1px solid #bbb',
+  tooltip: "Agricultural Land Reserve boundaries."
 });
 
 wms_layers.push({
@@ -122,12 +124,13 @@ wms_layers.push({
   }),
   name: 'Water Mgnt.',
   legend_class: 'water',
-  legend_style: 'background:lightblue'
+  legend_style: 'background:lightblue',
+  tooltip: "Boundaries of municipal water management jurisdiction."
 });
 
 
 wms_layers.push({
-  layer: L.tileLayer.betterWms("http://openmaps.gov.bc.ca/mapserver/freshwater-and-marine", {
+  layer: L.tileLayer.wms("http://openmaps.gov.bc.ca/mapserver/freshwater-and-marine", {
     layers: 'GW_AQUIFERS_CLASSIFICATION_PROD',
     format: 'image/png',
     transparent: true,
@@ -135,5 +138,6 @@ wms_layers.push({
   }),
   name: 'Aquifer Prod.',
   legend_class: 'aquifers',
-  legend_style: 'background:url(/images/aquifers-legend.png)'
+  legend_style: 'background:url(/images/aquifers-legend.png)',
+  tooltip: "Aquifer production: <span style='color:#ff4444'>red is low</span>, <span style='color:yellow'>yellow is normal</span>, <span style='color:#44ff44'>green is high</span>"
 });

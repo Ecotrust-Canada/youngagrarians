@@ -7,12 +7,13 @@
     %img{:src => "../images/umap-text.png"}/
   %br/
   %p.splash-subhead
-    Choose a category or enter a keyword to begin.
+    %a{:href => "/map"} View all
+    listings, or choose a category or enter a keyword to begin.
   %ul.splash-icons
     %li{"data-category" => "Networking", :onclick => "pickCategory(event)"}
       %img{:src => "../images/icon/network.png"}/
       .blurb
-        Networks
+        Network
       %ul.splash-subtag-menu
         %li{"data-tag" => "Events", :onclick => "pickTag(event)"}
           
@@ -84,7 +85,7 @@
       %ul.splash-subtag-menu
         %li{"data-tag" => "Markets", :onclick => "pickTag(event)"}
           
-          Market
+          Markets
         %li{"data-tag" => "Production Planning Tools", :onclick => "pickTag(event)"}
           
           Production Planning Tools

@@ -40,3 +40,16 @@ var mq = window.matchMedia( "(max-width: 768px)" );
 if (mq.matches) {
   window.mobile = true;
 }
+
+
+riot.tag('raw', '<span></span>', function (opts) {
+  this.updateContent = function () {
+      this.root.innerHTML = opts.content;
+  };
+
+  this.on('update', function() {
+      this.updateContent();
+  });
+
+  this.updateContent();
+});

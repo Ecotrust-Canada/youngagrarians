@@ -22,11 +22,11 @@
         <div if={ CATEGORY_ICONS[slugify( categories[0] )] } class='listing-icon'
              style='background:url( { CATEGORY_ICONS[slugify( categories[0] )] }) 10px 10px no-repeat'
         ></div>
-        <p class='listing-text'>
+        <a class='listing-text' target='{ is_mobile() ? "_self" : "_blank" }' href='/locations/{ id }'>
           <label class='{ slugify(categories[0]) }'>{ categories[0].primary.name || categories[0].name }</label>
-          { name }<br>
+          <span class='name'>{ name }</span><br>
           <span if={ city } class='city'>{ city }, { province }</span>
-        </p>
+        </a>
         <div if={ latitude } class='view-on-map { slugify(categories[0]) }' onclick={ view_on_map }>
           <span if={ is_mobile() }>GO TO<br>LISTING</span>
           <span if={ !is_mobile() }>VIEW ON<br>MAP</span>
@@ -73,8 +73,7 @@
 
   view_on_map(e) {
     if (window.mobile) {
-      var win = window.open('/locations/'+e.item.id, '_blank');
-      win.focus();
+      window.location = '/locations/'+e.item.id;
     } else {
       pubsub.trigger('zoom_to', e.item.marker)
     }

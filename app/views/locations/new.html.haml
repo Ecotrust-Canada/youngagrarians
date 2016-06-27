@@ -5,7 +5,7 @@
   %h3<What kind of listing is this?
 
   = form_for @location do
-    %content.overflow
+    .form-content.overflow
       = hidden_field_tag 'next_step', 2
       .row
         - halfway = NestedCategory.level_2.count( 'distinct nested_categories.id' ) / 2

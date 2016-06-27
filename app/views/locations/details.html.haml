@@ -3,7 +3,7 @@
   = render partial: 'locations/wizard_nav', locals: { selected: 'description' }
   %h3<About the Listing
   = form_for @location, builder: FormBuilder do |f|
-    %content.boxy
+    .form-content.boxy
       = f.text_field :name, required: true
       #category
         - if @location.nested_categories.any?

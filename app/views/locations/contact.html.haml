@@ -2,7 +2,7 @@
   = render partial: 'wizard_nav', locals: { selected: 'contact' }
   %h3<Contact Info
   = form_for @location, builder: FormBuilder do |f|
-    %content.boxy
+    .form-content.boxy.overflow
       - @location.email ||= current_user && current_user.email
       - if @location.errors.any?
         .panel
@@ -22,12 +22,12 @@
           = f.email :email
         .columns.six
           %p
-            %big<Can we display this contact info on U-Map?
+            %big<Do you want your contact info displayed on the Young Agrarians U-Map?
             %span.required<*
           %p.radio-wrap
-            = f.radio_option :public_contact, true, label: 'Yes! Please share these details publicly'
+            = f.radio_option :public_contact, true, label: 'Yes! Please share these details publicly.'
           %p.radio-wrap
-            = f.radio_option :public_contact, false, label: 'No, I prefer that people contact me through Young Agrarians In-Mail (account required.)'
+            = f.radio_option :public_contact, false, label: 'No, I prefer that people contact me through Young Agrarians In-Mail (account required).'
           = f.date :show_until
           %p
             %small Leave blank to show the listing permanently.

@@ -2,10 +2,10 @@
 var toggleHam = function(e) {
   var menu = document.getElementById('menu')
   if (menu.className === "away") {
-    e.target.className = 'compressed';
+    e.target.className = 'expanded';
     menu.className="here";
   } else {
-    e.target.className = 'expanded';
+    e.target.className = 'compressed';
     menu.className="away";
   }
 };

@@ -2,7 +2,7 @@
   = render partial: 'locations/wizard_nav', locals: { selected: 'account' }
   %h3<Manage Your Listings
   - if current_user.nil?
-    %content.boxy
+    .form-content.boxy
       .row
         .columns.six.create_account
           %h4{:style => "margin-bottom:30px"} Create an account
@@ -11,6 +11,7 @@
             = f.email_field :email
             = f.password_field :password
             .btn-wrap
+              %label< &nbsp;
               %button.btn.btn-primary.btn-small{ name: 'step', value: 'description' } Create
         .columns.six.login
           %h4{:style => "margin-bottom:30px"} Log Into Your Account
@@ -19,12 +20,13 @@
             = f.email_field :email
             = f.password_field :password
             .btn-wrap
+              %label< &nbsp;
               %button.btn.btn-primary.btn-small{ name: 'step', value: 'description' } Login
       .row
         .columns.three
           &nbsp;
         .columns.six
-          %h3<No Account Needed
+          %h3.desktop<No Account Needed
           = form_for @location, builder: FormBuilder do |f|
             = f.hidden_field :account_id, value: -1
             No thanks, I won't need to manage my listing in the future.

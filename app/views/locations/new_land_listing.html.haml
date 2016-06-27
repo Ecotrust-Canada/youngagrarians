@@ -2,7 +2,7 @@
 .listing-edit.land-form#land_provider_form
   = render partial: 'locations/wizard_nav', locals: { selected: 'description' }
   =  form_for( @location, builder: FormBuilder ) do |f|
-    %content.overflow
+    .form-content.overflow
       %h2<Land Details
       = f.hidden_field :details_complete, value: 1
       = f.select :province, States::CANADIAN_PROVINCES

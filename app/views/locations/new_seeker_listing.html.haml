@@ -3,7 +3,7 @@
   = render partial: 'locations/wizard_nav', locals: { selected: 'description' }
   =  form_for( @location, builder: FormBuilder ) do |f|
     = f.hidden_field :details_complete, value: 1
-    %content.overflow
+    .form-content.overflow
       %h2<Land Seeker Details
       = f.radio_select :training, ['Agriculture-related degree', 'Farm management (3 years or less)',
       'Farm management (3 years+)', 'Apprenticeship', 'General degree', 'General farming (3 years or less)',
