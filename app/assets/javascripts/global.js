@@ -10,6 +10,13 @@ var toggleHam = function(e) {
   }
 };
 
+if ((window.location+'').indexOf("/map") == -1)
+  document.body.style.background=[
+    'url(/images/splash/sky-clouds-field-blue-min.jpg)',
+    'url(/images/splash/field-yellow-blur-grain-min.jpg)',
+    'url(/images/splash/food-sunset-love-field-min.jpg)'
+  ][Math.floor(Math.random() * 3)];
+
 /*
 window.fbAsyncInit = function() {
   // init the FB JS SDK

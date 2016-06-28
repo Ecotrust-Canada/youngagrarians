@@ -1,7 +1,9 @@
 .detail-page.standalone
   = render partial: 'header'
 
-  %h1<=@location.name
+  %h1
+    %a.facebook{:href => '/locations/'+@location.id.to_s, :target => "_blank"}
+      = @location.name
 
   - if current_user && @location.admin?( current_user )
     = link_to 'edit location details', edit_location_path( @location )
@@ -51,4 +53,4 @@
       $.post( e.currentTarget.href, { '_method': 'delete' }, function(){ c.remove() } ).error( function(){ c.show(); } );
     }
 
-  } );
+  });

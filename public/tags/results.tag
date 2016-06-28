@@ -62,12 +62,10 @@
   }
 
   set_tag(e){
-    this.tag = e.item.name;
     opts.trigger('update_tag', e.item.name);
   }
 
   set_tag_null(e){
-    this.tag = null;
     opts.trigger('update_tag', null)
   }
 
@@ -82,6 +80,10 @@
   slugify(category) {
     return slug(category)
   }
+
+  opts.on('update_tag', function(t){
+    this.tag = t;
+  });
   
   opts.on('load', function(response){
     
