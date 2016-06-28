@@ -54,8 +54,9 @@
 
   function update_hash(){
     var hash_parts = [];
-    if (active_tag) hash_parts.push("t=" + active_tag);
+    if (active_tag) hash_parts.push("t=" + encodeURIComponent(active_tag));
     if (query) hash_parts.push("q=" + query);
+    set_kwargs();
     window.location.hash = "#" + hash_parts.join("&");
   }
   

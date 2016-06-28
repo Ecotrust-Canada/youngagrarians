@@ -6,15 +6,18 @@
       <img src="/images/umap-text-inverted.png">
     </div>
 
-    <div class='cat-counts'>
-      <span if={ !tag }>CLICK ONE: </span>
-      <span if={ show_current(tag) } onclick={ set_tag_null }>IN "{ tag.toUpperCase() }":</span>
+    <span class="cat-count show-all-count" if={ tag }><span class="filled show-all" onclick={ set_tag_null }>Show All&nbsp;<b></b></span></span>
 
+    <div class="meta-nav">
+      <a each="{ meta_tags }" onclick={ set_tag } class='{ active: tag === name }'>
+        <img src="/images/icon/{ slugify(name) }.png">
+      </a>
+    </div>
+
+    <div class='cat-counts'>
       <span each="{ name, value in cat_counts }" onclick={ set_tag } class="cat-count { name.toLowerCase().replace(/[^a-z]/g,'-') }"><span class="filled">
         { name }&nbsp;<b>{ value }</b>&nbsp;
       </span> </span>
-      
-      <span class="cat-count" if={ tag }><span class="filled show-all" onclick={ set_tag_null }>Show All&nbsp;<b></b></span></span>
     </div>
 
     <ul class='results-list' id='results-list'>
@@ -43,13 +46,17 @@
   this.items = opts.items;
   this.cat_counts = {};
   this.tag = opts.kwargs['t'];
+  this.meta_tags = [
+    {name:'Network'},
+    {name:'Education'},
+    {name:'Jobs & Training'},
+    {name:'Business'},
+    {name:'Land'},
+    {name:'Run Your Farm'}
+  ];
 
   is_mobile(){
     return window.mobile;
-  }
-
-  show_current(tag) {
-    return tag && is_meta(tag);
   }
   
   // "infinite" scroll.
@@ -62,7 +69,17 @@
   }
 
   set_tag(e){
-    opts.trigger('update_tag', e.item.name);
+    if (controller.tag === e.item.name) {
+      if (is_meta(controller.tag)) {
+        opts.trigger('update_tag', null);
+      } else {
+        var meta = PRIMARY_CATEGORIES.filter(function(c){return e.item.name === c.name})[0].metaName;
+        console.log('meta', meta);
+        opts.trigger('update_tag', meta);
+      }
+    } else {
+      opts.trigger('update_tag', e.item.name);
+    }
   }
 
   set_tag_null(e){
@@ -82,7 +99,9 @@
   }
 
   opts.on('update_tag', function(t){
-    this.tag = t;
+    controller.update({
+      tag: t
+    });
   });
   
   opts.on('load', function(response){
@@ -100,17 +119,21 @@
       }
     );
 
-    var cat_counts = {};
-    var match_type;
-    if(controller.tag) {
-      match_type = 'primary';
-    } else {
-      match_type = 'meta';
-    }
+    var cat_counts = {}, name;
+    var _is_meta = is_meta(controller.tag);
     response.forEach(function(item){
       for (var i=0; i<item.categories.length; i++) {
-        name = item.categories[i][match_type].name || item.categories[i].name;
-        cat_counts[name] = (cat_counts[name] || 0) + 1
+        if(_is_meta) {
+          if (!controller.tag || item.categories[i].meta.name == controller.tag) {
+            name = item.categories[i].primary ? item.categories[i].primary.name : item.categories[i].name;
+            cat_counts[name] = (cat_counts[name] || 0) + 1;
+          }
+        } else {
+          name = item.categories[i].primary ? item.categories[i].primary.name : item.categories[i].name;
+          if (name === controller.tag) {
+            cat_counts[name] = (cat_counts[name] || 0) + 1;
+          }
+        }
       }
     });
 
