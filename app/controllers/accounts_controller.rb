@@ -77,10 +77,10 @@ class AccountsController < ApplicationController
 
     if @user
       Notifications.reset_password(@user).deliver
-      render :password_sent, layout: 'application'
+      render :password_sent, layout: 'basic'
     else
       flash.now[:notice] = t('emails.reset_password.retrieval_failed')
-      render :forgot_password, layout: 'application'
+      render :forgot_password, layout: 'basic'
     end
   end
 
@@ -112,36 +112,24 @@ class AccountsController < ApplicationController
     end
   end
 
+  # ---------------------------------------------------------------------- login
   def login
     if authenticated?
-      redirect_to :locations
+      redirect_to '/admin'
     else
-      render :login, layout: get_layout
+      render :login, layout: 'basic'
     end
   end
 
   def login_post
-    authenticate(:user)
-
-    if authenticated?
-      respond_to do |format|
-        format.html do
-          redirect_to(params[:return_url] || :locations) # , :notice => t('auth.signed_in')
-        end
-        format.json do
-          render json: { success: 1, user: current_user }
-        end
-      end
+    params[:email] = User.first.email
+    u = User.find_by( email: params[:email] )
+    if u && u.valid_password?( params[:password] )
+      session[:admin_user_id] = u.id
+      redirect_to '/admin'
     else
-      respond_to do |format|
-        format.html do
-          flash[:notice] = t('auth.invalid')
-          render :login, status: 401, layout: 'application'
-        end
-        format.json do
-          render json: { success: 0, user: nil, error: I18n.t('accounts.unauthenticated'), warden: warden.message }
-        end
-      end
+      flash[:error] = "Your email or password was incorrect."
+      render 'login', layout: 'basic'
     end
   end
 

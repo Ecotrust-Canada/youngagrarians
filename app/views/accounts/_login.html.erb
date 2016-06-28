@@ -1,5 +1,5 @@
 <% return_url = nil if local_assigns[:return_url].nil? %>
-
+<%= User.pluck( :email ).inspect -%>
 <%= form_tag :login_post, :class => 'form-horizontal' do %>
   <fieldset>
     <div class="control-group">
@@ -15,7 +15,7 @@
     <div class="input-prepend">
       <%= password_field_tag :password %>
       <p class="help-block">
-        <%= link_to 'Forgot Password', :forgot_password %>
+        <%= link_to 'Forgot Password', admin_forgot_password_path %>
       </p>
     </div>
   </div>

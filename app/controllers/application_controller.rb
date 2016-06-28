@@ -122,6 +122,11 @@ class ApplicationController < ActionController::Base
     raise UnauthenticatedError unless current_user
   end
 
+  def authenticated?
+    session[:admin_user_id] && User.find_by( session[:admin_user_id] )
+  end
+
+
   # Authorizes the user to access resource
   #
   # @return [nil]
