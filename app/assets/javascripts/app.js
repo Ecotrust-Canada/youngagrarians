@@ -1,13 +1,16 @@
 
 var pubsub = riot.observable();
 
-// parse hash vars.
-pubsub.kwargs = {};
-(window.location.hash + '').substr(1).split("&").forEach(function(part){
-  var key = part.split("=")[0];
-  var val = part.split("=")[1] || 'true';
-  pubsub.kwargs[key] = decodeURIComponent(val)
-});
+var set_kwargs = function(){
+  // parse hash vars.
+  pubsub.kwargs = {};
+  (window.location.hash + '').substr(1).split("&").forEach(function(part){
+    var key = part.split("=")[0];
+    var val = part.split("=")[1] || 'true';
+    pubsub.kwargs[key] = decodeURIComponent(val)
+  });
+};
+set_kwargs();
 
 
 function slug(category){
@@ -53,3 +56,13 @@ riot.tag('raw', '<span></span>', function (opts) {
 
   this.updateContent();
 });
+
+
+
+function locationHashChanged() {
+    set_kwargs();
+    console.log('tag changed to', pubsub.kwargs['t']);
+    pubsub.trigger('update_tag', pubsub.kwargs['t']);
+}
+
+window.onhashchange = locationHashChanged;

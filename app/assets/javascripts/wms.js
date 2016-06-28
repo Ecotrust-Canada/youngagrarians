@@ -128,7 +128,6 @@ wms_layers.push({
   tooltip: "Boundaries of municipal water management jurisdiction."
 });
 
-
 wms_layers.push({
   layer: L.tileLayer.wms("http://openmaps.gov.bc.ca/mapserver/freshwater-and-marine", {
     layers: 'GW_AQUIFERS_CLASSIFICATION_PROD',

@@ -19,7 +19,7 @@ var OpenStreetMap_Mapnik = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 });
 var OpenStreetMap_BlackAndWhite = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
-  maxZoom: 18,
+  maxZoom: 17,
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 });
 
@@ -32,17 +32,16 @@ url = "parks/within?lat1=" + bounds.getSouthWest().lat + "&lon1=" + bounds.getSo
 
 var geo;
 
-
 function getSoil(e){
   if (geo) map.removeLayer(geo);
   var bounds = map.getBounds();
   var url = "/soils.json?lat1=" + bounds.getSouthWest().lat + "&lon1=" + bounds.getSouthWest().lng + "&lat2=" + bounds.getNorthEast().lat + "&lon2=" + bounds.getNorthEast().lng;
   var request = ajax().get(url).then(function(response){
-    geo = {
+    var json = {
       "type": "FeatureCollection",
       "features": response
     }
-    geo = L.geoJson(geo, {
+    geo = L.geoJson(json, {
       style:{
         "color": "#ff7800",
         "weight": 2,
@@ -51,6 +50,42 @@ function getSoil(e){
     }).addTo(map);
   });
 }
+
+function getFN(e){
+
+  var url = "/fn.json";
+  var request = ajax().get(url).then(function(response){
+
+    var fn_layer = L.geoJson(response, {
+      style: {
+
+      },
+      pointToLayer: function (feature, latlng) {
+        var m = L.circleMarker(latlng, {
+          radius: 5,
+          fillColor: "#FFF",
+          color: "#000",
+          weight: 2,
+          opacity: 1,
+          fillOpacity: 1
+        });
+        m.bindLabel(feature.properties.Name);
+        return m;
+      }
+
+    });
+
+    wms_layers.push({
+      layer: fn_layer,
+      name: 'Aboriginal Bands',
+      legend_class: 'bands',
+      tooltip: "Aboriginal Band Locations",
+      legend_style: 'background:#FFF; border: 1px solid #000; border-radius: 50%'
+    });
+  });
+
+}
+
 
 var get_cluster_class = function(markers) {
   var the_category = null;
@@ -199,3 +234,4 @@ map.on('zoomend', getSoil);
 map.whenReady(getSoil);
 */
 
+map.whenReady(getFN);

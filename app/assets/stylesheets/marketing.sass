@@ -4,7 +4,7 @@
 $orange: #F36F2D
 
 body
-  background: url(../images/field-yellow-blur-grain.jpg) no-repeat center center fixed
+  /* background: url(../images/splash/field-yellow-blur-grain.jpg) no-repeat center center fixed
   -webkit-background-size: cover
   -moz-background-size: cover
   -o-background-size: cover
@@ -171,7 +171,7 @@ header
     overflow: hidden
     a
       text-align: right
-      width: 13%
+      width: 16%
       float: right
       &:last-child
         border-right: none
@@ -476,6 +476,9 @@ ul.social
     font-weight: bold
     margin: 0
   h1
+    a
+      text-decoration: none
+      color: inherit
     @media (min-width: 769px)
       max-width: 500px
       font-size: 40px
@@ -980,3 +983,18 @@ p.aside
     width: 50%
     margin: auto
 
+.fn-label
+  color: white
+  text-shadow: 1px 0 2px rgba(0,0,0,1)
+  text-align: center
+  position: relative
+  &:after
+    left: 0
+    top: 0
+    content: ''
+    position: absolute
+    width: 8px
+    height: 8px
+    border-radius: 50%
+    background: white
+    box-shadow: 0 1px 3px rgba(0,0,0,0.8)
