@@ -21,16 +21,16 @@
     </div>
 
     <ul class='results-list' id='results-list'>
-      <li each={ items } class="{ slugify(categories[0]) } lightbg">
-        <div if={ CATEGORY_ICONS[slugify( categories[0] )] } class='listing-icon'
-             style='background:url( { CATEGORY_ICONS[slugify( categories[0] )] }) 10px 10px no-repeat'
+      <li each={ items } class="{ proper_category_slug } lightbg">
+        <div if={ CATEGORY_ICONS[proper_category_slug] } class='listing-icon'
+             style='background:url( { CATEGORY_ICONS[proper_category_slug] }) 10px 10px no-repeat'
         ></div>
         <a class='listing-text' target='{ is_mobile() ? "_self" : "_blank" }' href='/locations/{ id }'>
-          <label class='{ slugify(categories[0]) }'>{ categories[0].primary.name || categories[0].name }</label>
+          <label class='{ proper_category_slug }'>{ proper_category }</label>
           <span class='name'>{ name }</span><br>
           <span if={ city } class='city'>{ city }, { province }</span>
         </a>
-        <div if={ latitude } class='view-on-map { slugify(categories[0]) }' onclick={ view_on_map }>
+        <div if={ latitude } class='view-on-map { proper_category_slug }' onclick={ view_on_map }>
           <span if={ is_mobile() }>GO TO<br>LISTING</span>
           <span if={ !is_mobile() }>VIEW ON<br>MAP</span>
           <div class='triangle-arrow filled'></div>
@@ -69,21 +69,21 @@
   }
 
   set_tag(e){
+    console.log(controller.tag === e.item.name);
     if (controller.tag === e.item.name) {
       if (is_meta(controller.tag)) {
-        opts.trigger('update_tag', null);
+        opts.trigger('update_tag_start', null);
       } else {
         var meta = PRIMARY_CATEGORIES.filter(function(c){return e.item.name === c.name})[0].metaName;
-        console.log('meta', meta);
-        opts.trigger('update_tag', meta);
+        opts.trigger('update_tag_start', meta);
       }
     } else {
-      opts.trigger('update_tag', e.item.name);
+      opts.trigger('update_tag_start', e.item.name);
     }
   }
 
   set_tag_null(e){
-    opts.trigger('update_tag', null)
+    opts.trigger('update_tag_start', null)
   }
 
   view_on_map(e) {
@@ -127,11 +127,15 @@
           if (!controller.tag || item.categories[i].meta.name == controller.tag) {
             name = item.categories[i].primary ? item.categories[i].primary.name : item.categories[i].name;
             cat_counts[name] = (cat_counts[name] || 0) + 1;
+            item.proper_category_slug = slug(name);
+            item.proper_category = name;
           }
         } else {
           name = item.categories[i].primary ? item.categories[i].primary.name : item.categories[i].name;
           if (name === controller.tag) {
             cat_counts[name] = (cat_counts[name] || 0) + 1;
+            item.proper_category_slug = slug(name);
+            item.proper_category = name;
           }
         }
       }

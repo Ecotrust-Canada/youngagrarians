@@ -60,19 +60,23 @@
     window.location.hash = "#" + hash_parts.join("&");
   }
   
-  opts.on('update_tag', function(tag){
+  opts.on('update_tag_start', function(tag){
     active_tag = tag;
     update_hash();
-    filter_listings();
+  });
+
+  opts.on('update_tag', function(tag){
+    active_tag = tag;
+    setTimeout(filter_listings, 1); // ensure items are loaded after all update_tag events are processed first.
   });
 
   function handle_load(){
-    console.log(is_meta(active_tag) ? 'meta' : 'primary');
     var l = orig_listings.filter( function(x){ return listing_visible( x ); } );
     opts.trigger('load', l );
   }
 
   function filter_listings(){
+    console.trace();
     if( !orig_listings )
     {
       var path = '/locations.json'
@@ -82,7 +86,6 @@
           listing.dist = Math.abs((listing.latitude || 999) - 49.104430) + Math.abs((listing.longitude || 999) - -122.801094);
         });
         orig_listings = response;
-        console.log(response);
         handle_load();
       });
     }

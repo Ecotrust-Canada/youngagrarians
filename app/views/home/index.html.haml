@@ -10,104 +10,103 @@
     %a{:href => "/map"} View all
     listings, or choose a category or enter a keyword to begin.
   %ul.splash-icons
-    %li{"data-category" => "Network", :onclick => "pickCategory(event)"}
+    %li{"data-tag" => "Network", :onclick => "pickCategory(event)"}
       %img{:src => "../images/icon/network.png"}/
       .blurb
         Network
       %ul.splash-subtag-menu
-        %li{"data-tag" => "Events", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Events"}
           
           Events
-        %li{"data-tag" => "Organizations", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Organizations"}
           
           Organizations
-        %li{"data-tag" => "Farms", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Farms"}
           
           Farms
-    %li{"data-category" => "Education", :onclick => "pickCategory(event)"}
+    %li{"data-tag" => "Education", :onclick => "pickCategory(event)"}
       %img{:src => "../images/icon/education.png"}/
       .blurb
         Education
       %ul.splash-subtag-menu
-        %li{"data-tag" => "Education Programs", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Educational Programs"}
           
           Education Programs
-        %li{"data-tag" => "Publication", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Publications"}
           
           Publications
-        %li{"data-tag" => "Web Resource", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Web Resource"}
           
           Web Resources
-    %li{"data-category" => "Jobs & Training", :onclick => "pickCategory(event)"}
+    %li{"data-tag" => "Jobs & Training", :onclick => "pickCategory(event)"}
       %img{:src => "../images/icon/jobs---training.png"}/
       .blurb
         Jobs &
         %br/
         Training
       %ul.splash-subtag-menu
-        %li{"data-tag" => "Jobs", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Jobs"}
           
           Jobs
-        %li{"data-tag" => "Apprenticeships", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Apprenticeships"}
           
           Apprenticeships
-    %li{"data-category" => "Business", :onclick => "pickCategory(event)"}
+    %li{"data-tag" => "Business", :onclick => "pickCategory(event)"}
       %img{:src => "../images/icon/business.png"}/
       .blurb
         Business
       %ul.splash-subtag-menu
-        %li{"data-tag" => "Business Development", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Business Development"}
           
           Business Development
-        %li{"data-tag" => "Funding", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Funding"}
           
           Funding
-    %li{"data-category" => "Land", :onclick => "pickCategory(event)"}
+    %li{"data-tag" => "Land", :onclick => "pickCategory(event)"}
       %img{:src => "../images/icon/land.png"}/
       .blurb
         Land
       %ul.splash-subtag-menu
-        %li{"data-tag" => "Land Listings", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Land Listings"}
           
           Land Listings
-        %li{"data-tag" => "Seeking", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Seeking"}
           
           Farmers Looking For Land
-        %li{"data-tag" => "resource", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Resources"}
           
           Resources            
-    %li{"data-category" => "Run Your Farm", :onclick => "pickCategory(event)"}
+    %li{"data-tag" => "Run Your Farm", :onclick => "pickCategory(event)"}
       %img{:src => "../images/icon/run-your-farm.png"}/
       .blurb
         Run Your
         %br/
         Farm
       %ul.splash-subtag-menu
-        %li{"data-tag" => "Markets", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Markets"}
           
           Markets
-        %li{"data-tag" => "Production Planning Tools", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Production Planning Tools"}
           
           Production Planning Tools
-        %li{"data-tag" => "Seeds", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Seeds"}
           
           Seeds
-        %li{"data-tag" => "Infrastructure", :onclick => "pickTag(event)"}
+        %li{"data-tag" => "Infrastructure"}
           
           Services and Suppliers   
   %p
     %input.search-box{:onkeyup => "checkKeyUp(event)", :placeholder => "Search: ie) bees, soil testing, etc.", :type => "text"}/
 
 :javascript
+  console.log('f')
   function checkKeyUp(e){
       if (e.which === 13) {
           window.location = "/map#q=" + e.target.value;
       }
   }
   function pickCategory(e){
-      window.location = "/map#t=" + encodeURIComponent(e.target.getAttribute('data-tag') || e.target.parentNode.getAttribute('data-category'));
-  }
-  function pickTag(e){
-      
-      //window.location = "/map#t=" + e.target.getAttribute('data-tag');
+      window.location = "/map#t=" + encodeURIComponent(
+        e.target.getAttribute('data-tag') || e.target.parentNode.getAttribute('data-tag')
+      );
   }

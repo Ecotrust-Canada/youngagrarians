@@ -19,7 +19,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-
     volumes:
       - /data/docker/nginx/ssl:/etc/nginx/conf.d/ssl
     mem_limit: 50m
