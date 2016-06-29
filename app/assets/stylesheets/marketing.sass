@@ -567,12 +567,13 @@ page
   right: 0
 
 .top_category_list
-  display: inline-block
   margin: 0
   li
+    display: inline-block
     padding: 1px
     list-style: none
     a
+      background-color: black
       display: inline
       padding: 1px 3px 1px 3px
       border-radius: 2px
@@ -1016,3 +1017,19 @@ p.aside
     border-radius: 50%
     background: white
     box-shadow: 0 1px 3px rgba(0,0,0,0.8)
+
+
+@keyframes spin
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
+
+.loading
+  border-radius: 50%
+  width: 24px
+  height: 24px
+  border: 0.25rem solid rgba(255, 255, 255, 0.2)
+  border-top-color: white
+  animation: spin 1s infinite linear
+

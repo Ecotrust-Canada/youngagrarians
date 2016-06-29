@@ -1,18 +1,21 @@
 .detail-page.standalone
   = render partial: 'header'
-
+  
   %h1
     %a.facebook{:href => '/locations/'+@location.id.to_s, :target => "_blank"}
       = @location.name
 
   - if current_user && @location.admin?( current_user )
-    = link_to 'edit location details', edit_location_path( @location )
+    %p
+      = link_to 'edit location details', edit_location_path( @location )
+
+  
   %i
     = content_tag( 'span', @location.resource_type, class: 'resource-type' ) if @location.resource_type
     - if @location.bioregion.present?
       in #{@location.bioregion}
   
-  #{top_category_list( @location )}
+  #{category_list( @location )}
   
   - if @location.description.present? || @location.content.present?
     = content_tag( 'div', @location.description, class: 'location-description' ) if @location.description.present?
