@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
     if account && account = account.authenticate( params[:session][:password] )
       session['account_id'] = account.id
       if params[:for_listing]
-        in_progress_location.merge!( 'account_id' => @account.id )
+        in_progress_location.merge!( 'account_id' => account.id )
         session[:in_progress_location] = ActiveSupport::Gzip.compress( in_progress_location.to_json )
         redirect_to new_listing_url
       else

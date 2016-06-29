@@ -4,6 +4,8 @@ module CustomFields
   class_methods do
     # ------------------------------------------- add_boolean_with_comment_field
     def add_boolean_with_comment_field( field_name )
+      @custom_boolean_fields ||= []
+      @custom_boolean_fields << field_name
       konst = const_get( field_name.to_s.upcase )
       define_method( field_name ) do
         load_field( konst )
@@ -14,9 +16,23 @@ module CustomFields
         f.save unless new_record?
       end
     end
+    def custom_boolean_fields
+      @custom_boolean_fields || []
+    end
+    def custom_number_fields
+      @custom_number_fields || []
+    end
+    def custom_string_fields
+      @custom_string_fields || []
+    end
+    def custom_text_fields
+      @custom_text_fields || []
+    end
 
     # --------------------------------------------------------- add_number_field
     def add_number_field( field_name )
+      @custom_number_fields ||= []
+      @custom_number_fields << field_name
       konst = const_get( field_name.to_s.upcase )
       define_method( field_name ) do
         load_field( konst ).comment
@@ -31,6 +47,8 @@ module CustomFields
 
     # --------------------------------------------------------- add_string_field
     def add_string_field( field_name )
+      @custom_string_fields ||= []
+      @custom_string_fields << field_name
       konst = const_get( field_name.to_s.upcase )
       define_method( field_name ) do
         load_field( konst ).comment
@@ -45,6 +63,8 @@ module CustomFields
 
     # --------------------------------------------------------- add_text_field
     def add_text_field( field_name )
+      @custom_text_fields ||= []
+      @custom_text_fields << field_name
       konst = const_get( field_name.to_s.upcase )
       define_method( field_name ) do
         load_field( konst ).serial_data

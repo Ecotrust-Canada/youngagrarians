@@ -333,7 +333,7 @@ class Location < ActiveRecord::Base
       end
     end
   end
-
+  k = self
   rails_admin do
     configure :category_tags do
       visible( false )
@@ -343,6 +343,13 @@ class Location < ActiveRecord::Base
     end
 
     configure :nestered_categories do
+      visible( false )
+    end
+
+    configure :location_fields do
+      visible( false )
+    end
+    configure :comments do
       visible( false )
     end
 
@@ -361,6 +368,22 @@ class Location < ActiveRecord::Base
       field :gmaps
       field :created_at
       field :updated_at
+      k.custom_boolean_fields.each do |f|
+        field "#{f}_val".to_sym
+        field "#{f}_comments".to_sym, :string
+      end
+      k.custom_number_fields.each do |f|
+        field f
+      end
+      k.custom_string_fields.each do |f|
+        field f
+      end
+      k.custom_text_fields.each do |f|
+        field f
+      end
+        
+  #add_multiselect_field :current_property_use
+  #add_text_field :long_term_vision
     end
   end
 end
