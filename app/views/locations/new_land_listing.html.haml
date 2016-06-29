@@ -5,6 +5,7 @@
     .form-content.overflow
       %h2<Land Details
       = f.hidden_field :details_complete, value: 1
+      = f.text_field :name
       = f.select :province, States::CANADIAN_PROVINCES
       = f.select :bioregion, bc_regions, hidden: @location.province != 'BC'
       = f.number :land_size, label: 'Total land size, specify acres'

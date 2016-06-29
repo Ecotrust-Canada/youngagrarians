@@ -4,6 +4,8 @@
   =  form_for( @location, builder: FormBuilder ) do |f|
     = f.hidden_field :details_complete, value: 1
     .form-content.overflow
+      %h2<Listing Title
+      = f.text_field :name
       %h2<Land Seeker Details
       = f.radio_select :training, ['Agriculture-related degree', 'Farm management (3 years or less)',
       'Farm management (3 years+)', 'Apprenticeship', 'General degree', 'General farming (3 years or less)',
@@ -22,7 +24,7 @@
       %h3<Land & Features Desired
       = f.select :province, States::CANADIAN_PROVINCES, label: 'Where do you want to farm?'
       = f.select :bioregion, bc_regions, hidden: @location.province != 'BC', label: 'What part(s) of BC?'
-      = f.select :fv_region, %w(Abbotsford Richmond Chilliwack Surrey Ladner Vancouver Langley White Rock New Westminster ), hidden: @location.province != 'Fraser Valley', label: 'What part(s) of the Fraser Valley?'
+      = f.select :fv_region, %w(Abbotsford Richmond Chilliwack Surrey Ladner Vancouver Langley White Rock New Westminster ), hidden: @location.bioregion != 'Lower Mainland - Fraser Valley', label: 'What part(s) of the Fraser Valley?'
       = f.text_field :desired_total_size, label: 'Total Land Size (specify acres)'
       = f.boolean_with_number :wooded_area, label: 'Wooded Area (specify acres)', yes_comments: true
       = f.text_field :desired_cultivable_area, label: 'Cultivable Area (specify acres)'
@@ -49,3 +51,26 @@
         .nine.columns
           = f.submit( 'Previous', name: 'step', value: 'description' )
           = f.submit( 'Submit' )
+:javascript
+  $('#location_province' ).change( function(e)
+  {
+    if( $( this ).val() == 'BC' )
+    {
+      $('#location_bioregion').removeProp( 'disabled' ).closest( '.form-element' ).show();
+    }
+    else
+    {
+      $('#location_bioregion').prop( 'disabled', true ).closest( '.form-element' ).hide();
+    }
+  } )
+  $('#location_bioregion' ).change( function(e)
+  {
+    if( $( this ).val() == 'Lower Mainland - Fraser Valley' )
+    {
+      $('#location_fv_region').removeProp( 'disabled' ).closest( '.form-element' ).show();
+    }
+    else
+    {
+      $('#location_fv_region').prop( 'disabled', true ).closest( '.form-element' ).hide();
+    }
+  } )
