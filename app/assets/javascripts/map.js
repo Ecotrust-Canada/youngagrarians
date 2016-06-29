@@ -25,7 +25,16 @@ var OpenStreetMap_BlackAndWhite = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-m
 
 map.addLayer(OpenStreetMap_BlackAndWhite);
 
-map.locate({setView: true, maxZoom: 10});
+function onLocationFound(e) {
+    var radius = e.accuracy / 2;
+
+    L.marker(e.latlng).addTo(map)
+        .bindPopup("You are within " + radius + " meters from this point").openPopup();
+    map.panTo(e.latlng);
+    L.circle(e.latlng, radius).addTo(map);
+}
+
+map.on('locationfound', onLocationFound);
 
 bounds = map.getBounds();
 url = "parks/within?lat1=" + bounds.getSouthWest().lat + "&lon1=" + bounds.getSouthWest().lng + "&lat2=" + bounds.getNorthEast().lat + "&lon2=" + bounds.getNorthEast().lng;  
@@ -216,14 +225,15 @@ pubsub.on('zoom_to', function(marker){
     }
 })
 
-map.locate({setView: true, maxZoom: 16});
+map.locate();
+
 function onLocationFound(e) {
     var radius = e.accuracy / 2;
 
     L.marker(e.latlng).addTo(map)
-        .bindPopup("You are within " + radius + " meters from this point").openPopup();
-
+        .bindPopup("Your Location").openPopup();
     L.circle(e.latlng, radius).addTo(map);
+    map.panTo(e.latlng);
 }
 
 map.on('locationfound', onLocationFound);

@@ -6,7 +6,8 @@
       <img src="/images/umap-text-inverted.png">
     </div>
 
-    <span class="cat-count show-all-count" if={ tag }><span class="filled show-all" onclick={ set_tag_null }>Show All&nbsp;<b></b></span></span>
+    <span class="cat-count show-all-count" if={ tag && !loading }><span class="filled show-all" onclick={ set_tag_null }>Show All&nbsp;<b></b></span></span>
+
 
     <div class="meta-nav">
       <a each="{ meta_tags }" onclick={ set_tag } class='{ active: tag === name }'>
@@ -14,13 +15,15 @@
       </a>
     </div>
 
-    <div class='cat-counts'>
+    <div class='loading' if={ loading }></div>
+
+    <div class='cat-counts' if={ !loading }>
       <span each="{ name, value in cat_counts }" onclick={ set_tag } class="cat-count { name.toLowerCase().replace(/[^a-z]/g,'-') }"><span class="filled">
         { name }&nbsp;<b>{ value }</b>&nbsp;
       </span> </span>
     </div>
 
-    <ul class='results-list' id='results-list'>
+    <ul class='results-list' id='results-list' if={ !loading }>
       <li each={ items } class="{ proper_category_slug } lightbg">
         <div if={ CATEGORY_ICONS[proper_category_slug] } class='listing-icon'
              style='background:url( { CATEGORY_ICONS[proper_category_slug] }) 10px 10px no-repeat'
@@ -46,6 +49,7 @@
   this.items = opts.items;
   this.cat_counts = {};
   this.tag = opts.kwargs['t'];
+  this.loading = true;
   this.meta_tags = [
     {name:'Network'},
     {name:'Education'},
@@ -103,6 +107,12 @@
       tag: t
     });
   });
+
+  opts.on('loading', function(){
+    controller.update({
+      loading:true
+    });
+  });
   
   opts.on('load', function(response){
     
@@ -144,7 +154,8 @@
     controller.response = response;
     controller.update({
       items: response.slice(0,30),
-      cat_counts: cat_counts
+      cat_counts: cat_counts,
+      loading: false
     });
 
   });

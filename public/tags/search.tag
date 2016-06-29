@@ -76,7 +76,7 @@
   }
 
   function filter_listings(){
-    console.trace();
+    opts.trigger('loading');
     if( !orig_listings )
     {
       var path = '/locations.json'
