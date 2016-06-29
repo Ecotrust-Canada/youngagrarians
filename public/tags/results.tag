@@ -6,28 +6,34 @@
       <img src="/images/umap-text-inverted.png">
     </div>
 
-    <div class='cat-counts'>
-      <span if={ !tag }>CLICK ONE: </span>
-      <span if={ show_current(tag) } onclick={ set_tag_null }>IN "{ tag.toUpperCase() }":</span>
+    <span class="cat-count show-all-count" if={ tag && !loading }><span class="filled show-all" onclick={ set_tag_null }>Show All&nbsp;<b></b></span></span>
 
+
+    <div class="meta-nav">
+      <a each="{ meta_tags }" onclick={ set_tag } class='{ active: tag === name }'>
+        <img src="/images/icon/{ slugify(name) }.png">
+      </a>
+    </div>
+
+    <div class='loading' if={ loading }></div>
+
+    <div class='cat-counts' if={ !loading }>
       <span each="{ name, value in cat_counts }" onclick={ set_tag } class="cat-count { name.toLowerCase().replace(/[^a-z]/g,'-') }"><span class="filled">
         { name }&nbsp;<b>{ value }</b>&nbsp;
       </span> </span>
-      
-      <span class="cat-count" if={ tag }><span class="filled show-all" onclick={ set_tag_null }>Show All&nbsp;<b></b></span></span>
     </div>
 
-    <ul class='results-list' id='results-list'>
-      <li each={ items } class="{ slugify(categories[0]) } lightbg">
-        <div if={ CATEGORY_ICONS[slugify( categories[0] )] } class='listing-icon'
-             style='background:url( { CATEGORY_ICONS[slugify( categories[0] )] }) 10px 10px no-repeat'
+    <ul class='results-list' id='results-list' if={ !loading }>
+      <li each={ items } class="{ proper_category_slug } lightbg">
+        <div if={ CATEGORY_ICONS[proper_category_slug] } class='listing-icon'
+             style='background:url( { CATEGORY_ICONS[proper_category_slug] }) 10px 10px no-repeat'
         ></div>
         <a class='listing-text' target='{ is_mobile() ? "_self" : "_blank" }' href='/locations/{ id }'>
-          <label class='{ slugify(categories[0]) }'>{ categories[0].primary.name || categories[0].name }</label>
+          <label class='{ proper_category_slug }'>{ proper_category }</label>
           <span class='name'>{ name }</span><br>
           <span if={ city } class='city'>{ city }, { province }</span>
         </a>
-        <div if={ latitude } class='view-on-map { slugify(categories[0]) }' onclick={ view_on_map }>
+        <div if={ latitude } class='view-on-map { proper_category_slug }' onclick={ view_on_map }>
           <span if={ is_mobile() }>GO TO<br>LISTING</span>
           <span if={ !is_mobile() }>VIEW ON<br>MAP</span>
           <div class='triangle-arrow filled'></div>
@@ -43,13 +49,18 @@
   this.items = opts.items;
   this.cat_counts = {};
   this.tag = opts.kwargs['t'];
+  this.loading = true;
+  this.meta_tags = [
+    {name:'Network'},
+    {name:'Education'},
+    {name:'Jobs & Training'},
+    {name:'Business'},
+    {name:'Land'},
+    {name:'Run Your Farm'}
+  ];
 
   is_mobile(){
     return window.mobile;
-  }
-
-  show_current(tag) {
-    return tag && is_meta(tag);
   }
   
   // "infinite" scroll.
@@ -62,11 +73,21 @@
   }
 
   set_tag(e){
-    opts.trigger('update_tag', e.item.name);
+    console.log(controller.tag === e.item.name);
+    if (controller.tag === e.item.name) {
+      if (is_meta(controller.tag)) {
+        opts.trigger('update_tag_start', null);
+      } else {
+        var meta = PRIMARY_CATEGORIES.filter(function(c){return e.item.name === c.name})[0].metaName;
+        opts.trigger('update_tag_start', meta);
+      }
+    } else {
+      opts.trigger('update_tag_start', e.item.name);
+    }
   }
 
   set_tag_null(e){
-    opts.trigger('update_tag', null)
+    opts.trigger('update_tag_start', null)
   }
 
   view_on_map(e) {
@@ -82,7 +103,15 @@
   }
 
   opts.on('update_tag', function(t){
-    this.tag = t;
+    controller.update({
+      tag: t
+    });
+  });
+
+  opts.on('loading', function(){
+    controller.update({
+      loading:true
+    });
   });
   
   opts.on('load', function(response){
@@ -100,24 +129,33 @@
       }
     );
 
-    var cat_counts = {};
-    var match_type;
-    if(controller.tag) {
-      match_type = 'primary';
-    } else {
-      match_type = 'meta';
-    }
+    var cat_counts = {}, name;
+    var _is_meta = is_meta(controller.tag);
     response.forEach(function(item){
       for (var i=0; i<item.categories.length; i++) {
-        name = item.categories[i][match_type].name || item.categories[i].name;
-        cat_counts[name] = (cat_counts[name] || 0) + 1
+        if(_is_meta) {
+          if (!controller.tag || item.categories[i].meta.name == controller.tag) {
+            name = item.categories[i].primary ? item.categories[i].primary.name : item.categories[i].name;
+            cat_counts[name] = (cat_counts[name] || 0) + 1;
+            item.proper_category_slug = slug(name);
+            item.proper_category = name;
+          }
+        } else {
+          name = item.categories[i].primary ? item.categories[i].primary.name : item.categories[i].name;
+          if (name === controller.tag) {
+            cat_counts[name] = (cat_counts[name] || 0) + 1;
+            item.proper_category_slug = slug(name);
+            item.proper_category = name;
+          }
+        }
       }
     });
 
     controller.response = response;
     controller.update({
       items: response.slice(0,30),
-      cat_counts: cat_counts
+      cat_counts: cat_counts,
+      loading: false
     });
 
   });

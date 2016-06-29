@@ -23,6 +23,7 @@
 .funding
   .filled
     background: #745DA3
+    color: white
     &:after
       border-color: #745DA3
   color: #745DA3
@@ -32,6 +33,7 @@
 
 .web-resources
   .filled
+    color: white
     background: #7A7667
     &:after
       border-color: #7A7667
@@ -39,6 +41,16 @@
   &.lightbg
     @include background-opacity(#7A7667, .15)
   border-color: #7A7667
+
+.resources
+  .filled
+    background: #46936B
+    &:after
+      border-color: #46936B
+  color: #46936B
+  &.lightbg
+    @include background-opacity(#46936B, .15)
+  border-color: #46936B
 
 .seeds
   .filled
@@ -104,6 +116,7 @@
 .infrastructure
   .filled
     background: #CF4F1C
+    color: white
     &:after
       border-color: #CF4F1C
   color: #CF4F1C
@@ -113,6 +126,7 @@
 
 .events
   .filled
+    color: white
     background: #16807C
     &:after
       border-color: #16807C

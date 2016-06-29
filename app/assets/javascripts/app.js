@@ -21,7 +21,7 @@ function slug(category){
   } else {
     rVal = (category.primary && category.primary.name) ? category.primary.name : category.name;
   } 
-  return rVal.toLowerCase().replace(/\s/g,'-');
+  return rVal.toLowerCase().replace(/[^a-zA-Z]/g,'-');
 }
 
 
@@ -57,12 +57,8 @@ riot.tag('raw', '<span></span>', function (opts) {
   this.updateContent();
 });
 
-
-
-function locationHashChanged() {
-    set_kwargs();
-    console.log('tag changed to', pubsub.kwargs['t']);
-    pubsub.trigger('update_tag', pubsub.kwargs['t']);
-}
-
-window.onhashchange = locationHashChanged;
+window.onhashchange = function(){
+  set_kwargs();
+  console.log("detected hash change to", pubsub.kwargs['t'])
+  pubsub.trigger('update_tag', pubsub.kwargs['t']);
+};

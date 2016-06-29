@@ -62,7 +62,7 @@ module LocationsHelper
           content_tag( 'li', link_to( category_name,
                              meta_category_path( top_level_name: category_name ),
                              class: "filled" ),
-                          class: "category_#{category_id} #{category_name.downcase}"
+                          class: "category_#{category_id} #{category_name.downcase.gsub(/[^a-zA-Z]/,'-')}"
                           )
         end
         safe_join( links, '' )
@@ -73,8 +73,23 @@ module LocationsHelper
     end
   end
 
+
   # ---------------------------------------------------------- top_category_list
-  def category_class_list( location )
+  def category_list( location )
+    content_tag( 'ul', class: 'top_category_list' ) do
+      cats = location.nested_categories.map do |rec|
+        content_tag( 'li', link_to( rec.name,
+                           meta_category_path( top_level_name: rec.name ),
+                           class: "filled" ),
+                        class: "#{rec.name.downcase.gsub(/[^a-zA-Z]/,'-')}"
+                        )
+      end
+      safe_join( cats, '' )
+    end
+  end
+
+  # ---------------------------------------------------------- top_category_list
+  def category_class( location )
     # TODO: slow and inefficient
     @category_class_list ||= {}
     @category_class_list[location.id] ||= begin
@@ -83,14 +98,14 @@ module LocationsHelper
         loop do
           break if category.nil?
           if category.parent && category.parent.parent.nil?
-            r_val << category.name.gsub( /\s+/, '-' )
+            r_val << category.name.gsub( /[^a-zA-Z]/, '-' )
             break
           end
           category = category.parent
         end
       end
       if r_val.any?
-        safe_join( r_val, ' ' ).downcase
+        r_val[0].downcase
       else
         nil
       end

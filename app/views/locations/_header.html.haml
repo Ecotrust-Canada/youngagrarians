@@ -1,6 +1,6 @@
-.listing-header{ class: category_class_list( @location )}
-  .category-icon{ style: "background-image:url(#{big_icon_hash[category_class_list( @location )]})"} &nbsp;
-  .category-heading #{category_class_list( @location )}
+.listing-header{ class: category_class( @location )}
+  .category-icon{ style: "background-image:url(#{big_icon_hash[category_class( @location )]})"} &nbsp;
+  .category-heading #{category_class( @location )}
   %a{ href: '/map', target: '_blank'}
     #{image_tag 'umap-content-title.png'}
   .filled

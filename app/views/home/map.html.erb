@@ -52,7 +52,6 @@
     </form>
     <layers></layers>
     <search></search>
-    <listing></listing>
   </page>
 
   <script src="/vendor/riot/riot+compiler.min.js"></script>
@@ -63,7 +62,6 @@
 
   <%= javascript_include_tag 'embedded_map' -%>
 
-  <script src="/tags/listing.tag" type="riot/tag"></script>
   <script src="/tags/search.tag" type="riot/tag"></script>
   <script src="/tags/layers.tag" type="riot/tag"></script>
   <script src="/tags/results.tag" type="riot/tag"></script>
@@ -74,7 +72,6 @@
   riot.compile(function( x ) {
     riot.mount('search', pubsub);
     riot.mount('layers', pubsub);
-    riot.mount('listing', pubsub);
     riot.mount('results', pubsub);
   });
   </script>

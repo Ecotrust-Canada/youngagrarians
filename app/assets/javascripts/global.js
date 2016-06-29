@@ -10,7 +10,7 @@ var toggleHam = function(e) {
   }
 };
 
-if ((window.location+'').indexOf("/map") == -1)
+if ((window.location+'').replace("://","").indexOf("/map") == -1)
   document.body.style.background=[
     'url(/images/splash/sky-clouds-field-blue-min.jpg)',
     'url(/images/splash/field-yellow-blur-grain-min.jpg)',
