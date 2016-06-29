@@ -149,11 +149,15 @@ class FormBuilder < ActionView::Helpers::FormBuilder
                                   template.radio_button_tag( field_name,
                                                              choice,
                                                              val == choice,
-                                                             required: options[:required] ) + choice )
+                                                             required: options[:required],
+                                                             disabled: options[:hidden] ) + choice )
                    end )
     klasses = ['form-element']
     klasses << 'required' if options[:required]
-    template.content_tag( 'div', template.content_tag( 'label', label ) + x + append_errors( field ), class: klasses.join(' ' ) )
+    template.content_tag( 'div',
+                          template.content_tag( 'label', label ) + x + append_errors( field ),
+                          class: klasses.join(' ' ),
+                          style: options[:hidden] ? 'display: none;' : nil )
 
   end
   # -------------------------------------------------------- boolean_with_number

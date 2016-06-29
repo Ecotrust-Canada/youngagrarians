@@ -29,7 +29,7 @@
       = f.boolean_with_number :wooded_area, label: 'Wooded Area (specify acres)', yes_comments: true
       = f.text_field :desired_cultivable_area, label: 'Cultivable Area (specify acres)'
       = f.boolean_with_number :expansion_size, label: 'Possibility to expand area currently available (specify acres)', yes_comments: true
-      = f.radio_select :zoning, ['ALR', 'Non-ALR' ]
+      = f.radio_select :zoning, ['ALR', 'Non-ALR' ], hidden: @location.province != 'BC'
       = f.text_area :desired_surface_state, label: 'Preferred current state of the surface of the cultivable area'
       = f.boolean_with_comments :owner_resides, no_comments: true, yes_comments: true, label: 'Open to landowner residing on property'
       = f.boolean_with_comments :buildings_required, yes_comments: true, label: 'Need farm buildings'
@@ -57,10 +57,12 @@
     if( $( this ).val() == 'BC' )
     {
       $('#location_bioregion').removeProp( 'disabled' ).closest( '.form-element' ).show();
+      $('input[name="location[zoning]"]').removeProp( 'disabled' ).closest( '.form-element' ).show();
     }
     else
     {
       $('#location_bioregion').prop( 'disabled', true ).closest( '.form-element' ).hide();
+      $('input[name="location[zoning]"]').prop( 'disabled', true ).closest( '.form-element' ).hide();
     }
   } )
   $('#location_bioregion' ).change( function(e)
