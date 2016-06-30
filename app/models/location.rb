@@ -53,6 +53,7 @@ class Location < ActiveRecord::Base
   DESIRED_USE = 49
   DESIRED_PRACTICES = 50
   SOIL_NEEDS = 51
+  ALL_TRUE = 51
 
   LAND_LISTING_PARAMS = %w(land_size cultivable_area zoning
                            current_property_use current_practices
@@ -87,6 +88,7 @@ class Location < ActiveRecord::Base
                         name bioregion street_address city province country postal phone
                         url fb_url twitter_url description email)
   add_boolean_with_comment_field :wooded_land_size
+  add_boolean_field :all_true
   add_boolean_with_comment_field :business_plan
   add_boolean_with_comment_field :financial_resources
   add_boolean_with_comment_field :other_financial_resources
@@ -109,11 +111,11 @@ class Location < ActiveRecord::Base
   add_boolean_with_comment_field :buildings_required
   add_boolean_with_comment_field :fencing_required
   add_boolean_with_comment_field :tools_required
-  add_boolean_with_comment_field :need_water
   add_boolean_with_comment_field :need_housing
   add_number_field :cultivable_area
   add_string_field :zoning
   add_string_field :training
+  add_string_field :need_water
   add_string_field :preferred_arrangement
   add_string_field :agronomic_potential
   add_string_field :agreement_duration
@@ -149,24 +151,26 @@ class Location < ActiveRecord::Base
     names = nested_categories.pluck( :name )
     names.include?( 'Land Listings' ) || names.include?( 'Land Listing' )
   end
+
   # -------------------------------------------------------------- seeker_params
   def self.seeker_params
     r_val = []
-    r_val += [ :training, :farm_name, :preferred_arrangement, :agreement_duration,
-               :desired_start_date, :desired_total_size, :desired_cultivable_area,
-               :zoning, :desired_surface_state ]
+    r_val += [:training, :farm_name, :preferred_arrangement, :agreement_duration,
+              :desired_start_date, :desired_total_size, :desired_cultivable_area,
+              :zoning, :desired_surface_state, :need_water, :all_true, :soil_needs]
     b_with_c = [:string, :boolean]
-    [ :insurance, :need_housing, :need_water, :tools_required, :fencing_required,
-      :buildings_required, :owner_resides, :business_plan, :financial_resources,
-      :other_financial_resources, :wooded_area, :expansion_size].each do |thing|
+    [:insurance, :need_housing, :tools_required, :fencing_required,
+     :buildings_required, :owner_resides, :business_plan, :financial_resources,
+     :other_financial_resources, :wooded_area, :expansion_size].each do |thing|
       r_val << { thing => b_with_c }
     end
-    multi = [ :value, :comment ]
-    [:desired_use, :desired_practices, :soil_needs ].each do |t|
+    multi = [:value, :comment]
+    [:desired_use, :desired_practices].each do |t|
       r_val << { t => multi }
     end
-    return r_val
+    r_val
   end
+
   # ---------------------------------------------------------------- land_params
   def self.land_params
     args = Location::LAND_LISTING_PARAMS.dup

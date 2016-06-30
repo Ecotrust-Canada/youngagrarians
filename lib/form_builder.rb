@@ -9,7 +9,7 @@ class FormBuilder < ActionView::Helpers::FormBuilder
   # -------------------------------------------------------------- check_box_tag
   def check_box_tag( f, v, cur_val )
     field_name = if f.to_s.match( /\[\]$/ )
-      format( '%s[%s][]', object_name, f.to_s.sub(/\?$/,"" )[0..-3] )
+      format( '%s[%s][]', object_name, f.to_s.sub(/\?$/, '' )[0..-3] )
     else
       format( '%s[%s]', object_name, f.to_s.sub(/\?$/,"" ) )
     end
@@ -22,7 +22,7 @@ class FormBuilder < ActionView::Helpers::FormBuilder
   # ------------------------------------------------------------- honeypot_field
   def honeypot_field( field, args = {} )
     x = template.text_field( object_name, field )
-    label = field.to_s.humanize
+    label = format_label( field.to_s.humanize )
     klasses = ['form-element', "hp-#{field.to_s.gsub( / /, '_')}"]
     klasses << 'required' if args[:required]
     template.content_tag( 'div', template.content_tag( 'label', label ) + x + append_errors( field ), class: klasses.join(' ' ) )
@@ -45,14 +45,14 @@ class FormBuilder < ActionView::Helpers::FormBuilder
   end
   # ------------------------------------------------------------ checkbox_option
   def checkbox_option( field, value, args = {} )
-    label = args[:label] || field.to_s.humanize
+    label = format_label( args[:label] || field.to_s.humanize )
     template.content_tag( 'label', 
                           check_box_tag( field, value, object[field] ) + content_tag( 'span', label ),
                           class: 'check_box')
   end
   # ------------------------------------------------------------ checkbox_option
   def radio_option( field, value, args = {} )
-    label = args[:label] || field.to_s.humanize
+    label = format_label( args[:label] || field.to_s.humanize )
     template.content_tag( 'label', 
                           radio_button_tag( field, value, object[field] ) + content_tag( 'span', label ),
                           class: 'radio')
@@ -63,7 +63,7 @@ class FormBuilder < ActionView::Helpers::FormBuilder
       args[:class] = 'field-error'
     end
     x = date_field( field, args )
-    label = args[:label] || field.to_s.humanize
+    label = format_label( args[:label] || field.to_s.humanize )
     klasses = ['form-element', 'date']
     klasses << 'required' if args[:required]
     template.content_tag( 'div', template.content_tag( 'label', label ) + x + append_errors( field ), class: klasses.join(' ' ) )
@@ -84,7 +84,7 @@ class FormBuilder < ActionView::Helpers::FormBuilder
       format( '%s[%s]', object_name, field.to_s.sub(/\?$/,"" ) )
     end
     x = template.select_tag( field_name, options, args )
-    label = args[:label] || field.to_s.humanize
+    label = format_label( args[:label] || field.to_s.humanize )
     klasses = ['form-element']
     klasses << 'required' if args[:required]
     template.content_tag( 'div',
@@ -98,7 +98,7 @@ class FormBuilder < ActionView::Helpers::FormBuilder
       args[:class] = 'field-error'
     end
     x = super( field, options, args, disabled: args[:hidden] )
-    label = args[:label] || field.to_s.humanize
+    label = format_label( args[:label] || field.to_s.humanize )
     klasses = ['form-element']
     klasses << 'required' if args[:required]
     template.content_tag( 'div',
@@ -113,7 +113,7 @@ class FormBuilder < ActionView::Helpers::FormBuilder
           args[:class] = 'field-error'
         end
         x = super
-        label = args[:label] || field.to_s.humanize
+        label = format_label( args[:label] || field.to_s.humanize )
         klasses = ['form-element']
         klasses << 'required' if args[:required]
         template.content_tag( 'div', template.content_tag( 'label', label ) + x + append_errors( field ), class: klasses.join(' ' ) )
@@ -136,10 +136,44 @@ class FormBuilder < ActionView::Helpers::FormBuilder
   def number( field, args = {} )
     text_field( field, args.merge( size: 10 ) )
   end
+  # --------------------------------------------------------------- radio_select
+  def radio_select_with_comments( field, choices, options = {} )
+
+    @radio_with_comments_present = true
+    label = format_label( options[:label] || field.to_s.humanize )
+    val = object.send( field )
+    val ||= options[:default] || choices.first if val.nil?
+    x = ''.html_safe
+    field_name = format( '%s[%s]', object_name, field )
+    x = template.safe_join( choices.map do |choice|
+                     content_tag( 'label',
+                                  template.radio_button_tag( field_name,
+                                                             choice,
+                                                             val == choice,
+                                                             required: options[:required],
+                                                             disabled: options[:hidden] ) + choice )
+                   end )
+
+    specified  = !choices.include?( val )
+    x += content_tag( 'label',
+                       template.radio_button_tag( field_name,
+                                                  '',
+                                                  specified,
+                                                  required: options[:required],
+                                                  disabled: options[:hidden] ) + 'Specify' )
+    x += content_tag( 'span', template.text_field_tag( field_name, specified ? val : '', disabled: !specified ), style: specified ? nil : 'display:none;' )
+    klasses = ['form-element', 'radio-with-comments']
+    klasses << 'required' if options[:required]
+    template.content_tag( 'div',
+                          template.content_tag( 'label', label ) + x + append_errors( field ),
+                          class: klasses.join(' ' ),
+                          style: options[:hidden] ? 'display: none;' : nil )
+
+  end
 
   # --------------------------------------------------------------- radio_select
   def radio_select( field, choices, options = {} )
-    label = options[:label] || field.to_s.humanize
+    label = format_label( options[:label] || field.to_s.humanize )
     val = object.send( field )
     val = options[:default] || choices.first if val.nil? || !choices.include?( val )
     x = ''.html_safe
@@ -166,7 +200,7 @@ class FormBuilder < ActionView::Helpers::FormBuilder
       args[:class] = 'field-error'
     end
     val = object.send( field )
-    label = args[:label] || field.to_s.humanize
+    label = format_label( args[:label] || field.to_s.humanize )
     b_name = format( '%s[%s][boolean]', object_name, field )
     s_name = format( '%s[%s][string]', object_name, field )
     yes_label = if args[:yes_comments]
@@ -213,7 +247,7 @@ class FormBuilder < ActionView::Helpers::FormBuilder
       args[:class] = 'field-error'
     end
     val = object.send( field )
-    label = args[:label] || field.to_s.humanize
+    label = format_label( args[:label] || field.to_s.humanize )
     b_name = format( '%s[%s][boolean]', object_name, field )
     s_name = format( '%s[%s][string]', object_name, field )
     yes_label = if args[:yes_comments]
@@ -249,10 +283,22 @@ class FormBuilder < ActionView::Helpers::FormBuilder
     template.content_tag( 'div',
                           template.content_tag( 'label', label ) + x + append_errors( field ), class: klasses.join(' ' ) )
   end
+
+  # ----------------------------------------------------------------------- sign
+  def sign( field, args = {} )
+
+    x = template.check_box_tag( format( '%s[%s]', object_name, field ),
+                                '1',
+                                object.send( field ),
+                                required: true )
+    label = format_label( args[:label] || field.to_s.humanize )
+    klasses = ['form-element']
+    template.content_tag( 'div', template.content_tag( 'label', ERB::Util.h( label ) + x ), class: klasses.join(' ' ) )
+  end
   # ---------------------------------------------------- check_all_with_comments
   def check_all_with_comments( field, choices, args = {} )
     val = object.send( field )
-    label = args[:label] || field.to_s.humanize
+    label = format_label( args[:label] || field.to_s.humanize )
     empty_name = format( '%s[%s][0][value]', object_name, field )
     x = template.hidden_field_tag( empty_name )
     choices.each_with_index do |choice, i|
@@ -277,7 +323,7 @@ class FormBuilder < ActionView::Helpers::FormBuilder
   def check_all_with_other( field, choices, args = {} )
     #raise object.send( field ).inspect + field.to_s
     val = object.send( field ).map { |x| x['value'] }
-    label = args[:label] || field.to_s.humanize
+    label = format_label( args[:label] || field.to_s.humanize )
     empty_name = format( '%s[%s][0][value]', object_name, field )
     x = template.hidden_field_tag( empty_name )
     choices.each_with_index do |choice, i|
@@ -323,6 +369,26 @@ class FormBuilder < ActionView::Helpers::FormBuilder
         $('div.boolean-with-number, div.boolean-with-comments').on( 'change', 'input[type=radio]', onCommentyFieldChange );
       EOC
       .html_safe
+    end
+    if @radio_with_comments_present
+      r_val << <<-EOC
+        function onRadioCommentChange( e )
+        {
+          var outer = $( e.currentTarget ).closest('.radio-with-comments');
+          var el = outer.find( ':checked' );
+          if( el.val() == '' )
+          {
+            outer.find( 'span' ).show().find( 'input' ).removeProp( 'disabled' );
+          }
+          else
+          {
+            outer.find( 'span' ).hide().find( 'input' ).prop( 'disabled', 'disabled' );
+          }
+        }
+        $('div.radio-with-comments').on( 'change', 'input[type=radio]', onRadioCommentChange );
+      EOC
+      .html_safe
+      
     end
     if @check_all_with_comments_present 
       r_val << <<-EOC
@@ -372,5 +438,10 @@ class FormBuilder < ActionView::Helpers::FormBuilder
   # -------------------------------------------------- has_boolean_with_numbers?
   def has_boolean_with_numbers?
     @boolean_with_numbers_present
+  end
+
+  def format_label( l )
+    return l if l[-1] == ':' || l[-1] == '?' || l[-1] == '.'
+    ERB::Util.h( l ) + ':'.html_safe
   end
 end

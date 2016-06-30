@@ -16,6 +16,21 @@ module CustomFields
         f.save unless new_record?
       end
     end
+    # ------------------------------------------- add_boolean_with_comment_field
+    def add_boolean_field( field_name )
+      @boolean_fields ||= []
+      @boolean_fields << field_name
+      konst = const_get( field_name.to_s.upcase )
+      define_method( field_name ) do
+        f = load_field( konst )
+        f.boolean_value
+      end
+      define_method( "#{field_name}=" ) do |x|
+        f = load_field( konst )
+        f.boolean_value = ( x != FalseClass && x == '0' )
+        f.save unless new_record?
+      end
+    end
     def custom_boolean_fields
       @custom_boolean_fields || []
     end
