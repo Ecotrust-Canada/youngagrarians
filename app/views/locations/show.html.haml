@@ -1,3 +1,12 @@
+
+= content_for :title do
+  = @location.name
+
+= content_for :metadesc do
+  - if @location.description.present? || @location.content.present?
+    = @location.description if @location.description.present?
+    = @location.content if @location.content.present?
+
 .detail-page.standalone
   = render partial: 'header'
   
@@ -8,7 +17,6 @@
   - if current_user && @location.admin?( current_user )
     %p
       = link_to 'edit location details', edit_location_path( @location )
-
   
   %i
     = content_tag( 'span', @location.resource_type, class: 'resource-type' ) if @location.resource_type

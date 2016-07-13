@@ -10,7 +10,7 @@
     %meta{:content => "website", :property => "og:type"}/
     %meta{:content => "YoungAgrarians Resource Map", :property => "og:title"}/
     %meta{:content => "#{request.protocol}#{request.host}#{root_path}/assets/ya.jpg", :property => "og:image"}/
-    %meta{:content => "We are mapping resources relevant to new/young farmers wanting to get into farming and food growing. Our focus is on the ecological/organic (certified or uncertified) sector.", :property => "og:description"}/
+    %meta{:content => content_for?(:metadesc) ? yield(:metadesc) : "We are mapping resources relevant to new/young farmers wanting to get into farming and food growing. Our focus is on the ecological/organic (certified or uncertified) sector.", :property => "og:description"}/
     %meta{:content => "#{request.protocol}#{request.host}#{root_path}", :property => "og:url"}/
     / Le HTML5 shim, for IE6-8 support of le HTML elements
     /[if lt IE 9]

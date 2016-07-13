@@ -2,9 +2,9 @@
 <results>
 
   <div class='results-sidebar' onscroll={ scroll }>
-    <div class="content-logo-wrap">
+    <a class="content-logo-wrap" href="#">
       <img src="/images/umap-text-inverted.png">
-    </div>
+    </a>
 
     <span class="cat-count show-all-count" if={ tag && !loading }><span class="filled show-all" onclick={ set_tag_null }>Show All&nbsp;<b></b></span></span>
 

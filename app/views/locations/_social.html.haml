@@ -3,7 +3,7 @@
   %li
     %a.facebook{:href => "http://www.facebook.com/sharer.php?u=#{request.protocol}#{request.host_with_port}#{request.fullpath}", :target => "_blank", :title => "Facebook"}
   %li
-    %a.twitter{:href => "http://twitter.com/share?url=#{request.protocol}#{request.host_with_port}#{request.fullpath}", :target => "_blank", :title => "Twitter"}
+    %a.twitter{:href => "http://twitter.com/share?url=#{request.protocol}#{request.host_with_port}#{request.fullpath}&text=#{@location.name}", :target => "_blank", :title => "Twitter"}
   /
     %li
       %a.flickr{:href => "http://www.flickr.com/groups/youngagrarians/", :target => "_blank", :title => "Flickr"}
