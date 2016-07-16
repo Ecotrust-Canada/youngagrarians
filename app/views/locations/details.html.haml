@@ -8,9 +8,9 @@
       #category
         - if @location.nested_categories.any?
           - @location.nested_categories.each do |c|
-            = f.select_tag 'nested_category_ids[]', category_options( @location, c ), 'value' => 1, label: 'Category'
+            = f.select_tag 'nested_category_ids[]', category_options( @location, c ), 'value' => 1, label: 'Subcategory'
         - else
-          = f.select_tag 'nested_category_ids[]', category_options( @location ), 'value' => 1, label: 'Category'
+          = f.select_tag 'nested_category_ids[]', category_options( @location ), 'value' => 1, label: 'Subcategory'
         = link_to 'list in another category', '#', class: 'add_category'
       = f.text_area :description, required: true
       .field_info

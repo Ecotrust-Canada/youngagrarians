@@ -10,7 +10,7 @@ var map = L.map('map', {
 
 //add zoom control with your options
 L.control.zoom({
-     position:'bottomleft'
+    position:'bottomleft'
 }).addTo(map);
 
 // https: also suppported.
@@ -149,6 +149,14 @@ pubsub.on('load', function(response){
   updateMarkers(response);
 });
 
+// convert a human-typed phone number to a dialable one.
+function get_dialable_phone(s){
+  s = s.replace(/[^\d]/g,'');
+  if (s.charAt(0) === '1') s = s.substr(1);
+  s = s.substr(0,10);
+  if (s.length < 10) return '';
+  return s;
+}
 
 function updateMarkers(response){
   markers.clearLayers();
@@ -179,7 +187,12 @@ function updateMarkers(response){
       "<div class='popup'>"
         +"<div class='listing-icon' style='background-image:url(" + CATEGORY_ICONS[the_slug] + ")'></div>"
         +"<label class='" + the_slug + "'>" + ( cat ? cat.name : 'no category' ) + "</label>"
-          +"<p class='description'>" + listing.name + "</p><p class='city'>" + listing_city( listing) + "</p>"
+          +"<p class='description'>" + listing.name + "</p>"
+          +"<p class='contact'>"
+            + (listing.phone ? "<a href='tel:" + get_dialable_phone(listing.phone) + "'>" + listing.phone + "</a>" : "")
+            + (listing.phone && listing.email ? " | " : "")
+            + (listing.email ? "<a href='tel:'" + listing.email + ">" + listing.email + "</a>" : "")
+          +"<p class='city'>" + listing_city( listing) + "</p>"
         +"<a target='_blank' href='/locations/" + listing.id + "' class='info " + the_slug +"'>MORE INFO"
           +"<div class='triangle-arrow filled'></div>"
         +"</a>"
@@ -225,23 +238,26 @@ pubsub.on('zoom_to', function(marker){
     }
 })
 
-map.locate();
+if (!is_embedded) {
+  map.locate();
 
-function onLocationFound(e) {
-    var radius = e.accuracy / 2;
+  function onLocationFound(e) {
+      var radius = e.accuracy / 2;
 
-    L.marker(e.latlng).addTo(map)
-        .bindPopup("Your Location").openPopup();
-    L.circle(e.latlng, radius).addTo(map);
-    map.panTo(e.latlng);
+      L.marker(e.latlng).addTo(map)
+          .bindPopup("Your Location").openPopup();
+      L.circle(e.latlng, radius).addTo(map);
+      map.panTo(e.latlng);
+  }
+
+  map.on('locationfound', onLocationFound);
+  map.whenReady(getFN);
 }
 
-map.on('locationfound', onLocationFound);
-
+// soil layer, disabled.
 /*
 map.on('dragend', getSoil);
 map.on('zoomend', getSoil);
 map.whenReady(getSoil);
 */
 
-map.whenReady(getFN);

@@ -214,17 +214,17 @@ class FormBuilder < ActionView::Helpers::FormBuilder
                   'No'
                 end
     x = content_tag( 'label',
-                     template.radio_button_tag( b_name,
-                                                args[:yes_comments] ? LocationField::YES_WITH_COMMENTS : LocationField::YES,
-                                                ( val.not_set? && args[:default].is_a?( TrueClass ) ) || val.true?,
-                                                class: args[:yes_comments] ? 'needs_comments' : nil ) +
-                       yes_label.html_safe )
-    x << content_tag( 'label',
                       template.radio_button_tag( b_name,
                                                  args[:no_comments] ? LocationField::NO_WITH_COMMENTS : LocationField::NO,
                                                  ( val.not_set? && args[:default].is_a?(FalseClass ) ) || val.false?,
                                                  class: args[:no_comments] ? 'needs_comments' : nil ) +
                         no_label.html_safe )
+    x << content_tag( 'label',
+                     template.radio_button_tag( b_name,
+                                                args[:yes_comments] ? LocationField::YES_WITH_COMMENTS : LocationField::YES,
+                                                ( val.not_set? && args[:default].is_a?( TrueClass ) ) || val.true?,
+                                                class: args[:yes_comments] ? 'needs_comments' : nil ) +
+                       yes_label.html_safe )
     comments_enabled = if args[:yes_comments] && args[:no_comments]
                          true
                        else

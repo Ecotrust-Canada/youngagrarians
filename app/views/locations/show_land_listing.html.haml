@@ -160,7 +160,9 @@
 
         - if @location.latitude && @location.longitude
           #minimap
-        = render partial: 'social' 
+  
+  .social-wrap
+    = render partial: 'social' 
 
   .last-modified.text-muted
     Last modifed #{@location.updated_at ? distance_of_time_in_words( @location.updated_at, Time.current ) : 'unknown'} ago;

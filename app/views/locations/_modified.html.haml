@@ -1,0 +1,4 @@
+.last-modified.text-muted
+  Last modifed #{@location.updated_at ? distance_of_time_in_words( @location.updated_at, Time.current ) : 'unknown'} ago.
+  - if @location.show_until
+    Showing until #{@location.show_until}.

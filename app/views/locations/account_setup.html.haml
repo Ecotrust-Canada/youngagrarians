@@ -22,17 +22,15 @@
             .btn-wrap
               %label< &nbsp;
               %button.btn.btn-primary.btn-small{ name: 'step', value: 'description' } Login
-      .row
-        .columns.three
-          &nbsp;
-        .columns.six
-          %h3.desktop<No Account Needed
-          = form_for @location, builder: FormBuilder do |f|
-            = f.hidden_field :account_id, value: -1
-            No thanks, I won't need to manage my listing in the future.
-            %button.btn.btn-primary.btn-small{ name: 'step', value: 'description' } Continue
+      .center
+
+        %h3.desktop<No Account Needed
+        = form_for @location, builder: FormBuilder do |f|
+          = f.hidden_field :account_id, value: -1
+          No thanks, I won't need to manage my listing in the future.
+          %button.btn.btn-primary.btn-small{ name: 'step', value: 'description' } Continue
   -  else
-    %content
+    .form-content.boxy
 
       = form_for @location, builder: FormBuilder do |f|
         = f.hidden_field :account_id, value: current_user.id

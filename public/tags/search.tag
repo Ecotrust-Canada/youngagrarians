@@ -72,14 +72,15 @@
 
   function handle_load(){
     var l = orig_listings.filter( function(x){ return listing_visible( x ); } );
-    opts.trigger('load', l );
+    opts.trigger('load', l, orig_listings.length > l.length );
   }
 
   function filter_listings(){
     opts.trigger('loading');
     if( !orig_listings )
     {
-      var path = '/locations.json'
+      var path = '/locations.json';
+      if (is_embedded) path='/surrey.json';
       if (query) path += '?q=' + query;
       ajax().get( path ).then(function(response){
         response.forEach(function(listing){

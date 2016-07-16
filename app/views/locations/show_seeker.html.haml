@@ -20,88 +20,88 @@
   %h2<Land Seeker Details
   .extensions
     .row
-      .three.columns Training
-      .nine.columns #{ lf_simple( @location, 'training' )}
+      .four.columns Training
+      .eight.columns #{ lf_simple( @location, 'training' )}
     .row
-      .three.columns Do you have a business plan? 
-      .nine.columns #{ lf_bool_with_comment( @location, 'business_plan' )}
+      .four.columns Do you have a business plan? 
+      .eight.columns #{ lf_bool_with_comment( @location, 'business_plan' )}
     .row
-      .three.columns Do you have financial resources available to start your farm? 
-      .nine.columns #{ lf_bool_with_comment( @location, 'financial_resources' )}
+      .four.columns Do you have financial resources available to start your farm? 
+      .eight.columns #{ lf_bool_with_comment( @location, 'financial_resources' )}
     .row
-      .three.columns Do you have access to other financial resources (such as a financial partner, loan, etc.) to start your farm?'
-      .nine.columns #{ lf_bool_with_comment( @location, 'other_financial_resources' )}
+      .four.columns Do you have access to other financial resources (such as a financial partner, loan, etc.) to start your farm?'
+      .eight.columns #{ lf_bool_with_comment( @location, 'other_financial_resources' )}
 
   %h3<Project
   .extensions
     .row
-      .three.columns
-      .nine.columns #{ lf_simple( @location, 'farm_name' ) }
+      .four.columns Farm Name
+      .eight.columns #{ lf_simple( @location, 'farm_name' ) }
     .row
-      .three.columns Preferred Arrangement
-      .nine.columns #{ lf_simple( @location, 'preferred_arrangement' )}
+      .four.columns Preferred Arrangement
+      .eight.columns #{ lf_simple( @location, 'preferred_arrangement' )}
     .row
-      .three.columns Duration of the desired agreement
-      .nine.columns #{ lf_simple( @location, 'agreement_duration' ) }
+      .four.columns Duration of the desired agreement
+      .eight.columns #{ lf_simple( @location, 'agreement_duration' ) }
     .row
-      .three.columns deal date to obtain land by
-      .nine.columns #{ lf_simple( @location, 'desired_start_date' ) }
+      .four.columns deal date to obtain land by
+      .eight.columns #{ lf_simple( @location, 'desired_start_date' ) }
 
   %h3<Land & Features Desired
   .extensions
     .row
-      .three.columns Total Land Size (acres)
-      .nine.columns #{ lf_simple( @location, 'desired_total_size' ) }
+      .four.columns Total Land Size (acres)
+      .eight.columns #{ lf_simple( @location, 'desired_total_size' ) }
     .row
-      .three.columns Wooded Area (acres)
-      .nine.columns #{ lf_bool_with_comment( @location, 'wooded_area' )}
+      .four.columns Wooded Area (acres)
+      .eight.columns #{ lf_bool_with_comment( @location, 'wooded_area' )}
     .row
-      .three.columns Cultivable Area (acres)
-      .nine.columns #{ lf_simple( @location, 'desired_cultivable_area' ) }
+      .four.columns Cultivable Area (acres)
+      .eight.columns #{ lf_simple( @location, 'desired_cultivable_area' ) }
     .row
-      .three.columns Possibility to expand area currently available (acres)
-      .nine.columns #{ lf_bool_with_comment( @location, 'expansion_size' )}
+      .four.columns Possibility to expand area currently available (acres)
+      .eight.columns #{ lf_bool_with_comment( @location, 'expansion_size' )}
     .row
-      .three.columns Zoning
-      .nine.columns #{ lf_simple( @location, 'zoning' )}
+      .four.columns Zoning
+      .eight.columns #{ lf_simple( @location, 'zoning' )}
 
     .row
-      .three.columns Preferred current state of the surface of the cultivable area
-      .nine.columns
+      .four.columns Preferred current state of the surface of the cultivable area
+      .eight.columns
         %p
           = @location.desired_surface_state
 
     .row
-      .three.columns Open to landowner residing on property 
-      .nine.columns #{ lf_bool_with_comment( @location, 'owner_resides' )}
+      .four.columns Open to landowner residing on property 
+      .eight.columns #{ lf_bool_with_comment( @location, 'owner_resides' )}
     .row
-      .three.columns Need farm buildings 
-      .nine.columns #{ lf_bool_with_comment( @location, 'buildings_required' )}
+      .four.columns Need farm buildings 
+      .eight.columns #{ lf_bool_with_comment( @location, 'buildings_required' )}
     .row
-      .three.columns Need fenced land 
-      .nine.columns #{ lf_bool_with_comment( @location, 'fencing_required' )}
+      .four.columns Need fenced land 
+      .eight.columns #{ lf_bool_with_comment( @location, 'fencing_required' )}
     .row
-      .three.columns Need farm machinery and tools 
-      .nine.columns #{ lf_bool_with_comment( @location, 'tools_required' )}
+      .four.columns Need farm machinery and tools 
+      .eight.columns #{ lf_bool_with_comment( @location, 'tools_required' )}
     .row
-      .three.columns Need established water source and infrastructure 
-      .nine.columns #{ lf_bool_with_comment( @location, 'need_water' )}
+      .four.columns Need established water source and infrastructure 
+      .eight.columns #{ lf_bool_with_comment( @location, 'need_water' )}
     .row
-      .three.columns Need on-site housing 
-      .nine.columns #{ lf_bool_with_comment( @location, 'need_housing' )}
+      .four.columns Need on-site housing 
+      .eight.columns #{ lf_bool_with_comment( @location, 'need_housing' )}
     .row
-      .three.columns Production type
-      .nine.columns #{ lf_multiselect( @location, 'desired_use' )}
+      .four.columns Production type
+      .eight.columns #{ lf_multiselect( @location, 'desired_use' )}
     .row
-      .three.columns Type of agriculture
-      .nine.columns #{ lf_multiselect( @location, 'desired_practices' )}
+      .four.columns Type of agriculture
+      .eight.columns #{ lf_multiselect( @location, 'desired_practices' )}
     .row
-      .three.columns Soil needs
-      .nine.columns #{ lf_simple( @location, 'soil_needs' )}
+      .four.columns Soil needs
+      .eight.columns #{ lf_simple( @location, 'soil_needs' )}
 
     .row
-      .three.columns Will acquire commercial insurance
-      .nine.columns #{ lf_bool_with_comment( @location, 'insurance' )}
+      .four.columns Will acquire commercial insurance
+      .eight.columns #{ lf_bool_with_comment( @location, 'insurance' )}
 
 
   .row-wrap
@@ -119,7 +119,8 @@
 
         - if @location.latitude && @location.longitude
           #minimap
-        = render partial: 'social' 
+  .social-wrap
+    = render partial: 'social' 
 
   .last-modified.text-muted
     Last modifed #{@location.updated_at ? distance_of_time_in_words( @location.updated_at, Time.current ) : 'unknown'} ago;

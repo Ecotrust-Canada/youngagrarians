@@ -1,14 +1,18 @@
 %h3<Learn More
 - if @location.messageable?
   %p
-    = link_to 'Message Owner',
+    = link_to 'Message Listing Owner',
               new_location_message_path( @location ),
               class: 'button button-primary'
 = contact_links( @location )
 - if @location.phone.present?
-  = link_to( @location.phone, "tel:#{@location.phone}", class: 'phone' )
+  %b phone: 
+  = link_to( @location.phone, "tel:#{@location.phone}", class: 'phone', target: '_blank' )
   %br
-= content_tag( 'span', mail_to( @location.email ), class: 'contact-email' ) if @location.email.present?
+
+- if @location.email.present?
+  %b email: 
+  = content_tag( 'span', mail_to( @location.email ), class: 'contact-email' )
 - if params[:signature]
   - e = Time.at( params[:expiry].to_i )
   - if Time.current < e

@@ -8,9 +8,8 @@
 
     <span class="cat-count show-all-count" if={ tag && !loading }><span class="filled show-all" onclick={ set_tag_null }>Show All&nbsp;<b></b></span></span>
 
-
     <div class="meta-nav">
-      <a each="{ meta_tags }" onclick={ set_tag } class='{ active: tag === name }'>
+      <a each="{ meta_tags }" onclick={ set_tag } class='{ active: tag === name }' title='{name}'>
         <img src="/images/icon/{ slugify(name) }.png">
       </a>
     </div>
@@ -41,6 +40,10 @@
       </li>
     </ul>
 
+    <p style='padding:10px' class='has-more-msg' if={ has_more }>
+      There are more results in other categories, please switch category to see them.
+    </p>
+
   </div>
 
   var controller = this;
@@ -50,14 +53,21 @@
   this.cat_counts = {};
   this.tag = opts.kwargs['t'];
   this.loading = true;
+  this.has_more = false; // indicates whether other categories have more results.
   this.meta_tags = [
-    {name:'Network'},
-    {name:'Education'},
-    {name:'Jobs & Training'},
-    {name:'Business'},
     {name:'Land'},
     {name:'Run Your Farm'}
   ];
+   
+  // additional categories for YA version.
+  if (!is_embedded) {
+    this.meta_tags = [
+      {name:'Network'},
+      {name:'Education'},
+      {name:'Jobs & Training'},
+      {name:'Business'}
+    ].concat(this.meta_tags);
+  }
 
   is_mobile(){
     return window.mobile;
@@ -114,7 +124,7 @@
     });
   });
   
-  opts.on('load', function(response){
+  opts.on('load', function(response, has_more){
     
     response = response.sort(
       function(x, y)
@@ -155,7 +165,8 @@
     controller.update({
       items: response.slice(0,30),
       cat_counts: cat_counts,
-      loading: false
+      loading: false,
+      has_more: has_more
     });
 
   });

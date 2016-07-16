@@ -4,3 +4,23 @@
   %li{ class: selected == 'account' ? 'active' : nil }<= link_to 'Log In', new_location_path( step: 'account' )
   %li{ class: selected == 'description' ? 'active' : nil }<= link_to 'Description', new_location_path( step: 'description' )
   %li{ class: selected == 'contact' ? 'active' : nil }<= link_to 'Contact', new_location_path( step: 'contact' )
+
+= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'
+%script
+  $(function(){
+
+  var i = $('input[type="text"],input[type="checkbox"]').get(0);
+  i && i.focus();
+
+  //don't allow the user to accidentally lose their page before finishing entering data.
+  $(document.body).keypress(function(e){
+  return // disable this
+  var active_tags = ["TEXTAREA","BUTTON","INPUT"];
+  if (e.which === 13) {
+  e.preventDefault();
+  return false;
+  }
+  })
+
+
+  })

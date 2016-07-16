@@ -13,10 +13,11 @@ Youngagrarians::Application.routes.draw do
   resources :categories
   resources :subcategories, only: [:index]
   
+  get 'signup' => 'accounts#new'
+  
   # dead code?
   #get 'locations/filtered/:filtered' => 'locations#index', as: :locations_filtered
-
-  get 'signup' => 'accounts#new'
+  
   resources :locations do
     resource :message
     resources :comments, only: [:create, :destroy]
@@ -24,6 +25,7 @@ Youngagrarians::Application.routes.draw do
       get :cancel
     end
   end
+  get 'surrey.json', controller: 'locations', action: 'index', format: 'json', surrey: 1
 
   get 'home/index'
   get 'map', controller: 'home', action: 'map', as: 'map'

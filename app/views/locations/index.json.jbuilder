@@ -9,6 +9,8 @@ json.array! @locations do |location|
   json.city  location.city
   #json.country location.country
   json.province location.province
+  json.phone location.phone
+  json.email location.email
   #json.streetAddress location.street_address
   #json.hasGoogleMap location.gmaps
   #json.postalCode location.postal

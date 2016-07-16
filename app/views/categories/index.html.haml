@@ -1,14 +1,15 @@
-%h1<Categories of Resources for Young Canadian Farmers
+.detail-page.standalone
+  %h1<Categories of Resources for Young Canadian Farmers
 
-.panel.panel-default
-  Young Aggrarians provide an easier to use searchable map of all of our resources 
-  #{link_to 'here.', map_path}
+  %p
+    Young Aggrarians provide an easier to use searchable map of all of our resources 
+    #{link_to 'here.', map_path}
 
-%ul
-  - NestedCategory.meta.each do |category|
-    - count = category.children.count
-    - if count > 0 
-      %li<= link_to( format( '%s (%s)', category.name, pluralize( count, 'category' ) ), meta_category_path( top_level_name: category.name ) )
-    - else
-      %li<= link_to( category.name, meta_category_path( top_level_name: category.name ) )
+  %ul
+    - NestedCategory.meta.each do |category|
+      - count = category.children.count
+      - if count > 0 
+        %li<= link_to( format( '%s (%s)', category.name, pluralize( count, 'category' ) ), meta_category_path( top_level_name: category.name ) )
+      - else
+        %li<= link_to( category.name, meta_category_path( top_level_name: category.name ) )
 

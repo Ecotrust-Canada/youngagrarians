@@ -45,12 +45,10 @@
         - if @location.latitude && @location.longitude
           #minimap
         
-        .social-wrap
-          = render partial: 'social' 
+  .social-wrap
+    = render partial: 'social' 
 
-  .last-modified.text-muted
-    Last modifed #{@location.updated_at ? distance_of_time_in_words( @location.updated_at, Time.current ) : 'unknown'} ago. 
-    #{@location.show_until ? @location.show_until + '.' : ''}
+  = render partial: 'modified'
 
 = javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'
 :javascript
