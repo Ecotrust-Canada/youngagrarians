@@ -25,11 +25,11 @@ class LocationField < ActiveRecord::Base
 
   # ------------------------------------------------- write_boolean_with_comment
   def write_boolean_with_comment( x )
-    v = x.fetch( 'boolean' ).to_i
-    unless [YES, NO, YES_WITH_COMMENTS, NO_WITH_COMMENTS].include?( v )
+    v = x && x.fetch( 'boolean' ).to_i
+    unless [nil, YES, NO, YES_WITH_COMMENTS, NO_WITH_COMMENTS].include?( v )
       raise ArgumentError, "Invalid value: #{x} -- #{v}"
     end
     self.boolean_value = v.nil? ? false : v
-    self.comment = x.fetch( 'string', nil )
+    self.comment = ( x || {} ).fetch( 'string', nil )
   end
 end

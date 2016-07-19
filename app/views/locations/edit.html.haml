@@ -7,8 +7,8 @@
     = form_for @location, builder: FormBuilder do |f|
       = f.text_field :name, required: true
       = f.text_area :description, required: true
-      - f.object.nested_category_ids.each do |category_id|
-        = f.select_tag 'nested_category_ids[]', category_options( f.object ), value: category_id, label: 'Category'
+      - f.object.nested_categories.each do |category|
+        = f.select_tag 'nested_category_ids[]', category_options( f.object, category ), value: category.id, label: 'Category'
       - if f.object.nested_category_ids.empty?
         = f.select_tag( 'nested_category_ids[]', category_options( f.object ) )
       .add_category
@@ -17,7 +17,7 @@
       = f.text_field :city
       = f.select :country, [ ['Canada', 'CA'], ['United States', 'US']]
       = f.select :province, States::CANADIAN_PROVINCES
-      = f.phone_number :phone
+      = f.phone_field :phone
       = f.url :fb_url, label: 'Facebok URL'
       = f.text_field :twitter_url, label: 'Twitter URL'
       = f.email :email
