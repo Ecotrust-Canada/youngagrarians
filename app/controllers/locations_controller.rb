@@ -41,7 +41,10 @@ class LocationsController < ApplicationController
         scope = if params[:surrey]
           Location.surrey
         else
-          Location
+          Location.all
+        end
+        if params[:services_supplies_land]
+          scope = scope.services_supplies_land
         end
         scope = apply_distance_sort_scope( scope ) if params[:center_lat] && params[:center_long]
         scope = apply_search_scope( scope ) if params[:q].present?
@@ -54,7 +57,7 @@ class LocationsController < ApplicationController
   # GET /locations/1
   # GET /locations/1.json
   def show
-    @location = Location.find(params[:id])
+    @location = Location.find(params[:id] )
     respond_to do |format|
       format.html do
         if @location.visible? || @location.admin?( current_user )

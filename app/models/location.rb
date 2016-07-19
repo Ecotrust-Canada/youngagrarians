@@ -83,6 +83,13 @@ class Location < ActiveRecord::Base
   scope :surrey, -> {
     where( "city ILIKE '%surrey%' OR province ILIKE '%surrey%' OR street_address ILIKE '%surrey%'" )
   }
+  # SERVICE_SUPPLIES_LAND_CATEGORY_IDS = []
+  scope :services_supplies_land, -> {
+    joins( "JOIN category_location_tags ON category_location_tags.location_id = locations.id 
+            JOIN nested_categories primaries ON primaries.id = category_location_tags.category_id" ) # assuming provided cats are terminal nodes
+    .where( 'primaries.name IN ( ? )', %w(Services\ &\ Suppliers Land\ Listings ) )
+    # .where( 'primary.id IN ( ? )',  SERVICE_SUPPLIES_LAND_CATEGORY_IDS )
+  }
 
   REQUIRED_COLUMNS = %w(id resource_type category subcategories
                         name bioregion street_address city province country postal phone
