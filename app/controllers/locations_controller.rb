@@ -87,7 +87,13 @@ class LocationsController < ApplicationController
     unless @location.admin?( current_user )
       redirect_to map_url
     end
-    render layout: 'basic'
+    if @location.land_listing?
+      render :edit_land_listing, layout: 'basic'
+    elsif @location.seeker_listing?
+      render :edit_seeker_listing, layout: 'basic'
+    else
+      render layout: 'basic'
+    end
   end
 
   # POST /locations

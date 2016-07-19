@@ -1,0 +1,81 @@
+= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'
+.listing-edit.land-form#land_provider_form
+  =  form_for( @location, builder: FormBuilder ) do |f|
+    = f.hidden_field :details_complete, value: 1
+    .form-content.overflow
+      %h2<Listing Title
+      = f.text_field :name
+      %h2<Land Seeker Details
+      = f.radio_select :training, ['Agriculture-related degree', 'Farm management (3 years or less)',
+      'Farm management (3 years+)', 'Apprenticeship', 'General degree', 'General farming (3 years or less)',
+      'General farming (3 years+)', 'Other experience/agricultural/business training', 'Specify'],
+                       label: 'What agricultural training and experience do you have?'
+
+      = f.boolean_with_comments :business_plan, no_comments: true, yes_comments: true, label: 'Do you have a business plan?'
+      = f.boolean_with_comments :financial_resources, no_comments: true, yes_comments: true, label: 'Do you already have financial resources available to start your farm (loan, investor, savings, etc.)?'
+      = f.boolean_with_comments :other_financial_resources,
+                                no_comments: true,
+                                yes_comments: true,
+                                label: 'Do you need to find financial resources to start your farm? Please specify what type of financial resources you are looking for (loan, investor, grant, etc.).'
+
+      %h3<Your Project
+      = f.text_field :farm_name
+      = f.radio_select_with_comments :preferred_arrangement, ['Registered Lease on Title', 'Lease', 'License', 'MOU', 'Transfer / Succession', 'Business Partnership', 'Purchase of Land'], label: 'What type of farm land access arrangement are you hoping to find'
+      = f.text_field :agreement_duration, label: 'Duration of the desired agreement'
+      = f.text_field :desired_start_date, label: 'Ideal date you hope to obtain land by'
+
+      %h3<Land & Features Desired
+      = f.select :province, States::CANADIAN_PROVINCES, label: 'Where do you want to farm?'
+      = f.select :bioregion, bc_regions, hidden: @location.province != 'BC', label: 'What part(s) of BC?'
+      = f.select :fv_region,
+                  %w(Abbotsford Chilliwack Ladner Langley New\ Westminster Richmond Surrey Vancouver  White\ Rock),
+                  hidden: @location.bioregion != 'Lower Mainland - Fraser Valley', label: 'What part(s) of the Fraser Valley?'
+      = f.text_field :desired_total_size, label: 'Total Land Size (specify acres)'
+      = f.boolean_with_number :wooded_area, label: 'Wooded Area (specify acres)', yes_comments: true
+      = f.text_field :desired_cultivable_area, label: 'Cultivable Area (specify acres)'
+      = f.boolean_with_number :expansion_size, label: 'Possibility to expand area currently available (specify acres)', yes_comments: true
+      = f.radio_select :zoning, ['ALR', 'Non-ALR' ], hidden: @location.province != 'BC'
+      = f.text_area :desired_surface_state, label: 'Preferred current state of the cultivable area'
+      = f.boolean_with_comments :owner_resides, no_comments: true, yes_comments: true, label: 'Are you open to the landowner residing on the property'
+      = f.boolean_with_comments :buildings_required, yes_comments: true, label: 'Do you need farm buildings?'
+      = f.boolean_with_comments :fencing_required, yes_comments: true, label: 'Do you need fenced land?'
+      = f.boolean_with_comments :tools_required, yes_comments: true, label: 'Do you need farm machinery and tools?'
+      = f.text_field :need_water, yes_comments: true, label: 'What type of water volume and infrastructure will you need?'
+      = f.boolean_with_comments :need_housing, yes_comments: true, label: 'Do you need housing on-site?'
+      = f.check_all_with_comments :desired_use, agriculture_options, label: 'What will you produce?'
+      = f.check_all_with_other :desired_practices, agriculture_type_options, label: 'What type of production will you do:'
+      = f.radio_select_with_comments :soil_needs, ["I don’t know" ], label: 'What type of soil(s) are you looking for?'
+      = f.boolean_with_comments :insurance, yes_comments: true, no_comments: true, label: 'I am willing to acquire commercial insurance and name the property owner as “additionally insured” on the insurance policy.'
+      = f.sign :all_true, label: 'I certify that the foregoing statements made by me are true and accurate to the best of my knowledge and belief, and are made in good faith. I understand that there is not a guarantee that a match will occur or that if a match does occur that it will be successful.'
+ 
+      = f.form_js
+
+    .btnbar
+      .row{:style => "padding-top:20px"}
+        .nine.columns
+          = f.submit( 'Submit' )
+:javascript
+  $('#location_province' ).change( function(e)
+  {
+    if( $( this ).val() == 'BC' )
+    {
+      $('#location_bioregion').removeProp( 'disabled' ).closest( '.form-element' ).show();
+      $('input[name="location[zoning]"]').removeProp( 'disabled' ).closest( '.form-element' ).show();
+    }
+    else
+    {
+      $('#location_bioregion').prop( 'disabled', true ).closest( '.form-element' ).hide();
+      $('input[name="location[zoning]"]').prop( 'disabled', true ).closest( '.form-element' ).hide();
+    }
+  } )
+  $('#location_bioregion' ).change( function(e)
+  {
+    if( $( this ).val() == 'Lower Mainland - Fraser Valley' )
+    {
+      $('#location_fv_region').removeProp( 'disabled' ).closest( '.form-element' ).show();
+    }
+    else
+    {
+      $('#location_fv_region').prop( 'disabled', true ).closest( '.form-element' ).hide();
+    }
+  } )
