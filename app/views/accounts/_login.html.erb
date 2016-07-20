@@ -1,5 +1,4 @@
 <% return_url = nil if local_assigns[:return_url].nil? %>
-<%= User.pluck( :email ).inspect -%>
 <%= form_tag :login_post, :class => 'form-horizontal' do %>
   <fieldset>
     <div class="control-group">

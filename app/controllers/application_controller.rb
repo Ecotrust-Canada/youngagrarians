@@ -38,6 +38,11 @@ class ApplicationController < ActionController::Base
     render_error :bad_request, 400, 'Requested URI contains invalid characters.'
   end
 
+  # --------------------------------------------------------- current_admin_user
+  def current_admin_user
+    @current_admin_user ||= session[:admin_user_id] && User.find_by( id: session[:admin_user_id] )
+  end
+
   # Display error when user is unauthenticated to access resource
   #
   # @return [String, nil]
@@ -119,11 +124,11 @@ class ApplicationController < ActionController::Base
   def authenticate!
     authenticate(:user, :basic)
 
-    raise UnauthenticatedError unless current_user
+    raise UnauthenticatedError unless current_admin_user
   end
 
   def authenticated?
-    session[:admin_user_id] && User.find_by( session[:admin_user_id] )
+    current_admin_user
   end
 
 

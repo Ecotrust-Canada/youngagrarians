@@ -3,7 +3,7 @@ Youngagrarians::Application.routes.draw do
 
   devise_for :users
 
-  get '/admin/login'           => 'accounts#login'
+  get '/admin/login'           => 'accounts#login', as: 'admin_login'
   get '/admin/forgot_password' => 'accounts#forgot_password', as: 'admin_forgot_password'
   post '/admin/forgot_password' => 'accounts#forgot_password'
   get '/admin/forgot_password' => 'accounts#forgot_password', as: 'admin_retrieve_password'

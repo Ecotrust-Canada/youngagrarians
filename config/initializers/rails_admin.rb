@@ -16,7 +16,10 @@ RailsAdmin.config do |config|
   # controller.params['action'].titleize] }
 
   # RailsAdmin may need a way to know who the current user is]
-  config.current_user_method { current_user } # auto-generated
+  config.current_user_method { current_admin_user } # auto-generated
+  config.authorize_with do
+    redirect_to main_app.admin_login_path if current_admin_user.nil?
+  end
 
   # If you want to track changes on your models:
   # config.audit_with :history, 'User'

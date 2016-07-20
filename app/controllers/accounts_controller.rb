@@ -121,6 +121,7 @@ class AccountsController < ApplicationController
     end
   end
 
+  # ----------------------------------------------------------------- login_post
   def login_post
     params[:email] = User.first.email
     u = User.find_by( email: params[:email] )
