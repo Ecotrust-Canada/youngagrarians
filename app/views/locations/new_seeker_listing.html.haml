@@ -21,7 +21,7 @@
 
       %h3<Your Project
       = f.text_field :farm_name
-      = f.radio_select_with_comments :preferred_arrangement, ['Registered Lease on Title', 'Lease', 'License', 'MOU', 'Transfer / Succession', 'Business Partnership', 'Purchase of Land'], label: 'What type of farm land access arrangement are you hoping to find'
+      = f.radio_select_with_comments :preferred_arrangement, ['Registered Lease on Title', 'Lease', 'License', 'MOU', 'Transfer / Succession', 'Business Partnership', 'Purchase of Land', 'Contract'], label: 'What type of farm land access arrangement are you hoping to find'
       = f.text_field :agreement_duration, label: 'Duration of the desired agreement'
       = f.text_field :desired_start_date, label: 'Ideal date you hope to obtain land by'
 
