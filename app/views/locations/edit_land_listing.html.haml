@@ -1,0 +1,62 @@
+= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'
+.listing-edit.land-form#land_provider_form
+  =  form_for( @location, builder: FormBuilder ) do |f|
+    .form-content.overflow
+      %h2<Land Details
+      = f.hidden_field :details_complete, value: 1
+      = f.text_field :name
+      = f.select :province, States::CANADIAN_PROVINCES
+      = f.select :bioregion, bc_regions, hidden: @location.province != 'BC'
+      = f.number :land_size, label: 'Total land size, specify acres'
+      = f.boolean_with_number :wooded_land_size, label: 'Wooded area, specify acres', yes_comments: true
+      = f.number :cultivable_area, label: 'Cultivable area, specify acres'
+      = f.boolean_with_number :expansion_options, label: 'Possibility to expand area currently available, specify acres', yes_comments: true
+      = f.radio_select :zoning, ['ALR', 'Non-ALR' ], hidden: @location.province != 'BC'
+      = f.check_all_with_comments :current_property_use, ['Not used for agriculture'] + agriculture_options
+      = f.check_all_with_other :current_practices, agriculture_type_options
+      = f.text_area :surface_description, label: 'State of the surface of the cultivable area'
+      = f.text_area :historical_use, label: 'Description and historical use of land available for farming'
+      = f.boolean_with_comments :road_access, label: 'Road access', yes_comments: true, no_comments: true
+      = f.boolean_with_comments :electricity, yes_comments: true, no_comments: true, default: true
+      = f.boolean_with_comments :cell_service, yes_comments: true, no_comments: true
+      = f.text_area :long_term_vision, label: 'Long-term goal or vision for land'
+      = f.boolean_with_comments :hazards, yes_comments: true, label: 'Known environmental hazards (wildfire area, flooding, etc.)'
+      = f.boolean_with_comments :residents_present, yes_comments: true, label: 'Current residents living on property'
+      = f.boolean_with_comments :farm_buildings, yes_comments: true, label: 'Availability of farm buildings', no_comments: true
+      = f.boolean_with_comments :is_fenced, yes_comments: true, label: 'Land is fenced'
+      = f.boolean_with_comments :tools, yes_comments: true, label: 'Availability of farm machinery and tools'
+      = f.check_all_with_other :water_source, ['None', 'Well', 'Pond/lake', 'Stream/river', 'Irrigation system'], label: 'Established water source and infrastructure'
+      = f.boolean_with_comments :water_rights, yes_comments: true, label: 'Water rights to these sources', default: true
+      = f.boolean_with_comments :onsite_housing, no_comments: true, label: 'On-site housing is available: If no, is building or a mobile home possible? Please specify'
+      = f.boolean_with_comments :restricted_vistor_access, yes_comments: true, label: 'Restricted access of visitors, (customers, labourers, etc.)'
+      = f.check_all_with_comments :agriculture_preferred, agriculture_options
+      = f.check_all_with_other :practices_preferred, agriculture_type_options, label: 'Preferred type of agriculture'
+      = f.radio_select :agronomic_potential, ['Good','Excellent', "I don't know"]
+      = f.check_all_with_comments :soil_details, ['Texture','Rocky soil', 'Sloping', 'Thick topsoil', 'Slope orientation and degree of slope (specify)',
+        'General fertility (nutrients)', 'Soil grittiness', 'Good drainage', 'Unknown' ]
+      = f.radio_select :preferred_arrangement, ['Registered Lease on Title', 'Lease', 'License', 'MOU', 'Transfer / Succession', 'Business Partnership', 'Sale of Land', 'Other']
+      = f.boolean_with_comments :mentorship, yes_comments: true, label: 'Would you be willing to mentor or advise the entering farmer(s)?'
+      = f.boolean_with_comments :references_required, yes_comments: true, label: 'Do you require references from the farmer(s)?'
+      = f.text_field :agreement_duration, label: 'Duration of the desired agreement'
+      = f.sign :insurance, label: 'I have home insurance on the property, and expect a farmer to have commercial insurance and to be named as “additionally insured” on the tenant farmers insurance policy.'
+      = f.radio_select :agreement_true, %w( Yes No ), label: 'I certify that the foregoing statements made by me are true and accurate to the best of my knowledge and belief, and are made in good faith. I understand that there is not a guarantee that a match will occur or that if a match does occur that it will be successful.', default: 'No'
+      = f.form_js
+
+    .btnbar
+      .row{:style => "padding-top:20px"}
+        = f.submit( 'Save' )
+
+:javascript
+  $('#location_province' ).change( function(e)
+  {
+    if( $( this ).val() == 'BC' )
+    {
+      $('#location_bioregion').removeProp( 'disabled' ).closest( '.form-element' ).show();
+      $('input[name="location[zoning]"]').removeProp( 'disabled' ).closest( '.form-element' ).show();
+    }
+    else
+    {
+      $('#location_bioregion').prop( 'disabled', true ).closest( '.form-element' ).hide();
+      $('input[name="location[zoning]"]').prop( 'disabled', true ).closest( '.form-element' ).hide();
+    }
+  } )
