@@ -7,7 +7,6 @@
   /* webkit text rendering fix
   .tooltip
     background: black
-    left: -185px
     color: #fff
     display: block
     top: -50%
@@ -44,11 +43,9 @@
       border-top: solid transparent 10px
       border-bottom: solid transparent 10px
       border-left: solid black 10px
-      right: -10px
       content: " "
       height: 0
       bottom: 50%
-      margin-left: -13px
       position: absolute
       width: 0
   &:hover .tooltip
@@ -59,6 +56,17 @@
     -ms-transform: translateY(0px)
     -o-transform: translateY(0px)
     transform: translateY(0px)
+  .tooltip-left
+    left: -185px
+    &:after
+      right: -10px
+      margin-left: -13px
+    
+  .tooltip-below
+    left: 0
+    &:after
+      right: 50%
+      margin-left: -13px  
 
 /* IE can just show/hide with no transition
 
