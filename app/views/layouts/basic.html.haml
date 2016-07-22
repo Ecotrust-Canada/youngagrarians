@@ -8,7 +8,7 @@
     = csrf_meta_tags
     %meta{:content => "236752999835803", :property => "fb:app_id"}/
     %meta{:content => "website", :property => "og:type"}/
-    %meta{:content => "YoungAgrarians Resource Map", :property => "og:title"}/
+    %meta{:content => content_for?(:title) ? yield(:title) : "Young Agrarians", :property => "og:title"}/
     %meta{:content => "#{request.protocol}#{request.host}#{root_path}/assets/ya.jpg", :property => "og:image"}/
     %meta{:content => content_for?(:metadesc) ? yield(:metadesc) : "We are mapping resources relevant to new/young farmers wanting to get into farming and food growing. Our focus is on the ecological/organic (certified or uncertified) sector.", :property => "og:description"}/
     %meta{:content => "#{request.original_url}", :property => "og:url"}/
