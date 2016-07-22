@@ -5,7 +5,7 @@
     = f.hidden_field :details_complete, value: 1
     .form-content.overflow
       %h2<Listing Title
-      = f.text_field :name
+      = f.text_field :name, label: 'Listing Title'
       %h2<Land Seeker Details
       = f.radio_select :training, ['Agriculture-related degree', 'Farm management (3 years or less)',
       'Farm management (3 years+)', 'Apprenticeship', 'General degree', 'General farming (3 years or less)',
@@ -21,7 +21,7 @@
 
       %h3<Your Project
       = f.text_field :farm_name
-      = f.radio_select_with_comments :preferred_arrangement, ['Registered Lease on Title', 'Lease', 'License', 'MOU', 'Transfer / Succession', 'Business Partnership', 'Purchase of Land'], label: 'What type of farm land access arrangement are you hoping to find'
+      = f.radio_select_with_comments :preferred_arrangement, ['Registered Lease on Title', 'Lease', 'License', 'MOU', 'Transfer / Succession', 'Business Partnership', 'Purchase of Land', 'Contract'], label: 'What type of farm land access arrangement are you hoping to find *'
       = f.text_field :agreement_duration, label: 'Duration of the desired agreement'
       = f.text_field :desired_start_date, label: 'Ideal date you hope to obtain land by'
 
@@ -48,7 +48,10 @@
       = f.radio_select_with_comments :soil_needs, ["I don’t know" ], label: 'What type of soil(s) are you looking for?'
       = f.boolean_with_comments :insurance, yes_comments: true, no_comments: true, label: 'I am willing to acquire commercial insurance and name the property owner as “additionally insured” on the insurance policy.'
       = f.sign :all_true, label: 'I certify that the foregoing statements made by me are true and accurate to the best of my knowledge and belief, and are made in good faith. I understand that there is not a guarantee that a match will occur or that if a match does occur that it will be successful.'
- 
+      
+      %p
+        %i *Anytime you are considering entering into an agreement, we recommend seeking independent legal advice. For more information about agreements, and to review LEASE and LICENSE templates, please visit youngagrarians.org/land. 
+
       = f.form_js
 
     .btnbar
@@ -58,28 +61,5 @@
         .nine.columns
           = f.submit( 'Previous', name: 'step', value: 'description' )
           = f.submit( 'Submit' )
-:javascript
-  $('#location_province' ).change( function(e)
-  {
-    if( $( this ).val() == 'BC' )
-    {
-      $('#location_bioregion').removeProp( 'disabled' ).closest( '.form-element' ).show();
-      $('input[name="location[zoning]"]').removeProp( 'disabled' ).closest( '.form-element' ).show();
-    }
-    else
-    {
-      $('#location_bioregion').prop( 'disabled', true ).closest( '.form-element' ).hide();
-      $('input[name="location[zoning]"]').prop( 'disabled', true ).closest( '.form-element' ).hide();
-    }
-  } )
-  $('#location_bioregion' ).change( function(e)
-  {
-    if( $( this ).val() == 'Lower Mainland - Fraser Valley' )
-    {
-      $('#location_fv_region').removeProp( 'disabled' ).closest( '.form-element' ).show();
-    }
-    else
-    {
-      $('#location_fv_region').prop( 'disabled', true ).closest( '.form-element' ).hide();
-    }
-  } )
+
+  = javascript_include_tag 'forms'

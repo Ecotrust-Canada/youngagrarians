@@ -3,7 +3,7 @@
   = render partial: 'locations/wizard_nav', locals: { selected: 'description' }
   %h3<About the Listing
   = form_for @location, builder: FormBuilder do |f|
-    .form-content.boxy
+    .form-content.boxy.contact-info-form
       = f.text_field :name, required: true
       #category
         - if @location.nested_categories.any?
@@ -11,7 +11,7 @@
             = f.select_tag 'nested_category_ids[]', category_options( @location, c ), 'value' => 1, label: 'Subcategory'
         - else
           = f.select_tag 'nested_category_ids[]', category_options( @location ), 'value' => 1, label: 'Subcategory'
-        = link_to 'list in another category', '#', class: 'add_category'
+        = link_to 'add another subcategory', '#', class: 'add_category'
       = f.text_area :description, required: true
       .field_info
         <span class='required-icon'>*</span> required fields

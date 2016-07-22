@@ -35,7 +35,7 @@
       = f.radio_select :agronomic_potential, ['Good','Excellent', "I don't know"]
       = f.check_all_with_comments :soil_details, ['Texture','Rocky soil', 'Sloping', 'Thick topsoil', 'Slope orientation and degree of slope (specify)',
         'General fertility (nutrients)', 'Soil grittiness', 'Good drainage', 'Unknown' ]
-      = f.radio_select :preferred_arrangement, ['Registered Lease on Title', 'Lease', 'License', 'MOU', 'Transfer / Succession', 'Business Partnership', 'Sale of Land', 'Other']
+      = f.radio_select :preferred_arrangement, ['Registered Lease on Title', 'Lease', 'License', 'MOU', 'Transfer / Succession', 'Business Partnership', 'Sale of Land', 'Contract']
       = f.boolean_with_comments :mentorship, yes_comments: true, label: 'Would you be willing to mentor or advise the entering farmer(s)?'
       = f.boolean_with_comments :references_required, yes_comments: true, label: 'Do you require references from the farmer(s)?'
       = f.text_field :agreement_duration, label: 'Duration of the desired agreement'
@@ -51,17 +51,4 @@
           = f.submit( 'Previous', name: 'step', value: 'description' )
           = f.submit( 'Submit' )
 
-:javascript
-  $('#location_province' ).change( function(e)
-  {
-    if( $( this ).val() == 'BC' )
-    {
-      $('#location_bioregion').removeProp( 'disabled' ).closest( '.form-element' ).show();
-      $('input[name="location[zoning]"]').removeProp( 'disabled' ).closest( '.form-element' ).show();
-    }
-    else
-    {
-      $('#location_bioregion').prop( 'disabled', true ).closest( '.form-element' ).hide();
-      $('input[name="location[zoning]"]').prop( 'disabled', true ).closest( '.form-element' ).hide();
-    }
-  } )
+  = javascript_include_tag 'forms'

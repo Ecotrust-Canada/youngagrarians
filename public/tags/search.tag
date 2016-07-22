@@ -38,9 +38,9 @@
   {
     if (active_tag) {
       var match_type = is_meta(active_tag) ? 'meta' : 'primary';
-      return item.categories.find( function(x){
+      return item.categories.filter( function(x){
         return x.name === active_tag || x[match_type].name === active_tag;
-      });
+      }).length > 0;
     } else {
       return true;
     }
