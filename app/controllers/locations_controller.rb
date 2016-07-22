@@ -232,6 +232,8 @@ class LocationsController < ApplicationController
               :primary_category_id,
               :name,
               :description,
+              :bioregion,
+              :postal,
               :street_address,
               :city,
               :phone,

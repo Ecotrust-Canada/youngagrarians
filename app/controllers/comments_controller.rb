@@ -4,6 +4,11 @@ class CommentsController < ApplicationController
     @location = Location.find( params[:location_id] )
     @comment = @location.comments.new( params.require( :listing_comment ).permit( :body, :name, :email ) )
     @comment.save
+
+    if @location.email.present? || @location.account
+      UserMailer.new_comment( @comment ).deliver_now
+    end
+    UserMailer.new_comment_for_admin( @comment ).deliver_now
     redirect_to location_url( @location )
   end
 

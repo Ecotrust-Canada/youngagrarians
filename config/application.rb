@@ -69,5 +69,8 @@ module Youngagrarians
     config.assets.version = '1.0'
 
     config.assets.initialize_on_precompile = false
+    config.action_controller.asset_host = 'http://maps.youngaggrarians.org'
+    config.action_mailer.asset_host = 'http://maps.youngaggrarians.org'
   end
+
 end

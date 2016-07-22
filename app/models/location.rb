@@ -233,6 +233,7 @@ class Location < ActiveRecord::Base
     user && user.id == account_id
   end
 
+  # --------------------------------------------------------------- is_approved=
   def is_approved=(value)
     self[:is_approved] = ActiveRecord::Type::Boolean.new.type_cast_from_database(value)
     if value && ( email.present? || account ) && !@skip_approval_email
@@ -287,34 +288,30 @@ class Location < ActiveRecord::Base
 
   def self.import(file)
     line_num = 2
-    CSV.foreach(file.path, headers: true) do |row|
-      location = find_by_id(row['id']) || new
+    CSV.foreach( file.path, headers: true) do |row|
+      raise row.inspect
+      location =  find_by_id(row['id']) if row['id'].present?
       location.skip_approval_email = true
       if location && row['to_delete'].present? && row['to_delete'].casecmp('true').zero?
         location.destroy
-      else
-        location.attributes = row.to_hash.slice(*accessible_attributes)
-        location.is_approved = true unless row['is_approved'].present?
-        category = Category.find_by_name(row['category'])
-        if category
-          location.category = category
-        else
-          raise "Category \"#{row['category']}\" not found. Line #{line_num} Record: #{location.inspect}"
-        end
-
-        row['subcategories'].present? && row['subcategories'].split(';').each do |s|
-          location.subcategories = []
-          subcategory = Subcategory.find_by_name(s.strip)
-          if subcategory
-            location.subcategories << subcategory
-          else
-            raise "Subcategory \"#{s.strip}\" not found. Line #{line_num} Record: #{location.inspect}"
-          end
-        end
-        location.save!
-
-        line_num += 1
+        next
       end
+
+      row.delete( 'category' )
+
+      location.attributes = row.to_hash.slice( *accessible_attributes )
+      location.is_approved = true unless row['is_approved'].present?
+
+      category = Category.find_by_name(row['category'])
+      if category
+        location.category = category
+      else
+        raise "Category \"#{row['category']}\" not found. Line #{line_num} Record: #{location.inspect}"
+      end
+
+      location.save!
+
+      line_num += 1
     end
   end
 
@@ -398,6 +395,7 @@ class Location < ActiveRecord::Base
     end
 
     list do
+      field :id
       field :is_approved do
         label 'Approved'
         export_value do
@@ -415,6 +413,16 @@ class Location < ActiveRecord::Base
       field :email
       field :resource_type
       field :updated_at
+    end
+    import do
+      include_all_fields
+      k.custom_boolean_fields.each do |f|
+        field "#{f}_value".to_sym
+        field "#{f}_comments".to_sym
+      end
+      ( k.custom_text_fields + k.custom_string_fields + k.custom_number_fields ).each do |f|
+        field f.to_sym
+      end
     end
   end
 end
