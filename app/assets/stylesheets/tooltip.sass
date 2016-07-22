@@ -1,6 +1,30 @@
 .tooltip-wrapper
   cursor: help
   position: relative
+  z-index: 10000
+  &:nth-child(0)
+    z-index: 100011
+  &:nth-child(1)
+    z-index: 100010
+  &:nth-child(2)
+    z-index: 10009
+  &:nth-child(3)
+    z-index: 10008
+  &:nth-child(4)
+    z-index: 10007
+  &:nth-child(5)
+    z-index: 10006
+  &:nth-child(6)
+    z-index: 10005
+  &:nth-child(7)
+    z-index: 10004    
+  &:nth-child(8)
+    z-index: 10002    
+  &:nth-child(9)
+    z-index: 10001    
+  &:nth-child(10)
+    z-index: 10001    
+
   -webkit-transform: translateZ(0)
   /* webkit flicker fix
   -webkit-font-smoothing: antialiased
@@ -9,13 +33,11 @@
     background: black
     color: #fff
     display: block
-    top: -50%
     margin-bottom: 15px
     opacity: 0
     padding: 10px
     pointer-events: none
     position: absolute
-    width: 170px
     -webkit-transform: translateY(10px)
     -moz-transform: translateY(10px)
     -ms-transform: translateY(10px)
@@ -57,17 +79,38 @@
     -o-transform: translateY(0px)
     transform: translateY(0px)
   .tooltip-left
+    top: -50%
+    width: 170px
     left: -185px
     &:after
       right: -10px
       margin-left: -13px
+      border-top: solid transparent 10px
+      border-bottom: solid transparent 10px
+      border-left: solid black 10px
+      content: " "
+      height: 0
+      bottom: 50%
+      position: absolute
+      width: 0      
     
   .tooltip-below
-    left: 0
-    &:after
-      right: 50%
-      margin-left: -13px  
+    top: 100%
+    left: 15%
+    width: 80%
+    margin-top: 10px
 
+    &:after
+      top: -10px
+      margin-top: -10px
+      border-left: solid transparent 10px
+      border-right: solid transparent 10px
+      border-bottom: solid black 10px
+      content: " "
+      height: 0
+      left: 10px
+      position: absolute
+      width: 0   
 /* IE can just show/hide with no transition
 
 .lte8 .tooltip-wrapper

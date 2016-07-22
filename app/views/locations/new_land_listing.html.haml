@@ -51,17 +51,4 @@
           = f.submit( 'Previous', name: 'step', value: 'description' )
           = f.submit( 'Submit' )
 
-:javascript
-  $('#location_province' ).change( function(e)
-  {
-    if( $( this ).val() == 'BC' )
-    {
-      $('#location_bioregion').removeProp( 'disabled' ).closest( '.form-element' ).show();
-      $('input[name="location[zoning]"]').removeProp( 'disabled' ).closest( '.form-element' ).show();
-    }
-    else
-    {
-      $('#location_bioregion').prop( 'disabled', true ).closest( '.form-element' ).hide();
-      $('input[name="location[zoning]"]').prop( 'disabled', true ).closest( '.form-element' ).hide();
-    }
-  } )
+  = javascript_include_tag 'forms'

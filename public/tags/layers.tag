@@ -7,7 +7,7 @@
   <ul class='layer-panel panel' if={ showing }>
     <li class='panel-item tooltip-wrapper' each={ wms_layers } onclick={ layer_on_off }>
       <span class="legend-item { legend_class }" style="{ legend_style }"></span>
-      <div class="tooltip"><raw content="{ tooltip }"></raw></div>
+      <div class="tooltip tooltip-left"><raw content="{ tooltip }"></raw></div>
       <span>
         { name }
       </span>
