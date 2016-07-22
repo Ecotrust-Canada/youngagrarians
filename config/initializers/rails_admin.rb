@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
   # config.default_items_per_page = 20
 
   # Exclude specific models (keep the others):
-  config.excluded_models = ['Category', 'Subcategory', 'LocationField']
+  config.excluded_models = ['Category', 'Subcategory', 'LocationField', 'CategoryTag' ]
 
   # Include specific models (exclude the others):
   # config.included_models = ['Category', 'Location', 'Subcategory']
@@ -237,13 +237,13 @@ RailsAdmin.config do |config|
     import_config.logging = true
   end
 
-  config.model 'Location' do
-    import do 
-      excluded_fields do
-        [:category_id]
-      end
-      label :name
-    end
-  end
+ # config.model 'Location' do
+ #   import do 
+ #     excluded_fields do
+ #       [:category_id]
+ #     end
+ #     label :name
+ #   end
+ # end
 end
 

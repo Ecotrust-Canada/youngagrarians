@@ -16,4 +16,14 @@ class Account < ActiveRecord::Base
     Base64.urlsafe_encode64( { id: id, expiry: expiry.to_i, signature: s }.to_json ).strip
   end
 
+  rails_admin do
+    label 'Regular Users'
+    list do
+      fields :id, :email, :updated_at
+    end
+    edit do
+      field :email
+    end
+  end
+
 end

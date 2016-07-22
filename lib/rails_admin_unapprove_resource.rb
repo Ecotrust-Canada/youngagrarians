@@ -26,7 +26,7 @@ module RailsAdmin
 
         register_instance_option :controller do
           proc do
-            @locations = Location.find params[:bulk_ids]
+            @locations = Location.find( params[:bulk_ids] )
             @locations.each do |l|
               l.is_approved = false
               l.save
