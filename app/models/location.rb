@@ -95,6 +95,15 @@ class Location < ActiveRecord::Base
   add_text_field :long_term_vision
   attr_accessor :skip_approval_email, :details_complete
 
+  def before_import_save(record)
+    if record[:category]
+      record[:category].split( /[;,]/ ).each do |category_name|
+        c = NestedCategory.find_by( name: category_name )
+        nested_categories << c
+      end
+    end
+  end
+
   # -------------------------------------------------------------- land_listing?
   def land_listing?
     # IDs not consistent migration to migration, hence string matching
@@ -278,40 +287,12 @@ class Location < ActiveRecord::Base
     end
   end
   
+  # ------------------------------------------------------------------- to_param
   def to_param
     if name.present?
       format( '%d-%s', id, name.gsub( /[^0-9a-z]+/i, '-' ).sub( /^-/, '' ) )
     else
       id.to_s
-    end
-  end
-
-  def self.import(file)
-    line_num = 2
-    CSV.foreach( file.path, headers: true) do |row|
-      raise row.inspect
-      location =  find_by_id(row['id']) if row['id'].present?
-      location.skip_approval_email = true
-      if location && row['to_delete'].present? && row['to_delete'].casecmp('true').zero?
-        location.destroy
-        next
-      end
-
-      row.delete( 'category' )
-
-      location.attributes = row.to_hash.slice( *accessible_attributes )
-      location.is_approved = true unless row['is_approved'].present?
-
-      category = Category.find_by_name(row['category'])
-      if category
-        location.category = category
-      else
-        raise "Category \"#{row['category']}\" not found. Line #{line_num} Record: #{location.inspect}"
-      end
-
-      location.save!
-
-      line_num += 1
     end
   end
 
@@ -416,6 +397,7 @@ class Location < ActiveRecord::Base
     end
     import do
       include_all_fields
+      exclude_fields :nested_categories, :category
       k.custom_boolean_fields.each do |f|
         field "#{f}_value".to_sym
         field "#{f}_comments".to_sym
