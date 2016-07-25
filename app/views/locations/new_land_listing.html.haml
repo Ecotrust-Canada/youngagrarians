@@ -3,9 +3,11 @@
   = render partial: 'locations/wizard_nav', locals: { selected: 'description' }
   =  form_for( @location, builder: FormBuilder ) do |f|
     .form-content.overflow
+
       %h2<Land Details
+      %p Please fill as many fields as possible.
       = f.hidden_field :details_complete, value: 1
-      = f.text_field :name
+      = f.text_field :name, required: true, label: 'Listing Title'
       = f.select :province, States::CANADIAN_PROVINCES
       = f.select :bioregion, bc_regions, hidden: @location.province != 'BC'
       = f.number :land_size, label: 'Total land size, specify acres'

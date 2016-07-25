@@ -238,6 +238,7 @@ class LocationsController < ApplicationController
               :fb_url,
               :twitter_url,
               :email,
+              :postal,
               :public_contact,
               :show_until,
               :account_id,

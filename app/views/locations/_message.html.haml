@@ -6,7 +6,7 @@
               class: 'button button-primary'
 = contact_links( @location )
 - if @location.phone.present?
-  %b phone: 
+  %b Phone: 
   = link_to( @location.phone, "tel:#{@location.phone}", class: 'phone', target: '_blank' )
   %br
 

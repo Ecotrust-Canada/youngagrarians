@@ -1,4 +1,4 @@
-
+= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'
 .listing-edit
   = render( partial: 'wizard_nav', locals: { selected: 'categories' } )
 
@@ -40,3 +40,29 @@
           %a.btn.btn-muted{ href: cancel_locations_path} Cancel
         .three.columns{ style: "text-align: right"}
           %button.btn.btn-primary{ type: "submit", name: 'step', value: 'account' } Next >
+
+  :javascript
+    var qs = {};
+    var sqs = function(){
+      // parse hash vars.
+      qs = {};
+      (window.location + '').split("?")[1].split("&").forEach(function(part){
+        var key = part.split("=")[0];
+        var val = part.split("=")[1] || 'true';
+        qs[key] = decodeURIComponent(val)
+      });
+    };
+    sqs();
+    
+    if (qs.embedded === 'true') {
+      $('.category_section h4').each(function(){
+        if ($(this).text() != "Run Your Farm" & $(this).text() != "Land") {
+          $(this).parent().remove();
+        }
+      });
+      $('li label').each(function(){
+        if ($(this).text().indexOf("Seeds") > -1) {
+          $(this).parent().remove();
+        }
+      });      
+    }

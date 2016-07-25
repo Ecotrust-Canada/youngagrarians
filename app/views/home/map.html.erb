@@ -48,6 +48,7 @@
     <results></results>
     <div id='map'></div>
     <form target='_blank' action='<%= new_listing_path -%>' method='get'>
+      <input type='hidden' name='embedded' value='<%= request.fullpath == "/map" ? "false" : "true" -%>'>
       <button class='submit'>Submit a listing&nbsp;&nbsp;&nbsp;<big>+</big></button>
     </form>
     <layers></layers>

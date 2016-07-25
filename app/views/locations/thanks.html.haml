@@ -8,6 +8,7 @@
       We'll review your posting and put it up on the U-Map!
     .btn-wrap.center
       = link_to 'Return to U-MAP', map_path, class: 'button button-primary'
-      = link_to 'View My Listings', '/locations' , class: 'button button-primary'
+      - if current_user
+        = link_to 'View My Listings', '/locations' , class: 'button button-primary'
     %br
     %br

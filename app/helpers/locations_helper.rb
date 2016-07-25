@@ -114,7 +114,7 @@ module LocationsHelper
 
   # -------------------------------------------------------------- contact_links
   def contact_links( location )
-    labels = {:url => 'url', :fb_url => 'facebook', :twitter_url => 'twitter'}
+    labels = {:url => 'Url', :fb_url => 'Facebook', :twitter_url => 'Twitter'}
     content_tag( 'div', class: 'links' ) do
       r_val = ''.html_safe
       [:url, :fb_url, :twitter_url ].each do |link_type|

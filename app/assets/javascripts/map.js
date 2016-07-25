@@ -187,15 +187,16 @@ function updateMarkers(response){
       "<div class='popup'>"
         +"<div class='listing-icon' style='background-image:url(" + CATEGORY_ICONS[the_slug] + ")'></div>"
         +"<label class='" + the_slug + "'>" + ( cat ? cat.name : 'no category' ) + "</label>"
-          +"<p class='description'>" + listing.name + "</p>"
+          +"<p class='description'><a href='"+listing.url+"'>" + listing.name + "</a></p>"
           +"<p class='contact'>"
             + (listing.phone ? "<a href='tel:" + get_dialable_phone(listing.phone) + "'>" + listing.phone + "</a>" : "")
             + (listing.phone && listing.email ? " | " : "")
-            + (listing.email ? "<a href='tel:'" + listing.email + ">" + listing.email + "</a>" : "")
-          +"<p class='city'>" + listing_city( listing) + "</p>"
+            + (listing.email ? "<a href='mailto:'" + listing.email + ">" + listing.email + "</a>" : "")
+          +"<p class='city'>" + listing.street_address + ', ' + listing_city( listing ) + "</p>"
         +"<a target='_blank' href='/locations/" + listing.id + "' class='info " + the_slug +"'>MORE INFO"
           +"<div class='triangle-arrow filled'></div>"
         +"</a>"
+        +"<div class=clearfix></div>"
       +"</div>"
       );
       markers.addLayer(marker);

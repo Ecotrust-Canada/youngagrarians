@@ -2,7 +2,7 @@
   = render partial: 'wizard_nav', locals: { selected: 'contact' }
   %h3<Contact Info
   = form_for @location, builder: FormBuilder do |f|
-    .form-content.boxy.overflow
+    .form-content.boxy.overflow.contact-info-form
       - @location.email ||= current_user && current_user.email
       - if @location.errors.any?
         .panel
@@ -50,7 +50,8 @@
         .three.columns{:style => "margin-left: 0"}
           %p.aside
             %small
-              By clicking submit, I agree the information I am providing is true and correct.
+              By clicking submit, I agree the to the 
+              %a{:href => "/ya-u-map-privacy-policy.pdf", :target => "_blank"} privacy policy and terms.
 
 = javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'
 :javascript
