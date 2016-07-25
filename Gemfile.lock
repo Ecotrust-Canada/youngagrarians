@@ -86,6 +86,8 @@ GEM
     concurrent-ruby (1.0.2)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
+    css_parser (1.4.5)
+      addressable
     cucumber (2.3.3)
       builder (>= 2.1.2)
       cucumber-core (~> 1.4.0)
@@ -151,6 +153,7 @@ GEM
     haml (4.0.7)
       tilt
     hashdiff (0.3.0)
+    htmlentities (4.3.4)
     i18n (0.7.0)
     jasmine (1.2.1)
       jasmine-core (>= 1.2.0)
@@ -204,6 +207,12 @@ GEM
     orm_adapter (0.5.0)
     pg (0.18.4)
     power_assert (0.3.0)
+    premailer (1.8.7)
+      css_parser (>= 1.4.5)
+      htmlentities (>= 4.0.0)
+    premailer-rails (1.9.4)
+      actionmailer (>= 3, < 6)
+      premailer (~> 1.7, >= 1.7.9)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -384,7 +393,9 @@ DEPENDENCIES
   mocha
   modernizr-rails
   mysql2
+  nokogiri
   pg
+  premailer-rails
   pry
   quiet_assets
   rails (~> 4.2.0)

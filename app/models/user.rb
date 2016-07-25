@@ -28,4 +28,9 @@ class User < ActiveRecord::Base
     # We want lowercase emails to make it easy to look up via authentication!
     self.email = email.downcase.strip if email
   end
+
+
+  rails_admin do
+    label 'Admin Users'
+  end
 end

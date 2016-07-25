@@ -3,7 +3,7 @@
   %p.no-comments
     Be the first to comment:
 
-- @location.comments.order( 'created_at desc' ).each do |comment|
+- @location.comments.where( is_spam: false ).order( 'created_at desc' ).each do |comment|
   .comment
     .body
       = comment.body

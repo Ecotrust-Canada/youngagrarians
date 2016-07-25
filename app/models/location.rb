@@ -1,59 +1,6 @@
 #
 class Location < ActiveRecord::Base
-  # Field constant definations
-  WOODED_LAND_SIZE = 1
-  CULTIVABLE_AREA = 2
-  ZONING = 3
-  CURRENT_PROPERTY_USE = 4
-  CURRENT_PRACTICES = 5
-  SURFACE_DESCRIPTION = 6
-  HISTORICAL_USE = 7
-  ROAD_ACCESS = 8
-  ELECTRICITY = 9
-  CELL_SERVICE = 10
-  LONG_TERM_VISION = 10
-  HAZARDS = 11
-  RESIDENTS_PRESENT = 12
-  FARM_BUILDINGS = 13
-  IS_FENCED = 14
-  TOOLS = 15
-  WATER_SOURCE = 16
-  WATER_RIGHTS = 17
-  ONSITE_HOUSING = 18
-  RESTRICTED_VISTOR_ACCESS = 19
-  AGRICULTURE_PREFERRED = 20
-  PRACTICES_PREFERRED = 21
-  AGRONOMIC_POTENTIAL = 22
-  SOIL_DETAILS = 23
-  PREFERRED_ARRANGEMENT = 24
-  MENTORSHIP = 25
-  REFERENCES_REQUIRED = 26
-  AGREEMENT_DURATION = 27
-  INSURANCE = 28
-  AGREEMENT_TRUE = 29
-  EXPANSION_OPTIONS = 30
-  TRAINING = 31
-  BUSINESS_PLAN = 32
-  FINANCIAL_RESOURCES = 33
-  OTHER_FINANCIAL_RESOURCES = 34
-  FARM_NAME = 35
-  DESIRED_START_DATE = 36
-  FV_REGION = 37
-  DESIRED_TOTAL_SIZE = 38
-  WOODED_AREA = 39
-  DESIRED_CULTIVABLE_AREA = 40
-  EXPANSION_SIZE = 41
-  DESIRED_SURFACE_STATE = 42
-  OWNER_RESIDES = 43
-  BUILDINGS_REQUIRED = 44
-  FENCING_REQUIRED = 45
-  TOOLS_REQUIRED = 46
-  NEED_WATER = 47
-  NEED_HOUSING = 48
-  DESIRED_USE = 49
-  DESIRED_PRACTICES = 50
-  SOIL_NEEDS = 51
-  ALL_TRUE = 51
+  include LocationFieldIds
 
   LAND_LISTING_PARAMS = %w(land_size cultivable_area zoning
                            current_property_use current_practices
@@ -148,15 +95,26 @@ class Location < ActiveRecord::Base
   add_text_field :long_term_vision
   attr_accessor :skip_approval_email, :details_complete
 
+  def before_import_save(record)
+    if record[:category]
+      record[:category].split( /[;,]/ ).each do |category_name|
+        c = NestedCategory.find_by( name: category_name )
+        nested_categories << c
+      end
+    end
+  end
+
   # -------------------------------------------------------------- land_listing?
   def land_listing?
     # IDs not consistent migration to migration, hence string matching
-    if primary_category_id
-      @primary_category ||= NestedCategory.find( primary_category_id )
-      return true if @primary_category.name == 'Land Listings' || @primary_category.name == 'Land Listing'
+    @land_listing ||= begin
+      if primary_category_id
+        @primary_category ||= NestedCategory.find( primary_category_id )
+        return true if @primary_category.name == 'Land Listings' || @primary_category.name == 'Land Listing'
+      end
+      names = nested_categories.pluck( :name )
+      names.include?( 'Land Listings' ) || names.include?( 'Land Listing' )
     end
-    names = nested_categories.pluck( :name )
-    names.include?( 'Land Listings' ) || names.include?( 'Land Listing' )
   end
 
   # -------------------------------------------------------------- seeker_params
@@ -201,11 +159,13 @@ class Location < ActiveRecord::Base
 
   # ------------------------------------------------------------ seeker_listing?
   def seeker_listing?
-    if primary_category_id
-      @primary_category ||= NestedCategory.find( primary_category_id )
-      return true if @primary_category.name == 'Farmers Looking for Land'
+    @seeker_listing_check ||= begin
+      if primary_category_id
+        @primary_category ||= NestedCategory.find( primary_category_id )
+        return true if @primary_category.name == 'Farmers Looking for Land'
+      end
+      nested_categories.pluck( :name ).include?( 'Farmers Looking for Land' )
     end
-    nested_categories.pluck( :name ).include?( 'Farmers Looking for Land' )
   end
 
   # ------------------------------------------------------------------ signature
@@ -282,6 +242,7 @@ class Location < ActiveRecord::Base
     user && user.id == account_id
   end
 
+  # --------------------------------------------------------------- is_approved=
   def is_approved=(value)
     self[:is_approved] = ActiveRecord::Type::Boolean.new.type_cast_from_database(value)
     if value && ( email.present? || account ) && !@skip_approval_email
@@ -289,21 +250,44 @@ class Location < ActiveRecord::Base
     end
   end
 
+  # --------------------------------------------------------------------- to_csv
   def self.to_csv(options = {})
-    columns = REQUIRED_COLUMNS | column_names.reject { |c| c == 'category_id' } | ['to_delete']
+    columns = REQUIRED_COLUMNS
+    columns << 'to_delete'
+    columns -= ['search', 'category_id', 'subcategories']
+    custom_boolean_fields.each do |x|
+      columns << ( x.to_s + '_value' )
+      columns << x.to_s + '_comments'
+    end
+    ( custom_number_fields + custom_text_fields + custom_string_fields ).each do |f|
+      columns << f.to_s
+    end
 
     CSV.generate(options) do |csv|
       csv << columns
-      all.find_each do |location|
+      includes( :nested_categories, :location_fields ).find_each do |location|
         values = location.attributes.dup
-        values['category'] = location.category.name
-        values['subcategories'] = location.subcategories.map(&:name).join(';')
+        values['category'] = location.nested_categories.map{ |x| x.name }.join( '; ' )
         values['to_delete'] = false
+        if location.land_listing? || location.seeker_listing?
+          custom_boolean_fields.each do |f|
+            if columns.include?( f.to_s + '_value' )
+              values[f.to_s + '_value'] = location.send( f.to_s + '_value'  )
+              values[f.to_s + '_comments'] = location.send( f.to_s + '_comments'  )
+            end
+          end
+          ( custom_number_fields + custom_text_fields + custom_string_fields ).each do |f|
+            if columns.include?( f.to_s )
+              values[f.to_s] = location.send( f )
+            end
+          end
+        end
         csv << values.values_at(*columns)
       end
     end
   end
   
+  # ------------------------------------------------------------------- to_param
   def to_param
     if name.present?
       format( '%d-%s', id, name.gsub( /[^0-9a-z]+/i, '-' ).sub( /^-/, '' ) )
@@ -312,40 +296,30 @@ class Location < ActiveRecord::Base
     end
   end
 
-  def self.import(file)
-    line_num = 2
-    CSV.foreach(file.path, headers: true) do |row|
-      location = find_by_id(row['id']) || new
-      location.skip_approval_email = true
-      if location && row['to_delete'].present? && row['to_delete'].casecmp('true').zero?
-        location.destroy
-      else
-        location.attributes = row.to_hash.slice(*accessible_attributes)
-        location.is_approved = true unless row['is_approved'].present?
-        category = Category.find_by_name(row['category'])
-        if category
-          location.category = category
-        else
-          raise "Category \"#{row['category']}\" not found. Line #{line_num} Record: #{location.inspect}"
-        end
+  # ------------------------------------------------------- land_parameter_names
+  def self.land_parameter_names
+    @land_parameter_names ||= land_params.map{ |x| x.is_a?( Symbol ) ? x : x.keys }.flatten
+  end
 
-        row['subcategories'].present? && row['subcategories'].split(';').each do |s|
-          location.subcategories = []
-          subcategory = Subcategory.find_by_name(s.strip)
-          if subcategory
-            location.subcategories << subcategory
-          else
-            raise "Subcategory \"#{s.strip}\" not found. Line #{line_num} Record: #{location.inspect}"
-          end
-        end
-        location.save!
-
-        line_num += 1
-      end
+  # ------------------------------------------------------- land_parameter_names
+  def self.land_seeker_parameter_names
+    @land_parameter_names ||= seeker_params.map{ |x| x.is_a?( Symbol ) ? x : x.keys }.flatten
+  end
+  
+  # -------------------------------------------------------- visibible_paramter?
+  def visible_parameter?( param_name )
+    if land_listing?
+      Location.land_parameter_names.include?( param_name.to_sym )
+    elsif seeker_listing?
+      Location.land_seeker_parameter_names.keys.include?( param_name.to_sym )
+    else
+      false
     end
   end
+
   k = self
   rails_admin do
+
     configure :category_tags do
       visible( false )
     end
@@ -363,38 +337,74 @@ class Location < ActiveRecord::Base
     configure :comments do
       visible( false )
     end
+    ####################################################################
+    #
+    # RailsAdmin Edit Fields
+    #
+    ####################################################################
+    edit do
+      include_all_fields
+      field :latitude
+      field :longitude
+      exclude_fields :created_at, :updated_at, :category, :account
 
-    list do
-      field :name
-      field :street_address
-      field :city
-      field :bioregion
-      field :province
-      field :is_approved
-      field :country
-      field :postal
-      field :nested_category
-      field :email
-      field :resource_type
-      field :gmaps
-      field :created_at
-      field :updated_at
       k.custom_boolean_fields.each do |f|
-        field "#{f}_val".to_sym
-        field "#{f}_comments".to_sym, :string
+        field "#{f}_value".to_sym, :boolean do
+          visible { bindings[:object].visible_parameter?( f ) }
+          label "Has #{f.to_s.humanize}?"
+        end
+        field "#{f}_comments".to_sym, :string do
+          visible { bindings[:object].visible_parameter?( f ) }
+        end
       end
       k.custom_number_fields.each do |f|
-        field f
+        field f, :string do
+          visible { bindings[:object].visible_parameter?( f ) }
+        end
       end
       k.custom_string_fields.each do |f|
-        field f
+        field f, :string do
+          visible { bindings[:object].visible_parameter?( f ) }
+        end
       end
       k.custom_text_fields.each do |f|
-        field f
+        field f, :string do
+          visible { bindings[:object].visible_parameter?( f ) }
+        end
       end
-        
-  #add_multiselect_field :current_property_use
-  #add_text_field :long_term_vision
+      exclude_fields :gmaps
+    end
+
+    list do
+      field :id
+      field :is_approved do
+        label 'Approved'
+        export_value do
+          value ? 'Yes' : 'No'
+        end
+        pretty_value do # used in list view columns and show views, defaults to formatted_value for non-association fields
+          ( value ? "<span class='icon-check'></span>" : "<span class='icon-check-empty'></span>" ).html_safe
+        end
+      end
+      field :show_until
+      field :name
+      field :province
+      field :city
+      field :street_address
+      field :email
+      field :resource_type
+      field :updated_at
+    end
+    import do
+      include_all_fields
+      exclude_fields :nested_categories, :category
+      k.custom_boolean_fields.each do |f|
+        field "#{f}_value".to_sym
+        field "#{f}_comments".to_sym
+      end
+      ( k.custom_text_fields + k.custom_string_fields + k.custom_number_fields ).each do |f|
+        field f.to_sym
+      end
     end
   end
 end

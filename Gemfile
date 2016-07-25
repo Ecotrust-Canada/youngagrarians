@@ -28,6 +28,9 @@ gem 'jbuilder'
 gem 'sass'
 gem 'uglifier'
 
+gem 'premailer-rails'
+gem 'nokogiri'
+
 gem 'modernizr-rails'
 
 # like bower.json...

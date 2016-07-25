@@ -79,4 +79,7 @@ class NestedCategory < ActiveRecord::Base
   def leaf_node?
     children.empty?
   end
+  rails_admin do
+    label 'Category'
+  end
 end
