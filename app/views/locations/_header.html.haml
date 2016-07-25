@@ -4,9 +4,9 @@
   %a{ href: '/map', target: '_blank'}
     #{image_tag 'umap-content-title.png'}
   .filled
-- if request.referrer.include? "/map"
+- if request.referrer and request.referrer.include? "/map"
   %a.back{ href: "javascript: history.go(-1); close();" }
     Return to map
 - else
   %a.back{ href: "/map" }
-    Go to map    
+    Go to map

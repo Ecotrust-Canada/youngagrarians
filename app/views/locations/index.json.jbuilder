@@ -25,7 +25,8 @@ json.array! @locations do |location|
   
   #json.created location.created_at
   #json.updated location.updated_at
-
+  json.show_until location.show_until
+  
   json.url location.url
   #json.resourceType location.resource_type
   json.categories location.nested_categories do |category|

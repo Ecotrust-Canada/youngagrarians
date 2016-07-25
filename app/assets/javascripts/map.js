@@ -183,10 +183,14 @@ function updateMarkers(response){
       // link items to markers and vice versa.
       marker.item = listing;
       listing.marker = marker;
+      var is_event = location.categories.filter(function(c){
+        return c.name === 'Event';
+      }).length > 0;
       marker.bindPopup(
       "<div class='popup'>"
         +"<div class='listing-icon' style='background-image:url(" + CATEGORY_ICONS[the_slug] + ")'></div>"
         +"<label class='" + the_slug + "'>" + ( cat ? cat.name : 'no category' ) + "</label>"
+          + (is_event ? "<p class='description'>date: " + listing.show_until + "</p>" : "")
           +"<p class='description'><a href='"+listing.url+"'>" + listing.name + "</a></p>"
           +"<p class='contact'>"
             + (listing.phone ? "<a href='tel:" + get_dialable_phone(listing.phone) + "'>" + listing.phone + "</a>" : "")
