@@ -85,7 +85,11 @@
       ajax().get( path ).then(function(response){
         response.forEach(function(listing){
           listing.dist = Math.abs((listing.latitude || 999) - 49.104430) + Math.abs((listing.longitude || 999) - -122.801094);
+          listing.is_event = listing.categories.filter(function(c){
+            return (c.primary ? c.primary.name : c.name) == 'Events';
+            }).length
         });
+        
         orig_listings = response;
         handle_load();
       });
