@@ -29,8 +29,8 @@
         ></div>
         <a class='listing-text' target='{ is_mobile() ? "_self" : "_blank" }' href='/locations/{ id }'>
           <label class='{ proper_category_slug }'>{ proper_category }</label>
-          <span class='name'>{ name }</span><br>
-          <span if={ city } class='city'>{ city }, { province }</span>
+          <span class='name'>{ ellipsize(name, 22) }</span>
+          <span if={ city } class='city'>{ city }, { province || 'BC' }</span>
         </a>
         <div if={ latitude } class='view-on-map { proper_category_slug }' onclick={ view_on_map }>
           <span if={ is_mobile() }>GO TO<br>LISTING</span>
@@ -59,6 +59,13 @@
     {name:'Run Your Farm'}
   ];
    
+  ellipsize(s, l){
+    if (s.length > l) {
+      return s.substr(0,l) + '..';
+    } else {
+      return s
+    }
+  }
   // additional categories for YA version.
   if (!is_embedded) {
     this.meta_tags = [
@@ -142,26 +149,29 @@
     var cat_counts = {}, name;
     var _is_meta = is_meta(controller.tag);
     response.forEach(function(item){
+      var _cat_counts = {}; // keep a local count to avoid double counting children/parents.
       for (var i=0; i<item.categories.length; i++) {
         if(_is_meta) {
           if (!controller.tag || item.categories[i].meta.name == controller.tag) {
             name = item.categories[i].primary ? item.categories[i].primary.name : item.categories[i].name;
-            cat_counts[name] = (cat_counts[name] || 0) + 1;
+            _cat_counts[name] = 1; //(cat_counts[name] || 0) + 1;
             item.proper_category_slug = slug(name);
             item.proper_category = name;
           }
         } else {
           name = item.categories[i].primary ? item.categories[i].primary.name : item.categories[i].name;
           if (name === controller.tag) {
-            cat_counts[name] = (cat_counts[name] || 0) + 1;
+            _cat_counts[name] = 1; //(cat_counts[name] || 0) + 1;
             item.proper_category_slug = slug(name);
             item.proper_category = name;
           }
         }
       }
+      for (k in _cat_counts) cat_counts[k] = (cat_counts[k] || 0) + 1; // yield the local counts into the global.
     });
 
     controller.response = response;
+    console.log( response.slice(0,30), cat_counts)
     controller.update({
       items: response.slice(0,30),
       cat_counts: cat_counts,

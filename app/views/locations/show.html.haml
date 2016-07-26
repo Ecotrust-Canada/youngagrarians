@@ -15,8 +15,9 @@
       = @location.name
 
   - if current_user && @location.admin?( current_user )
-    %p
-      = link_to 'edit location details', edit_location_path( @location )
+    %p.pull-right
+      = link_to 'Edit Location', edit_location_path( @location ), class: 'button button-primary'
+  
   
   %i
     = content_tag( 'span', @location.resource_type, class: 'resource-type' ) if @location.resource_type
@@ -49,6 +50,17 @@
     = render partial: 'social' 
 
   = render partial: 'modified'
+  
+  - if @wp_post  
+    .blog
+      %h3 From The Blog
+      .row
+        .six.columns
+          %img{ :src => @wp_post["featured_image"]["attachment_meta"]["sizes"]["post-thumbnail"]["url"] }
+          %h4 #{ raw @wp_post["title"] }
+          %p #{ raw @wp_post["excerpt"] }
+
+
 
 = javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'
 :javascript

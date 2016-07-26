@@ -10,6 +10,32 @@ module CustomFields
       define_method( field_name ) do
         load_field( konst )
       end
+      define_method( field_name.to_s + '_comments' ) do
+        f = load_field( konst )
+        f && f.comment
+      end
+      define_method( field_name.to_s + '_value' ) do
+        f = load_field( konst )
+        f && f.true?
+      end
+      define_method( field_name.to_s + '_comments=' ) do |x|
+        f = load_field( konst )
+        if x.present?
+          f.comment = x
+        else
+          f.comment = nil
+        end
+        f.save unless new_record?
+      end
+      define_method( field_name.to_s + '_value=' ) do |x|
+        f = load_field( konst )
+        if !x || x == '0' || x == 'false'
+          f.boolean_value = LocationField::NO
+        else
+          f.boolean_value = LocationField::YES
+        end
+        f.save unless new_record?
+      end
       define_method( "#{field_name}=" ) do |x|
         f = load_field( konst )
         f.write_boolean_with_comment( x )

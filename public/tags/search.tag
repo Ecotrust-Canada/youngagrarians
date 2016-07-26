@@ -1,8 +1,9 @@
 
 <search>
-
-  <input type="text" placeholder="Search: ie) Bees, Soil, etc." name="q" class="search-box search-box-map" onkeyup={ onquery }>
   
+  <div class='search-box-map-wrap'>
+    <input type="text" placeholder="Search: ie) Bees, Soil, etc." name="q" class="search-box-map" onkeyup={ onquery }>
+  </div>
   <div class='results-toggle toggle' onclick={ toggle_results }>list</div>
 
   <!--<div class='category-toggle toggle' onclick={ toggle_categories }>
@@ -85,7 +86,11 @@
       ajax().get( path ).then(function(response){
         response.forEach(function(listing){
           listing.dist = Math.abs((listing.latitude || 999) - 49.104430) + Math.abs((listing.longitude || 999) - -122.801094);
+          listing.is_event = listing.categories.filter(function(c){
+            return (c.primary ? c.primary.name : c.name) == 'Events';
+            }).length
         });
+        
         orig_listings = response;
         handle_load();
       });

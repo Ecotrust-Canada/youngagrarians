@@ -1,7 +1,7 @@
 @import "fonts"
 @import "tooltip"
 
-$orange: #F36F2D
+$orange: #C0421A
 
 body
   /* background: url(../images/splash/field-yellow-blur-grain.jpg) no-repeat center center fixed
@@ -42,17 +42,22 @@ textarea
   font-family: 'Sofia Pro'
 
 
-input
+.search-box-map-wrap
+  top: 25px
+  left: 425px
+  margin: 0
+  width: 276px
+  position: absolute
+  @media (max-width: 768px)
+    width: auto
+    left: 25px
+    top: 10px
+    right: 100px
 
-  &.search-box-map
-    top: 25px
-    left: 425px
-    height: 35px
-    margin: 0
-    width: 276px
-    @media (max-width: 768px)
-      left: 25px
-      top: 10px
+input.search-box-map
+  width: 100%
+  height: 35px
+
 
 input
   &[type="checkbox"], &[type="radio"]
@@ -118,7 +123,7 @@ header
     float: left
     margin-top: 12px
     margin-left: 15px
-    width: 300px
+    width: 330px
     max-width: 80%
     height: auto
 
@@ -265,6 +270,7 @@ header
       background-color: rgba(0, 0, 0, 0.9)
       .splash-subtag-menu
         display: block
+        z-index: 1
 /* end of map landing page */
 
 /* map overlays -----------------------
@@ -325,6 +331,7 @@ button.submit
   padding: 5px 15px 0 0
   left: -75px
   width: 60px
+  top: 10px
   @media (max-width: 768px)
     left: auto
     right: 25px
@@ -334,9 +341,6 @@ button.submit
   right: 25px
   width: 60px
   background: url(../images/icon/layers.png) white no-repeat 6px 6px
-  @media (max-width: 768px)
-    right: auto
-    left: 25px
 
 .category-toggle
   left: 700px
@@ -363,9 +367,7 @@ button.submit
 .layer-panel
   z-index: 2000
   right: 25px
-  @media (max-width: 768px)
-    right: auto
-    left: 25px
+
   .legend-item
     width: 15px
     height: 15px
@@ -520,7 +522,11 @@ ul.social
 
   .location-description
     margin: 1em 0 1em 0
-
+  
+  .blog
+    .six img
+      max-width: 100%
+      height: auto
 .extensions
   .four
     font-weight: bold
@@ -622,10 +628,10 @@ page
   .meta-nav a
     display: inline-block
     background-color: #555
-    width: 50px
-    height: 50px
+    width: 47px
+    height: 47px
     border-radius: 50%
-    margin: 5px 6px 0 6px
+    margin: 5px 2px 0 2px
     text-align: center
     padding-top: 10px
     cursor: pointer
@@ -663,11 +669,17 @@ ul.results-list
       font-size: 14px
       text-decoration: none
       line-height: 14px
+      overflow: hidden
     label
       text-transform: uppercase
       font-weight: bold
+      margin-bottom: 2px
     .name
       color: black
+      display: block
+      height: 18px
+      line-height: 18px
+      overflow: hidden
     .city
       color: black
       text-transform: uppercase
@@ -695,6 +707,22 @@ ul.results-list
   z-index: 10
   @media (max-width: 768px)
     left: 0
+
+.clearfix:after 
+  visibility: hidden
+  display: block
+  font-size: 0
+  content: " "
+  clear: both
+  height: 0
+.clearfix
+  display: inline-block
+/* start commented backslash hack \*/
+* html .clearfix
+  height: 1%
+.clearfix
+  display: block
+/* close commented backslash hack */
 
 results.show
   .results-sidebar
@@ -743,6 +771,9 @@ results.show
     font-size: 22px
     line-height: 17px
     font-family: 'Young Agrarians', "Comic Sans MS", cursive, sans-serif
+    a
+      text-decoration: none
+      color: black
   .contact
     margin: 0 0 5px 0
     font-size: 14px
@@ -750,17 +781,20 @@ results.show
     margin: 0
     font-size: 14px
     text-transform: uppercase
+    float: left
   .info
     margin: 0
     font-size: 14px
     cursor: pointer
     display: block
-    position: absolute
+    float: right
     bottom: 0
     right: 5px
   font-family: "Sofia Pro", Arial, Helvetica, sans-serif
   .triangle-arrow
     display: inline-block
+
+
 
 .leaflet-popup-content
   margin: 5px 10px 5px 5px
@@ -901,10 +935,22 @@ results.show
   .boxy
     label
       width: 140px
-  .contact-info-form
-    select, input
+  .description-form
+    select, input[type="text"]
       width: 100%
       max-width: 500px
+  .contact-info-form
+    .six
+      select, input[type="text"], input[type="tel"], input[type="email"]
+        width: 180px
+
+  .account-setup-form
+    input, button
+      width: 150px
+    button
+      text-align: center
+      padding: 0
+
   .comments
     input
       width: 300px
@@ -946,6 +992,11 @@ results.show
       padding-left: 25px
       font-size: 15px
       line-height: 15px
+    input[type="text"], select
+      width: 300px
+      max-width: 90%
+    #location_all_true
+      display: block
 
   .category-list
     li
@@ -991,9 +1042,6 @@ results.show
   .zoning-info
     display: inline-block
 
-  .six
-    select, input[type="text"], input[type="tel"], input[type="email"]
-      width: 180px
 
 .required-icon
   color: $orange

@@ -20,7 +20,7 @@ class UserMailer < ActionMailer::Base
   # ----------------------------------------------------------- listing_approved
   def new_listing( location )
     @location = location
-    mail(to: 'farm@youngagrarians.org',
+    mail( to: 'farm@youngagrarians.org',
           subject: 'Young Agrarians - Listing Needs Approval')
   end
 
@@ -47,5 +47,20 @@ class UserMailer < ActionMailer::Base
     # TODO: validate email reply to string
     # TODO: Wrap body in nice layout
     mail( to: to, subject: message.subject, reply_to: "#{message.name} <#{message.email}>" )
+  end
+
+  def new_comment( comment )
+    @comment = comment
+    l = comment.location
+    addresses = []
+    addresses << l.email if l.email.present?
+    addresses << l.account.email if l.account && l.account.email
+    mail(to: addresses,
+          subject: "Young Agrarians - Comment on #{comment.location.name}")
+  end
+  def new_comment_for_admin( comment )
+    @comment = comment
+    mail(to: 'farm@youngagrarians.org',
+          subject: "Young Agrarians - Comment on #{comment.location.name}")
   end
 end

@@ -11,7 +11,7 @@ json.array! @locations do |location|
   json.province location.province
   json.phone location.phone
   json.email location.email
-  #json.streetAddress location.street_address
+  json.street_address location.street_address
   #json.hasGoogleMap location.gmaps
   #json.postalCode location.postal
 
@@ -25,8 +25,9 @@ json.array! @locations do |location|
   
   #json.created location.created_at
   #json.updated location.updated_at
-
-  #json.url location.url
+  json.show_until location.show_until
+  
+  json.url location.url
   #json.resourceType location.resource_type
   json.categories location.nested_categories do |category|
     json.id category.id

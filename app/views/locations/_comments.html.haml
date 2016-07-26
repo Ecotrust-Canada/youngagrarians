@@ -3,7 +3,7 @@
   %p.no-comments
     Be the first to comment:
 
-- @location.comments.order( 'created_at desc' ).each do |comment|
+- @location.comments.where( is_spam: false ).order( 'created_at desc' ).each do |comment|
   .comment
     .body
       = comment.body
@@ -16,7 +16,7 @@
       = link_to 'Remove', location_comment_path( @location, comment ), class: 'remove'
 
 = form_for @location.comments.new, url: location_comments_url( @location ), builder: FormBuilder do |f|
-  = f.text_area :body, label: 'Comment'
-  = f.text_field :name, label: 'Name'
-  = f.text_field :email, label: 'email'
+  = f.text_area :body, label: 'Comment', required: true
+  = f.text_field :name, label: 'Name', required: true
+  = f.text_field :email, label: 'Email', required: true
   = f.submit 'Post'

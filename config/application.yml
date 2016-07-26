@@ -1,16 +1,16 @@
 send_mail_to: 'admin@youngagrarians.org'
 send_from: '"Young Agrarians" <no-reply@youngagrarians.org>'
-smtp_host: 'localhost'
+smtp_host: 'smtp.sengrid.net'
 smtp_port: 587
-smtp_username: 'admin'
+smtp_username: ''
 smtp_password: ''
 
 development:
-  mailer_host: 'localhost:3000'
-  send_mail_to: 'apalmblad@gmail.com'
+  mailer_host: '192.168.1.15:3000'
+  send_mail_to: 'echo85@gmail.com'
 
 test:
-  mailer_host: 'localhost:3000'
+  mailer_host: '192.168.1.15:3000'
 
 staging:
   mailer_host: 'staging.maps.youngagrarians.org'

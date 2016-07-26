@@ -1,0 +1,10 @@
+%p<Hi,
+%p
+  A new comment has just been posted on #{@comment.location.name}.
+
+  %p<= @comment.body
+
+  %p
+    You can view and reply here:
+    %br
+    = link_to location_url( @comment.location ), location_url( @comment.location )
