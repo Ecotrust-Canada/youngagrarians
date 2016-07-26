@@ -57,7 +57,11 @@ class LocationsController < ApplicationController
   # GET /locations/1
   # GET /locations/1.json
   def show
+    require 'rest-client'
     @location = Location.find(params[:id] )
+
+    @wp_post = @location.load_wp_post()
+
     respond_to do |format|
       format.html do
         if @location.visible? || @location.admin?( current_user )

@@ -30,6 +30,7 @@ gem 'uglifier'
 
 gem 'premailer-rails'
 gem 'nokogiri'
+gem 'rest-client'
 
 gem 'modernizr-rails'
 

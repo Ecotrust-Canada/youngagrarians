@@ -28,14 +28,10 @@ class Location < ActiveRecord::Base
   scope :approved, -> { where( is_approved: true ) } 
   scope :currently_shown, -> { where( 'show_until IS NULL OR show_until > ?', Time.zone.today) }
   scope :surrey, -> {
-    where( "city ILIKE '%surrey%' OR province ILIKE '%surrey%' OR street_address ILIKE '%surrey%'" )
-  }
-  # SERVICE_SUPPLIES_LAND_CATEGORY_IDS = []
-  scope :services_supplies_land, -> {
     joins( "JOIN category_location_tags ON category_location_tags.location_id = locations.id 
             JOIN nested_categories primaries ON primaries.id = category_location_tags.category_id" ) # assuming provided cats are terminal nodes
-    .where( 'primaries.name IN ( ? )', %w(Services\ &\ Suppliers Land\ Listings ) )
-    # .where( 'primary.id IN ( ? )',  SERVICE_SUPPLIES_LAND_CATEGORY_IDS )
+    .where( 'primaries.name IN ( ? )', %w(Services\ and\ Suppliers Land\ Listings ) )
+    # .where( 'primary.id IN ( ? )',  SERVICE_SUPPLIES_LAND_CATEGORY_IDS )  
   }
 
   REQUIRED_COLUMNS = %w(id resource_type category subcategories
@@ -202,34 +198,6 @@ class Location < ActiveRecord::Base
     super include: [:category, :subcategories], except: [:category_id, :is_approved]
   end
   
-  # dead code?
-  # SEARCH_FIELDS = %w(name street_address city province country postal bioregion phone).freeze
-  # def self.search(term, _province = nil)
-  #   results = []
-  #   if !term.nil? && !term.empty?
-  #     term = term.downcase
-  #     starts_with = "#{term}%"
-  #     categories = Category.where('LOWER(name) LIKE ?', starts_with).pluck(:id)
-  #     subcategories = Subcategory.where('LOWER(name) LIKE ?', starts_with).pluck(:id)
-
-  #     if categories
-  #       results += Location.where(is_approved: true)
-  #                          .where('category_id IN (?)', categories).select("name, street_address, city, province, country, categories")
-  #     end
-  #     if subcategories
-  #       results += Location.joins(:subcategories)
-  #                          .where(is_approved: true)
-  #                          .where('subcategories.id IN (?)', subcategories).select("name, street_address, city, province, country, categories")
-  #     end
-  #     term = "%#{term.tr(' ', '%')}%"
-
-  #     results += Location.where(is_approved: true)
-  #                        .where(SEARCH_FIELDS.map { |x| "#{x} ILIKE ?" }.join(' OR '), *[term] * SEARCH_FIELDS.length)
-  #                        .select("name, street_address, city, province, country, categories")
-  #   end
-  #   results.uniq
-  # end
-
   # Tells gmaps4rails if it already got the geocoordinates for that or not
   def gmaps
     return true if resource_type == 'Web'
@@ -287,6 +255,16 @@ class Location < ActiveRecord::Base
     end
   end
   
+  def load_wp_post
+    if self.post_id
+      require 'rest-client'
+      rsp = RestClient.get "http://youngagrarians.org/wp-json/posts/#{ self.post_id }"
+      JSON.parse(rsp.body)
+    else
+      nil
+    end
+  end
+
   # ------------------------------------------------------------------- to_param
   def to_param
     if name.present?

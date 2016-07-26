@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160618042951) do
+ActiveRecord::Schema.define(version: 20160726054426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20160618042951) do
     t.boolean  "public_contact",             default: true, null: false
     t.tsvector "search"
     t.string   "land_size"
+    t.string   "post_id"
   end
 
   add_index "locations", ["is_approved"], name: "index_locations_on_is_approved", using: :btree

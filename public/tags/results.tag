@@ -29,8 +29,8 @@
         ></div>
         <a class='listing-text' target='{ is_mobile() ? "_self" : "_blank" }' href='/locations/{ id }'>
           <label class='{ proper_category_slug }'>{ proper_category }</label>
-          <span class='name'>{ name }</span><br>
-          <span if={ city } class='city'>{ city }, { province }</span>
+          <span class='name'>{ ellipsize(name, 22) }</span>
+          <span if={ city } class='city'>{ city }, { province || 'BC' }</span>
         </a>
         <div if={ latitude } class='view-on-map { proper_category_slug }' onclick={ view_on_map }>
           <span if={ is_mobile() }>GO TO<br>LISTING</span>
@@ -59,6 +59,13 @@
     {name:'Run Your Farm'}
   ];
    
+  ellipsize(s, l){
+    if (s.length > l) {
+      return s.substr(0,l) + '..';
+    } else {
+      return s
+    }
+  }
   // additional categories for YA version.
   if (!is_embedded) {
     this.meta_tags = [
