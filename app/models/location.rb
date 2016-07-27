@@ -255,14 +255,16 @@ class Location < ActiveRecord::Base
     end
   end
   
-  def load_wp_post
-    if self.post_id
-      require 'rest-client'
-      rsp = RestClient.get "http://youngagrarians.org/wp-json/posts/#{ self.post_id }"
-      JSON.parse(rsp.body)
-    else
-      nil
+  def load_wp_posts
+    wp_posts = []
+    [self.post_id, self.post2_id].each do |post_id|
+      if post_id
+        require 'rest-client'
+        rsp = RestClient.get "http://youngagrarians.org/wp-json/posts/#{ post_id }"
+        wp_posts << JSON.parse(rsp.body)
+      end
     end
+    wp_posts
   end
 
   # ------------------------------------------------------------------- to_param

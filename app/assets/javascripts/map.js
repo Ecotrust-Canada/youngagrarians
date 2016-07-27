@@ -158,6 +158,14 @@ function get_dialable_phone(s){
   return s;
 }
 
+function ensure_http(url){
+  if (!url.match(/^[a-zA-Z]+:\/\//)) {
+    return 'http://' + url;
+  } else {
+    return url;
+  }
+}
+
 function updateMarkers(response){
   markers.clearLayers();
 
@@ -188,7 +196,7 @@ function updateMarkers(response){
         +"<div class='listing-icon' style='background-image:url(" + CATEGORY_ICONS[the_slug] + ")'></div>"
         +"<label class='" + the_slug + "'>" + ( cat ? cat.name : 'no category' ) + "</label>"
           + (listing.is_event && listing.show_until ? "<p class='description'>date: " + listing.show_until + "</p>" : "")
-          +"<p class='description'><a href='"+listing.url+"'>" + listing.name + "</a></p>"
+          +"<p class='description'><a href='"+ensure_http(listing.url)+"'>" + listing.name + "</a></p>"
           +"<p class='contact'>"
             + (listing.phone ? "<a href='tel:" + get_dialable_phone(listing.phone) + "'>" + listing.phone + "</a>" : "")
             + (listing.phone && listing.email ? " | " : "")

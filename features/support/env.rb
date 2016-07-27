@@ -81,4 +81,4 @@ Capybara.javascript_driver = :webkit
 
 WebMock.disable_net_connect!(allow_localhost: true)
 
-Capybara.default_host = 'http://maps.youngagrarians.org'
+Capybara.default_host = 'http://map.youngagrarians.org'

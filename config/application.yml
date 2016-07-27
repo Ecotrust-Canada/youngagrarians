@@ -13,10 +13,10 @@ test:
   mailer_host: '192.168.1.15:3000'
 
 staging:
-  mailer_host: 'staging.maps.youngagrarians.org'
+  mailer_host: 'staging.map.youngagrarians.org'
 
 production:
-  mailer_host: 'maps.youngagrarians.org'
+  mailer_host: 'map.youngagrarians.org'
   smtp_host: 'smtp.sendgrid.net'
   smtp_username: <%= ENV["SENDGRID_USERNAME"] %>
   smtp_password: <%= ENV["SENDGRID_PASSWORD"] %>
