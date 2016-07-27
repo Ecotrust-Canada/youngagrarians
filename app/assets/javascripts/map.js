@@ -159,7 +159,7 @@ function get_dialable_phone(s){
 }
 
 function ensure_http(url){
-  if (url &! url.match(/^[a-zA-Z]+:\/\//)) {
+  if (url && !url.match(/^[a-zA-Z]+:\/\//)) {
     return 'http://' + url;
   } else {
     return url;
