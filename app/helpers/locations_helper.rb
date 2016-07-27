@@ -112,17 +112,26 @@ module LocationsHelper
     end
   end
 
+  def smart_add_url_protocol( url )
+    if url.length > 0 and not url[/^https?:\/\//]
+      "http://#{url}"
+    else
+      url
+    end
+  end
+
   # -------------------------------------------------------------- contact_links
   def contact_links( location )
     labels = {:url => 'Url', :fb_url => 'Facebook', :twitter_url => 'Twitter'}
     content_tag( 'div', class: 'links' ) do
       r_val = ''.html_safe
       [:url, :fb_url, :twitter_url ].each do |link_type|
-        l = location.send( link_type )
+        l = smart_add_url_protocol( location.send( link_type ) )
         if l.present?
           r_val << content_tag('b') do
             "#{labels[link_type]}: "
           end
+
           r_val << link_to( l, l, class: link_type, target: '_blank' )
           r_val << tag( 'br' )
         end
