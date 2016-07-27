@@ -60,8 +60,8 @@ class LocationsController < ApplicationController
     require 'rest-client'
     @location = Location.find(params[:id] )
 
-    @wp_post = @location.load_wp_post()
-
+    @wp_posts = @location.load_wp_posts()
+    
     respond_to do |format|
       format.html do
         if @location.visible? || @location.admin?( current_user )
