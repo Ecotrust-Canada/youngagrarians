@@ -27,10 +27,11 @@ If you need to apply DB migrations:
 docker exec -it youngagrarians_app_1 rake db:migrate
 ```
 
-Run
-====
+If you need to update static files:
+```
+docker exec -it youngararians_app_1 rake assets:precompile
+```
 
-    rails s
 
 Admin Panel
 ===========
