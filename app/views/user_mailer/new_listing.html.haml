@@ -2,6 +2,6 @@
 %p<Hi,
 %p
   A new listing has just been added to the Young Aggrarians map system. This
-  lsting requires admin approval before it goes live.  Click here to review
-  and approve:
-  = link_to location_url( @location, signature: signature, expiry: expiry ), location_url( @location, signature: signature, expiry: expiry )
+  lsting requires admin approval before it goes live. 
+  = link_to 'Click here', 'http://map.youngagrarians.org' + rails_admin.show_path(model_name: 'location', id: @location.id)
+  to review and approve.
