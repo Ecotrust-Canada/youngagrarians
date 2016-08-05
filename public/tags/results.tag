@@ -169,9 +169,15 @@
       }
       for (k in _cat_counts) cat_counts[k] = (cat_counts[k] || 0) + 1; // yield the local counts into the global.
     });
+    
+    if (window.is_embedded) { // CoS hardcoded cateogory tag rendering restriction.
+      var tmp = cat_counts;
+      cat_counts = {};
+      cat_counts['Services and Suppliers'] = tmp['Services and Suppliers'];
+      cat_counts['Land Listings'] = tmp['Land Listings'];
+    }
 
     controller.response = response;
-    console.log( response.slice(0,30), cat_counts)
     controller.update({
       items: response.slice(0,30),
       cat_counts: cat_counts,

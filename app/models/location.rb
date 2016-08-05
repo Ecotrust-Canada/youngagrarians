@@ -30,8 +30,8 @@ class Location < ActiveRecord::Base
   scope :surrey, -> {
     joins( "JOIN category_location_tags ON category_location_tags.location_id = locations.id 
             JOIN nested_categories primaries ON primaries.id = category_location_tags.category_id" ) # assuming provided cats are terminal nodes
-    .where( 'primaries.name IN ( ? )', %w(Services\ and\ Suppliers Land\ Listings ) )
-    # .where( 'primary.id IN ( ? )',  SERVICE_SUPPLIES_LAND_CATEGORY_IDS )  
+    .where( 'primaries.id IN (105, 97) or primaries.parent_category_id IN (105, 97)' )
+    #.where( 'primaries.name IN ( ? )', %w(Services\ and\ Suppliers Land\ Listings ) )
   }
 
   REQUIRED_COLUMNS = %w(id resource_type category subcategories
