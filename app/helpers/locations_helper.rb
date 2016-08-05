@@ -5,7 +5,7 @@ module LocationsHelper
   end
   # --------------------------------------------------- agriculture_type_options
   def agriculture_type_options
-    ['Certified Organic', 'Organic', 'Conventional', 'Other' ]
+    ['Certified Organic', 'Organic', 'Conventional']
   end
   # ----------------------------------------------------------------- bc_regions
   def bc_regions
