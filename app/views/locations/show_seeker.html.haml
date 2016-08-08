@@ -5,21 +5,23 @@
   %h1<=@location.name
   %i
     = content_tag( 'span', @location.resource_type, class: 'resource-type' ) if @location.resource_type
-    - if @location.bioregion.present?
-      located in #{@location.bioregion}
+    - if @location.bioregion.present? and @location.bioregion != "Any"
+      Located in #{@location.bioregion}
   
   #{top_category_list( @location )}
 
-
+ 
   - if current_user && @location.admin?( current_user )
-    %p.pull-right
-      = link_to 'Edit Location', edit_location_path( @location ), class: 'button button-primary'
+    %div.clearfix
+      %p.pull-right
+        = link_to 'Edit Location', edit_location_path( @location ), class: 'button button-primary'
   
   - if @location.description.present? || @location.content.present?
     = content_tag( 'div', @location.description, class: 'location-description' ) if @location.description.present?
     = content_tag( 'div', @location.content, class: 'location-content' ) if @location.content.present?
   
   %h2<Land Seeker Details
+
   .extensions
     .row
       .four.columns Training
@@ -112,7 +114,7 @@
         
         = render partial: 'message'
 
-        %h3<Location
+        %h3<Address
         %p
           = display_address( @location )
 

@@ -10,7 +10,7 @@
   %i
     = content_tag( 'span', @location.resource_type, class: 'resource-type' ) if @location.resource_type
     - if @location.bioregion.present?
-      located in #{@location.bioregion}
+      Located in #{@location.bioregion}
   
   #{top_category_list( @location )}
   
@@ -152,7 +152,7 @@
 
         = render partial: 'message'
 
-        %h3<Location
+        %h3<Address
         %p
           = display_address( @location )
         

@@ -22,7 +22,7 @@
   %i
     = content_tag( 'span', @location.resource_type, class: 'resource-type' ) if @location.resource_type
     - if @location.bioregion.present?
-      located in #{@location.bioregion}
+      Located in #{@location.bioregion}
   
   #{category_list( @location )}
   

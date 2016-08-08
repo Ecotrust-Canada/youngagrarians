@@ -8,7 +8,7 @@ var map = L.map('map', {
   zoomControl: false
 });
 
-//add zoom control with your options
+//add zoom control with your option
 L.control.zoom({
     position:'bottomleft'
 }).addTo(map);
@@ -201,7 +201,7 @@ function updateMarkers(response){
             + (listing.phone ? "<a href='tel:" + get_dialable_phone(listing.phone) + "'>" + listing.phone + "</a>" : "")
             + (listing.phone && listing.email ? " | " : "")
             + (listing.email ? "<a href='mailto:'" + listing.email + ">" + listing.email + "</a>" : "")
-          +"<p class='city'>" + listing.street_address + ', ' + listing_city( listing ) + "</p>"
+          +"<p class='city'>" + (listing.street_address ? listing.street_address + ', ' : "") + listing_city( listing ) + "</p>"
         +"<a target='_blank' href='/locations/" + listing.id + "' class='info " + the_slug +"'>MORE INFO"
           +"<div class='triangle-arrow filled'></div>"
         +"</a>"

@@ -9,7 +9,7 @@ module LocationsHelper
   end
   # ----------------------------------------------------------------- bc_regions
   def bc_regions
-    [ 'Cariboo – Upper Fraser', 'Skeena – North Coast', 'Lower Mainland - Fraser Valley',
+    [ 'Any', 'Cariboo – Upper Fraser', 'Skeena – North Coast', 'Lower Mainland - Fraser Valley',
       'Thompson - Okanagan', 'Kootenays', 'Vancouver Island', 'Northeast']
   end
   # ----------------------------------------------------------- category_options

@@ -28,10 +28,7 @@
 
       %h3<Land & Features Desired
       = f.select :province, States::CANADIAN_PROVINCES, label: 'Where do you want to farm?'
-      = f.select :bioregion, bc_regions, hidden: @location.province != 'BC', label: 'What part(s) of BC?'
-      = f.select :fv_region,
-                  %w(Abbotsford Chilliwack Ladner Langley New\ Westminster Richmond Surrey Vancouver  White\ Rock),
-                  hidden: @location.bioregion != 'Lower Mainland - Fraser Valley', label: 'What part(s) of the Fraser Valley?'
+      = f.select :bioregion, bc_regions, hidden: @location.province != 'BC', label: 'What part of BC?'
       = f.text_field :desired_total_size, label: 'Total Land Size (specify acres)'
       = f.boolean_with_number :wooded_area, label: 'Wooded Area (specify acres)', yes_comments: true
       = f.text_field :desired_cultivable_area, label: 'Cultivable Area (specify acres)'

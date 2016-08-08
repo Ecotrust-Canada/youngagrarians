@@ -258,7 +258,7 @@ class Location < ActiveRecord::Base
   def load_wp_posts
     wp_posts = []
     [self.post_id, self.post2_id].each do |post_id|
-      if post_id
+      if post_id and post_id =~ /\d+/ 
         require 'rest-client'
         rsp = RestClient.get "http://youngagrarians.org/wp-json/posts/#{ post_id }"
         wp_posts << JSON.parse(rsp.body)
