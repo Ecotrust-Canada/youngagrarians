@@ -113,7 +113,8 @@ module LocationsHelper
   end
 
   def smart_add_url_protocol( url )
-    if url.length > 0 and not url[/^https?:\/\//]
+    
+    if url and url.length > 0 and not url[/^https?:\/\//]
       "http://#{url}"
     else
       url

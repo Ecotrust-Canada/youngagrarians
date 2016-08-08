@@ -1,8 +1,9 @@
-%section#blog
-  %h3 From The Blog
-  .row
-    - @wp_posts.each do |wp_post|
-      .six.columns
-        %img{ :src => wp_post["featured_image"]["attachment_meta"]["sizes"]["post-thumbnail"]["url"] }
-        %h4 #{ raw wp_post["title"] }
-        %p #{ raw wp_post["excerpt"] }
+- if @wp_posts.length > 0
+  %section#blog
+    %h3 From The Blog
+    .row
+      - @wp_posts.each do |wp_post|
+        .six.columns
+          %img{ :src => wp_post["featured_image"]["attachment_meta"]["sizes"]["post-thumbnail"]["url"] }
+          %h4 #{ raw wp_post["title"] }
+          %p #{ raw wp_post["excerpt"] }
