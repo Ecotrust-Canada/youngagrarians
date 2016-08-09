@@ -22,6 +22,7 @@ gem 'compass-rails' # you need this or you get an err
 gem 'font-awesome-rails'
 gem 'bootstrap-sass'
 gem 'eco'
+gem 'exception_notification'
 gem 'marionette-rails'
 gem 'haml'
 gem 'jbuilder'
