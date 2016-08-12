@@ -32,10 +32,10 @@ Youngagrarians::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :raise
   config.action_controller.action_on_unpermitted_parameters = :raise
-  Capybara::Webkit.configure do |config|
-    config.allow_url("fonts.googleapis.com")
-    config.allow_url("maps.googleapis.com")
-    config.allow_url("www.google-analytics.com")
-    config.allow_url("youngagrarians.org")
-  end
+  # Capybara::Webkit.configure do |config|
+  #   config.allow_url("fonts.googleapis.com")
+  #   config.allow_url("maps.googleapis.com")
+  #   config.allow_url("www.google-analytics.com")
+  #   config.allow_url("youngagrarians.org")
+  # end
 end

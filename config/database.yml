@@ -15,3 +15,7 @@ production:
   username: postgres
   password: postgres
   host: db
+
+test:
+  database: ya_test
+  adapter: sqlite3
