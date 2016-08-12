@@ -30,8 +30,10 @@ class RenameCategories < ActiveRecord::Migration
                       'Courses' => 'Educational Programs',
                       'Cooperative' => 'Land Listings' }
   def change
-    execute( 'TRUNCATE nested_categories' )
-    execute( 'TRUNCATE category_location_tags' )
+    unless sqlite?
+      execute( 'TRUNCATE nested_categories' )
+      execute( 'TRUNCATE category_location_tags' )
+    end
     lookup = setup_categories_from_mockups
     category_id_map = check_old_categories( lookup )
     subcategory_map = check_subcategories( lookup, category_id_map )
@@ -136,5 +138,8 @@ class RenameCategories < ActiveRecord::Migration
       raise format( 'Bad categories: %s', bad_categories.map( &:name ) )
     end
     return category_id_map
+  end
+  def sqlite?
+    ActiveRecord::Base.connection.instance_of?( ActiveRecord::ConnectionAdapters::SQLite3Adapter  )
   end
 end

@@ -18,6 +18,8 @@ class SearchColumns < ActiveRecord::Migration
   # ------------------------------------------------------------------ postgres?
   def postgres?
     ActiveRecord::Base.connection.instance_of?( ActiveRecord::ConnectionAdapters::PostgreSQLAdapter  )
+  rescue NameError
+    return false
   end
 
 end
