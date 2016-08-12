@@ -71,14 +71,16 @@ class AccountsController < ApplicationController
     render :forgot_password, layout: 'basic'
   end
 
+  # ---------------------------------------------------------- retrieve_password
   def retrieve_password
     @user = User.where(email: params[:email]).first
 
     if @user
+      flash.now[:notice] = 'An email was sent with details regarding how to reset your password.'
       Notifications.reset_password(@user).deliver
-      render :password_sent, layout: 'basic'
+      render :forgot_password, layout: 'basic'
     else
-      flash.now[:notice] = t('emails.reset_password.retrieval_failed')
+      flash.now[:notice] = 'We did not find an admin user matching those details'
       render :forgot_password, layout: 'basic'
     end
   end
