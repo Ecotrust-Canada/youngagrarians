@@ -1,0 +1,54 @@
+!!!
+%html{ lang: "en", "xmlns:fb" => "https://www.facebook.com/2008/fbml"}
+  %head
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "IE=Edge,chrome=1", "http-equiv" => "X-UA-Compatible"}/
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    %title= content_for?(:title) ? yield(:title) : "Young Agrarians"
+    = csrf_meta_tags
+    %meta{:content => "236752999835803", :property => "fb:app_id"}/
+    %meta{:content => "website", :property => "og:type"}/
+    %meta{:content => content_for?(:title) ? yield(:title) : "Young Agrarians", :property => "og:title"}/
+    %meta{:content => content_for?(:metadesc) ? yield(:metadesc) : "We are mapping resources relevant to new/young farmers wanting to get into farming and food growing. Our focus is on the ecological/organic (certified or uncertified) sector.", :property => "og:description"}/
+    %meta{:content => "#{request.original_url}", :property => "og:url"}/
+    / Le HTML5 shim, for IE6-8 support of le HTML elements
+    /[if lt IE 9]
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript"></script>
+    = stylesheet_link_tag "application", media: "all"
+
+    = stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css'
+
+    = stylesheet_link_tag 'marketing', media: "all"
+
+    = javascript_include_tag 'modernizr'
+    / For third-generation iPad with high-resolution Retina display:
+    / Size should be 144 x 144 pixels
+    - ['144x144', '114x114', '72x72'].each do |size|
+      = favicon_link_tag "images/apple-touch-icon-#{size}-precomposed.png", rel: 'apple-touch-icon-precomposed', :type => 'image/png', sizes: size
+    / For non-Retina iPhone, iPod Touch, and Android 2.1+ devices:
+    / Size should be 57 x 57 pixels
+    = favicon_link_tag 'images/apple-touch-icon-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png'
+    / For all other devices
+    / Size should be 32 x 32 pixels
+    = favicon_link_tag
+
+  %body.ya
+    #fb-root
+    = javascript_include_tag 'global'
+
+    = render 'layouts/header'
+    - flash.each do |name, msg|
+      %div{:class => "alert-box #{name}", "data-alert" => ""}
+        = msg
+        %a.close{:href => "#"} ×
+    - unless flash.empty?
+      - if flash[:error]
+        = content_tag( 'div', flash[ :error ], class: 'flash flash_error' )
+        - flash.delete( :error )
+      - if flash[:notice]
+        = content_tag( 'div', flash[ :notice ], class: 'flash flash_notice' )
+        - flash.delete( :notice )
+
+    .wrap<= yield
+    #fb_img{"data-img" => "#{request.protocol}#{request.host}/assets/ya.jpg"}
+    = google_analytics_code

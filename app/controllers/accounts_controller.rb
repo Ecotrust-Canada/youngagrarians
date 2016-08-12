@@ -89,7 +89,7 @@ class AccountsController < ApplicationController
     @user = User.where(password_reset_key: params[:code]).first
 
     if @user
-      render :password_reset, layout: 'application'
+      render :password_reset, layout: 'basic'
     else
       redirect_to :login, notice: t('passwords.reset_failed')
     end
@@ -106,7 +106,7 @@ class AccountsController < ApplicationController
         redirect_to :locations, notice: t('passwords.updated')
       else
         flash[:notice] = t('passwords.reset_failed')
-        render :password_reset, layout: 'application'
+        render :password_reset, layout: 'basic'
       end
     else
       redirect_to :login, notice: t('passwords.reset_failed')
