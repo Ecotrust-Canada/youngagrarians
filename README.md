@@ -27,7 +27,7 @@ docker exec -it youngagrarians_app_1 rake db:migrate
 
 If you need to update static files:
 ```
-docker exec -it youngararians_app_1 rake assets:precompile
+docker exec -it youngagrarians_app_1 rake assets:precompile
 ```
 
 

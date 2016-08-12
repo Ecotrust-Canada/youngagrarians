@@ -20,7 +20,7 @@
   
   
   %i
-    = content_tag( 'span', @location.resource_type, class: 'resource-type' ) if @location.resource_type
+    /= content_tag( 'span', @location.resource_type, class: 'resource-type' ) if @location.resource_type
     - if @location.bioregion.present?
       Located in #{@location.bioregion}
   
