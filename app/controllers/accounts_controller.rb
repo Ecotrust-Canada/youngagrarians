@@ -69,7 +69,7 @@ class AccountsController < ApplicationController
 
     redirect_to(params[:return_url] || :locations) if authenticated?
 
-    render :forgot_password, layout: 'application'
+    render :forgot_password, layout: 'basic'
   end
 
   def retrieve_password
