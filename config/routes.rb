@@ -5,7 +5,7 @@ Youngagrarians::Application.routes.draw do
 
   get '/admin/login'           => 'accounts#login', as: 'admin_login'
   get '/admin/forgot_password' => 'accounts#forgot_password', as: 'admin_forgot_password'
-  post '/admin/forgot_password' => 'accounts#retrieve_password'
+  post '/admin/forgot_password' => 'accounts#forgot_password'
   get '/admin/forgot_password' => 'accounts#forgot_password', as: 'admin_retrieve_password'
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   mount RailsAdminImport::Engine => '/rails_admin_import', as: 'rails_admin_import'
@@ -40,6 +40,7 @@ Youngagrarians::Application.routes.draw do
   post '/login'                => 'accounts#login_post',         :as => :login_post
   post '/login.json'           => 'accounts#login_post',         :as => :login_post_json, :format => 'json'
   get  '/logout'               => 'sessions#destroy'
+  get  '/logout-admin'         => 'accounts#logout',             :as => :logout_admin
   post '/create_account'               => 'accounts#create',             :as => :create_account
   get  '/password_sent'        => 'accounts#password_sent',      :as => :password_sent
 

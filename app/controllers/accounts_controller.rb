@@ -6,7 +6,6 @@ class AccountsController < ApplicationController
     redirect_to locations_url
   end
 
-
   # ------------------------------------------------------------------------ new
   def new
     render layout: 'basic'
@@ -135,7 +134,7 @@ class AccountsController < ApplicationController
   end
 
   def logout
-    logout!
+    session[:admin_user_id] = nil
     redirect_to :locations, notice: 'You have been logged out successfully'
   end
 
