@@ -1,6 +1,6 @@
 .listing-header{ class: category_class( @location )}
   .category-icon{ style: "background-image:url(#{big_icon_hash[category_class( @location )]})"} &nbsp;
-  .category-heading #{category_class( @location ).gsub('-', ' ')}
+  .category-heading #{(category_class( @location ) or '').gsub('-', ' ')}
   %a{ href: '/map', target: '_blank'}
     #{image_tag 'umap-content-title.png'}
   .filled

@@ -65,7 +65,6 @@ if ((window.location+'').replace("://","").indexOf("/map") == -1)
     'url(/images/splash/servicessuppliersgreenhouseviewgef.jpg)',
     'url(/images/splash/servicessuppliersstrawberriesunderplastic.jpg)',
     'url(/images/splash/servicessuppliersstrawberryplants.jpg)',
-    'url(/images/splash/sky-clouds-field-blue-min.jpg)',
     'url(/images/splash/webresources2.jpg)',
     'url(/images/splash/webresources.jpg)'
   ];
