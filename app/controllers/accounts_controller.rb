@@ -77,7 +77,7 @@ class AccountsController < ApplicationController
 
     if @user
       flash.now[:notice] = 'An email was sent with details regarding how to reset your password.'
-      Notifications.reset_password(@user).deliver
+      @user.send_reset_password_instructions
       render :forgot_password, layout: 'basic'
     else
       flash.now[:notice] = 'We did not find an admin user matching those details'
