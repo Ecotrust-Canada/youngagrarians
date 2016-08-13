@@ -124,7 +124,6 @@ class AccountsController < ApplicationController
 
   # ----------------------------------------------------------------- login_post
   def login_post
-    params[:email] = User.first.email
     u = User.find_by( email: params[:email] )
     if u && u.valid_password?( params[:password] )
       session[:admin_user_id] = u.id
