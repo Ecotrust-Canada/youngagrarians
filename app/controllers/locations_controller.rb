@@ -11,14 +11,6 @@ class LocationsController < ApplicationController
     redirect_to map_url
   end
 
-  # dead code?
-  #def search
-  #  @locations = Location.search params[:term]
-  #  respond_to do |format|
-  #    format.json { render json: @locations }
-  #  end
-  #end
-
   def thanks
     render layout: 'basic'
   end
@@ -240,6 +232,7 @@ class LocationsController < ApplicationController
               :postal,
               :street_address,
               :city,
+              :url,
               :phone,
               :fb_url,
               :twitter_url,

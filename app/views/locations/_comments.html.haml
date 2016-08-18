@@ -13,7 +13,7 @@
       %span.age
         Posted #{distance_of_time_in_words( comment.created_at, Time.current )} ago
     - if is_admin?
-      = link_to 'Remove', location_comment_path( @location, comment ), class: 'remove'
+      = link_to '[moderate]', rails_admin.show_path(model_name: 'listing_comment', target: '_blank', id: comment.id), class: 'remove'
 
 = form_for @location.comments.new, url: location_comments_url( @location ), builder: FormBuilder do |f|
   = f.text_area :body, label: 'Comment', required: true

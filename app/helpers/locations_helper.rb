@@ -7,6 +7,13 @@ module LocationsHelper
   def agriculture_type_options
     ['Certified Organic', 'Organic', 'Conventional']
   end
+
+  def training_options
+    ['Agriculture-related degree', 'Farm management (3 years or less)',
+      'Farm management (3 years+)', 'Apprenticeship', 'General degree', 'General farming (3 years or less)',
+      'General farming (3 years+)', 'Other experience/agricultural/business training']
+  end
+
   # ----------------------------------------------------------------- bc_regions
   def bc_regions
     [ 'Any', 'Cariboo – Upper Fraser', 'Skeena – North Coast', 'Lower Mainland - Fraser Valley',
@@ -21,7 +28,8 @@ module LocationsHelper
   end
   # ------------------------------------------------------------------ is_admin?
   def is_admin?
-    @location.is_admin?( current_user ) || current_admin_user
+    session[:admin_user_id]
+    #@location.is_admin?( current_user ) || current_admin_user
   end
   # ----------------------------------------------------------------- build_list
   def build_list( c, skip_self = false )
