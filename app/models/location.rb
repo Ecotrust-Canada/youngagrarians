@@ -148,6 +148,11 @@ class Location < ActiveRecord::Base
         current_practices: multi, water_source: multi, agriculture_preferred: multi }
   end
 
+  # ------------------------------------------------------------------ is_admin?
+  def is_admin?( u )
+    u && u == account
+  end
+
   # --------------------------------------------------------------- messageable?
   def messageable?
     email.present? || account

@@ -29,6 +29,7 @@ module LocationsHelper
   # ------------------------------------------------------------------ is_admin?
   def is_admin?
     session[:admin_user_id]
+    #@location.is_admin?( current_user ) || current_admin_user
   end
   # ----------------------------------------------------------------- build_list
   def build_list( c, skip_self = false )
