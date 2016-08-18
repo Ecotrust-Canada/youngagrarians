@@ -11,7 +11,7 @@
         <%= link_to 'login', login_path -%>
       <% end -%>
       <a href="http://youngagrarians.org/contact-us/" target="_blank">CONTACT</a>
-      <a href="http://youngagrarians.org/mediafarm/" target="_blank">MEDIA</a>
+      <a href="http://youngagrarians.org/mediafarm/" target="_blank">MEDIA&nbsp;FARM</a>
       <a href="http://youngagrarians.org/tools/" target="_blank">TOOLS</a>
       <a href="http://youngagrarians.org/events/" target="_blank">EVENTS</a>
       <a href="http://youngagrarians.org/about/" target="_blank">ABOUT</a>
@@ -20,16 +20,16 @@
     <nav class="mobile">
       <span id="ham" onclick='toggleHam(event)'></span>
       <div id='menu' class='away'>
-           <% if current_user -%>
+          <a href="http://youngagrarians.org/about/" target="_blank">ABOUT</a>
+          <a href="http://youngagrarians.org/events/" target="_blank">EVENTS</a>
+          <a href="http://youngagrarians.org/mediafarm/" target="_blank">MEDIA&nbsp;FARM</a>
+          <a href="http://youngagrarians.org/tools/" target="_blank">TOOLS</a>
+          <a href="http://youngagrarians.org/contact-us/" target="_blank">CONTACT</a>
+          <% if current_user -%>
             <%= link_to 'account', '/locations' -%>
           <% else -%>
             <%= link_to 'login', login_path -%>
           <% end -%>
-          <a href="http://youngagrarians.org/contact-us/" target="_blank">CONTACT</a>
-          <a href="http://youngagrarians.org/mediafarm/" target="_blank">MEDIA</a>
-          <a href="http://youngagrarians.org/tools/" target="_blank">TOOLS</a>
-          <a href="http://youngagrarians.org/events/" target="_blank">EVENTS</a>
-          <a href="http://youngagrarians.org/about/" target="_blank">ABOUT</a>
       </div>
     </nav>
 

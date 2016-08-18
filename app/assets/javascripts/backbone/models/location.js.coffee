@@ -19,7 +19,7 @@ class Youngagrarians.Models.Location extends Backbone.RelationalModel
   lng: => @get 'longitude'
 
   locUrl: =>
-    base = "#{window.location.protocol}//#{window.location.host}/\#/locations/#{@id}"
+    base = "#{window.location.protocol}//#{window.location.host}/locations/#{@id}"
 
 Youngagrarians.Models.Location.setup()
 

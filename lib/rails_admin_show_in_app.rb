@@ -22,7 +22,7 @@ module RailsAdmin
         register_instance_option :controller do
           proc do
             resource_name = @object.class.name.downcase.pluralize
-            redirect_to main_app.url_for(@object).sub("/#{resource_name}", "/\#/#{resource_name}")
+            redirect_to main_app.url_for(@object)
           end
         end
 

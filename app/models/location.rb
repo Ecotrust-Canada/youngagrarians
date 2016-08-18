@@ -64,7 +64,6 @@ class Location < ActiveRecord::Base
   add_boolean_with_comment_field :need_housing
   add_number_field :cultivable_area
   add_string_field :zoning
-  add_string_field :training
   add_string_field :need_water
   add_string_field :preferred_arrangement
   add_string_field :agronomic_potential
@@ -76,6 +75,7 @@ class Location < ActiveRecord::Base
   add_string_field :desired_cultivable_area
   add_string_field :desired_surface_state
   add_string_field :soil_needs
+  add_multiselect_field :training
   add_multiselect_field :current_property_use
   add_multiselect_field :desired_use
   add_multiselect_field :desired_practices
@@ -126,7 +126,7 @@ class Location < ActiveRecord::Base
       r_val << { thing => b_with_c }
     end
     multi = [:value, :comment]
-    [:desired_use, :desired_practices].each do |t|
+    [:desired_use, :desired_practices, :training].each do |t|
       r_val << { t => multi }
     end
     r_val
@@ -291,7 +291,7 @@ class Location < ActiveRecord::Base
     if land_listing?
       Location.land_parameter_names.include?( param_name.to_sym )
     elsif seeker_listing?
-      Location.land_seeker_parameter_names.keys.include?( param_name.to_sym )
+      Location.land_seeker_parameter_names.include?( param_name.to_sym )
     else
       false
     end
@@ -303,17 +303,19 @@ class Location < ActiveRecord::Base
     configure :category_tags do
       visible( false )
     end
+
     configure :category do
       visible( false )
     end
 
-    configure :nestered_categories do
+    configure :nested_categories do
       visible( false )
     end
 
     configure :location_fields do
       visible( false )
     end
+    
     configure :comments do
       visible( false )
     end
@@ -360,10 +362,10 @@ class Location < ActiveRecord::Base
       field :is_approved do
         label 'Approved'
         export_value do
-          value ? 'Yes' : 'No'
+          value == 1 ? 'Yes' : 'No'
         end
         pretty_value do # used in list view columns and show views, defaults to formatted_value for non-association fields
-          ( value ? "<span class='icon-check'></span>" : "<span class='icon-check-empty'></span>" ).html_safe
+          ( value == 1 ? "<span class='icon-check'></span>" : "<span class='icon-check-empty'></span>" ).html_safe
         end
       end
       field :show_until

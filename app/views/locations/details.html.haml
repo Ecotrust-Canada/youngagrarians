@@ -12,6 +12,7 @@
         - else
           = f.select_tag 'nested_category_ids[]', category_options( @location ), 'value' => 1, label: 'Subcategory'
         = link_to 'add another subcategory', '#', class: 'add_category'
+      = f.text_field :url, required: false
       = f.text_area :description, required: true
       .field_info
         <span class='required-icon'>*</span> required fields

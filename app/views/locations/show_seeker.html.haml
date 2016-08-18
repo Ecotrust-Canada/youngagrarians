@@ -25,7 +25,7 @@
   .extensions
     .row
       .four.columns Training
-      .eight.columns #{ lf_simple( @location, 'training' )}
+      .eight.columns #{ lf_multiselect( @location, 'training' )}
     .row
       .four.columns Do you have a business plan? 
       .eight.columns #{ lf_bool_with_comment( @location, 'business_plan' )}
@@ -131,15 +131,4 @@
     #{@location.show_until ? @location.show_until : 'never expires'}.
 
 = javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'
-:javascript
-  $('.comment a.remove' ).click( function( e ) 
-  {
-    e.preventDefault();
-    if( confirm( "Are you sure you want to remove that comment?" ) )
-    {
-      var c = $( e.target ).closest( '.comment' );
-      c.hide();
-      $.post( e.currentTarget.href, { '_method': 'delete' }, function(){ c.remove() } ).error( function(){ c.show(); } );
-    }
 
-  } );

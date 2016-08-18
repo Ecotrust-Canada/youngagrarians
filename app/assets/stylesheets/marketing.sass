@@ -204,16 +204,27 @@ header
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2)
     background: url(../images/icon/search.png) 8px 8px no-repeat white
 
+  .splash-subhead
+    margin-top: 50px
+    font-size: 20px
+    color: white
+    a
+      color: white
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8)
 
 @media (max-width: 768px)
   .splash 
     margin-left: 0
     width: 100%
     left: 0
-    top: 150px
+    top: 100px
     margin-top: 0
     img
       max-width: 100%
+    .splash-subhead
+      margin-top: 20px
+      margin-bottom: 10px
+      font-size: 18px
 
 
 .blurb
@@ -222,13 +233,6 @@ header
   display: table-cell
   vertical-align: middle
 
-.splash-subhead
-  margin-top: 50px
-  font-size: 20px
-  color: white
-  a
-    color: white
-  text-shadow: 0 1px 2px rgba(0,0,0,0.8)
 
 .splash-subtag-menu
   display: none
@@ -364,15 +368,6 @@ button.submit
   border-width: 8px
   margin-left: -8px
 
-.layer-panel
-  z-index: 2000
-  right: 25px
-
-  .legend-item
-    width: 15px
-    height: 15px
-    display: inline-block
-
 .category-panel
   left: 700px
   @media (max-width: 768px)
@@ -393,6 +388,21 @@ button.submit
     font-size: 17px
     cursor: pointer
     margin: 0
+
+.layer-panel
+  z-index: 2000
+  right: 25px
+
+  .legend-item
+    width: 15px
+    height: 15px
+    display: inline-block
+
+  @media (max-width: 424px)
+    right: 0
+    width: 140px
+    li
+      font-size: 14px
 
 .breadcrumb
   li

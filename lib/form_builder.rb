@@ -250,28 +250,28 @@ class FormBuilder < ActionView::Helpers::FormBuilder
     label = format_label( args[:label] || field.to_s.humanize )
     b_name = format( '%s[%s][boolean]', object_name, field )
     s_name = format( '%s[%s][string]', object_name, field )
-    yes_label = if args[:yes_comments]
-                  'Yes (please specify)'
-                else
-                  'Yes'
-                end
     no_label = if args[:no_comments]
                   'No (please specify)'
                 else
                   'No'
                 end
+    yes_label = if args[:yes_comments]
+                  'Yes (please specify)'
+                else
+                  'Yes'
+                end
     x = content_tag( 'label',
-                     template.radio_button_tag( b_name,
-                                                args[:yes_comments] ? LocationField::YES_WITH_COMMENTS : LocationField::YES,
-                                                val.true?,
-                                                class: args[:yes_comments] ? 'needs_comments' : nil ) +
-                       yes_label.html_safe )
-    x << content_tag( 'label',
                       template.radio_button_tag( b_name,
                                                  args[:no_comments] ? LocationField::NO_WITH_COMMENTS : LocationField::NO,
                                                  true,
                                                  class: args[:no_comments] ? 'needs_comments' : nil ) +
                         no_label.html_safe )
+    x << content_tag( 'label',
+                     template.radio_button_tag( b_name,
+                                                args[:yes_comments] ? LocationField::YES_WITH_COMMENTS : LocationField::YES,
+                                                val.true?,
+                                                class: args[:yes_comments] ? 'needs_comments' : nil ) +
+                       yes_label.html_safe )
     x << content_tag( 'span',
                       template.text_field_tag( s_name, val.comment ),
                       class: 'comments',

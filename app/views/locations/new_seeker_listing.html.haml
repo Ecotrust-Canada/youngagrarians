@@ -8,10 +8,7 @@
       = f.text_field :name, label: 'Listing Title', required: true
       %h2<Land Seeker Details
       %p Please fill in as many fields as possible.
-      = f.radio_select :training, ['Agriculture-related degree', 'Farm management (3 years or less)',
-      'Farm management (3 years+)', 'Apprenticeship', 'General degree', 'General farming (3 years or less)',
-      'General farming (3 years+)', 'Other experience/agricultural/business training', 'Specify'],
-                       label: 'What agricultural training and experience do you have?'
+      = f.check_all_with_comments :training, training_options, label: 'What agricultural training and experience do you have?'
 
       = f.boolean_with_comments :business_plan, no_comments: true, yes_comments: true, label: 'Do you have a business plan?'
       = f.boolean_with_comments :financial_resources, no_comments: true, yes_comments: true, label: 'Do you already have financial resources available to start your farm (loan, investor, savings, etc.)?'
@@ -33,7 +30,7 @@
       = f.boolean_with_number :wooded_area, label: 'Wooded Area (specify acres)', yes_comments: true
       = f.text_field :desired_cultivable_area, label: 'Cultivable Area (specify acres)'
       = f.boolean_with_number :expansion_size, label: 'Possibility to expand area currently available (specify acres)', yes_comments: true
-      = f.radio_select :zoning, ['ALR', 'Non-ALR' ], hidden: @location.province != 'BC'
+      = f.radio_select :zoning, ['ALR', 'Non-ALR', 'Other' ], hidden: @location.province != 'BC'
       = f.text_area :desired_surface_state, label: 'Preferred current state of the cultivable area'
       = f.boolean_with_comments :owner_resides, no_comments: true, yes_comments: true, label: 'Are you open to the landowner residing on the property'
       = f.boolean_with_comments :buildings_required, yes_comments: true, label: 'Do you need farm buildings?'

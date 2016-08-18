@@ -197,10 +197,11 @@ function updateMarkers(response){
         +"<label class='" + the_slug + "'>" + ( cat ? cat.name : 'no category' ) + "</label>"
           + (listing.is_event && listing.show_until ? "<p class='description'>date: " + listing.show_until + "</p>" : "")
           +"<p class='description'><a href='"+ensure_http(listing.url)+"'>" + listing.name + "</a></p>"
-          +"<p class='contact'>"
+          + (listing.public_contact != false ? "<p class='contact'>"
             + (listing.phone ? "<a href='tel:" + get_dialable_phone(listing.phone) + "'>" + listing.phone + "</a>" : "")
             + (listing.phone && listing.email ? " | " : "")
             + (listing.email ? "<a href='mailto:'" + listing.email + ">" + listing.email + "</a>" : "")
+            : '')
           +"<p class='city'>" + (listing.street_address ? listing.street_address + ', ' : "") + listing_city( listing ) + "</p>"
         +"<a target='_blank' href='/locations/" + listing.id + "' class='info " + the_slug +"'>MORE INFO"
           +"<div class='triangle-arrow filled'></div>"
