@@ -21,7 +21,7 @@ module LocationsHelper
   end
   # ------------------------------------------------------------------ is_admin?
   def is_admin?
-    true
+    @location.is_admin?( current_user ) || current_admin_user
   end
   # ----------------------------------------------------------------- build_list
   def build_list( c, skip_self = false )
