@@ -16,7 +16,7 @@ class CommentsController < ApplicationController
   def destroy
     @location = Location.find( params[:location_id] )
     @comment = @location.comments.find( params[:id] )
-    if current_user && @location.is_admin?( current_user )
+    if @location.is_admin?( current_user ) || current_admin_user
       @comment.destroy
       respond_to do |format|
         format.html{ redirect_to location_url( @location ) }
