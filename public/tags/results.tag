@@ -29,7 +29,7 @@
         ></div>
         <a class='listing-text' target='{ is_mobile() ? "_self" : "_blank" }' href='/locations/{ id }'>
           <label class='{ proper_category_slug }'>{ proper_category }</label>
-          <span class='name'>{ ellipsize(name, 22) }</span>
+          <span class='name'>{ name }</span>
           <span if={ city } class='city'>{ city }, { province || 'BC' }</span>
         </a>
         <div if={ latitude } class='view-on-map { proper_category_slug }' onclick={ view_on_map }>
