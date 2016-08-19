@@ -160,26 +160,55 @@ header
     a
       display: block
 
+
   nav
-    a
+    .nav-item
       padding: 6px 10px
       text-transform: uppercase
-      text-decoration: none
-      font-family: 'Young Agrarians', "Comic Sans MS", cursive, sans-serif
-      color: white
       font-size: 26px
-      box-sizing: border-box
-      &:hover, &:active, &:focus
+      
+      a
+
+        text-decoration: none
+        font-family: 'Young Agrarians', "Comic Sans MS", cursive, sans-serif
         color: white
+        box-sizing: border-box
+        &:hover, &:active, &:focus
+          color: rgb(197,63,63)
 
   nav.desktop
-    overflow: hidden
-    a
-      text-align: right
-      width: 16%
+    .nav-item
+      display: block
+      position: relative
       float: right
+      @media(min-width: 1200px)
+        padding: 6px 30px
+      @media(max-width: 979px)
+        font-size: 20px
+        padding: 8px 6px
       &:last-child
         border-right: none
+
+      .sub-menu
+        display: none
+
+    .nav-item:hover .sub-menu
+      width: 150px
+      padding: 10px
+      display: block
+      top: 40px
+      left: 0
+      @media(min-width: 1200px)
+        left: 20px
+      background: black
+      position: absolute
+      background-color: #343434
+      li
+        list-style: none
+        margin-bottom: 0
+      
+      text-align: left
+
 
 /* Map Landing Page - leads into specific search. */
 .splash
@@ -698,6 +727,8 @@ ul.results-list
       height: 18px
       line-height: 18px
       overflow: hidden
+      white-space: nowrap
+      text-overflow: ellipsis
     .city
       color: black
       text-transform: uppercase
@@ -1013,7 +1044,7 @@ results.show
     input[type="text"], select
       width: 300px
       max-width: 90%
-    #location_all_true
+    #location_all_true, #location_insurance
       display: block
 
   .category-list

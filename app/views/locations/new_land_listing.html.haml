@@ -42,7 +42,7 @@
       = f.boolean_with_comments :references_required, yes_comments: true, label: 'Do you require references from the farmer(s)?'
       = f.text_field :agreement_duration, label: 'Duration of the desired agreement'
       = f.sign :insurance, label: 'I have home insurance on the property, and expect a farmer to have commercial insurance and to be named as “additionally insured” on the tenant farmers insurance policy.'
-      = f.radio_select :agreement_true, %w( Yes No ), label: 'I certify that the foregoing statements made by me are true and accurate to the best of my knowledge and belief, and are made in good faith. I understand that there is not a guarantee that a match will occur or that if a match does occur that it will be successful.', default: 'No'
+      = f.sign :all_true, label: 'I certify that the foregoing statements made by me are true and accurate to the best of my knowledge and belief, and are made in good faith. I understand that there is not a guarantee that a match will occur or that if a match does occur that it will be successful.', default: 'No'
       = f.form_js
 
     .btnbar

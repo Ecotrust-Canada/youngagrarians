@@ -5,22 +5,46 @@
     </a>
 
     <nav class="desktop tablet">
-      <% if current_user -%>
-        <%= link_to 'account', '/locations' -%>
-      <% else -%>
-        <%= link_to 'login', login_path -%>
-      <% end -%>
-      <a href="http://youngagrarians.org/contact-us/" target="_blank">CONTACT</a>
-      <a href="http://youngagrarians.org/mediafarm/" target="_blank">MEDIA&nbsp;FARM</a>
-      <a href="http://youngagrarians.org/tools/" target="_blank">TOOLS</a>
-      <a href="http://youngagrarians.org/events/" target="_blank">EVENTS</a>
-      <a href="http://youngagrarians.org/about/" target="_blank">ABOUT</a>
+      <div class="nav-item">
+        <% if current_user -%>
+          <%= link_to 'account', '/locations' -%>
+        <% else -%>
+          <%= link_to 'login', login_path -%>
+        <% end -%>
+      </div>
+
+      <div class='nav-item'><a href="http://youngagrarians.org/contact-us/" target="_blank">CONTACT</a></div>
+      <div class='nav-item'><a href="http://youngagrarians.org/mediafarm/" target="_blank">MEDIA&nbsp;FARM</a>
+        <ul class="sub-menu">
+          <li id="menu-item-2664" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2664"><a href="http://youngagrarians.org/mediafarm/press/">Press</a><span style="display:none;" class="ga-tracking" data-method="_trackEvent" data-category="" data-action="" data-label="" data-value="" data-noninteraction=""></span></li>
+          <li id="menu-item-2423" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2423"><a href="http://youngagrarians.org/mediafarm/social-media/">Social Media</a><span style="display:none;" class="ga-tracking" data-method="_trackEvent" data-category="" data-action="" data-label="" data-value="" data-noninteraction=""></span></li>
+          <li id="menu-item-2570" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2570"><a href="http://youngagrarians.org/mediafarm/videos/">Video</a><span style="display:none;" class="ga-tracking" data-method="_trackEvent" data-category="" data-action="" data-label="" data-value="" data-noninteraction=""></span></li>
+        </ul>
+      </div>
+      <div class='nav-item'><a href="http://youngagrarians.org/tools/" target="_blank">TOOLS</a>
+        <ul class="sub-menu">
+          <li id="menu-item-5261" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5261"><a href="http://youngagrarians.org/tools/business/">Business</a><span style="display:none;" class="ga-tracking" data-method="_trackEvent" data-category="" data-action="" data-label="" data-value="" data-noninteraction=""></span></li>
+          <li id="menu-item-2873" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2873"><a href="http://youngagrarians.org/farm-jobs/">Jobs</a><span style="display:none;" class="ga-tracking" data-method="_trackEvent" data-category="" data-action="" data-label="" data-value="" data-noninteraction=""></span></li>
+          <li id="menu-item-24" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-24"><a href="http://youngagrarians.org/tools/land/">Land</a><span style="display:none;" class="ga-tracking" data-method="_trackEvent" data-category="" data-action="" data-label="" data-value="" data-noninteraction=""></span></li>
+          <li id="menu-item-3011" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3011"><a href="http://youngagrarians.org/survey/">Survey</a><span style="display:none;" class="ga-tracking" data-method="_trackEvent" data-category="" data-action="" data-label="" data-value="" data-noninteraction=""></span></li>
+          <li id="menu-item-2413" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2413"><a href="http://maps.youngagrarians.org/">u-map</a><span style="display:none;" class="ga-tracking" data-method="_trackEvent" data-category="u-map" data-action="click" data-label="menu-item" data-value="" data-noninteraction=""></span></li>
+        </ul>
+      </div>
+      <div class='nav-item'><a href="http://youngagrarians.org/events/" target="_blank">EVENTS</a></div>
+      <div class='nav-item'><a href="http://youngagrarians.org/about/" target="_blank">ABOUT</a>
+        <ul class="sub-menu">
+          <li id="menu-item-2443" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2443"><a href="http://youngagrarians.org/about/donate/">Donate</a><span style="display:none;" class="ga-tracking" data-method="_trackEvent" data-category="" data-action="" data-label="" data-value="" data-noninteraction=""></span></li>
+          <li id="menu-item-2381" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2381"><a href="http://youngagrarians.org/about/funders/">Funders</a><span style="display:none;" class="ga-tracking" data-method="_trackEvent" data-category="" data-action="" data-label="" data-value="" data-noninteraction=""></span></li>
+          <li id="menu-item-2382" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2382"><a href="http://youngagrarians.org/about/network/">Network</a><span style="display:none;" class="ga-tracking" data-method="_trackEvent" data-category="" data-action="" data-label="" data-value="" data-noninteraction=""></span></li>
+        </ul>
+      </div>
     </nav>
 
     <nav class="mobile">
       <span id="ham" onclick='toggleHam(event)'></span>
       <div id='menu' class='away'>
-          <a href="http://youngagrarians.org/about/" target="_blank">ABOUT</a>
+          <a href="http://youngagrarians.org/about/" target="_blank">ABOUT
+          </a>
           <a href="http://youngagrarians.org/events/" target="_blank">EVENTS</a>
           <a href="http://youngagrarians.org/mediafarm/" target="_blank">MEDIA&nbsp;FARM</a>
           <a href="http://youngagrarians.org/tools/" target="_blank">TOOLS</a>

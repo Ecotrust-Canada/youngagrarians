@@ -10,7 +10,9 @@ var toggleHam = function(e) {
   }
 };
 
-if ((window.location+'').replace("://","").indexOf("/map") == -1)
+var here = (window.location+'').replace("://","");
+if (here.indexOf("/map") === -1 && here.indexOf("/embed") === -1) {
+
   var backgrounds = [
     'url(/images/splash/apprenticeship2.jpg)',
     'url(/images/splash/apprenticeship.jpg)',
@@ -69,6 +71,7 @@ if ((window.location+'').replace("://","").indexOf("/map") == -1)
     'url(/images/splash/webresources.jpg)'
   ];
   document.body.style.backgroundImage=backgrounds[Math.floor(Math.random() * backgrounds.length)];
+}
 
 /*
 window.fbAsyncInit = function() {
