@@ -2,7 +2,7 @@
 <search>
   
   <div class='search-box-map-wrap'>
-    <input type="text" placeholder="Search: ie) Bees, Soil, etc." name="q" class="search-box-map" onkeyup={ onquery }>
+    <input type="text" placeholder="Search - bees, soil, Okanagan, etc." name="q" class="search-box-map" onkeyup={ onquery }>
   </div>
   <div class='results-toggle toggle' onclick={ toggle_results }>list</div>
 
