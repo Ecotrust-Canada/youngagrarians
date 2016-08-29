@@ -55,13 +55,16 @@
     sqs();
     
     if (qs.embedded === 'true') {
-      $('.category_section h4').each(function(){
+      $('.category_section h4').each(function(){ // include only some some metacategories in Surrey
         if ($(this).text() != "Run Your Farm" & $(this).text() != "Land") {
           $(this).parent().remove();
         }
       });
-      $('li label').each(function(){
-        if ($(this).text().indexOf("Seeds") > -1) {
+      $('li label').each(function(){ // exclude some categories in Surrey
+        var label_text = $(this).text();
+        if (label_text.indexOf("Production Planning Tools") > -1  
+         || label_text.indexOf("Land Resources") > -1
+         || label_text.indexOf("Seeds") > -1) {
           $(this).parent().remove();
         }
       });      
