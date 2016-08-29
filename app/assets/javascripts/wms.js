@@ -117,12 +117,12 @@ wms_layers.push({
 
 wms_layers.push({
   layer: L.tileLayer.wms("http://openmaps.gov.bc.ca/mapserver/water-admin-boundaries", {
-    layers: 'LWADM_WATMGMT_DIST_AREA_C',
+    layers: 'LWADM_WATMGMT_PREC_AREA_C',
     format: 'image/png',
     transparent: true,
     opacity: 0.5
   }),
-  name: 'Water Mgnt.',
+  name: 'Water Admin.',
   legend_class: 'water',
   legend_style: 'background:lightblue',
   tooltip: "Boundaries of municipal water management jurisdiction."
