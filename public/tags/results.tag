@@ -33,8 +33,7 @@
           <span if={ city } class='city'>{ city }, { province || 'BC' }</span>
         </a>
         <div if={ latitude } class='view-on-map { proper_category_slug }' onclick={ view_on_map }>
-          <span if={ is_mobile() }>GO TO<br>LISTING</span>
-          <span if={ !is_mobile() }>VIEW ON<br>MAP</span>
+          <span>VIEW ON<br>MAP</span>
           <div class='triangle-arrow filled'></div>
         </div>
       </li>
@@ -109,10 +108,12 @@
 
   view_on_map(e) {
     if (window.mobile) {
-      window.location = '/locations/'+e.item.id;
-    } else {
-      pubsub.trigger('zoom_to', e.item.marker)
+      //window.location = '/locations/'+e.item.id;
+      console.log('toggling')
+      opts.trigger('toggle_results')
     }
+    pubsub.trigger('zoom_to', e.item.marker)
+    
   }
 
   slugify(category) {

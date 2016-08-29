@@ -9,4 +9,20 @@
     Return to map
 - else
   %a.back{ href: "/map" }
-    Go to map    
+    Go to map
+
+%h1<=@location.name
+%i
+  - if @location.bioregion.present? and @location.bioregion != "Any" and @location.bioregion != "-1"
+    Located in #{@location.bioregion}
+
+#{category_list( @location )}
+
+- if current_user && @location.admin?( current_user )
+  %div.clearfix
+    %p.pull-right
+      = link_to 'Edit Location', edit_location_path( @location ), class: 'button button-primary'
+
+- if @location.description.present? || @location.content.present?
+  = content_tag( 'div', @location.description, class: 'location-description' ) if @location.description.present?
+  = content_tag( 'div', @location.content, class: 'location-content' ) if @location.content.present?

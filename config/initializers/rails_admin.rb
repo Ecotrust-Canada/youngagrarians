@@ -47,7 +47,6 @@ RailsAdmin.config do |config|
     dashboard # mandatory
     # collection actions
     index # mandatory
-    new
     approve_resource do
       visible do
         bindings[:abstract_model].model.to_s == 'Location'
@@ -72,7 +71,16 @@ RailsAdmin.config do |config|
     bulk_delete
     # member actions
     show
-    edit
+    edit do
+      visible do
+        bindings[:abstract_model].model.to_s != 'Account'
+      end
+    end
+    new do
+      visible do
+        bindings[:abstract_model].model.to_s != 'Account'
+      end
+    end    
     delete
     # history_show
     show_in_app do
