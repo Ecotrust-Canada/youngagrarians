@@ -27,13 +27,20 @@
      ,showing=false;
 
   toggle_results(){
+    toggle_results_event();
+  }
+
+  var toggle_results_event = function(){
     var rl = document.querySelector('results');
     if (rl.className) {
       rl.className='';
     } else {
       rl.className='show';
     }
+    console.log('toggled')
   }
+
+  opts.on('toggle_results', toggle_results_event)
 
   function listing_visible(item)
   {

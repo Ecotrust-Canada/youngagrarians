@@ -21,9 +21,9 @@ class Account < ActiveRecord::Base
     list do
       fields :id, :email, :updated_at
     end
-    edit do
-      field :email
-    end
+    #edit do
+    #  field :email
+    #end
     import do
       mapping_key :email
     end

@@ -51,24 +51,29 @@ class LocationsController < ApplicationController
   def show
     require 'rest-client'
     @location = Location.find(params[:id] )
-
-    @wp_posts = @location.load_wp_posts()
     
-    respond_to do |format|
-      format.html do
-        if @location.visible? || @location.admin?( current_user )
-          if @location.land_listing?
-            render 'show_land_listing', layout: 'basic'
-          elsif @location.seeker_listing?
-            render 'show_seeker', layout: 'basic'
+    if @location.is_approved == 0
+      render :text => 'Location Not Approved', :status => '403'
+    else
+
+      @wp_posts = @location.load_wp_posts()
+    
+      respond_to do |format|
+        format.html do
+          if @location.visible? || @location.admin?( current_user )
+            if @location.land_listing?
+              render 'show_land_listing', layout: 'basic'
+            elsif @location.seeker_listing?
+              render 'show_seeker', layout: 'basic'
+            else
+              render layout: 'basic'
+            end
           else
-            render layout: 'basic'
+            render nothing: true, status: 404
           end
-        else
-          render nothing: true, status: 404
         end
+        format.json { render json: @location }
       end
-      format.json { render json: @location }
     end
   end
 
