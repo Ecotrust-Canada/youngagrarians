@@ -268,15 +268,29 @@ class LocationsController < ApplicationController
 
   # --------------------------------------------------------- apply_search_scope
   def apply_search_scope( scope )
+    category_scope = NestedCategory.joins( 'JOIN category_location_tags ON category_location_tags.nested_category_id = nested_categories.id' )
+		                   .where( 'name LIKE ?', "%#{params[:q]}%" )
+    location_ids = category_scope.pluck( 'category_location_tags.location_id' )
+    # for speed of getting this done, and avoid the table sequential scans expected by throwing an OR statement in here,
+    # i've implemented the category name check as a separate query. 
     if ActiveRecord::Base.connection.instance_of?( ActiveRecord::ConnectionAdapters::PostgreSQLAdapter  )
       args = []
       clause = params[:q].split( /\s+/ ).map do |phrase|
         args << phrase
         'to_tsquery(?)'
       end.join( ' && ' )
-      scope.where( "search @@ (#{clause})", *args )
+      if location_ids.any?
+        args << location_ids
+        scope.where( "search @@ (#{clause}) OR locations.id IN ( ? )", *args )
+      else
+        scope.where( "search @@ (#{clause})", *args )
+      end
     else
-      scope.where( 'description LIKE ?', "%#{params[:q]}%" )
+      if location_ids.any?
+        scope.where( 'description LIKE ? OR id IN ?', "%#{params[:q]}%", location_ids )
+      else
+        scope.where( 'description LIKE ?', "%#{params[:q]}%" )
+      end
     end
   end
 

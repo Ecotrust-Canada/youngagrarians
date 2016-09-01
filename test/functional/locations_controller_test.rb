@@ -6,4 +6,8 @@ class LocationsControllerTest < ActionController::TestCase
     get :index, format: 'json'
     assert_response :success
   end
+  def test_searching_for_locations
+    get :index, format: 'json', q: 'permaculture'
+    assert_response :success
+  end
 end
