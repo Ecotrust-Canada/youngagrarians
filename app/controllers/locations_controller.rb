@@ -268,7 +268,7 @@ class LocationsController < ApplicationController
 
   # --------------------------------------------------------- apply_search_scope
   def apply_search_scope( scope )
-    category_scope = NestedCategory.joins( 'JOIN category_location_tags ON category_location_tags.nested_category_id = nested_categories.id' )
+    category_scope = NestedCategory.joins( 'JOIN category_location_tags ON category_location_tags.category_id = nested_categories.id' )
 		                   .where( 'name LIKE ?', "%#{params[:q]}%" )
     location_ids = category_scope.pluck( 'category_location_tags.location_id' )
     # for speed of getting this done, and avoid the table sequential scans expected by throwing an OR statement in here,
