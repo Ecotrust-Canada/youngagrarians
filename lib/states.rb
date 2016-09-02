@@ -1,5 +1,6 @@
 class States
   AMERICAN_STATES = [
+      ['--', ''],
       ['Alabama', 'AL'],
       ['Alaska', 'AK'],
       ['Arizona', 'AZ'],
@@ -53,6 +54,7 @@ class States
       ['Wisconsin', 'WI'],
       ['Wyoming', 'WY']]
   CANADIAN_PROVINCES = [
+      ['--', ''],
       ['Alberta', 'AB'],
       ['British Columbia', 'BC'],
       ['Saskatchewan', 'SK'],

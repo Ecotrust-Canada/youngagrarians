@@ -185,6 +185,15 @@ class Location < ActiveRecord::Base
     ( show_until.nil? || show_until > Time.zone.today ) && approved?
   end
 
+  def address_required
+    if primary_category_id
+      @primary_category ||= NestedCategory.find( primary_category_id )
+      return false if @primary_category.name == 'Web Resources'
+      return false if @primary_category.name == 'Publications'
+    end
+    true
+  end
+
   def approved?
     is_approved
   end

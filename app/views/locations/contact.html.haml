@@ -12,11 +12,11 @@
       = f.hidden_field_tag 'done', '1'
       .row
         .columns.six
-          = f.text_field :street_address
-          = f.text_field :city
+          = f.text_field :street_address, required: @location.address_required
+          = f.text_field :city, required: @location.address_required
           = f.select :country, [ ['Canada', 'CA'], ['United States', 'US']]
-          = f.select :province, States::CANADIAN_PROVINCES
-          = f.text_field :postal, label: 'Postal code'
+          = f.select :province, States::CANADIAN_PROVINCES, required: @location.address_required
+          = f.text_field :postal, label: 'Postal code', required: @location.address_required
           = f.phone_field :phone
           = f.url :fb_url, label: 'Facebok URL'
           = f.text_field :twitter_url, label: 'Twitter URL'

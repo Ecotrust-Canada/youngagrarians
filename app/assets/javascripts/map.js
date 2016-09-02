@@ -254,10 +254,12 @@ if (!is_embedded) {
 
   function onLocationFound(e) {
       var radius = e.accuracy / 2;
-
+      
+      if (!is_mobile()){
       L.marker(e.latlng).addTo(map)
           .bindPopup("Your Location").openPopup();
       L.circle(e.latlng, radius).addTo(map);
+      }
       map.panTo(e.latlng);
   }
 
