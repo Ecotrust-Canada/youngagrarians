@@ -3,20 +3,6 @@
 
   %h1<=@location.name
 
-  - if current_user && @location.admin?( current_user )
-    %p.pull-right
-      = link_to 'Edit Location', edit_location_path( @location ), class: 'button button-primary'
-  
-  %i
-    = content_tag( 'span', @location.resource_type, class: 'resource-type' ) if @location.resource_type
-    - if @location.bioregion.present?
-      Located in #{@location.bioregion}
-  
-  #{top_category_list( @location )}
-  
-  - if @location.description.present? || @location.content.present?
-    = content_tag( 'div', @location.description, class: 'location-description' ) if @location.description.present?
-    = content_tag( 'div', @location.content, class: 'location-content' ) if @location.content.present?
 
   %h2<Land Details
 

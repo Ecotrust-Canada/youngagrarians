@@ -138,7 +138,7 @@ class Location < ActiveRecord::Base
     args << :bioregion
     b_with_c = [:string, :boolean]
     [:wooded_land_size, :road_access, :electricity, :cell_service, :hazards,
-      :residents_present, :farm_buildings, :tools, :is_fenced, :water_rights,
+      :residents_present, :farm_buildings, :tools, :is_fenced, :all_true, :water_rights,
       :onsite_housing, :restricted_vistor_access, :mentorship, :references_required,
       :insurance, :expansion_options ].each do |f|
       args << { f => b_with_c }
