@@ -52,8 +52,8 @@ class LocationsController < ApplicationController
     require 'rest-client'
     @location = Location.find(params[:id] )
     
-    if @location.is_approved == 0
-      render :text => 'Location Not Approved', :status => '403'
+    if @location.is_approved == 0 && ! @location.admin?( current_user ) && !session[:admin_user_id]
+      render 'not-approved', layout:'basic', status: 403
     else
 
       @wp_posts = @location.load_wp_posts()
@@ -268,14 +268,15 @@ class LocationsController < ApplicationController
 
   # --------------------------------------------------------- apply_search_scope
   def apply_search_scope( scope )
+    query = params[:q].gsub(/[^a-zA-Z\d\s]/, "") # sanitize
     category_scope = NestedCategory.joins( 'JOIN category_location_tags ON category_location_tags.category_id = nested_categories.id' )
-		                   .where( 'name LIKE ?', "%#{params[:q]}%" )
+		                   .where( 'name LIKE ?', "%#{query}%" )
     location_ids = category_scope.pluck( 'category_location_tags.location_id' )
     # for speed of getting this done, and avoid the table sequential scans expected by throwing an OR statement in here,
     # i've implemented the category name check as a separate query. 
     if ActiveRecord::Base.connection.instance_of?( ActiveRecord::ConnectionAdapters::PostgreSQLAdapter  )
       args = []
-      clause = params[:q].split( /\s+/ ).map do |phrase|
+      clause = query.split( /\s+/ ).map do |phrase|
         args << phrase
         'to_tsquery(?)'
       end.join( ' && ' )
@@ -287,9 +288,9 @@ class LocationsController < ApplicationController
       end
     else
       if location_ids.any?
-        scope.where( 'description LIKE ? OR id IN ?', "%#{params[:q]}%", location_ids )
+        scope.where( 'description LIKE ? OR id IN ?', "%#{query}%", location_ids )
       else
-        scope.where( 'description LIKE ?', "%#{params[:q]}%" )
+        scope.where( 'description LIKE ?', "%#{query}%" )
       end
     end
   end
