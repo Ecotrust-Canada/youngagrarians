@@ -6,10 +6,10 @@ Growing the next generation of farmers
 Install
 =======
 
-- Mount a volumen at config/secrets with devise_token & secure_token files ( generate with your preferred random token generator or rake secret > file_name)
+- Mount a volume at config/secrets with devise_token & secure_token files ( generate with your preferred random token generator or rake secret > file_name)
 
 ```
-cp configs/database.docker-compose.yml configs/database.yml
+cp config/database.docker-compose.yml config/database.yml
 cp docker-compose.override.yml.template docker-compose.override.yml
 ```
 
@@ -31,14 +31,6 @@ docker exec -it youngagrarians_app_1 rake assets:precompile
 ```
 
 
-Admin Panel
-===========
-
-To access the admin panel go to `/login` and login as the following user:
-
-email: dentsara@gmail.com
-password: test42
-
 Heroku Repo
 ===========
 - https://git.heroku.com/youngagrarians.git
@@ -49,12 +41,25 @@ mysqldump -h us-cdbr-east-04.cleardb.com -u USEr -p DB  --compatible=postgresql 
 Note that id columns need to be turned into serial columns and tinyints into booleans
 
 
-Admin
-=====
+Admin Panel
+===========
 
 You'll want to get into the admin area; easiest way is from a rails console:
-rails c(onsole)?
+```
+rails c
 x = User.first && x.password = 'cl4rkrul3s' && x.save!
 puts x.email
 exit
+```
 then login via /admin/login with those details.
+
+Using Docker:
+```
+docker exec -it youngagrarians_app_1 rails c
+x = User.first
+x.password = "YOUR PASSWORD"
+x.email = "YOUR EMAIL"
+x.save!
+exit
+```
+then login via /admin/login using the email/password credentials used above.
