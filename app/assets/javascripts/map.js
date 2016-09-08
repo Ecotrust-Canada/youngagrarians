@@ -191,13 +191,14 @@ function updateMarkers(response){
       // link items to markers and vice versa.
       marker.item = listing;
       listing.marker = marker;
+      console.log(listing);
       marker.bindPopup(
       "<div class='popup'>"
         +"<div class='listing-icon' style='background-image:url(" + CATEGORY_ICONS[the_slug] + ")'></div>"
         +"<label class='" + the_slug + "'>" + ( cat ? cat.name : 'no category' ) + "</label>"
           + (listing.is_event && listing.show_until ? "<p class='description'>date: " + listing.show_until + "</p>" : "")
           +"<p class='description'><a href='"+ensure_http(listing.url)+"'>" + listing.name + "</a></p>"
-          + (listing.public_contact != false ? "<p class='contact'>"
+          + (listing.public_contact !== false ? "<p class='contact'>"
             + (listing.phone ? "<a href='tel:" + get_dialable_phone(listing.phone) + "'>" + listing.phone + "</a>" : "")
             + (listing.phone && listing.email ? " | " : "")
             + (listing.email ? "<a href='mailto:'" + listing.email + ">" + listing.email + "</a>" : "")
@@ -255,7 +256,7 @@ if (!is_embedded) {
   function onLocationFound(e) {
       var radius = e.accuracy / 2;
       
-      if (!is_mobile()){
+      if (!mobile){
       L.marker(e.latlng).addTo(map)
           .bindPopup("Your Location").openPopup();
       L.circle(e.latlng, radius).addTo(map);

@@ -12,7 +12,7 @@ json.array! @locations do |location|
   json.phone location.phone
   json.email location.email
   json.street_address location.street_address
-  json.public_contact
+  json.public_contact location.public_contact
   #json.hasGoogleMap location.gmaps
   #json.postalCode location.postal
 

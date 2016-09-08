@@ -11,7 +11,7 @@
       = f.boolean_with_number :wooded_land_size, label: 'Wooded area, specify acres', yes_comments: true
       = f.number :cultivable_area, label: 'Cultivable area, specify acres'
       = f.boolean_with_number :expansion_options, label: 'Possibility to expand area currently available, specify acres', yes_comments: true
-      = f.radio_select :zoning, ['ALR', 'Non-ALR', 'Either' ], hidden: @location.province != 'BC'
+      = f.radio_select :zoning, ['ALR', 'Non-ALR' ], hidden: @location.province != 'BC'
       = f.check_all_with_comments :current_property_use, ['Not used for agriculture'] + agriculture_options
       = f.check_all_with_other :current_practices, agriculture_type_options
       = f.text_area :surface_description, label: 'State of the surface of the cultivable area'
