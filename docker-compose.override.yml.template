@@ -5,7 +5,7 @@ services:
     environment:
       RAILS_ENV: development
     volumes:
-      - ./ya
+      - .:/ya
   frontend:
     ports:
       - 8001:80
