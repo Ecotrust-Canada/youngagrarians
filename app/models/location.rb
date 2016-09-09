@@ -318,11 +318,7 @@ class Location < ActiveRecord::Base
       visible( false )
     end
 
-    configure :category do
-      visible( false )
-    end
-
-    configure :nested_categories do
+    configure :category_id do
       visible( false )
     end
 
