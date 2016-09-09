@@ -9,7 +9,6 @@ Install
 - Mount a volume at config/secrets with devise_token & secure_token files ( generate with your preferred random token generator or rake secret > file_name)
 
 ```
-cp config/database.docker-compose.yml config/database.yml
 cp docker-compose.override.yml.template docker-compose.override.yml
 ```
 
