@@ -268,7 +268,7 @@ class LocationsController < ApplicationController
 
   # --------------------------------------------------------- apply_search_scope
   def apply_search_scope( scope )
-    query = params[:q].gsub(/[^a-zA-Z\d\s]/, "") # sanitize
+    query = ActiveRecord::Base.send(:sanitize_sql_like, params[:q])
     category_scope = NestedCategory.joins( 'JOIN category_location_tags ON category_location_tags.category_id = nested_categories.id' )
 		                   .where( 'name LIKE ?', "%#{query}%" )
     location_ids = category_scope.pluck( 'category_location_tags.location_id' )
