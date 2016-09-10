@@ -329,10 +329,9 @@ class Location < ActiveRecord::Base
     configure :comments do
       visible( false )
     end
+
     ####################################################################
-    #
     # RailsAdmin Edit Fields
-    #
     ####################################################################
     edit do
       include_all_fields
@@ -367,6 +366,9 @@ class Location < ActiveRecord::Base
       exclude_fields :gmaps
     end
 
+    ####################################################################
+    # RailsAdmin List Fields
+    ####################################################################
     list do
       field :id
       field :is_approved do
@@ -387,6 +389,50 @@ class Location < ActiveRecord::Base
       field :resource_type
       field :updated_at
     end
+
+    ####################################################################
+    # RailsAdmin Show Fields
+    ####################################################################
+    show do
+      include_all_fields
+      field :latitude
+      field :longitude
+      exclude_fields :created_at, :updated_at, :category, :account
+
+      k.custom_boolean_fields.each do |f|
+        field "#{f}_value".to_sym, :boolean do
+          visible { bindings[:object].visible_parameter?( f ) }
+          label "Has #{f.to_s.humanize}?"
+        end
+        field "#{f}_comments".to_sym, :string do
+          visible { bindings[:object].visible_parameter?( f ) }
+        end
+      end
+      k.custom_number_fields.each do |f|
+        field f, :string do
+          visible { bindings[:object].visible_parameter?( f ) }
+        end
+      end
+      k.custom_string_fields.each do |f|
+        field f, :string do
+          visible { bindings[:object].visible_parameter?( f ) }
+        end
+      end
+      k.custom_text_fields.each do |f|
+        field f, :string do
+          visible { bindings[:object].visible_parameter?( f ) }
+        end
+      end
+      k.custom_multiselect_fields.each do |f|
+        field f, :string do
+          visible { bindings[:object].visible_parameter?( f ) }
+        end
+      end
+    end
+
+    ####################################################################
+    # RailsAdmin Import Fields
+    ####################################################################
     import do
       include_all_fields
       exclude_fields :nested_categories, :category

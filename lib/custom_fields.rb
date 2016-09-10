@@ -69,7 +69,9 @@ module CustomFields
     def custom_text_fields
       @custom_text_fields || []
     end
-
+    def custom_multiselect_fields
+      @custom_multiselect_fields || []
+    end
     # --------------------------------------------------------- add_number_field
     def add_number_field( field_name )
       @custom_number_fields ||= []
@@ -120,6 +122,8 @@ module CustomFields
 
     # --------------------------------------------------------- add_multiselect_field
     def add_multiselect_field( field_name )
+      @custom_multiselect_fields ||= []
+      @custom_multiselect_fields << field_name
       konst = const_get( field_name.to_s.upcase )
       define_method( field_name ) do
         x = load_field( konst ).serial_data
