@@ -1,0 +1,10 @@
+
+- field.form_value.each_with_index do |val, i|
+  - if val['value']
+    %p
+      %b #{val['value']}
+
+      %input{ :type => 'hidden', :name =>  "location[#{field.name}][#{i}][value]", :value => val['value']}
+      %input{ :type => 'checkbox', :name =>  "location[#{field.name}][#{i}][chosen]", :value => 'on', :checked => val['chosen']}
+      %input{ :type => 'text', :name => "location[#{field.name}][#{i}][comment]", :value => val['comment']}
+

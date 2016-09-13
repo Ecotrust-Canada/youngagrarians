@@ -125,7 +125,7 @@ class Location < ActiveRecord::Base
      :other_financial_resources, :wooded_area, :expansion_size].each do |thing|
       r_val << { thing => b_with_c }
     end
-    multi = [:value, :comment]
+    multi = [:value, :comment, :chosen]
     [:desired_use, :desired_practices, :training].each do |t|
       r_val << { t => multi }
     end
@@ -143,7 +143,7 @@ class Location < ActiveRecord::Base
       :insurance, :expansion_options ].each do |f|
       args << { f => b_with_c }
     end
-    multi = [ :value, :comment ]
+    multi = [ :value, :comment, :chosen ]
     args <<  { current_property_use: multi, practices_preferred: multi, soil_details: multi,
         current_practices: multi, water_source: multi, agriculture_preferred: multi }
   end
@@ -303,8 +303,10 @@ class Location < ActiveRecord::Base
   # -------------------------------------------------------- visibible_paramter?
   def visible_parameter?( param_name )
     if land_listing?
+      #throw Location.land_parameter_names
       Location.land_parameter_names.include?( param_name.to_sym )
     elsif seeker_listing?
+      #throw Location.land_seeker_parameter_names
       Location.land_seeker_parameter_names.include?( param_name.to_sym )
     else
       false
@@ -363,6 +365,13 @@ class Location < ActiveRecord::Base
           visible { bindings[:object].visible_parameter?( f ) }
         end
       end
+
+      k.custom_multiselect_fields.each do |f|
+        field f, :multifield do
+          visible { bindings[:object].visible_parameter?( f ) }
+        end
+      end
+
       exclude_fields :gmaps
     end
 

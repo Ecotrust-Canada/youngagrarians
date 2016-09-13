@@ -5,6 +5,9 @@ require Rails.root.join('lib/rails_admin_approve_resource')
 require Rails.root.join('lib/rails_admin_unapprove_resource')
 require Rails.root.join('lib/rails_admin_export')
 require Rails.root.join('lib/rails_admin_show_in_app')
+require Rails.root.join('lib/rails_admin_multifield')
+
+RailsAdmin::Config::Fields::Types::register(:multifield, RailsAdmin::Config::Fields::Types::MultiField)
 
 RailsAdmin.config do |config|
   ################  Global configuration  ################

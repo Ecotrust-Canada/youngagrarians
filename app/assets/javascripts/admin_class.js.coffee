@@ -81,3 +81,6 @@ class window.Admin
               window.location.reload true
 
 @Admin = new Admin()
+
+
+alert('ok')

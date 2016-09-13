@@ -152,21 +152,25 @@ module LocationsHelper
   def lf_bool_with_comment( location, field_name )
     r_val = ''.html_safe
 
-    if location.send(field_name)
-      #if !!location.send(field_name) == location.send(field_name)
-      if location.send(field_name).true?
-        r_val << 'Yes'
+    field_val = location.send(field_name)
+
+    if field_val
+
+      if field_val.instance_of? String
+        # This should actually not happen... TODO: find out why it does for new seeker listings?
+        r_val << field_val
       else
-        r_val << 'No'
-      end
-      if location.send(field_name).comment.present?
-        r_val << content_tag( 'span' ) do
-          ' - ' + location.send(field_name).comment
+        if field_val.true?
+          r_val << 'Yes'
+        else
+          r_val << 'No'
+        end
+        if field_val.comment.present?
+          r_val << content_tag( 'span' ) do
+            ' - ' + field_val.comment
+          end
         end
       end
-      #else
-      #  r_val << "No"
-      #end
     else
       r_val << '(unspecified)'
     end
@@ -177,11 +181,13 @@ module LocationsHelper
     content_tag( 'ul' ) do
       r_val = ''.html_safe
       location.send(field_name).each do |use|
-        r_val << content_tag( 'li' ) do
-          rr_val = ''.html_safe
-          rr_val << use['value'] + ' - '
-          rr_val << content_tag( 'span', use['comment'], class: 'comment' ) if use['comment'].present?
-          rr_val
+        if use['chosen']
+          r_val << content_tag( 'li' ) do
+            rr_val = ''.html_safe
+            rr_val << use['value'] + ' - '
+            rr_val << content_tag( 'span', use['comment'], class: 'comment' ) if use['comment'].present?
+            rr_val
+          end
         end
       end
       r_val

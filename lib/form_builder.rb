@@ -303,12 +303,15 @@ class FormBuilder < ActionView::Helpers::FormBuilder
     x = template.hidden_field_tag( empty_name )
     choices.each_with_index do |choice, i|
       v = val.find{ |y| y['value'] == choice }
-      b_name = format( '%s[%s][%d][value]', object_name, field, i )
+      c_value = v && v['chosen']
+      v_name = format( '%s[%s][%d][value]', object_name, field, i )
+      b_name = format( '%s[%s][%d][chosen]', object_name, field, i )
       c_name = format( '%s[%s][%d][comment]', object_name, field, i )
       x << content_tag( 'div', class: 'choice-wrapper' ) do
-        content_tag( 'label', template.check_box_tag( b_name, choice, v ) + choice + ' (specify)' ) +
+        template.hidden_field_tag( v_name, choice ) + 
+        content_tag( 'label', template.check_box_tag( b_name, 'on', c_value ) + choice + ' (specify)' ) +
         content_tag( 'span', template.text_field_tag( c_name, v && v.fetch('comment','' ), disabled: !v ),
-                      style: v ? nil : 'display: none;',
+                      style: c_value ? nil : 'display: none;',
                       class: 'comments' )
       end
     end
@@ -321,7 +324,6 @@ class FormBuilder < ActionView::Helpers::FormBuilder
   end
   # ---------------------------------------------------- check_all_with_comments
   def check_all_with_other( field, choices, args = {} )
-    #raise object.send( field ).inspect + field.to_s
     val = object.send( field ).map { |x| x['value'] }
     label = format_label( args[:label] || field.to_s.humanize )
     empty_name = format( '%s[%s][0][value]', object_name, field )
