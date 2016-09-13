@@ -151,21 +151,24 @@ module LocationsHelper
 
   def lf_bool_with_comment( location, field_name )
     r_val = ''.html_safe
+
     if location.send(field_name)
-      if !!location.send(field_name) == location.send(field_name)
-        if location.send(field_name).true?
-          r_val << 'Yes'
-        else
-          r_val << 'No'
-        end
-        if location.send(field_name).comment.present?
-          r_val << content_tag( 'span' ) do
-            ' - ' + location.send(field_name).comment
-          end
-        end
+      #if !!location.send(field_name) == location.send(field_name)
+      if location.send(field_name).true?
+        r_val << 'Yes'
       else
-        r_val << "No"
+        r_val << 'No'
       end
+      if location.send(field_name).comment.present?
+        r_val << content_tag( 'span' ) do
+          ' - ' + location.send(field_name).comment
+        end
+      end
+      #else
+      #  r_val << "No"
+      #end
+    else
+      r_val << '(unspecified)'
     end
     r_val
   end
