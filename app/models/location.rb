@@ -297,16 +297,14 @@ class Location < ActiveRecord::Base
 
   # ------------------------------------------------------- land_parameter_names
   def self.land_seeker_parameter_names
-    @land_parameter_names ||= seeker_params.map{ |x| x.is_a?( Symbol ) ? x : x.keys }.flatten
+    @land_seeker_parameter_names ||= seeker_params.map{ |x| x.is_a?( Symbol ) ? x : x.keys }.flatten
   end
   
   # -------------------------------------------------------- visibible_paramter?
   def visible_parameter?( param_name )
     if land_listing?
-      #throw Location.land_parameter_names
       Location.land_parameter_names.include?( param_name.to_sym )
     elsif seeker_listing?
-      #throw Location.land_seeker_parameter_names
       Location.land_seeker_parameter_names.include?( param_name.to_sym )
     else
       false
@@ -343,32 +341,50 @@ class Location < ActiveRecord::Base
 
       k.custom_boolean_fields.each do |f|
         field "#{f}_value".to_sym, :boolean do
-          visible { bindings[:object].visible_parameter?( f ) }
+          visible do
+            bindings[:object].visible_parameter?( f )
+          end
           label "Has #{f.to_s.humanize}?"
         end
         field "#{f}_comments".to_sym, :string do
-          visible { bindings[:object].visible_parameter?( f ) }
+          visible do
+            bindings[:object].visible_parameter?( f )
+          end
         end
       end
       k.custom_number_fields.each do |f|
         field f, :string do
-          visible { bindings[:object].visible_parameter?( f ) }
+          visible do
+            bindings[:object].visible_parameter?( f )
+          end
         end
       end
       k.custom_string_fields.each do |f|
         field f, :string do
-          visible { bindings[:object].visible_parameter?( f ) }
+          visible do
+            bindings[:object].visible_parameter?( f )
+          end
         end
       end
       k.custom_text_fields.each do |f|
         field f, :string do
-          visible { bindings[:object].visible_parameter?( f ) }
+          visible do
+            bindings[:object].visible_parameter?( f )
+          end
         end
       end
 
       k.custom_multiselect_fields.each do |f|
         field f, :multifield do
-          visible { bindings[:object].visible_parameter?( f ) }
+          visible do
+            bindings[:object].visible_parameter?( f )
+          end
+        end
+      end
+
+      field :land_size do 
+        visible do
+          bindings[:object].visible_parameter?( :land_size )
         end
       end
 
@@ -397,6 +413,7 @@ class Location < ActiveRecord::Base
       field :email
       field :resource_type
       field :updated_at
+
     end
 
     ####################################################################
@@ -407,6 +424,7 @@ class Location < ActiveRecord::Base
       field :latitude
       field :longitude
       exclude_fields :created_at, :updated_at, :category, :account
+
 
       k.custom_boolean_fields.each do |f|
         field "#{f}_value".to_sym, :boolean do
@@ -437,6 +455,9 @@ class Location < ActiveRecord::Base
           visible { bindings[:object].visible_parameter?( f ) }
         end
       end
+
+      field :land_size
+
     end
 
     ####################################################################
