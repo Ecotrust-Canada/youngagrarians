@@ -450,9 +450,12 @@ class Location < ActiveRecord::Base
           visible { bindings[:object].visible_parameter?( f ) }
         end
       end
+
       k.custom_multiselect_fields.each do |f|
-        field f, :string do
-          visible { bindings[:object].visible_parameter?( f ) }
+        field f, :multifield do
+          pretty_value do
+            bindings[:view].render :partial => "rails_admin/main/form_multifield", :locals => {:field => self, :object => bindings[:object], :disabled => true}
+          end
         end
       end
 
