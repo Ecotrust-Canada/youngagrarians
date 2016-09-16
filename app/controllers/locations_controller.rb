@@ -218,7 +218,7 @@ class LocationsController < ApplicationController
     else
       if @location.name.present? || @location.details_complete
         render :contact, layout: 'basic'
-      elsif @location.account_id.present? || @location.skip_account
+      elsif @location.account_id.present? || session[:in_progress_location]['skip_account']
         render_description_form
       elsif @location.primary_category_id
         render :account_setup, layout: 'basic'
