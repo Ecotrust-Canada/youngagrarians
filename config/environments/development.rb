@@ -26,6 +26,8 @@ Youngagrarians::Application.configure do
   config.assets.debug = true
   config.action_controller.action_on_unpermitted_parameters = :raise
 
+  # Load static assets
+  config.serve_static_files = true
 
   config.action_mailer.delivery_method = :letter_opener
   #config.action_controller.asset_host = 'http://map.youngagrarians.org'
