@@ -2,4 +2,3 @@ Rails.application.config.assets.precompile += %w( marketing.css basic.css new_li
 Rails.application.config.assets.precompile += %w( embedded_map.js )
 Rails.application.config.assets.precompile += %w( forms.js )
 Rails.application.config.assets.precompile += %w( global.js )
-Rails.application.config.assets.precompile += %w( js-webshim/minified/polyfiller.js )
