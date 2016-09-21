@@ -21,6 +21,9 @@
     = stylesheet_link_tag 'marketing', media: "all"
 
     = javascript_include_tag 'modernizr'
+    = javascript_include_tag 'js-webshim/minified/polyfiller.js'
+    :javascript
+      webshims.polyfill();
     / For third-generation iPad with high-resolution Retina display:
     / Size should be 144 x 144 pixels
     - ['144x144', '114x114', '72x72'].each do |size|
