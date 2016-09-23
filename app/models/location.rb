@@ -100,6 +100,83 @@ class Location < ActiveRecord::Base
     end
   end
 
+  def after_import_save(record)
+    if self.land_listing?
+      # Current property use
+      lf = LocationField.new
+      lf.field_id = 4
+      lf.boolean_value = 0
+      lf.location_id = self.id
+      lf.serial_data = [{"value":"Not used for agriculture"},{"value":"Vegetable"},{"value":"Livestock"},{"value":"Grain"},{"value":"Seed"},{"value":"Hay \u0026 Forage"},{"value":"Orchard/Fruit"},{"value":"Mixed"},{"value":"Other"}].to_json
+      lf.save!
+
+      # Practices preferred
+      lf = LocationField.new
+      lf.field_id = 21
+      lf.boolean_value = 0
+      lf.location_id = self.id
+      lf.serial_data = [{"value":"Certified Organic"},{"value":"Organic"},{"value":"Conventional"},{"value":"Other"}].to_json
+      lf.save!
+
+      # Soil details
+      lf = LocationField.new
+      lf.field_id = 23
+      lf.boolean_value = 0
+      lf.location_id = self.id
+      lf.serial_data = [{"value":"Texture"},{"value":"Rocky soil"},{"value":"Sloping"},{"value":"Thick topsoil"},{"value":"Slope orientation and degree of slope (specify)"},{"value":"General fertility (nutrients)"},{"value":"Soil grittiness"},{"value":"Good drainage"},{"value":"Unknown"}].to_json
+      lf.save!
+
+      # Current practices
+      lf = LocationField.new
+      lf.field_id = 5
+      lf.boolean_value = 0
+      lf.location_id = self.id
+      lf.serial_data = [{"value":"Certified Organic"},{"value":"Organic"},{"value":"Conventional"},{"value":"Other"}].to_json
+      lf.save!
+
+      # Water source
+      lf = LocationField.new
+      lf.field_id = 16
+      lf.boolean_value = 0
+      lf.location_id = self.id
+      lf.serial_data = [{"value":"None"},{"value":"Well"},{"value":"Pond/lake"},{"value":"Stream/river"},{"value":"Irrigation system"},{"value":"Other"}].to_json
+      lf.save!
+
+      # Aggriculture preferred
+      lf = LocationField.new
+      lf.field_id = 20
+      lf.boolean_value = 0
+      lf.location_id = self.id
+      lf.serial_data = [{"value":"Vegetable"},{"value":"Livestock"},{"value":"Grain"},{"value":"Seed"},{"value":"Hay \u0026 Forage"},{"value":"Orchard/Fruit"},{"value":"Mixed"},{"value":"Other"}].to_json
+      lf.save!
+
+    elsif self.seeker_listing?
+      # Desired use
+      lf = LocationField.new
+      lf.field_id = 49
+      lf.boolean_value = 0
+      lf.location_id = self.id
+      lf.serial_data = [{"value":"Vegetable"},{"value":"Livestock"},{"value":"Grain"},{"value":"Seed"},{"value":"Hay \u0026 Forage"},{"value":"Orchard/Fruit"},{"value":"Mixed"},{"value":"Other"}].to_json
+      lf.save!
+
+      # Desired practices
+      lf = LocationField.new
+      lf.field_id = 50
+      lf.boolean_value = 0
+      lf.location_id = self.id
+      lf.serial_data = [{"value":"Certified Organic"},{"value":"Organic"},{"value":"Conventional"},{"value":"Other"}].to_json
+      lf.save!
+
+      # Training
+      lf = LocationField.new
+      lf.field_id = 31
+      lf.boolean_value = 0
+      lf.location_id = self.id
+      lf.serial_data = [{"value":"Agriculture-related degree"},{"value":"Farm management (3 years or less)"},{"value":"Farm management (3 years+)"},{"value":"Apprenticeship"},{"value":"General degree"},{"value":"General farming (3 years or less)"},{"value":"General farming (3 years+)"},{"value":"Other experience/agricultural/business training"}].to_json
+      lf.save!
+    end
+  end
+
   # -------------------------------------------------------------- land_listing?
   def land_listing?
     # IDs not consistent migration to migration, hence string matching
