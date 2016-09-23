@@ -324,22 +324,31 @@ class FormBuilder < ActionView::Helpers::FormBuilder
   end
   # ---------------------------------------------------- check_all_with_comments
   def check_all_with_other( field, choices, args = {} )
-    val = object.send( field ).map { |x| x['value'] }
+    val = object.send( field )
     label = format_label( args[:label] || field.to_s.humanize )
     empty_name = format( '%s[%s][0][value]', object_name, field )
     x = template.hidden_field_tag( empty_name )
     choices.each_with_index do |choice, i|
-      v = val.delete( choice )
-      b_name = format( '%s[%s][%d][value]', object_name, field, i )
-      x << content_tag( 'div', class: 'multiple-choice' ) do
-        content_tag( 'label', template.check_box_tag( b_name, choice, v ) + choice )
+      v = val.find{ |y| y['value'] == choice }
+      c_value = v && v['chosen']
+      v_name = format( '%s[%s][%d][value]', object_name, field, i )
+      b_name = format( '%s[%s][%d][chosen]', object_name, field, i )
+      x << content_tag( 'div', class: 'choice-wrapper' ) do
+        template.hidden_field_tag( v_name, choice ) + 
+        content_tag( 'label', template.check_box_tag( b_name, 'on', c_value ) + choice )
       end
     end
     x << content_tag( 'div', class: 'choice-wrapper' ) do
-        name = format( '%s[%s][%d][value]', object_name, field, choices.length )
-        content_tag( 'label', template.check_box_tag( '', nil, val.any? ) + 'Other (specify)' ) +
-        content_tag( 'span', template.text_field_tag( name, val.join(','), disabled: val.empty? ),
-                      style: val.any? ? nil : 'display: none;',
+        v = val.find{ |y| y['value'] == 'Other' }
+        c_value = v && v['chosen']
+        v_name = format( '%s[%s][%d][value]', object_name, field, choices.length )
+        b_name = format( '%s[%s][%d][chosen]', object_name, field, choices.length )
+        c_name = format( '%s[%s][%d][comment]', object_name, field, choices.length )
+
+        template.hidden_field_tag( v_name, 'Other' ) + 
+        content_tag( 'label', template.check_box_tag( b_name, 'on', c_value ) + 'Other (specify)' ) +
+        content_tag( 'span', template.text_field_tag( c_name, v && v.fetch('comment','' ), disabled: !v ),
+                      style: c_value ? nil : 'display: none;',
                       class: 'comments' )
     end
     klasses = ['form-element']

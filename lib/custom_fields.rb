@@ -136,7 +136,7 @@ module CustomFields
       define_method( "#{field_name}=", ) do |x|
         array = []
         x.values.each do |data|
-          if data['value'].present?|| data['comment'].present?
+          if data['value'].present? || data['comment'].present?
             array << data
           end
         end
