@@ -4,7 +4,10 @@
   <div class='search-box-map-wrap'>
     <input type="text" placeholder="Search - bees, soil, Okanagan, etc." name="q" class="search-box-map" onkeyup={ onquery }>
   </div>
-  <div class='results-toggle toggle' onclick={ toggle_results }>list</div>
+  <div class='results-toggle toggle' onclick={ toggle_results }>
+     <span if={!results_list}>list</span>
+     <img if={results_list} src="/images/map.png">
+  </div>
 
   <!--<div class='category-toggle toggle' onclick={ toggle_categories }>
     <div class='notification' if={ num_cats_showing() }>{ num_cats_showing() }</div>
@@ -25,6 +28,8 @@
      ,active_tag = opts.kwargs['t']
      ,orig_listings
      ,showing=false;
+  
+  controller.results_list = false;
 
   toggle_results(){
     toggle_results_event();
@@ -34,10 +39,11 @@
     var rl = document.querySelector('results');
     if (rl.className) {
       rl.className='';
+      controller.update({results_list:false});
     } else {
       rl.className='show';
+      controller.update({results_list:true});
     }
-    console.log('toggled')
   }
 
   opts.on('toggle_results', toggle_results_event)
