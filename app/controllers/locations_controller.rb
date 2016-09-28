@@ -276,10 +276,12 @@ class LocationsController < ApplicationController
     # i've implemented the category name check as a separate query. 
     if ActiveRecord::Base.connection.instance_of?( ActiveRecord::ConnectionAdapters::PostgreSQLAdapter  )
       args = []
-      clause = query.split( /\s+/ ).map do |phrase|
+      tokens = generate_tokens(query)
+      clause = tokens.map.with_index do |phrase, i|
         args << phrase
         'to_tsquery(?)'
       end.join( ' && ' )
+
       if location_ids.any?
         args << location_ids
         scope.where( "search @@ (#{clause}) OR locations.id IN ( ? )", *args )
@@ -293,6 +295,22 @@ class LocationsController < ApplicationController
         scope.where( 'description LIKE ?', "%#{query}%" )
       end
     end
+  end
+
+  # -------------------------------------------------- generate_tokens
+  def generate_tokens(query)
+    query = query.gsub(/Ontario/i, 'ON')
+    query = query.gsub(/Quebec/i, 'QC')
+    query = query.gsub(/Nova Scotia/i, 'NS')
+    query = query.gsub(/New Brunswick/i, 'NB')
+    query = query.gsub(/Manitoba/i, 'MB')
+    query = query.gsub(/British Columbia/i, 'BC')
+    query = query.gsub(/Prince Edward Island/i, 'PE')
+    query = query.gsub(/Saskatchewan/i, 'SK')
+    query = query.gsub(/Alberta/i, 'AB')
+    query = query.gsub(/Newfoundland and Labrador/i, 'NL')
+
+    return query.split( /\s+/ )
   end
 
   # -------------------------------------------------- apply_distance_sort_scope
