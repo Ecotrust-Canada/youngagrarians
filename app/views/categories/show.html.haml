@@ -22,7 +22,8 @@
     - if @category.locations.any?
       %ul
         - @category.locations.order( :name ).each do |item|
-          %li<= link_to( item.name, location_path( item ) )
+          - if item.approved? && item.visible?
+            %li<= link_to( item.name, location_path( item ) )
     - else
       .pane.panel-default
         There are no listings in #{@category.name}

@@ -25,7 +25,7 @@ class Location < ActiveRecord::Base
   has_many :location_fields, dependent: :destroy
   has_many :nested_categories, through: :category_tags
 
-  scope :approved, -> { where( is_approved: true ) } 
+  scope :approved, -> { where( is_approved: 1 ) }
   scope :currently_shown, -> { where( 'show_until IS NULL OR show_until > ?', Time.zone.today) }
   scope :surrey, -> {
     joins( "JOIN category_location_tags ON category_location_tags.location_id = locations.id 
@@ -272,7 +272,7 @@ class Location < ActiveRecord::Base
   end
 
   def approved?
-    is_approved
+    return is_approved == 1 ? true : false
   end
 
   def gmaps4rails_address
