@@ -191,7 +191,6 @@ function updateMarkers(response){
       // link items to markers and vice versa.
       marker.item = listing;
       listing.marker = marker;
-      console.log(listing);
       marker.bindPopup(
       "<div class='popup'>"
         +"<div class='listing-icon' style='background-image:url(" + CATEGORY_ICONS[the_slug] + ")'></div>"
