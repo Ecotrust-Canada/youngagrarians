@@ -286,7 +286,12 @@ class LocationsController < ApplicationController
         args << location_ids
         scope.where( "search @@ (#{clause}) OR locations.id IN ( ? )", *args )
       else
-        scope.where( "search @@ (#{clause})", *args )
+        if args.include? "ON" # ON is a reserved stop word in pg fulltext search apparently! Let's have a special case:
+          args << "Ontario"
+          scope.where( "locations.province = 'ON' OR search @@ (#{clause})", *args)
+        else
+          scope.where( "search @@ (#{clause})", *args )
+        end
       end
     else
       if location_ids.any?
@@ -299,7 +304,7 @@ class LocationsController < ApplicationController
 
   # -------------------------------------------------- generate_tokens
   def generate_tokens(query)
-    query = query.gsub(/Ontario/i, 'ON')
+    #query = query.gsub(/Ontario/i, 'ON')
     query = query.gsub(/Quebec/i, 'QC')
     query = query.gsub(/Nova Scotia/i, 'NS')
     query = query.gsub(/New Brunswick/i, 'NB')
