@@ -18,12 +18,13 @@ var OpenStreetMap_Mapnik = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x
   maxZoom: 19,
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 });
+// this layer seems toast:
 var OpenStreetMap_BlackAndWhite = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
   maxZoom: 17,
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 });
 
-map.addLayer(OpenStreetMap_BlackAndWhite);
+map.addLayer(OpenStreetMap_Mapnik);
 
 function onLocationFound(e) {
     var radius = e.accuracy / 2;

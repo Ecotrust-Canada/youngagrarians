@@ -60,7 +60,7 @@ class States
       ['Saskatchewan', 'SK'],
       ['Manitoba', 'MB'],
       ['Ontario', 'ON'],
-      ['Quebec', 'QB'],
+      ['Quebec', 'QC'],
       ['Prince Edward Island', 'PEI'],
       ['Newfound & Labradour', 'NF'],
       ['Nova Scotia', 'NS'],
