@@ -141,5 +141,7 @@ class RenameCategories < ActiveRecord::Migration
   end
   def sqlite?
     ActiveRecord::Base.connection.instance_of?( ActiveRecord::ConnectionAdapters::SQLite3Adapter  )
+  rescue NameError
+    return false
   end
 end
