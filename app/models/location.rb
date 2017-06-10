@@ -25,7 +25,7 @@ class Location < ActiveRecord::Base
   has_many :location_fields, dependent: :destroy
   has_many :nested_categories, through: :category_tags
 
-  scope :approved, -> { where( is_approved: 1 ) }
+  scope :approved, -> { where( is_approved: true ) }
   scope :currently_shown, -> { where( 'show_until IS NULL OR show_until > ?', Time.zone.today) }
   scope :surrey, -> {
     joins( "JOIN category_location_tags ON category_location_tags.location_id = locations.id 
@@ -272,7 +272,7 @@ class Location < ActiveRecord::Base
   end
 
   def approved?
-    return is_approved == 1 ? true : false
+    is_approved
   end
 
   def gmaps4rails_address
@@ -473,15 +473,7 @@ class Location < ActiveRecord::Base
     ####################################################################
     list do
       field :id
-      field :is_approved do
-        label 'Approved'
-        export_value do
-          value == 1 ? 'Yes' : 'No'
-        end
-        pretty_value do # used in list view columns and show views, defaults to formatted_value for non-association fields
-          ( value == 1 ? "<span class='icon-check'></span>" : "<span class='icon-check-empty'></span>" ).html_safe
-        end
-      end
+      field :is_approved
       field :show_until
       field :name
       field :province

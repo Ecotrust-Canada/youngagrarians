@@ -51,8 +51,8 @@ class LocationsController < ApplicationController
   def show
     require 'rest-client'
     @location = Location.find(params[:id] )
-    
-    if @location.is_approved == 0 && ! @location.admin?( current_user ) && !session[:admin_user_id]
+
+    if !@location.is_approved && !@location.admin?( current_user ) && !session[:admin_user_id]
       render 'not-approved', layout:'basic', status: 403
     else
 
