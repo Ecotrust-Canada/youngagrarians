@@ -59,6 +59,7 @@ gem 'rails_admin'
 gem 'rails_admin_import' # this looks to have some backported , git: 'git://github.com/yagudaev/rails_admin_import.git'
 
 gem 'webshims-rails'
+gem 'rakismet'
 
 group :development, :test do
   gem 'rb-readline',	'~> 0.4.2'
