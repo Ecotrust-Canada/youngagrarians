@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160928194435) do
+ActiveRecord::Schema.define(version: 20170610010112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,9 +67,9 @@ ActiveRecord::Schema.define(version: 20160928194435) do
     t.string   "fb_url",         limit: 255
     t.string   "twitter_url",    limit: 255
     t.text     "description"
-    t.integer  "is_approved",                default: 0
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.boolean  "is_approved",                default: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.integer  "category_id"
     t.string   "resource_type",  limit: 255
     t.string   "email",          limit: 255
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20160928194435) do
     t.string   "country",        limit: 255
     t.string   "province",       limit: 255
     t.integer  "account_id"
-    t.boolean  "public_contact",             default: true, null: false
+    t.boolean  "public_contact",             default: true,  null: false
     t.tsvector "search"
     t.string   "land_size"
     t.string   "post_id"
