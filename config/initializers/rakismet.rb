@@ -6,7 +6,7 @@
     unless File.exist?( token_file )
       raise "Put a token in #{token_file}"
     end
-    key = File.read( token_file )
+    key = File.read( token_file ).strip
     Youngagrarians::Application.config.rakismet.key = key
     Youngagrarians::Application.config.rakismet.url = 'http://maps.youngagrarians.org/'
   end
