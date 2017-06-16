@@ -21,11 +21,11 @@ else
   end
   mail_creds = ( YAML.load_file( token_file ).fetch( Rails.env.to_s ) || {} ).symbolize_keys
   smtp_settings = {
-    address: mail_creds['address'] || '',
-    port: mail_creds['port'] || '',
-    domain: mail_creds['domain'] || '',
-    user_name: mail_creds['usern_name'] || '',
-    password: mail_creds['password'] || '',
+    address: mail_creds[:address] || '',
+    port: mail_creds[:port] || '',
+    domain: mail_creds[:domain] || '',
+    user_name: mail_creds[:user_name] || '',
+    password: mail_creds[:password] || '',
     authentication: 'plain',
     enable_starttls_auto: true
   }
