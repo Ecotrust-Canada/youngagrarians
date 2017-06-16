@@ -20,7 +20,7 @@ class UserMailer < ActionMailer::Base
   # ----------------------------------------------------------- listing_approved
   def new_listing( location )
     @location = location
-    mail( to: 'farm@youngagrarians.org',
+    mail( to: CONFIG[:send_mail_to],
           subject: 'Young Agrarians - Listing Needs Approval')
   end
 
@@ -49,6 +49,7 @@ class UserMailer < ActionMailer::Base
     mail( to: to, subject: message.subject, reply_to: "#{message.name} <#{message.email}>" )
   end
 
+  # ------------------------------------------------------------ new_comment
   def new_comment( comment )
     @comment = comment
     l = comment.location
@@ -58,9 +59,11 @@ class UserMailer < ActionMailer::Base
     mail(to: addresses,
           subject: "Young Agrarians - Comment on #{comment.location.name}")
   end
+
+  # ------------------------------------------------------------ new_comment_for_admin
   def new_comment_for_admin( comment )
     @comment = comment
-    mail(to: 'farm@youngagrarians.org',
+    mail(to: CONFIG[:send_mail_to],
           subject: "Young Agrarians - Comment on #{comment.location.name}")
   end
 end
