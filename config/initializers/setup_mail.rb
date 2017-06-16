@@ -20,17 +20,16 @@ else
     raise "Put mail creds in #{token_file}"
   end
   mail_creds = ( YAML.load_file( token_file ).fetch( Rails.env.to_s ) || {} ).symbolize_keys
-  defaults = {
-    address: CONFIG[:smtp_host] || '',
-    port: CONFIG[:smtp_port] || '',
-    domain: CONFIG[:mailer_host] || '',
-    user_name: CONFIG[:smtp_username] || '',
-    password: CONFIG[:smtp_password] || '',
+  smtp_settings = {
+    address: mail_creds['address'] || '',
+    port: mail_creds['port'] || '',
+    domain: mail_creds['domain'] || '',
+    user_name: mail_creds['usern_name'] || '',
+    password: mail_creds['password'] || '',
     authentication: 'plain',
     enable_starttls_auto: true
   }
-  ActionMailer::Base.smtp_settings = defaults.merge( mail_creds )
-
+  ActionMailer::Base.smtp_settings = smtp_settings
   ActionMailer::Base.default_url_options[:host] = CONFIG[:mailer_host]
   ActionMailer::Base.delivery_method = :smtp
   ActionMailer::Base.perform_deliveries = true

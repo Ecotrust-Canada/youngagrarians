@@ -1,5 +1,7 @@
 send_mail_to: 'farm@youngagrarians.org '
 send_from: '"Young Agrarians" <no-reply@youngagrarians.org>'
+mailer_host: 'maps.youngagrarians.org'
 
 development:
-  send_mail_to: 'echo85@gmail.com'
+  send_mail_to: 'oleg@countable.ca'
+  mailer_host: 'localhost:3000'
