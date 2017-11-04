@@ -103,8 +103,14 @@ wms_layers.push({
 });
 
 wms_layers.push({
-  layer: L.tileLayer.wms("http://openmaps.gov.bc.ca/mapserver/admin-boundaries", {
-    layers: 'ALC_AGRI_LAND_RESERVE_POLYS',
+  #layer: L.tileLayer.wms("http://openmaps.gov.bc.ca/mapserver/admin-boundaries", {
+  #  layers: 'ALC_AGRI_LAND_RESERVE_POLYS',
+  #  format: 'image/png',
+  #  transparent: true,
+  #  opacity: 0.5
+  #}),
+  layer: L.tileLayer.wms("https://openmaps.gov.bc.ca/geo/pub/WHSE_LEGAL_ADMIN_BOUNDARIES.OATS_ALR_POLYS/ows", {
+    layers: 'WHSE_LEGAL_ADMIN_BOUNDARIES.OATS_ALR_POLYS',
     format: 'image/png',
     transparent: true,
     opacity: 0.5

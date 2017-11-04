@@ -3,6 +3,6 @@ if Rails.env.production?
     email: {
       email_prefix: "[PREFIX] ",
       sender_address: format( '"%s" <%s>', "YoungAgrarians App", 'no-reply@youngagrarians.org' ),
-      exception_recipients: ENV['ERROR_EMAIL'] || "echo85@gmail.com"
+      exception_recipients: ENV['ERROR_EMAIL'] || "theyoungagrarians@gmail.com"
     }
 end
