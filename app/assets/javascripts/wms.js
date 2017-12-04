@@ -90,6 +90,7 @@ L.tileLayer.betterWms = function (url, options) {
   return new L.TileLayer.BetterWMS(url, options);  
 };
 
+/*
 wms_layers.push({
   layer: L.tileLayer.wms("http://openmaps.gov.bc.ca/mapserver/freshwater-and-marine", {
     layers: 'GW_WATER_WELLS_WRBC_WATER_WELLS',
@@ -101,14 +102,9 @@ wms_layers.push({
   legend_style: 'background:blue; border-radius:50%; border: 1px solid white',
   tooltip: "Please zoom in to a single lot/farm to see all wells."
 });
+*/
 
 wms_layers.push({
-  #layer: L.tileLayer.wms("http://openmaps.gov.bc.ca/mapserver/admin-boundaries", {
-  #  layers: 'ALC_AGRI_LAND_RESERVE_POLYS',
-  #  format: 'image/png',
-  #  transparent: true,
-  #  opacity: 0.5
-  #}),
   layer: L.tileLayer.wms("https://openmaps.gov.bc.ca/geo/pub/WHSE_LEGAL_ADMIN_BOUNDARIES.OATS_ALR_POLYS/ows", {
     layers: 'WHSE_LEGAL_ADMIN_BOUNDARIES.OATS_ALR_POLYS',
     format: 'image/png',
@@ -123,8 +119,8 @@ wms_layers.push({
 
 if (window.is_embedded) {
   wms_layers.push({
-    layer: L.tileLayer.wms("http://openmaps.gov.bc.ca/mapserver/water-admin-boundaries", {
-      layers: 'LWADM_WATMGMT_PREC_AREA_C',
+    layer: L.tileLayer.wms("https://openmaps.gov.bc.ca/geo/pub/WHSE_ADMIN_BOUNDARIES.LWADM_WATMGMT_DIST_AREA_SVW/ows", {
+      layers: 'pub:AWHSE_ADMIN_BOUNDARIES.LWADM_WATMGMT_DIST_AREA_SVW',
       format: 'image/png',
       transparent: true,
       opacity: 0.5
@@ -137,8 +133,8 @@ if (window.is_embedded) {
 }
 
 wms_layers.push({
-  layer: L.tileLayer.wms("http://openmaps.gov.bc.ca/mapserver/freshwater-and-marine", {
-    layers: 'GW_AQUIFERS_CLASSIFICATION_PROD',
+  layer: L.tileLayer.wms("https://openmaps.gov.bc.ca/geo/pub/WHSE_WATER_MANAGEMENT.GW_AQUIFERS_CLASSIFICATION_SVW/ows", {
+    layers: 'pub:WHSE_WATER_MANAGEMENT.GW_AQUIFERS_CLASSIFICATION_SVW',
     format: 'image/png',
     transparent: true,
     opacity: 0.5
