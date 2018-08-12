@@ -1,5 +1,5 @@
 FROM ruby:2.2.5-slim
-RUN echo "bust cache 1"
+RUN echo "bust cache 2"
 RUN apt-get update -qq && apt-get install -y build-essential nodejs git  ruby-dev libffi-dev openssl \
   postgresql-common libpq-dev libmysqlclient-dev sqlite3 \
   libxml2 libxml2-dev libxslt1-dev \

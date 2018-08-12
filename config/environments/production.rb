@@ -29,7 +29,7 @@ Youngagrarians::Application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
 
   # See everything in the log (default is :info)
   # config.log_level = :debug
@@ -62,8 +62,8 @@ Youngagrarians::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.action_controller.asset_host = 'http://map.youngagrarians.org'
-  config.action_mailer.asset_host = 'http://map.youngagrarians.org'
+  config.action_controller.asset_host = 'https://map.youngagrarians.org'
+  config.action_mailer.asset_host = 'https://map.youngagrarians.org'
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)

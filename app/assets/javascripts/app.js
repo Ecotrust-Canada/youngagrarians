@@ -42,6 +42,8 @@ addEvent(document.body, 'click', function(e){
 var mq = window.matchMedia( "(max-width: 768px)" );
 if (mq.matches) {
   window.mobile = true;
+} else {
+  window.mobile = false;
 }
 
 

@@ -85,7 +85,7 @@ group :development, :test do
   gem 'jasmine',              '~> 1.2.1'
 
   # Docs
-  gem 'yard', '~> 0.8.5.2'
+  gem 'yard'
 end
 
 group :test do
