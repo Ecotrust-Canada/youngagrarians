@@ -6,6 +6,9 @@ services:
       RAILS_ENV: development
     volumes:
       - .:/ya
+    ports:
+      - 3000:3000
+    restart: always
   frontend:
     ports:
       - 8001:80
